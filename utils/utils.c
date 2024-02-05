@@ -1,3 +1,13 @@
+/**
+ * @file utils.c
+ * @author Young Sideways (young.sideways@mail.ru)
+ * @brief Библиотека полезных утилит для тестирования и отладки
+ * @version 0.1
+ * @date 2024-02-06
+ * 
+ * @copyright Copyright (c) 2024
+ */
+
 #include "utils.h"
 
 #include <stdio.h>
