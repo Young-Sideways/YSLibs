@@ -30,6 +30,7 @@ int int_rcomp(const void* lhs, const void* rhs) {
 void selection_sort(void* array, size_t count, size_t elements, comp_pt comparator) {
 
 }
+
 void insertion_sort(void* array, size_t count, size_t elements, comp_pt comparator) {
 
 }
@@ -51,7 +52,8 @@ int task3() {
 		printf("\t1. selection_sort\n");
 		printf("\t2. insertion_sort\n");
 		printf("\t3. quick_sort\n");
-		printf("\t4. back\n");
+		printf("\t4. default C q_sort\n");
+		printf("\t5. back\n");
 		printf("Select sorting algorithm: ");
 		mode = getch_menu();
 
@@ -68,6 +70,9 @@ int task3() {
 			sort = &quick_sort;
 			break;
 		case '4':
+			sort = &qsort;
+			break;
+		case '5':
 			printf("exit \"task3\" module\n");
 			cycle = false;
 			system("cls||clear");
