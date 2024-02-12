@@ -20,18 +20,7 @@
 
 #define UNUSED(var) ((void)var)
 
-void swap(void* lhs, void* rhs, size_t size) {
-	for (; size % sizeof(size_t); ++(char*)lhs, ++(char*)rhs, --size) {
-		*(char*)lhs ^= *(char*)rhs;
-		*(char*)rhs ^= *(char*)lhs;
-		*(char*)lhs ^= *(char*)rhs;
-	}
-	for (size /= sizeof(size_t); size; ++(size_t*)lhs, ++(size_t*)rhs, --size) {
-		*(size_t*)lhs ^= *(size_t*)rhs;
-		*(size_t*)rhs ^= *(size_t*)lhs;
-		*(size_t*)lhs ^= *(size_t*)rhs;
-	}
-}
+void swap(void* lhs, void* rhs, size_t size);
 
 #if (__STDC_VERSION__ >= 201112L)
 	typedef struct {

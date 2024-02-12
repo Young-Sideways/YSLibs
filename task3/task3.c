@@ -27,14 +27,23 @@ int int_rcomp(const void* lhs, const void* rhs) {
 }
 
 // TODO:
-void selection_sort(void* array, size_t count, size_t elements, comp_pt comparator) {
+void selection_sort(void* array, size_t count, size_t element_size, comp_pt comparator) {
+	void* min = array;
 
+	for (char* begin = array, *end = begin + (count * element_size); begin < (end - element_size); begin += element_size) {
+		min = begin;
+		for (char* ptr = begin + element_size; ptr < end; ptr += element_size) {
+			if (comparator(ptr, min) < 0)
+				min = ptr;
+		}
+		swap(begin, min, element_size);
+	}
 }
 
-void insertion_sort(void* array, size_t count, size_t elements, comp_pt comparator) {
+void insertion_sort(void* array, size_t count, size_t element_size, comp_pt comparator) {
 
 }
-void quick_sort(void* array, size_t count, size_t elements, comp_pt comparator) {
+void quick_sort(void* array, size_t count, size_t element_size, comp_pt comparator) {
 
 }
 

@@ -83,6 +83,19 @@ char* timer_str(timer_t* timer, char* str) {
 }
 #endif // OS Related
 
+void swap(void* lhs, void* rhs, size_t size) {
+	for (; size % sizeof(size_t); ++(char*)lhs, ++(char*)rhs, --size) {
+		*(char*)lhs ^= *(char*)rhs;
+		*(char*)rhs ^= *(char*)lhs;
+		*(char*)lhs ^= *(char*)rhs;
+	}
+	for (size /= sizeof(size_t); size; ++(size_t*)lhs, ++(size_t*)rhs, --size) {
+		*(size_t*)lhs ^= *(size_t*)rhs;
+		*(size_t*)rhs ^= *(size_t*)lhs;
+		*(size_t*)lhs ^= *(size_t*)rhs;
+	}
+}
+
 char getch_menu() {
 	char mode = '\0';
 	do {
