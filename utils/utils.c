@@ -11,6 +11,7 @@
 #include "utils.h"
 
 #include <stdio.h>
+#include <ctype.h>
 #include <assert.h>
 
 #if (__STDC_VERSION__ >= 201112L)
@@ -38,7 +39,7 @@ void timer_elapsed(timer_t* timer) {
 	}
 }
 
-void timer_str(timer_t* timer, char* str) {
+char* timer_str(timer_t* timer, char* str) {
 	assert(timer);
 	assert(!timer->started);
 	assert(str);
@@ -52,6 +53,7 @@ void timer_str(timer_t* timer, char* str) {
 		sprintf(str, "%.3lfus", (double)nsec / 1000);
 	else
 		sprintf(str, "%lluns", nsec);
+	return str;
 }
 #else
 
@@ -70,12 +72,22 @@ void timer_elapsed(timer_t* timer) {
 	assert(timer->time >= 0);
 }
 
-void timer_str(timer_t* timer, char* str) {
+char* timer_str(timer_t* timer, char* str) {
 	assert(timer);
 	assert(!timer->started);
 	assert(str);
 
 	double sec = ((double)timer->time / CLOCKS_PER_SEC);
 	sprintf(str, "%.3Lfs", sec);
+	return str;
 }
 #endif // OS Related
+
+char getch_menu() {
+	char mode = '\0';
+	do {
+		mode = getchar();
+	} while (isspace(mode));
+	while (getchar() != '\n');
+	return mode;
+}

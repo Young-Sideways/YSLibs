@@ -24,12 +24,18 @@
     <ClCompile Include="utils\random.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="task3\task3.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils\utils.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="utils\random.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="task3\task3.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

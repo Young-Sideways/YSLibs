@@ -33,8 +33,18 @@
 	} timer_t;
 #endif // OS Related
 
+
 void timer_start(timer_t* timer);
 void timer_elapsed(timer_t* timer);
-void timer_str(timer_t* timer, char* str);
+char* timer_str(timer_t* timer, char* str);
+
+
+typedef int (comp_t)(const void* lhs, const void* rhs);
+typedef comp_t* comp_pt;
+
+typedef void (sort_t)(void*, size_t, size_t, comp_pt);
+typedef sort_t* sort_pt;
+
+char getch_menu();
 
 #endif // !_UTILS_H_
