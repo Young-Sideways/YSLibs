@@ -30,20 +30,6 @@
 #pragma endregion
 
 
-typedef struct {
-	#if (__STDC_VERSION__ >= 201112L)
-		struct timespec;
-	#else
-		clock_t time;
-	#endif
-	bool started;
-} timer_t;
-
-
-void timer_start(timer_t* timer);
-void timer_elapsed(timer_t* timer);
-const char* timer_str(timer_t* timer, char* str);
-
 char getch_menu();
 
 #endif // !_UTILS_H_

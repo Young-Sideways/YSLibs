@@ -1,6 +1,17 @@
+/*******************************************************************************
+ *  @file      task3.c
+ *  @brief     Очень сильно W.I.P...
+ *  @author    Young Sideways
+ *  @date      14.02.2024
+ *  @copyright © Young Sideways, 2024. All right reserved.
+ ******************************************************************************/
+
+
 #include "task3.h"
 
 #include "../algorithm/algorithm.h"
+
+#include <stdbool.h>
 
 int task3() {
 	bool cycle = true;

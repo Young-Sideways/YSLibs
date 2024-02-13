@@ -1,3 +1,7 @@
+/**
+ *
+*/
+
 #ifndef _RANDOM_H_
 #define _RANDOM_H_
 
@@ -7,7 +11,7 @@
 #include <stdlib.h>
 
 /**
- * @brief Initilizes a PRNG with curren time stamp
+ * @brief Initilizes a PRNG with current time stamp
  */
 void random_init();
 

@@ -8,7 +8,7 @@
 
 #include "sort.h"
 
-void selection_sort(void* array, size_t count, size_t element_size, comp_pt comparator, swap_pt _swap) {
+void selection_sort(void* array, size_t count, size_t element_size, comp_pt _comparator, swap_pt _swap) {
 	for (char* end = (char*)array + (count * element_size); array < (end - element_size); (char*)array += element_size) {
 		void* min = array;
 		for (char* ptr = (char*)array + element_size; ptr < end; ptr += element_size)
@@ -19,9 +19,9 @@ void selection_sort(void* array, size_t count, size_t element_size, comp_pt comp
 	}
 }
 
-void insertion_sort(void* array, size_t count, size_t element_size, comp_pt comparator, swap_pt _swap) {
+void insertion_sort(void* array, size_t count, size_t element_size, comp_pt _comparator, swap_pt _swap) {
 
 }
-void quick_sort(void* array, size_t count, size_t element_size, comp_pt comparator, swap_pt _swap) {
+void quick_sort(void* array, size_t count, size_t element_size, comp_pt _comparator, swap_pt _swap) {
 
 }

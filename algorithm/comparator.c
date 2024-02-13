@@ -7,7 +7,7 @@
  *********************************************************************/
 
 #include "comparator.h"
-#include "../utils/types.h"
+#include "types.h"
 
 #include <assert.h>
 

@@ -21,7 +21,7 @@
     <ClCompile Include="utils\utils.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="utils\random.c">
+    <ClCompile Include="algorithm\random.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="task3\task3.c">
@@ -39,12 +39,21 @@
     <ClCompile Include="algorithm\search.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="utils\timer.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="collection\array.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="collection\iterator.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils\utils.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="utils\random.h">
+    <ClInclude Include="algorithm\random.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="task3\task3.h">
@@ -62,10 +71,40 @@
     <ClInclude Include="algorithm\search.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="utils\types.h">
+    <ClInclude Include="algorithm\types.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="algorithm\algorithm.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\timer.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="collection\vector.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="collection\array.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="collection\collections.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="collection\general.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="collection\hashtable.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="collection\iterator.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="collection\matrix.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="collection\stack.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="collection\type.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

@@ -7,7 +7,7 @@
  *********************************************************************/
 
 #include "swap.h"
-#include "../utils/types.h"
+#include "types.h"
 
 #include <math.h>
 #include <assert.h>
