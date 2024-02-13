@@ -1,7 +1,7 @@
 /**
  * @file utils.h
  * @author Young Sideways (young.sideways@mail.ru)
- * @brief Библиотека полезных утилит для тестирования и отладки
+ * @brief Small utils library with useful types for developing, testing and debuging
  * @version 0.1
  * @date 2024-02-06
  * 
@@ -13,38 +13,36 @@
 
 #pragma once
 
+#pragma region --- INCLUDE ---
+
 #include <time.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
 
+#pragma endregion
+
+#pragma region --- MACRO ---
+
+/* UNUSED macro to diable statements */
 #define UNUSED(var) ((void)var)
 
-void swap(void* lhs, void* rhs, size_t size);
+#pragma endregion
 
-#if (__STDC_VERSION__ >= 201112L)
-	typedef struct {
+
+typedef struct {
+	#if (__STDC_VERSION__ >= 201112L)
 		struct timespec;
-		bool started;
-	} timer_t;
-#else
-	typedef struct {
+	#else
 		clock_t time;
-		bool started;
-	} timer_t;
-#endif // OS Related
+	#endif
+	bool started;
+} timer_t;
 
 
 void timer_start(timer_t* timer);
 void timer_elapsed(timer_t* timer);
-char* timer_str(timer_t* timer, char* str);
-
-
-typedef int (comp_t)(const void* lhs, const void* rhs);
-typedef comp_t* comp_pt;
-
-typedef void (sort_t)(void*, size_t, size_t, comp_pt);
-typedef sort_t* sort_pt;
+const char* timer_str(timer_t* timer, char* str);
 
 char getch_menu();
 

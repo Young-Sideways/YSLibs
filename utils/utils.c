@@ -1,7 +1,7 @@
 /**
  * @file utils.c
  * @author Young Sideways (young.sideways@mail.ru)
- * @brief Библиотека полезных утилит для тестирования и отладки
+ * @brief Small utils library with useful types for developing, testing and debuging
  * @version 0.1
  * @date 2024-02-06
  * 
@@ -39,10 +39,11 @@ void timer_elapsed(timer_t* timer) {
 	}
 }
 
-char* timer_str(timer_t* timer, char* str) {
+const char* timer_str(timer_t* timer, char* str) {
 	assert(timer);
 	assert(!timer->started);
-	assert(str);
+	if (!str)
+		return "";
 
 	uint64_t nsec = timer->tv_sec * 1000000000 + timer->tv_nsec;
 	if (nsec > 1000000000)
@@ -83,24 +84,9 @@ char* timer_str(timer_t* timer, char* str) {
 }
 #endif // OS Related
 
-void swap(void* lhs, void* rhs, size_t size) {
-	for (; size % sizeof(size_t); ++(char*)lhs, ++(char*)rhs, --size) {
-		*(char*)lhs ^= *(char*)rhs;
-		*(char*)rhs ^= *(char*)lhs;
-		*(char*)lhs ^= *(char*)rhs;
-	}
-	for (size /= sizeof(size_t); size; ++(size_t*)lhs, ++(size_t*)rhs, --size) {
-		*(size_t*)lhs ^= *(size_t*)rhs;
-		*(size_t*)rhs ^= *(size_t*)lhs;
-		*(size_t*)lhs ^= *(size_t*)rhs;
-	}
-}
-
 char getch_menu() {
 	char mode = '\0';
-	do {
-		mode = getchar();
-	} while (isspace(mode));
+	do { mode = getchar(); } while (isspace(mode));
 	while (getchar() != '\n');
 	return mode;
 }

@@ -131,14 +131,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="algorithm\comparator.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="algorithm\swap.c" />
+    <ClCompile Include="algorithm\sort.c" />
+    <ClCompile Include="algorithm\search.c" />
     <ClCompile Include="task3\task3.c" />
     <ClCompile Include="utils\random.c" />
     <ClCompile Include="utils\utils.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="algorithm\algorithm.h" />
+    <ClInclude Include="algorithm\swap.h" />
+    <ClInclude Include="algorithm\sort.h" />
+    <ClInclude Include="algorithm\comparator.h" />
+    <ClInclude Include="algorithm\search.h" />
     <ClInclude Include="task3\task3.h" />
     <ClInclude Include="utils\random.h" />
+    <ClInclude Include="utils\types.h" />
     <ClInclude Include="utils\utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
