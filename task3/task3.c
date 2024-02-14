@@ -10,8 +10,12 @@
 #include "task3.h"
 
 #include "../algorithm/algorithm.h"
+#include "../utils/timer.h"
+#include "../utils/utils.h"
 
 #include <stdbool.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 int task3() {
 	bool cycle = true;
@@ -19,7 +23,7 @@ int task3() {
 	timer_t timer;
 
 	sort_pt sort = NULL;
-	comp_pt comp = NULL;
+	comparator_pt comp = NULL;
 
 	printf("Starting \"task3\" module\n");
 
@@ -97,17 +101,17 @@ int task3() {
 		}
 
 		printf("Filling array with random numbers...\n");
-		timer_start(&timer);
+		tim_start(&timer);
 		random_fill(array, count, NULL, INT_MIN, INT_MAX);
-		timer_elapsed(&timer);
+		tim_stop(&timer);
 		char str[20];
-		printf("Generated for: %s\n", timer_str(&timer, str));
+		printf("Generated for: %s\n", tim_str(&timer, str));
 
 		printf("Sorting array...\n");
-		timer_start(&timer);
-		sort(array, count, sizeof(int), comp, i32_swap);
-		timer_elapsed(&timer);
-		printf("Sorting done! Sorted for: %s\n", timer_str(&timer, str));
+		tim_start(&timer);
+		sort(array, count, sizeof(int), comp, &i32_swap);
+		tim_stop(&timer);
+		printf("Sorting done! Sorted for: %s\n", tim_str(&timer, str));
 
 		printf("\n");
 		free(array);

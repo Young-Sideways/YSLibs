@@ -1,6 +1,10 @@
-/**
- *
-*/
+/*******************************************************************************
+ *  @file      random.h
+ *  @brief     random algorithm
+ *  @author    Young Sideways
+ *  @date      14.02.2024
+ *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ ******************************************************************************/
 
 #ifndef _RANDOM_H_
 #define _RANDOM_H_
@@ -10,10 +14,10 @@
 #include <time.h>
 #include <stdlib.h>
 
-/**
- * @brief Initilizes a PRNG with current time stamp
- */
+
+/// @brief Initilizes a PRNG with current time stamp
 void random_init();
+
 
 typedef (random_t)(int, int);
 typedef random_t* random_pt;

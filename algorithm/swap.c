@@ -1,16 +1,17 @@
-/*********************************************************************
- * \file   swap.c
- * \brief  swap algorithms
- * 
- * \author Young Sideways
- * \date   February 2024
- *********************************************************************/
+/*******************************************************************************
+ *  @file      swap.c
+ *  @brief     swap algorithms
+ *  @author    Young Sideways
+ *  @date      14.02.2024
+ *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ ******************************************************************************/
+
 
 #include "swap.h"
 #include "types.h"
 
-#include <math.h>
 #include <assert.h>
+#include <math.h>
 
 #define UNUSED(var) ((void)var)
 

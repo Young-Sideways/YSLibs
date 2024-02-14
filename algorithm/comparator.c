@@ -1,28 +1,32 @@
-/*********************************************************************
- * \file   comparator.h
- * \brief  comparator algorithms
- *
- * \author Young Sideways
- * \date   February 2024
- *********************************************************************/
+/*******************************************************************************
+ *  @file      comparator.c
+ *  @brief     comparator algorithms
+ *  @author    Young Sideways
+ *  @date      14.02.2024
+ *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ ******************************************************************************/
+
 
 #include "comparator.h"
 #include "types.h"
 
 #include <assert.h>
 
+#define UNUSED(var) ((void)var)
 
-#define FORWARD_COMPARATOR(type)						 \
-	int type##_fcomp(const void* lhs, const void* rhs) { \
-		assert(lhs);									 \
-		assert(rhs);									 \
-		return (type)(*(type*)lhs - *(type*)rhs);		 \
+#define FORWARD_COMPARATOR(type)								      \
+	int type##_fcomp(const void* lhs, const void* rhs, size_t size) { \
+		UNUSED(size);												  \
+		assert(lhs);												  \
+		assert(rhs);												  \
+		return (type)(*(type*)lhs - *(type*)rhs);					  \
 	}
-#define REVERSE_COMPARATOR(type)						 \
-	int type##_rcomp(const void* lhs, const void* rhs) { \
-		assert(lhs);									 \
-		assert(rhs);									 \
-		return (type)(*(type*)rhs - *(type*)lhs);		 \
+#define REVERSE_COMPARATOR(type)									  \
+	int type##_rcomp(const void* lhs, const void* rhs, size_t size) { \
+		UNUSED(size);												  \
+		assert(lhs);												  \
+		assert(rhs);												  \
+		return (type)(*(type*)rhs - *(type*)lhs);					  \
 	}
 
 #pragma warning(disable : 4244)

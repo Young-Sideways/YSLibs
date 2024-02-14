@@ -1,3 +1,12 @@
+/*******************************************************************************
+ *  @file      random.c
+ *  @brief     random algorithm
+ *  @author    Young Sideways
+ *  @date      14.02.2024
+ *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ ******************************************************************************/
+
+
 #include "random.h"
 
 #include <stdint.h>
@@ -7,6 +16,7 @@ void random_init() { srand(time(NULL)); }
 
 
 inline int _random() { return (int32_t)(((uint32_t)rand() << 30) | ((uint32_t)rand() << 15) | (uint32_t)rand()); }
+
 
 int random(int from, int to) {
 	assert(from <= to);

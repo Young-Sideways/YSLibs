@@ -7,10 +7,12 @@
  *  @copyright © Young Sideways, 2024. All right reserved.
  ******************************************************************************/
 
+
 #include "timer.h"
 
 #include <assert.h>
 #include <stdint.h>
+#include <stdio.h>
 
 
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)

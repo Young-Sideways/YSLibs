@@ -3,7 +3,7 @@
  *  @brief     universal algorithm lib
  *  @author    Young Sideways
  *  @date      14.02.2024
- *  @copyright © Young Sideways, 2024. All right reserved.
+ *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
 
@@ -16,6 +16,7 @@
 #include "swap.h"
 #include "search.h"
 #include "sort.h"
+#include "random.h"
 
 #include "types.h"
 
@@ -47,8 +48,11 @@ char* ctrim(char* string, char* chars) {
 }
 
 void str_reverse(char* string) {
-    for (char* end = string + strlen(string) - 1; string < end; string++, end--)
-        i8_swap(string, end, sizeof(char));
+    for (char* last = string + strlen(string) - 1; string < last; --string, --last) {
+        *string ^= *last;
+        *last ^= *string;
+        *string ^= *last;
+    }
 }
 
 void reverse(void* block, size_t capacity, size_t element_size) {

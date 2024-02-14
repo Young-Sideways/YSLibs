@@ -1,10 +1,11 @@
-/*********************************************************************
- * \file   comparator.h
- * \brief  comparator algorithms
- *
- * \author Young Sideways
- * \date   February 2024
- *********************************************************************/
+/*******************************************************************************
+ *  @file      comparator.h
+ *  @brief     comparator algorithms
+ *  @author    Young Sideways
+ *  @date      14.02.2024
+ *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ ******************************************************************************/
+
 
 #ifndef _COMPARATOR_H_
 #define _COMPARATOR_H_
@@ -13,14 +14,15 @@
 
 #include <stdint.h>
 
-/// \brief comparator function typedefs
-typedef int (comp_t)(const void* lhs, const void* rhs);
-typedef comp_t* comp_pt;
+
+typedef int (comparator_t)(const void* lhs, const void* rhs, size_t size);
+typedef comparator_t* comparator_pt;
+
 
 #define DECLARE_FORWARD_COMPARATOR(type) \
-	comp_t type##_fcomp;
+	comparator_t type##_fcomp;
 #define DECLARE_REVERSE_COMPARATOR(type) \
-	comp_t type##_rcomp;
+	comparator_t type##_rcomp;
 
 DECLARE_FORWARD_COMPARATOR(i8)
 DECLARE_FORWARD_COMPARATOR(i16)

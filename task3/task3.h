@@ -1,6 +1,6 @@
 /*******************************************************************************
  *  @file      task3.h
- *  @brief     Очень сильно W.I.P...
+ *  @brief     Ответы на 3 задание
  *  @author    Young Sideways
  *  @date      14.02.2024
  *  @copyright © Young Sideways, 2024. All right reserved.
