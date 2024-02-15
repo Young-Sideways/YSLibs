@@ -22,6 +22,7 @@ typedef struct {
     byte* data;
 }* array_t;
 
+#pragma region --- CONSTRUCTORS / DESTRUCTORS ---
 
 array_t arr_init(size_t size, size_t element_size);
 
@@ -31,10 +32,23 @@ array_t arr_shadow(array_t array);
 
 void arr_delete(array_t array);
 
+#pragma endregion
+
+#pragma region --- ACCESSORS ---
+
 void* arr_at(array_t array, int position);
 
-int array_capacity(array_t array);
-int array_element_size(array_t array);
+#pragma endregion
+
+#pragma region ---  ---
+
+#pragma endregion
+
+
+
+
+int arr_capacity(array_t array);
+int arr_element_size(array_t array);
 
 #ifdef _ITERATOR_H_ // Adaptor for iterators
 

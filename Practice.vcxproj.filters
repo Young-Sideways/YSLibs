@@ -42,9 +42,6 @@
     <ClCompile Include="task3\task3.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="collection\array.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="collection\iterator.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -80,25 +77,13 @@
     <ClInclude Include="task3\task3.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="collection\vector.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="collection\array.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="collection\collections.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="collection\general.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="collection\hashtable.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="collection\iterator.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="collection\matrix.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="collection\type.h">

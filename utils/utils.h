@@ -12,10 +12,7 @@
 
 #pragma once
 
-
-/* UNUSED macro to diable statements */
-#define UNUSED(var) ((void)var)
-
+#include "../core/types.h"
 
 char getch_menu();
 

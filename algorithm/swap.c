@@ -13,8 +13,6 @@
 #include <assert.h>
 #include <math.h>
 
-#define UNUSED(var) ((void)var)
-
 void swap(void* lhs, void* rhs, size_t size) {
 	assert(lhs);
 	assert(rhs);
@@ -32,26 +30,26 @@ void swap(void* lhs, void* rhs, size_t size) {
 	}
 };
 
-#define SWAP(type)										  \
-	void type##_swap(void* lhs, void* rhs, size_t size) { \
-		UNUSED(size);									  \
-		assert(lhs);									  \
-		assert(rhs);									  \
-		type temp = *(type*)lhs;						  \
-		*(type*)lhs = *(type*)rhs;						  \
-		*(type*)rhs = temp;								  \
+#define SWAP(prefix, type)									\
+	void prefix##_swap(type* lhs, type* rhs, size_t size) { \
+		UNUSED(size);									    \
+		assert(lhs);									    \
+		assert(rhs);										\
+		type temp = *lhs;									\
+		*lhs = *rhs;										\
+		*rhs = temp;										\
 	};
 
-SWAP(i8)
-SWAP(i16)
-SWAP(i32)
-SWAP(i64)
-SWAP(u8)
-SWAP(u16)
-SWAP(u32)
-SWAP(u64)
-SWAP(flt)
-SWAP(dbl)
-SWAP(ldbl)
+SWAP(i8  , int8_t     )
+SWAP(i16 , int16_t    )
+SWAP(i32 , int32_t    )
+SWAP(i64 , int64_t    )
+SWAP(u8	 , int8_t     )
+SWAP(u16 , int16_t    )
+SWAP(u32 , int32_t    )
+SWAP(u64 , int64_t    )
+SWAP(flt , float	  )
+SWAP(dbl , double	  )
+SWAP(ldbl, long double)
 
 #undef SWAP

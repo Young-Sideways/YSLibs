@@ -41,13 +41,29 @@ typedef struct {
 } hashtable_t;
 
 
-#pragma region --- CONSTRUCTOR / DESTRUCTOR ---
+#pragma region --- CONSTRUCTORS / DESTRUCTORS ---
 
 hashtable_t ht_create(size_t);
 void ht_delete(hashtable_t*);
 
 #pragma endregion
-#pragma region ---  ---
+
+#pragma region --- INCLUDES ---
+
+#pragma endregion
+
+#pragma region --- MACROS ---
+
+#pragma endregion
+
+#pragma region --- TYPEDEFS ---
+
+#pragma endregion
+
+#pragma region --- CONSTRUCTORS / DESTRUCTORS ---
+
+#pragma endregion
+#pragma region --- FUNCIONS ---
 
 #pragma endregion
 #pragma region ---  ---
@@ -57,6 +73,9 @@ void ht_delete(hashtable_t*);
 
 #pragma endregion
 #pragma region ---  ---
+
+#pragma endregion
+#pragma region --- GENERICS ---
 
 #pragma endregion
 //---------------------------------------------------------------------------------------------//

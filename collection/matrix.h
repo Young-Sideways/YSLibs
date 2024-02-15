@@ -1,4 +1,5 @@
 #pragma once
+
 #ifdef _inl_
 #undef _inl_
 #endif // !_inl_

@@ -11,24 +11,48 @@
 
 #pragma once
 
+#pragma region --- INCLUDES ---
+
 #include <stdint.h>
 #include <limits.h>
+
+#pragma endregion
+
+#pragma region --- MACROS ---
+
+ /**
+  *  @def   _IN
+  *  @brief input parametr
+  */
+#define _IN
+  /**
+   *  @def   _OUT
+   *  @brief ouput parametr
+   */
+#define _OUT
+   /**
+    *  @def   _INOUT
+    *  @brief input/output parametr
+    */
+#define _INOUT
+    /**
+     *  @def   _NULLABLE
+     *  @brief parametr can be NULL
+     */
+#define _NULLABLE
+
+#define UNUSED(variable) ((void)variable)
+
+#pragma endregion
+
+#pragma region --- TYPEDEFS ---
 
 typedef signed char byte;
 typedef unsigned char ubyte;
 
-typedef int8_t		i8;
-typedef int16_t		i16;
-typedef int32_t		i32;
-typedef int64_t		i64;
-typedef uint8_t		u8;
-typedef uint16_t	u16;
-typedef uint32_t	u32;
-typedef uint64_t	u64;
-typedef float		flt;
-typedef double		dbl;
-typedef long double ldbl;
+#pragma endregion
 
+#pragma region --- GENERICS ---
 
 #define MAX(type) _Generic( (type)0, \
     signed char        : SCHAR_MAX , \
@@ -78,6 +102,9 @@ typedef long double ldbl;
     void*              : (void*)0              , \
 	default: NULL)
 
+#pragma endregion
+
+// Легаси...
 #if (0)
 #include <stdio.h>
 void print_type_sizes(void) {

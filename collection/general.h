@@ -11,6 +11,8 @@
 
 #pragma once
 
+#include "../core/types.h"
+
 #include "../algorithm/comparator.h"
 #include "../algorithm/search.h"
 #include "../algorithm/swap.h"
@@ -28,6 +30,7 @@
 #define COLLECTION_SIZE_MIN 0U
 #define COLLECTION_SIZE_MAX UINT_MAX
 
+typedef void (*internal_memory_access_t)(_IN struct collection_header* collection, _INOUT _NULLABLE void**, _INOUT _NULLABLE int*);
 
 struct collection_header {
     uint32_t size;
@@ -38,10 +41,10 @@ struct collection_header {
     search_pt     _search;
     swap_pt       _swap;
     sort_pt       _sort;
-
-    // next
-    // prev
-    // random access
+    
+    internal_memory_access_t next;
+    internal_memory_access_t prev;
+    internal_memory_access_t random_access;
 };
 
 #pragma region --- STATIC ASSERTION BLOCK ---

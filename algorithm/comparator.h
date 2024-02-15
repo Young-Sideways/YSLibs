@@ -19,10 +19,10 @@ typedef int (comparator_t)(const void* lhs, const void* rhs, size_t size);
 typedef comparator_t* comparator_pt;
 
 
-#define DECLARE_FORWARD_COMPARATOR(type) \
-	comparator_t type##_fcomp;
-#define DECLARE_REVERSE_COMPARATOR(type) \
-	comparator_t type##_rcomp;
+#define DECLARE_FORWARD_COMPARATOR(prefix) \
+	comparator_t prefix##_fcomp;
+#define DECLARE_REVERSE_COMPARATOR(prefix) \
+	comparator_t prefix##_rcomp;
 
 DECLARE_FORWARD_COMPARATOR(i8)
 DECLARE_FORWARD_COMPARATOR(i16)

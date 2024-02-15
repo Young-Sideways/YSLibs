@@ -12,50 +12,49 @@
 
 #include <assert.h>
 
-#define UNUSED(var) ((void)var)
 
-#define FORWARD_COMPARATOR(type)								      \
-	int type##_fcomp(const void* lhs, const void* rhs, size_t size) { \
-		UNUSED(size);												  \
-		assert(lhs);												  \
-		assert(rhs);												  \
-		return (type)(*(type*)lhs - *(type*)rhs);					  \
+#define FORWARD_COMPARATOR(prefix, type)							    \
+	int prefix##_fcomp(const type* lhs, const type* rhs, size_t size) { \
+		UNUSED(size);												    \
+		assert(lhs);												    \
+		assert(rhs);												    \
+		return (int)(*lhs - *rhs);									    \
 	}
-#define REVERSE_COMPARATOR(type)									  \
-	int type##_rcomp(const void* lhs, const void* rhs, size_t size) { \
-		UNUSED(size);												  \
-		assert(lhs);												  \
-		assert(rhs);												  \
-		return (type)(*(type*)rhs - *(type*)lhs);					  \
+#define REVERSE_COMPARATOR(prefix, type)							    \
+	int prefix##_rcomp(const type* lhs, const type* rhs, size_t size) { \
+		UNUSED(size);												    \
+		assert(lhs);												    \
+		assert(rhs);												    \
+		return (int)(*rhs - *lhs);										\
 	}
 
-#pragma warning(disable : 4244)
+//#pragma warning(disable : 4244)
 
-FORWARD_COMPARATOR(i8)
-FORWARD_COMPARATOR(i16)
-FORWARD_COMPARATOR(i32)
-FORWARD_COMPARATOR(i64)
-FORWARD_COMPARATOR(u8)
-FORWARD_COMPARATOR(u16)
-FORWARD_COMPARATOR(u32)
-FORWARD_COMPARATOR(u64)
-FORWARD_COMPARATOR(flt)
-FORWARD_COMPARATOR(dbl)
-FORWARD_COMPARATOR(ldbl)
+FORWARD_COMPARATOR(i8  , int8_t     )
+FORWARD_COMPARATOR(i16 , int16_t    )
+FORWARD_COMPARATOR(i32 , int32_t    )
+FORWARD_COMPARATOR(i64 , int64_t    )
+FORWARD_COMPARATOR(u8  , int8_t     )
+FORWARD_COMPARATOR(u16 , int16_t    )
+FORWARD_COMPARATOR(u32 , int32_t    )
+FORWARD_COMPARATOR(u64 , int64_t    )
+FORWARD_COMPARATOR(flt , float		)
+FORWARD_COMPARATOR(dbl , double		)
+FORWARD_COMPARATOR(ldbl, long double)
 
-REVERSE_COMPARATOR(i8)
-REVERSE_COMPARATOR(i16)
-REVERSE_COMPARATOR(i32)
-REVERSE_COMPARATOR(i64)
-REVERSE_COMPARATOR(u8)
-REVERSE_COMPARATOR(u16)
-REVERSE_COMPARATOR(u32)
-REVERSE_COMPARATOR(u64)
-REVERSE_COMPARATOR(flt)
-REVERSE_COMPARATOR(dbl)
-REVERSE_COMPARATOR(ldbl)
+REVERSE_COMPARATOR(i8  , int8_t     )
+REVERSE_COMPARATOR(i16 , int16_t    )
+REVERSE_COMPARATOR(i32 , int32_t    )
+REVERSE_COMPARATOR(i64 , int64_t    )
+REVERSE_COMPARATOR(u8  , int8_t     )
+REVERSE_COMPARATOR(u16 , int16_t    )
+REVERSE_COMPARATOR(u32 , int32_t    )
+REVERSE_COMPARATOR(u64 , int64_t    )
+REVERSE_COMPARATOR(flt , float		)
+REVERSE_COMPARATOR(dbl , double		)
+REVERSE_COMPARATOR(ldbl, long double)
 
-#pragma warning(default : 4244)
+//#pragma warning(default : 4244)
 
 #undef FORWARD_COMPARATOR
 #undef REVERSE_COMPARATOR
