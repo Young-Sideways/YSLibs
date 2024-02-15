@@ -1,30 +1,49 @@
+/*******************************************************************************
+ *  @file      array.h
+ *  @brief     array - collection, with fixed memory allocation
+ *  @author    Young Sideways
+ *  @date      15.02.2024
+ *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ ******************************************************************************/
+
+#ifndef _ARRAY_H_
+#define _ARRAY_H_
+
 #pragma once
-#ifndef ARRAY_H
-#define ARRAY_H
 
 #include "general.h"
+#include "../core/types.h"
 
-typedef void* array_t;
+#define ARRAY_SIZE_MIN COLLECTION_SIZE_MIN
+#define ARRAY_SIZE_MAX COLLECTION_SIZE_MAX
 
-#define ARRAY_SIZE_MIN 0u
-#define ARRAY_SIZE_MAX INT32_MAX
+typedef struct {
+    struct collection_header;
+    byte* data;
+}* array_t;
 
-array_t array_init(size_t size, size_t element_size);
-array_t array_copy(array_t array);
-array_t array_shadow(array_t array);
-void array_delete(array_t array);
 
-void* array_at(array_t array, int position);
-void* array_first(array_t array);
-void* array_last(array_t array);
-void* array_end(array_t array);
+array_t arr_init(size_t size, size_t element_size);
+
+array_t arr_copy(array_t array);
+array_t arr_move(array_t array);
+array_t arr_shadow(array_t array);
+
+void arr_delete(array_t array);
+
+void* arr_at(array_t array, int position);
 
 int array_capacity(array_t array);
 int array_element_size(array_t array);
 
-#ifdef ITERATOR_H // Adaptor for iterators
-#include "iterator.h"
-it_t array_get_it(array_t array);
-#endif // !ITERATOR_H
+#ifdef _ITERATOR_H_ // Adaptor for iterators
 
-#endif // !ARRAY_H
+#include "iterator.h"
+
+iterator_t arr_first(array_t array);
+iterator_t arr_last(array_t array);
+iterator_t arr_end(array_t array);
+
+#endif // !_ITERATOR_H_
+
+#endif // !_ARRAY_H_

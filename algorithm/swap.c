@@ -8,7 +8,7 @@
 
 
 #include "swap.h"
-#include "types.h"
+#include "../core/types.h"
 
 #include <assert.h>
 #include <math.h>

@@ -155,9 +155,9 @@
     <ClInclude Include="collection\hashtable.h" />
     <ClInclude Include="collection\iterator.h" />
     <ClInclude Include="collection\matrix.h" />
-    <ClInclude Include="collection\stack.h" />
     <ClInclude Include="collection\type.h" />
     <ClInclude Include="collection\vector.h" />
+    <ClInclude Include="core\types.h" />
     <ClInclude Include="task3\task3.h" />
     <ClInclude Include="utils\timer.h" />
     <ClInclude Include="algorithm\random.h" />

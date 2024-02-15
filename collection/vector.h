@@ -15,7 +15,7 @@ typedef struct vector {
 } *vector_t;
 
 //---------------------------------------------------------------------------------------------//
-_inl_ vector_t vec_create(size_t size, size_t element_size) {
+vector_t vec_create(size_t size, size_t element_size) {
 	assert(element_size);
 	if (size > VECTOR_SIZE_MAX)
 		return NULL;
@@ -24,7 +24,7 @@ _inl_ vector_t vec_create(size_t size, size_t element_size) {
 		*(result++) = (struct vector){ size, element_size, size };
 	return result;
 }
-_inl_ void vec_delete(vector_t container) {
+void vec_delete(vector_t container) {
 	free(container - 1); // C standard. 7.20.3.2/2 from ISO-IEC 9899
 }
 //---------------------------------------------------------------------------------------------//
@@ -32,7 +32,7 @@ _inl_ void vec_delete(vector_t container) {
 #define vec_element_size(container) (container - 1)->element_size
 #define vec_capacity(container) (container - 1)->capacity
 //---------------------------------------------------------------------------------------------//
-_inl_ void vec_move(vector_t* destination, vector_t* source) {
+void vec_move(vector_t* destination, vector_t* source) {
 	assert(source);
 	assert(*source);
 	if (destination)
@@ -40,21 +40,21 @@ _inl_ void vec_move(vector_t* destination, vector_t* source) {
 	*destination = *source;
 	*source = NULL;
 }
-_inl_ void vec_swap(vector_t* destination, vector_t* source) {
+void vec_swap(vector_t* destination, vector_t* source) {
 	assert(destination);
 	assert(source);
 	vector_t temp = *destination;
 	*destination = *source;
 	*source = temp;
 }
-_inl_ void vec_shadow(vector_t* destination, vector_t* source) {
+void vec_shadow(vector_t* destination, vector_t* source) {
 	assert(source);
 	assert(*source);
 	if (*destination)
 		vec_delete(destination);
 	vec_create(vec_capacity(*source), vec_element_size(*source));
 }
-_inl_ void vec_copy(vector_t* destination, vector_t* source) {
+void vec_copy(vector_t* destination, vector_t* source) {
 	vec_shadow(destination, source);
 	if (*destination) {
 		vec_size(*destination) = vec_size(*source);
@@ -62,27 +62,27 @@ _inl_ void vec_copy(vector_t* destination, vector_t* source) {
 	}
 }
 //---------------------------------------------------------------------------------------------//
-_inl_ void* vec_at(vector_t container, int index) {
+void* vec_at(vector_t container, int index) {
 	assert(container);
 	assert((size_t)index < vec_size(container));
 	return (byte*)container + index * vec_element_size(container);
 }
-_inl_ void* vec_front(vector_t container) {
+void* vec_front(vector_t container) {
 	assert(container);
 	assert(vec_size(container));
 	return container;
 }
-_inl_ void* vec_back(vector_t container) {
+void* vec_back(vector_t container) {
 	assert(container);
 	assert(vec_size(container));
 	return (byte*)container + (vec_size(container) - 1) * vec_element_size(container);
 }
-_inl_ const void* vec_end(vector_t container) {
+const void* vec_end(vector_t container) {
 	assert(container);
 	return (byte*)container + vec_size(container) * vec_element_size(container);
 }
 //---------------------------------------------------------------------------------------------//
-_inl_ void vec_insert(vector_t container, int index, void* value) {
+void vec_insert(vector_t container, int index, void* value) {
 	assert(container);
 	assert(value);
 	assert((size_t)index <= vec_size(container));
@@ -100,7 +100,7 @@ _inl_ void vec_insert(vector_t container, int index, void* value) {
 	memmove(ptr + vec_element_size(container), ptr, (vec_size(container)++ - index) * vec_element_size(container));
 	memcpy(ptr, value, vec_element_size(container));
 }
-_inl_ void vec_insert_range(vector_t container, int index, void* range, size_t range_size) {
+void vec_insert_range(vector_t container, int index, void* range, size_t range_size) {
 	if (index < 0)
 		index += (int)(container->size + 1);
 	assert(
@@ -130,13 +130,13 @@ _inl_ void vec_insert_range(vector_t container, int index, void* range, size_t r
 	return_(return_success);
 }
 
-_inl_ void vec_replace(vector_t container, int index, const void* value) {
+void vec_replace(vector_t container, int index, const void* value) {
 	if (value)
 		memcpy(vec_at(container, index), value, container->element_size);
 	else
 		memset(vec_at(container, index), 0, container->element_size);
 }
-_inl_ void vec_replace_range(vector_t container, int index, void* range, size_t range_size) {
+void vec_replace_range(vector_t container, int index, void* range, size_t range_size) {
 	if (index < 0)
 		index += container->size;
 	assert((uint64_t)index + range_size <= container->size);
@@ -146,13 +146,13 @@ _inl_ void vec_replace_range(vector_t container, int index, void* range, size_t 
 		memset(vector_at(container, index), 0, range_size * container->element_size);
 }
 
-_inl_ void vec_remove(vector_t container, int index) {
+void vec_remove(vector_t container, int index) {
 	if (index < 0)
 		index += (int)container->size;
 	byte* pointer = vector_at(container, index);
 	memmove(pointer, pointer + container->element_size, (--(container->size) - index) * container->element_size);
 }
-_inl_ void vec_remove_range(vector_t container, int index, size_t range_size) {
+void vec_remove_range(vector_t container, int index, size_t range_size) {
 	if (index < 0)
 		index += container->size;
 	assert((uint64_t)index + range_size <= container->size);
@@ -184,14 +184,14 @@ void vec_set_range(vector_t container, int begin, int end, void* value) {
 		memset(pointer, 0, (last - pointer) / container->element_size);
 }
 
-_inl_ void vec_sort(vector_t container, comparison_t comparator) {
+void vec_sort(vector_t container, comparison_t comparator) {
 	assert(
 		container
 		&& comparator
 	);
 	qsort(container->data, container->size, container->element_size, comparator);
 }
-_inl_ void vec_sort_range(vector_t container, int begin, int end, comparison_t comparator) {
+void vec_sort_range(vector_t container, int begin, int end, comparison_t comparator) {
 	if (begin < 0)
 		begin += (int)container->size;
 	if (end < 0)
@@ -204,7 +204,7 @@ _inl_ void vec_sort_range(vector_t container, int begin, int end, comparison_t c
 	qsort(vector_at(container, begin < end ? begin : end), abs(end - begin) + 1, container->element_size, comparator);
 }
 //---------------------------------------------------------------------------------------------//
-_inl_ vec_shrink(vector_t container) {
+vec_shrink(vector_t container) {
 	assert(container);
 	if (container->capacity > container->size) {
 		void* new_block = realloc(container->data, container->size * container->element_size);
@@ -216,7 +216,7 @@ _inl_ vec_shrink(vector_t container) {
 	}
 	return_(return_success);
 }
-_inl_ vec_resize(vector_t container, size_t size) {
+vec_resize(vector_t container, size_t size) {
 	assert(container);
 	if (size > container->capacity)
 		return_(vector_insert_range(container, -1, NULL, size - container->size)); // ????????????
@@ -225,7 +225,7 @@ _inl_ vec_resize(vector_t container, size_t size) {
 	return return_success;
 }
 //---------------------------------------------------------------------------------------------//
-_inl_ bool vec_empty(vector_t container) {
+bool vec_empty(vector_t container) {
 	assert(container);
 	return !container->size;
 }

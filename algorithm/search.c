@@ -11,7 +11,7 @@
 
 #include <assert.h>
 #include <string.h>
-#include "types.h"
+#include "../core/types.h"
 
 void* linear_search(void* array, size_t count, size_t element_size, void* value, comparator_pt comparator) {
 	assert(array);

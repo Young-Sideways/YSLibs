@@ -1,5 +1,13 @@
-#include "../array.h"
-#include "../iterator.h"
+/*******************************************************************************
+ *  @file      array.c
+ *  @brief     array - collection, with fixed memory allocation
+ *  @author    Young Sideways
+ *  @date      15.02.2024
+ *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ ******************************************************************************/
+
+#include "array.h"
+#include "iterator.h"
 
 struct _array_header {
 	size_t

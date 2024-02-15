@@ -1,13 +1,9 @@
-#include "../general.h"
-#include "../iterator.h"
+#include "general.h"
+#include "iterator.h"
 
-struct it_header {
-	byte* data;
-	uint32_t
-		capacity,
-		element_size;
-	int stage;
-};
+#include "../core/types.h"
+
+;
 
 it_t it_init(void* block, size_t capacity, size_t element_size, it_type type) {
 	assert(block);

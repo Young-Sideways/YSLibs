@@ -8,7 +8,7 @@
 
 
 #include "comparator.h"
-#include "types.h"
+#include "../core/types.h"
 
 #include <assert.h>
 

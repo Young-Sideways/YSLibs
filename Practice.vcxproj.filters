@@ -101,10 +101,10 @@
     <ClInclude Include="collection\matrix.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="collection\stack.h">
+    <ClInclude Include="collection\type.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="collection\type.h">
+    <ClInclude Include="core\types.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

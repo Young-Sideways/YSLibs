@@ -1,56 +1,71 @@
+#ifndef _HASHTABLE_H_
+#define _HASHTABLE_H_
+
 #pragma once
-#ifndef HASHTABLE_H
-#define HASHTABLE_H
 
 #include "general.h"
+#include "../core/types.h"
 
 #define HASHTABLE_SIZE_MIN 0u
 #define HASHTABLE_SIZE_MAX INT_MAX
 
-size_t hash(register const char* key, size_t key_size) {
+typedef uint64_t hash_t;
+typedef uint32_t hash_t;
+typedef hash_t (hashfunc_t)(const void*, size_t);
+typedef hashfunc_t* hashfunc_pt;
+
+size_t hash(const void* key, size_t size) {
 	size_t hash = 5381;
-	for (char* end = key + key_size; key < end; key++)
-		hash = ((hash << 5) + hash) ^ *key;
+	for (byte* begin = key; size; --size)
+		hash = ((hash << 5) + hash) ^ *begin;
 	return hash;
 }
-inline size_t shash(register const char* str) {
+size_t str_hash(const char* str) {
 	size_t hash = 5381;
 	while (*str)
 		hash = ((hash << 5) + hash) ^ *(str++);
 	return hash;
 }
 
-typedef struct hashtable {
-	size_t 
-		size, 
-		element_size, 
-		capacity;
-
-	comparison_t comparator;
-	hashfunc_t hashfunc;
-
-	struct entry_t *table;
-} *hashtable_t;
-
-typedef struct entry {
+typedef struct {
 	void *key, *data;
-	entry_t next;
-} *entry_t;
+	entry_t* next;
+} entry_t;
+
+typedef struct {
+	struct collection_header;
+
+	hashfunc_pt hashfunc;
+
+	entry_t** table;
+} hashtable_t;
 
 
-typedef uint32_t hash_t;
-typedef hash_t(*hashfunc_t)(void*);
+#pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 
+hashtable_t ht_create(size_t);
+void ht_delete(hashtable_t*);
+
+#pragma endregion
+#pragma region ---  ---
+
+#pragma endregion
+#pragma region ---  ---
+
+#pragma endregion
+#pragma region ---  ---
+
+#pragma endregion
+#pragma region ---  ---
+
+#pragma endregion
 //---------------------------------------------------------------------------------------------//
-_inl_ hashtable_t ht_create(size_t);
-_inl_ void ht_delete(hashtable_t*);
-//---------------------------------------------------------------------------------------------//
-void ht_copy(hashtable_t dest, hashtable_t src);
-void ht_move(hashtable_t dest, hashtable_t src);
+void ht_copy(hashtable_t* dest, hashtable_t* src);
+void ht_move(hashtable_t* dest, hashtable_t* src);
 void ht_swap(hashtable_t dest, hashtable_t src);
 //---------------------------------------------------------------------------------------------//
 void ht_insert(hashtable_t container, void* key, void* value);
-int ht_contains(hashtable_t container, void* key);
+bool ht_contains(hashtable_t container, void* key);
 void* ht_lookup(hashtable_t container, void* key);
 //---------------------------------------------------------------------------------------------//
 

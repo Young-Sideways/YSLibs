@@ -18,9 +18,10 @@
 #include "sort.h"
 #include "random.h"
 
-#include "types.h"
+#include "../core/types.h"
 
 #include <string.h>
+#include <ctype.h>
 
 char* trim(char* string) {
     if (string && *string) {
