@@ -27,21 +27,6 @@ void* linear_search(void* array, size_t count, size_t element_size, void* value,
 	return NULL;
 }
 
-void* _b_search_partition(byte* begin, byte* end, size_t element_size, void* value, comparator_pt comparator) {
-	if (begin == end)
-		return NULL;
-	if ((begin + element_size) == end)
-		return comparator(begin, value, element_size) ? NULL : begin;
-
-	byte* mid = begin + ((end - begin) / element_size / 2) * element_size;
-	int compared = comparator(value, mid, element_size);
-	if (compared < 0)
-		return _b_search_partition(begin, mid, element_size, value, comparator);
-	else if (compared > 0)
-		return _b_search_partition(mid, end, element_size, value, comparator);
-	else
-		return mid;
-}
 void* binary_search(void* array, size_t count, size_t element_size, void* value, comparator_pt comparator) {
 	assert(array);
 	assert(element_size);
@@ -49,6 +34,21 @@ void* binary_search(void* array, size_t count, size_t element_size, void* value,
 
 	if (!comparator)
 		comparator = memcmp;
+	if (count == 0)
+		return NULL;
+	if (count == 1)
+		comparator(value, array, element_size) ? NULL : array;
 
-	return _b_search_partition(array, (byte*)array + (count * element_size), element_size, value, comparator);
+	byte* mid = (byte*)array;
+	for (byte* begin = mid, *end = mid + (count * element_size); begin < end;) {
+		mid = (((end - begin) / element_size) / 2) * element_size;
+		int compared = comparator(value, mid, element_size);
+		if (compared == 0)
+			return mid;
+		else if (compared < 0)
+			end = mid;
+		else
+			begin = mid;
+	}
+	return comparator(value, mid, element_size) ? NULL : mid;
 }
