@@ -17,4 +17,5 @@ int main(int argc, char* argv[]) {
 	task3();
 
 	return EXIT_SUCCESS;
+	//курить хочу ааааа
 }
