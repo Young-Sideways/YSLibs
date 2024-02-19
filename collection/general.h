@@ -22,7 +22,7 @@
 
 /**
  *  @def   GROWTH_FACTOR
- *  @brief memory consumption growth factor for collections ( new size = ~ x1.5 )
+ *  @brief memory consumption growth factor for collections ( new size = ~x1.5 )
  *  @param n - current size
  */
 #define GROWTH_FACTOR(n) (n < 2U ? n + 1 : n + (n >> 1))
@@ -35,7 +35,7 @@
  *  @def   COLLECTION_SIZE_MAX
  *  @brief Maximum size for all containers
  */
-#define COLLECTION_SIZE_MAX UINT_MAX
+#define COLLECTION_SIZE_MAX UINT_MAX - 1
 
 /**
  *  @typedef internal_memory_access_t
