@@ -20,8 +20,8 @@ struct collection_header header_allocator(
     _IN _NULLABLE const sort_pt _sort,
     _IN const internal_memory_access_t next,
     _IN const internal_memory_access_t prev,
-    _IN _NULLABLE const internal_memory_access_t random_access,
-    _IN _NULLABLE const internal_memory_access_t data)
+    _IN _NULLABLE const internal_memory_access_t data_block,
+    _IN _NULLABLE const internal_memory_access_t random_access)
 {
     assert(next);
     assert(prev);
@@ -35,7 +35,7 @@ struct collection_header header_allocator(
         ._sort = _sort,
         .next = next,
         .prev = prev,
-        .random_access = random_access,
-        .data = data
+        .data_block = data_block,
+        .random_access = random_access
     };
 }

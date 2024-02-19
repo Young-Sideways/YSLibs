@@ -45,7 +45,7 @@ typedef void (*internal_memory_access_t)(_IN struct collection_header* collectio
 
 /**
  *  @struct collection_header
- *  @brief  Main data structure for all collections
+ *  @brief  main data structure for all collections
  */
 struct collection_header {
     uint32_t size;
@@ -58,8 +58,8 @@ struct collection_header {
 
     internal_memory_access_t next;
     internal_memory_access_t prev;
+    internal_memory_access_t data_block;
     internal_memory_access_t random_access;
-    internal_memory_access_t data;
 };
 
 
@@ -72,8 +72,8 @@ struct collection_header header_allocator(
     _IN _NULLABLE const sort_pt _sort,
     _IN const internal_memory_access_t next,
     _IN const internal_memory_access_t prev,
-    _IN  _NULLABLE const internal_memory_access_t random_access,
-    _IN  _NULLABLE const internal_memory_access_t data);
+    _IN  _NULLABLE const internal_memory_access_t data_block,
+    _IN  _NULLABLE const internal_memory_access_t random_access);
 
 #pragma region --- STATIC ASSERTION BLOCK ---
 

@@ -131,7 +131,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="algorithm\comparator.c" />
     <ClCompile Include="collection\general.c" />
     <ClCompile Include="collection\iterator.c" />
     <ClCompile Include="main.c" />

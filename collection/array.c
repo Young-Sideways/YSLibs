@@ -7,29 +7,60 @@
  ******************************************************************************/
 
 #include "array.h"
-#include "iterator.h"
 
 #include <assert.h>
+#include <string.h>
+#include <stdlib.h>
 
 
-struct _array_header {
-	size_t
-		capacity,
-		element_size;
+struct array {
+	struct collection_header;
+	byte* data;
 };
-// ------------------------------------------------------------------- //
 
-array_t array_init(size_t capacity, size_t element_size) {
-	assert(element_size);
-	assert(capacity <= ARRAY_SIZE_MAX);
-	struct _array_header* result = (struct _array_header*)malloc(sizeof(struct _array_header) + capacity * element_size);
-	if (result) {
-		*result = (struct _array_header){ .capacity = capacity, .element_size = element_size };
-		result++;
-	}
-	return (array_t)result;
+static void* next(array_t* collection, void** block, int* index) {
+	*index += 1;
+	return (byte*)*block = (collection->data + (collection->element_size * *index));
 }
-array_t array_shadow(array_t array) {
+static void* prev(array_t* collection, void** block, int* index) {
+	*index -= 1;
+	return (byte*)*block = (collection->data + (collection->element_size * *index));
+}
+static void* data(array_t* collection, void** block, int* index) {
+	UNUSED(block);
+	UNUSED(index);
+	return collection->data;
+}
+static void* random_access(array_t* collection, void** block, int* index) {
+	return (byte*)*block = (collection->data + (collection->element_size * *index));
+}
+
+array_t arr_init(size_t size, size_t element_size) {
+	assert(element_size);
+	assert(size <= ARRAY_SIZE_MAX);
+
+	array_t result = { 0 };
+
+	void* block = calloc(size, element_size);
+	if (block) {
+		result = (array_t){
+			header_allocator(
+				size,
+				element_size,
+				NULL,
+				&linear_search,
+				NULL,
+				&qsort,
+				&next,
+				&prev,
+				&data,
+				&random_access),
+			NULL };
+		result.data = block;
+	}
+	return result;
+}
+array_t array_shadow(_IN const array_t* array) {
 	assert(array);
 	struct _array_header* header = (struct _array_header*)array - 1;
 	return array_init(header->capacity, header->element_size);
@@ -45,9 +76,10 @@ array_t array_copy(array_t array) {
 	}
 	return (array_t)result;
 }
-void array_delete(array_t array) {
+void array_delete(array_t* array) {
 	assert(array);
-	free(((struct _array_header*)array) - 1);
+	free(array->data);
+	*array = 
 }
 
 // ------------------------------------------------------------------- //
@@ -63,32 +95,4 @@ void* array_at(array_t array, int position) {
 			return NULL;
 		//position = (int)header->capacity + position;
 	return (byte*)array + position * header->element_size;
-}
-void* array_first(array_t array) {
-	return array_capacity(array) ? array : NULL;
-}
-void* array_last(array_t array) {
-	struct _array_header* header = ((struct _array_header*)array) - 1;
-	return array_capacity(array) ? (byte*)array + header->element_size * (header->capacity - 1) : NULL;
-}
-void* array_end(array_t array) {
-	struct _array_header* header = ((struct _array_header*)array) - 1;
-	return array_capacity(array) ? (byte*)array + header->element_size * header->capacity : NULL;
-}
-
-// ------------------------------------------------------------------- //
-
-size_t array_capacity(array_t array) {
-	assert(array);
-	return ((struct _array_header*)array - 1)->capacity;
-}
-size_t array_element_size(array_t array) {
-	assert(array);
-	return ((struct _array_header*)array - 1)->element_size;
-}
-
-// ------------------------------------------------------------------- //
-
-array_get_it(array_t array, it_type type) {
-	return it_init(array, array_capacity(array), array_element_size(array), type);
 }

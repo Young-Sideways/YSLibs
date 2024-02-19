@@ -30,9 +30,6 @@
     <ClCompile Include="algorithm\sort.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="algorithm\comparator.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="algorithm\search.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>

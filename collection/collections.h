@@ -4,6 +4,12 @@
 
 #include "array.h"
 #include "vector.h"
+/*
+#include "list.h"
+#include "hashtable.h"
+#include "binary_tree.h"
+#include "dstring.h"
+*/
 
 #ifdef _USE_GENERIC_COLLECTIONS_
 

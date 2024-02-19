@@ -69,7 +69,6 @@ iterator_t it_begin(_IN void* collection) {
 	result.collection->random_access(collection, &(result.data), &(result.stage));
 	return is_valid(&result) ? result : INVALID_ITERATOR;
 }
-
 iterator_t it_end(_IN void* collection) {
 	assert(collection);
 
@@ -83,7 +82,6 @@ iterator_t it_end(_IN void* collection) {
 	return is_valid(&result) ? result : INVALID_ITERATOR;
 }
 
-
 iterator_t it_rbegin(_IN void* collection) {
 	assert(collection);
 
@@ -96,7 +94,6 @@ iterator_t it_rbegin(_IN void* collection) {
 	result.collection->random_access(collection, &(result.data), &(result.stage));
 	return is_valid(&result) ? result : INVALID_ITERATOR;
 }
-
 iterator_t it_rend(_IN void* collection) {
 	assert(collection);
 
@@ -110,7 +107,6 @@ iterator_t it_rend(_IN void* collection) {
 	return is_valid(&result) ? result : INVALID_ITERATOR;
 }
 
-
 iterator_t it_first(_IN void* collection) {
 	assert(collection);
 
@@ -123,7 +119,6 @@ iterator_t it_first(_IN void* collection) {
 	result.collection->random_access(collection, &(result.data), &(result.stage));
 	return is_valid(&result) ? result : INVALID_ITERATOR;
 }
-
 iterator_t it_last(_IN void* collection) {
 	assert(collection);
 
@@ -137,7 +132,6 @@ iterator_t it_last(_IN void* collection) {
 	return is_valid(&result) ? result : INVALID_ITERATOR;
 }
 
-
 void it_delete(_IN iterator_t* iterator) {
 	assert(iterator);
 
@@ -147,7 +141,6 @@ void it_delete(_IN iterator_t* iterator) {
 #pragma endregion
 
 #pragma region --- FUNCIONS ---
-
 
 void* it_get(_IN iterator_t* iterator) {
 	return is_valid(iterator) ? iterator->data : NULL;
