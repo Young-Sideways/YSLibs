@@ -25,7 +25,7 @@
 
 char* trim(char* string) {
     if (string && *string) {
-        char* left = string, * right = string + strlen(string) - 1;
+        char* left = string, *right = string + strlen(string) - 1;
         while (isspace(*left))
             left++;
         while (isspace(*right) && left < right)

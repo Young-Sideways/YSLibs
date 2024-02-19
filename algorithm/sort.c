@@ -8,18 +8,19 @@
 
 
 #include "sort.h"
+#include "../core/types.h"
 
 #include <assert.h>
 #include <string.h>
 
-void selection_sort(void* array, size_t count, size_t element_size, comparator_pt comparator, swap_pt _swap) {
+void selection_sort(_IN void* array, _IN size_t count, _IN size_t element_size, _IN _NULLABLE comparator_pt _comparator, _IN _NULLABLE swap_pt _swap) {
 	assert(array);
 	assert(element_size);
 
+	if (!_comparator)
+		_comparator = &memcmp;
 	if (!_swap)
 		_swap = &swap;
-	if (!comparator)
-		comparator = memcmp;
 
 	for (char* end = (char*)array + (count * element_size); array < (end - element_size); (char*)array += element_size) {
 		void* min = array;
@@ -31,9 +32,38 @@ void selection_sort(void* array, size_t count, size_t element_size, comparator_p
 	}
 }
 
-void insertion_sort(void* array, size_t count, size_t element_size, comparator_pt _comparator, swap_pt _swap) {
+void insertion_sort(_IN void* array, _IN size_t count, _IN size_t element_size, _IN _NULLABLE comparator_pt _comparator, _IN _NULLABLE swap_pt _swap) {
+	assert(array);
+	assert(element_size);
 
+
+	if (!_comparator)
+		_comparator = &memcmp;
+	if (!_swap)
+		_swap = &swap;
+
+	char* begin = array;
+	char* end = begin + (count * element_size);
+	char* ptr = begin + element_size;
+
+
+	for (; ptr < end;) {
+		int temp, j;
+		temp = a[i];
+		j = i - 1;
+		while ((temp < a[j]) && (j >= 0)) {
+			a[j + 1] = a[j];
+			j = j - 1;
+		}
+		a[j + 1] = temp;
+	}
 }
-void quick_sort(void* array, size_t count, size_t element_size, comparator_pt _comparator, swap_pt _swap) {
+void quick_sort(_IN void* array, _IN size_t count, _IN size_t element_size, _IN _NULLABLE comparator_pt _comparator, _IN _NULLABLE swap_pt _swap) {
+	assert(array);
+	assert(element_size);
 
+	if (!_comparator)
+		_comparator = &memcmp;
+	if (!_swap)
+		_swap = &swap;
 }

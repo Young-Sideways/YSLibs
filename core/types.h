@@ -78,28 +78,28 @@ typedef unsigned char ubyte;
     void*              : SIZE_MAX  , \
 	default            : NULL)
 
-#define MIN(type) _Generic( (type)0            , \
-    signed char        : SCHAR_MIN             , \
-    signed short       : SHRT_MIN              , \
-    signed int         : INT_MIN               , \
-    signed long        : LONG_MIN              , \
-    signed long long   : LLONG_MIN             , \
-    unsigned char      : (char)0               , \
-    unsigned short     : (short)0              , \
-    unsigned           : 0U                    , \
-    unsigned long      : 0UL                   , \
-    unsigned long long : 0ULL                  , \
-    char*              : (char*)0              , \
-    short*             : (short*)0             , \
-    int*               : (int*)0               , \
-    long*              : (long*)0              , \
-    long long*         : (long long*)0         , \
-    unsigned char*     : (unsigned char*)0     , \
-    unsigned short*    : (unsigned short*)0    , \
-    unsigned*          : (unsigned*)0          , \
-    unsigned long*     : (unsigned long*)0     , \
-    unsigned long long*: (unsigned long long*)0, \
-    void*              : (void*)0              , \
+#define MIN(type) _Generic( (type)0               , \
+    signed char        : SCHAR_MIN                , \
+    signed short       : SHRT_MIN                 , \
+    signed int         : INT_MIN                  , \
+    signed long        : LONG_MIN                 , \
+    signed long long   : LLONG_MIN                , \
+    unsigned char      : (unsigned char)0         , \
+    unsigned short     : (unsigned short)0        , \
+    unsigned           : 0U                       , \
+    unsigned long      : 0UL                      , \
+    unsigned long long : 0ULL                     , \
+    char*              : (char*)NULL              , \
+    short*             : (short*)NULL             , \
+    int*               : (int*)NULL               , \
+    long*              : (long*)NULL              , \
+    long long*         : (long long*)NULL         , \
+    unsigned char*     : (unsigned char*)NULL     , \
+    unsigned short*    : (unsigned short*)NULL    , \
+    unsigned*          : (unsigned*)NULL          , \
+    unsigned long*     : (unsigned long*)NULL     , \
+    unsigned long long*: (unsigned long long*)NULL, \
+    void*              : (void*)NULL              , \
 	default: NULL)
 
 #pragma endregion

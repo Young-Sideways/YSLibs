@@ -1,13 +1,13 @@
 /*******************************************************************************
  *  @file      general.h
- *  @brief     general structures and control functions
+ *  @brief     general structures and control functions for collections
  *  @author    Young Sideways
  *  @date      15.02.2024
  *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef GENERAL_H_
-#define GENERAL_H_
+#ifndef _GENERAL_H_
+#define _GENERAL_H_
 
 #pragma once
 
@@ -22,30 +22,58 @@
 
 /**
  *  @def   GROWTH_FACTOR
- *  @brief memory consumption growth factor fo collections ( new size = ~ x1.5 )
+ *  @brief memory consumption growth factor for collections ( new size = ~ x1.5 )
  *  @param n - current size
  */
 #define GROWTH_FACTOR(n) (n < 2U ? n + 1 : n + (n >> 1))
-
+/**
+ *  @def   COLLECTION_SIZE_MIN
+ *  @brief Minimum size for all containers
+ */
 #define COLLECTION_SIZE_MIN 0U
+/**
+ *  @def   COLLECTION_SIZE_MAX
+ *  @brief Maximum size for all containers
+ */
 #define COLLECTION_SIZE_MAX UINT_MAX
 
+/**
+ *  @typedef internal_memory_access_t
+ *  @brief   function prototype for unifying access to container memory
+ */
 typedef void (*internal_memory_access_t)(_IN struct collection_header* collection, _INOUT _NULLABLE void**, _INOUT _NULLABLE int*);
 
+/**
+ *  @struct collection_header
+ *  @brief  Main data structure for all collections
+ */
 struct collection_header {
     uint32_t size;
-    size_t allocated;
     size_t element_size;
 
     comparator_pt _comp;
     search_pt     _search;
     swap_pt       _swap;
     sort_pt       _sort;
-    
+
     internal_memory_access_t next;
     internal_memory_access_t prev;
     internal_memory_access_t random_access;
+    internal_memory_access_t data;
 };
+
+
+struct collection_header header_allocator(
+    _IN _NULLABLE const size_t size,
+    _IN const size_t element_size,
+    _IN _NULLABLE const comparator_pt _comp,
+    _IN _NULLABLE const search_pt _search,
+    _IN _NULLABLE const swap_pt _swap,
+    _IN _NULLABLE const sort_pt _sort,
+    _IN const internal_memory_access_t next,
+    _IN const internal_memory_access_t prev,
+    _IN  _NULLABLE const internal_memory_access_t random_access,
+    _IN  _NULLABLE const internal_memory_access_t data);
 
 #pragma region --- STATIC ASSERTION BLOCK ---
 
@@ -72,4 +100,4 @@ TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(long double*)       );
 
 #pragma endregion
 
-#endif // !GENERAL_H_
+#endif // !_GENERAL_H_

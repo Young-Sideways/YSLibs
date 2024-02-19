@@ -13,6 +13,8 @@
 #pragma once
 
 #include <stdint.h>
+#include <stdbool.h>
+
 #include "comparator.h"
 
 
@@ -21,5 +23,14 @@ typedef search_t* search_pt;
 
 search_t linear_search;
 search_t binary_search;
+
+#ifdef _ITERATOR_H_
+
+#include "../collection/iterator.h"
+
+iterator_t find(const void* container,const void* value);
+bool contains(const void* container, const void* value);
+
+#endif
 
 #endif // !_SEARCH_H_

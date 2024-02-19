@@ -28,7 +28,7 @@
 		return (int)(*rhs - *lhs);										\
 	}
 
-//#pragma warning(disable : 4244)
+#pragma warning(disable : 4244)
 
 FORWARD_COMPARATOR(i8  , int8_t     )
 FORWARD_COMPARATOR(i16 , int16_t    )
@@ -54,7 +54,7 @@ REVERSE_COMPARATOR(flt , float		)
 REVERSE_COMPARATOR(dbl , double		)
 REVERSE_COMPARATOR(ldbl, long double)
 
-//#pragma warning(default : 4244)
+#pragma warning(default : 4244)
 
 #undef FORWARD_COMPARATOR
 #undef REVERSE_COMPARATOR

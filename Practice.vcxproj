@@ -132,11 +132,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="algorithm\comparator.c" />
+    <ClCompile Include="collection\general.c" />
     <ClCompile Include="collection\iterator.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="algorithm\swap.c" />
     <ClCompile Include="algorithm\sort.c" />
     <ClCompile Include="algorithm\search.c" />
+    <ClCompile Include="task1\task1.c" />
+    <ClCompile Include="task2\task2.c" />
     <ClCompile Include="task3\task3.c" />
     <ClCompile Include="utils\timer.c" />
     <ClCompile Include="algorithm\random.c" />
@@ -153,6 +156,8 @@
     <ClInclude Include="collection\iterator.h" />
     <ClInclude Include="collection\type.h" />
     <ClInclude Include="core\types.h" />
+    <ClInclude Include="task1\task1.h" />
+    <ClInclude Include="task2\task2.h" />
     <ClInclude Include="task3\task3.h" />
     <ClInclude Include="utils\timer.h" />
     <ClInclude Include="algorithm\random.h" />
