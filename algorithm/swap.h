@@ -6,17 +6,26 @@
  *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-
 #ifndef _SWAP_H_
 #define _SWAP_H_
 
 #pragma once
 
-#include <stdint.h>
+#pragma region --- INCLUDES ---
 
+#include "../core/core.h"
+#include <math.h>
 
-typedef void (swap_t)(void*, void*, size_t);
+#pragma endregion
+
+#pragma region --- TYPEDEFS ---
+
+typedef void (swap_t)(_INOUT void*, _INOUT void*, _IN size_t);
 typedef swap_t* swap_pt;
+
+#pragma endregion
+
+#pragma region --- FUNCTIONS ---
 
 /**
  * @brief swaps values between lhs and rhs pointers with size
@@ -26,22 +35,36 @@ typedef swap_t* swap_pt;
  */
 swap_t swap;
 
+#pragma endregion
 
-#define DECLARE_SWAP(type) \
-	swap_t type##_swap;
+#pragma region --- DECLARATORS ---
+#ifdef _SWAP_DECLARATOR_
 
-DECLARE_SWAP(i8)
-DECLARE_SWAP(i16)
-DECLARE_SWAP(i32)
-DECLARE_SWAP(i64)
-DECLARE_SWAP(u8)
-DECLARE_SWAP(u16)
-DECLARE_SWAP(u32)
-DECLARE_SWAP(u64)
-DECLARE_SWAP(flt)
-DECLARE_SWAP(dbl)
-DECLARE_SWAP(ldbl)
+#define DECLARE_SWAP(prefix, type)                                 \
+    inline void prefix##_swap(void* lhs, void* rhs, size_t size) { \
+        UNUSED(size);                                              \
+        assert(lhs);                                               \
+        assert(rhs);                                               \
+        type temp = *(type*)lhs;                                   \
+        *(type*)lhs = *(type*)rhs;                                 \
+        *(type*)rhs = temp;                                        \
+    }
+
+DECLARE_SWAP(i8  , int8_t     );
+DECLARE_SWAP(i16 , int16_t    );
+DECLARE_SWAP(i32 , int32_t    );
+DECLARE_SWAP(i64 , int64_t    );
+DECLARE_SWAP(u8  , uint8_t    );
+DECLARE_SWAP(u16 , uint16_t   );
+DECLARE_SWAP(u32 , uint32_t   );
+DECLARE_SWAP(u64 , uint64_t   );
+DECLARE_SWAP(flt , float      );
+DECLARE_SWAP(dbl , double     );
+DECLARE_SWAP(ldbl, long double);
 
 #undef DECLARE_SWAP
+
+#endif // !_SWAP_DECLARATOR_
+#pragma endregion
 
 #endif // !_SWAP_H_

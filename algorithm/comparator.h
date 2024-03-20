@@ -11,25 +11,51 @@
 
 #pragma once
 
-#include <stdint.h>
+#pragma region --- INCLUDES ---
 
+#include "../core/core.h"
 
-typedef int (comparator_t)(const void* lhs, const void* rhs, size_t size);
+#pragma endregion
+
+#pragma region --- TYPEDEFS ---
+
+typedef int (comparator_t)(_IN const void* lhs, _IN const void* rhs, _IN size_t size);
 typedef comparator_t* comparator_pt;
 
-#define FORWARD_COMPARATOR(prefix, type)							    \
-	int prefix##_fcomp(const type* lhs, const type* rhs, size_t size) { \
-		UNUSED(size);												    \
-		assert(lhs);												    \
-		assert(rhs);												    \
-		return (int)(*lhs - *rhs);									    \
-	}
-#define REVERSE_COMPARATOR(prefix, type)							    \
-	int prefix##_rcomp(const type* lhs, const type* rhs, size_t size) { \
-		UNUSED(size);												    \
-		assert(lhs);												    \
-		assert(rhs);												    \
-		return (int)(*rhs - *lhs);										\
-	}
+#pragma endregion
+
+#pragma region --- DECLARATORS ---
+#ifdef _COMPARATOR_DECLARATOR_
+
+#define DECLARE_COMP(prefix, type)                                              \
+    inline int prefix##_fcomp(const void* lhs, const void* rhs, size_t size) {  \
+        UNUSED(size);                                                           \
+        assert(lhs);                                                            \
+        assert(rhs);                                                            \
+        return ((*(type*)lhs > *(type*)rhs) - (*(type*)lhs < *(type*)rhs));     \
+    };                                                                          \
+    inline int prefix##_rcomp(const void* lhs, const void* rhs, size_t size) {  \
+        UNUSED(size);                                                           \
+        assert(lhs);                                                            \
+        assert(rhs);                                                            \
+        return ((*(type*)lhs < *(type*)rhs) - (*(type*)lhs > *(type*)rhs));     \
+    }
+
+DECLARE_COMP(i8  , int8_t     );
+DECLARE_COMP(i16 , int16_t    );
+DECLARE_COMP(i32 , int32_t    );
+DECLARE_COMP(i64 , int64_t    );
+DECLARE_COMP(u8  , uint8_t    );
+DECLARE_COMP(u16 , uint16_t   );
+DECLARE_COMP(u32 , uint32_t   );
+DECLARE_COMP(u64 , uint64_t   );
+DECLARE_COMP(flt , float      );
+DECLARE_COMP(dbl , double     );
+DECLARE_COMP(ldbl, long double);
+
+#undef DECLARE_COMP
+
+#endif // !_COMPARATOR_DECLARATOR_
+#pragma endregion
 
 #endif // !_COMPARATOR_H_

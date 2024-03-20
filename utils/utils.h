@@ -6,13 +6,12 @@
  *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-
 #ifndef _UTILS_H_
 #define _UTILS_H_
 
 #pragma once
 
-#include "../core/types.h"
+#include "../core/core.h"
 
 char getch_menu();
 

@@ -8,7 +8,6 @@
 
 #include "general.h"
 
-#include <assert.h>
 #include <string.h>
 
 struct collection_header header_allocator(
@@ -38,4 +37,5 @@ struct collection_header header_allocator(
         .data_block = data_block,
         .random_access = random_access
     };
+    return result;
 }

@@ -11,16 +11,23 @@
 
 #pragma once
 
-#include <time.h>
-#include <stdlib.h>
+#pragma region --- INCLUDES ---
 
+#include "../core/core.h"
+
+#pragma endregion
+
+#pragma region --- TYPEDEFS ---
+
+typedef (random_t)(_IN int, _IN int);
+typedef random_t* random_pt;
+
+#pragma endregion
+
+#pragma region --- FUNCTIONS ---
 
 /// @brief Initilizes a PRNG with current time stamp
 void random_init();
-
-
-typedef (random_t)(int, int);
-typedef random_t* random_pt;
 
 /**
  * @brief default random function
@@ -40,6 +47,6 @@ random_t random;
  */
 void random_fill(int*, size_t, random_pt, int, int);
 
+#pragma endregion
+
 #endif // !_RANDOM_H_
-
-

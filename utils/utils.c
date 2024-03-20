@@ -6,7 +6,6 @@
  *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-
 #include "utils.h"
 
 #include <stdio.h>
@@ -14,10 +13,9 @@
 #include <assert.h>
 
 
-
 char getch_menu() {
-	char mode = '\0';
-	do { mode = getchar(); } while (isspace(mode));
-	while (getchar() != '\n');
-	return mode;
+    char mode = '\0';
+    do { mode = getchar(); } while (isspace(mode));
+    while (getchar() != '\n');
+    return mode;
 }

@@ -131,36 +131,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="collection\general.c" />
-    <ClCompile Include="collection\iterator.c" />
-    <ClCompile Include="main.c" />
-    <ClCompile Include="algorithm\swap.c" />
-    <ClCompile Include="algorithm\sort.c" />
+    <ClCompile Include="algorithm\random.c" />
     <ClCompile Include="algorithm\search.c" />
+    <ClCompile Include="algorithm\sort.c" />
+    <ClCompile Include="algorithm\swap.c" />
+    <ClCompile Include="main.c" />
     <ClCompile Include="task1\task1.c" />
     <ClCompile Include="task2\task2.c" />
     <ClCompile Include="task3\task3.c" />
     <ClCompile Include="utils\timer.c" />
-    <ClCompile Include="algorithm\random.c" />
     <ClCompile Include="utils\utils.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="algorithm\algorithm.h" />
-    <ClInclude Include="algorithm\swap.h" />
-    <ClInclude Include="algorithm\sort.h" />
     <ClInclude Include="algorithm\comparator.h" />
+    <ClInclude Include="algorithm\random.h" />
     <ClInclude Include="algorithm\search.h" />
-    <ClInclude Include="collection\collections.h" />
-    <ClInclude Include="collection\general.h" />
-    <ClInclude Include="collection\iterator.h" />
+    <ClInclude Include="algorithm\sort.h" />
+    <ClInclude Include="algorithm\swap.h" />
     <ClInclude Include="collection\type.h" />
-    <ClInclude Include="core\types.h" />
+    <ClInclude Include="core\core.h" />
     <ClInclude Include="task1\task1.h" />
     <ClInclude Include="task2\task2.h" />
+    <ClInclude Include="algorithm\types.h" />
     <ClInclude Include="task3\task3.h" />
     <ClInclude Include="utils\timer.h" />
-    <ClInclude Include="algorithm\random.h" />
-    <ClInclude Include="algorithm\types.h" />
     <ClInclude Include="utils\utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

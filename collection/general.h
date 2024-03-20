@@ -11,8 +11,6 @@
 
 #pragma once
 
-#include "../core/types.h"
-
 #include "../algorithm/comparator.h"
 #include "../algorithm/search.h"
 #include "../algorithm/swap.h"
@@ -25,12 +23,12 @@
  *  @brief memory consumption growth factor for collections ( new size = ~x1.5 )
  *  @param n - current size
  */
-#define GROWTH_FACTOR(n) (n < 2U ? n + 1 : n + (n >> 1))
+#define GROWTH_FACTOR(n) (n < 0x8U ? 0x8U : (n << 1))
 /**
  *  @def   COLLECTION_SIZE_MIN
  *  @brief Minimum size for all containers
  */
-#define COLLECTION_SIZE_MIN 0U
+#define COLLECTION_SIZE_MIN 0x8U
 /**
  *  @def   COLLECTION_SIZE_MAX
  *  @brief Maximum size for all containers
@@ -72,8 +70,8 @@ struct collection_header header_allocator(
     _IN _NULLABLE const sort_pt _sort,
     _IN const internal_memory_access_t next,
     _IN const internal_memory_access_t prev,
-    _IN  _NULLABLE const internal_memory_access_t data_block,
-    _IN  _NULLABLE const internal_memory_access_t random_access);
+    _IN _NULLABLE const internal_memory_access_t data_block,
+    _IN _NULLABLE const internal_memory_access_t random_access);
 
 #pragma region --- STATIC ASSERTION BLOCK ---
 

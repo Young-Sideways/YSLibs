@@ -12,7 +12,7 @@
 #pragma once
 
 #include "general.h"
-#include "../core/types.h"
+#include "../core/core.h"
 
 #define ARRAY_SIZE_MIN COLLECTION_SIZE_MIN
 #define ARRAY_SIZE_MAX COLLECTION_SIZE_MAX
@@ -27,7 +27,7 @@ array_t arr_copy(_IN const array_t* array);
 array_t arr_move(_IN const array_t* array);
 array_t arr_shadow(_IN const array_t* array);
 
-void arr_delete(_INOUT array_t* array);
+void arr_delete(_IN array_t* array);
 
 #pragma endregion
 
