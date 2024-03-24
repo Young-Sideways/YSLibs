@@ -136,6 +136,7 @@
     <ClCompile Include="algorithm\sort.c" />
     <ClCompile Include="algorithm\swap.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="core\metrics.c" />
     <ClCompile Include="task1\task1.c" />
     <ClCompile Include="task2\task2.c" />
     <ClCompile Include="task3\task3.c" />
@@ -151,6 +152,7 @@
     <ClInclude Include="algorithm\swap.h" />
     <ClInclude Include="collection\type.h" />
     <ClInclude Include="core\core.h" />
+    <ClInclude Include="core\metrics.h" />
     <ClInclude Include="task1\task1.h" />
     <ClInclude Include="task2\task2.h" />
     <ClInclude Include="algorithm\types.h" />

@@ -45,6 +45,9 @@
     <ClCompile Include="utils\utils.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="core\metrics.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="algorithm\types.h">
@@ -87,6 +90,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="utils\timer.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="core\metrics.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

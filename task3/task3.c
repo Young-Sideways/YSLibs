@@ -27,7 +27,7 @@ int task3() {
     sort_pt sort = NULL;
     comparator_pt comp = NULL;
 
-    printf("Starting \"task3\" module\n");
+    printf("Starting \"task3\" module\n\n");
 
     while (cycle) {
         printf("\t1. selection_sort\n");
@@ -37,7 +37,7 @@ int task3() {
         printf("\t5. back\n");
         printf("Select sorting algorithm: ");
         mode = getch_menu();
-        printf("\n");
+        putchar('\n');
 
         switch (mode)
         {
@@ -69,6 +69,7 @@ int task3() {
         printf("\t3. back\n");
         printf("Select compare function: ");
         mode = getch_menu();
+        putchar('\n');
 
         switch (mode)
         {
@@ -88,12 +89,13 @@ int task3() {
         }
 
         printf("enter number of sorting elements: ");
-        unsigned count;
+        unsigned count = 0;
         if (!scanf("%u", &count)) {
             system("cls||clear");
             printf("Incorrect number of sorting elements. Please repeat input\n");
             continue;
         }
+        putchar('\n');
 
         int* array = (int*)malloc(count * sizeof(int));
         if (!array) {
@@ -107,7 +109,7 @@ int task3() {
         random_fill(array, count, NULL, INT_MIN, INT_MAX);
         tim_stop(&timer);
         char str[20];
-        printf("Generated for: %s\n", tim_str(&timer, str));
+        printf("Generated for: %s\n\n", tim_str(&timer, str));
 
         printf("Sorting array...\n");
         tim_start(&timer);
@@ -115,8 +117,9 @@ int task3() {
         tim_stop(&timer);
         printf("Sorting done! Sorted for: %s\n", tim_str(&timer, str));
 
-        printf("\n");
+        puts("\n------------------------------------------------------------------------\n");
         free(array);
+        array = NULL;
     }
     return 0;
 }
