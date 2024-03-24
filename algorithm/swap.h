@@ -48,6 +48,11 @@ swap_t swap;
         type temp = *(type*)lhs;                                   \
         *(type*)lhs = *(type*)rhs;                                 \
         *(type*)rhs = temp;                                        \
+        #if defined(_ENABLE_GLOBAL_MERICS_) && defined(_METRICS_H_)\
+            DECLARE_EXTERN_METRIC(swap);                           \
+            swap.swap_calls += size;                                \
+            swap.byte_swapped += size;                                \
+        #endif                                                     \
     }
 
 DECLARE_SWAP(i8  , int8_t     );
@@ -65,6 +70,18 @@ DECLARE_SWAP(ldbl, long double);
 #undef DECLARE_SWAP
 
 #endif // !_SWAP_DECLARATOR_
+
+#pragma endregion
+
+#pragma region --- METRICS ADAPTER ---
+#ifdef _ENABLE_GLOBAL_MERICS_
+
+#include "../core/metrics.h"
+DECLARE_METRIC_TYPE(swap,
+    size_t swap_calls,
+    size_t byte_swapped);
+
+#endif // !_ENABLE_GLOBAL_MERICS_
 #pragma endregion
 
 #endif // !_SWAP_H_
