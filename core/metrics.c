@@ -10,6 +10,6 @@
 
 #pragma region --- GLOBALS ---
 
-DECLARE_METRIC_INIT(global) = { 0 };
+//DECLARE_METRIC_INIT(global) = { 0 };
 
 #pragma endregion

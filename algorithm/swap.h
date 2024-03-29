@@ -48,11 +48,6 @@ swap_t swap;
         type temp = *(type*)lhs;                                   \
         *(type*)lhs = *(type*)rhs;                                 \
         *(type*)rhs = temp;                                        \
-        #if defined(_ENABLE_GLOBAL_MERICS_) && defined(_METRICS_H_)\
-            DECLARE_EXTERN_METRIC(swap);                           \
-            swap.swap_calls += size;                                \
-            swap.byte_swapped += size;                                \
-        #endif                                                     \
     }
 
 DECLARE_SWAP(i8  , int8_t     );

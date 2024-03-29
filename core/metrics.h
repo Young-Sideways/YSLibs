@@ -12,7 +12,8 @@
 
 #pragma region --- INCLUDES --
 
-#include "varidatic.h"
+#include "macro/macro.h"
+#include "macro/varidatic.h"
 
 #pragma endregion
 
@@ -38,12 +39,10 @@
 // add another declarators
 
 
-#define CONCAT(a, b) a ## b
-#define DECLARE_METRIC_PASTE_(n, ...) CONCAT(DECLARE_METRIC_PASTE_, n) (__VA_ARGS__)
-#define DECLARE_METRIC_PASTE(...) DECLARE_METRIC_PASTE_( PP_NARG(__VA_ARGS__), __VA_ARGS__)
+#define DECLARE_METRIC_PASTE(...) M_CONCAT_LATER(DECLARE_METRIC_PASTE_, VA_NARG(__VA_ARGS__))(__VA_ARGS__)
 
 #define DECLARE_METRIC_TYPE(name, ...)      \
-    struct metrics_struct_ ## name {        \
+    struct M_CONCAT(metrics_struct_,name) {  \
         DECLARE_METRIC_PASTE(__VA_ARGS__)   \
     }
 #define DECLARE_METRIC_INIT(name) \
