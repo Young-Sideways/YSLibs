@@ -95,7 +95,16 @@
     <ClInclude Include="core\metrics.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="core\varidatic.h">
+    <ClInclude Include="core\macro\macro.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="core\macro\reverse.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="core\macro\varidatic.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="core\macro\each.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

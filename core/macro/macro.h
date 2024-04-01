@@ -15,6 +15,7 @@
 #define M_CONCAT(a, b) a##b
 #define M_CONCAT_LATER(a, b) M_CONCAT(a, b)
 #define M_EXPAND(a) a
+#define M_ECHO(...) __VA_ARGS__
 #define M_EXEC(foo, ...) foo(__VA_ARGS__)
 
 #endif // !_MACRO_H_

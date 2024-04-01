@@ -152,6 +152,7 @@
     <ClInclude Include="algorithm\swap.h" />
     <ClInclude Include="collection\type.h" />
     <ClInclude Include="core\core.h" />
+    <ClInclude Include="core\macro\each.h" />
     <ClInclude Include="core\macro\macro.h" />
     <ClInclude Include="core\macro\reverse.h" />
     <ClInclude Include="core\metrics.h" />

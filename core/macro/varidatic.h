@@ -135,7 +135,7 @@ void _va_commaseq_n_printer(int n, const char* name, int separate) {
           VA_NARG_HELPER(                           \
               VA_HASCOMMA(__VA_ARGS__),             \
               VA_HASCOMMA(VA_COMMA __VA_ARGS__ ()), \
-              VA_ARG_N_(__VA_ARGS__, VA_RSEQ_N())    \
+              VA_ARG_N_(__VA_ARGS__, VA_RSEQ_N())   \
         )
 
 #define VA_NARG_HELPER(a, b, N) VA_NARG_HELPER_(a, b, N)
