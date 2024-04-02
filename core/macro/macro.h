@@ -18,7 +18,6 @@
 
 #define M_EXPAND(a) a
 #define M_ECHO(...) __VA_ARGS__
-#define M_EXEC(foo, ...) foo(__VA_ARGS__)
 #define M_OFFSETOF(container_type, field) &(((container_type*)NULL)->field)
 
 #endif // !_MACRO_H_
