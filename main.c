@@ -56,11 +56,17 @@ void process_param(int8_t srv_c, int8_t msg_c, void* msg_data) {
     switch (srv_c)
     {
     case A_READ:
-        if (msg_c == FLASH_RW_CODE)
+        if (msg_c == FLASH_RW_CODE) {
             // Чтение структуры с флешки во внутреннюю память
+            break;
+        }
+        break;
     case A_WRITE:
-        if (msg_c == FLASH_RW_CODE)
+        if (msg_c == FLASH_RW_CODE) {
             // Запись структуры во флешку во внутреннюю память
+            break;
+        }
+        break;
     default:
         break;
     }
@@ -73,17 +79,7 @@ int main(int argc, char* argv[]) {
     UNUSED(argc);
     UNUSED(argv);
 
-    
-
-    set.p1 = 0.565;
-    set.p2 = 578464;
-
-    intptr_t ptr_offset = setting_t_field_specs[1].offset;
-    size_t ptr_size = setting_t_field_specs[1].size;
-
-    
-
-    printf("p2 offset: %d\np2 size: %d\np2 value: %d\n", ptr_offset, ptr_size, *(int*)(((char*)&set) + ptr_offset));
+    _va_exec_printer(4, 256);
 
     // task3();
 

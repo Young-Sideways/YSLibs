@@ -104,7 +104,7 @@
     <ClInclude Include="core\macro\varidatic.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="core\macro\each.h">
+    <ClInclude Include="core\macro\exec.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="core\macro\sequence.h">
