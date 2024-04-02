@@ -155,6 +155,7 @@
     <ClInclude Include="core\macro\each.h" />
     <ClInclude Include="core\macro\macro.h" />
     <ClInclude Include="core\macro\reverse.h" />
+    <ClInclude Include="core\macro\sequence.h" />
     <ClInclude Include="core\metrics.h" />
     <ClInclude Include="core\macro\varidatic.h" />
     <ClInclude Include="task1\task1.h" />
