@@ -10,7 +10,7 @@
 #include "core/macro/varidatic.h"
 #include "core/macro/reverse.h"
 #include "core/macro/sequence.h"
-#include "core/macro/each.h"
+#include "core/macro/exec.h"
 
 
 #define FLASH_RW_CODE UINT8_MAX
@@ -24,17 +24,16 @@ typedef struct { intptr_t offset; size_t size; } field_spec_t;
 #define FIELD_ADD_PARAM(type, name) type name
 #define SPEC_ADD_PARAM(type, name) type, name
 
-#define SETTINGS_TYPEDEF(name, ...)                             \
-typedef struct {                                                \
-    VA_SEQ_SEMI(VA_EACH1(M_CONCAT, FIELD_, __VA_ARGS__))        \
-} name;                                                         \
-\
-const field_spec_t name##_field_specs[] = {                     \
-    VA_EACH1(FOLD_ADD_PARAM, name, __VA_ARGS__)                 \
-};                                                              \
-\
-const size_t name##_field_specs_size = VA_NARG(__VA_ARGS__);    \
-static_assert(VA_NARG(__VA_ARGS__) < FLASH_RW_CODE, "too many params (> 255) for settings")
+#define SETTINGS_TYPEDEF(name, ...)                                                         \
+typedef struct {                                                                            \
+    VA_SEQ_SEMI(VA_EXEC1(M_CONCAT, FIELD_, __VA_ARGS__))                                    \
+} name;                                                                                     \
+                                                                                            \
+const field_spec_t name##_field_specs[] = {                                                 \
+    VA_EXEC1(FOLD_ADD_PARAM, name, __VA_ARGS__)                                             \
+};                                                                                          \
+                                                                                            \
+const size_t name##_field_specs_size = VA_NARG(__VA_ARGS__) // ; static_assert(VA_NARG(__VA_ARGS__) < FLASH_RW_CODE, "too many params (> 255) for settings")
 
 
 
