@@ -20,4 +20,39 @@
 #define M_ECHO(...) __VA_ARGS__
 #define M_OFFSETOF(container_type, field) &(((container_type*)NULL)->field)
 
+
+#include <inttypes.h>
+
+#define M_FORMAT_OF(var) _Generic( (var)              , \
+    signed char        : "hhd"                     , \
+    signed short       : "hd"                      , \
+    signed int         : "d"                       , \
+    signed long        : "ld"                      , \
+    signed long long   : "lld"                     , \
+    unsigned char      : "hhu"                     , \
+    unsigned short     : "hu"                      , \
+    unsigned           : "u"                       , \
+    unsigned long      : "lu"                      , \
+    unsigned long long : "llu"                     , \
+    float              : "g"                       , \
+    double             : "lg"                      , \
+    long double        : "Lg"                      , \
+    signed char*       : "p (signed char*)"        , \
+    signed short*      : "p (signed short*)"       , \
+    signed int*        : "p (signed int*)"         , \
+    signed long*       : "p (signed long*)"        , \
+    signed long long*  : "p (signed long long*)"   , \
+    unsigned char*     : "p (unsigned char*)"      , \
+    unsigned short*    : "p (unsigned short*)"     , \
+    unsigned*          : "p (unsigned*)"           , \
+    unsigned long*     : "p (unsigned long*)"      , \
+    unsigned long long*: "p (unsigned long long*)" , \
+    float*             : "p (float*)"              , \
+    double*            : "p (double*)"             , \
+    long double*       : "p (long double*)"        , \
+    void*              : "p (void*)"               , \
+    default            : "X"                       )
+
+#define VA_GPRINT_ARG(...) VA_SEQ_UNFOLD(VA_EACH0(M_FORMAT_OF, __VA_ARGS__)) 
+
 #endif // !_MACRO_H_

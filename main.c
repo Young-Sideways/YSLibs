@@ -13,7 +13,7 @@
 #include "core/macro/exec.h"
 
 
-#define FLASH_RW_CODE UINT8_MAX
+
 
 typedef struct { intptr_t offset; size_t size; } field_spec_t;
 
@@ -41,36 +41,6 @@ SETTINGS_TYPEDEF(setting_t,
     ADD_PARAM(float, p1),
     ADD_PARAM(int, p2)
 );
-
-
-setting_t set;
-
-typedef enum {
-    A_READ = 0x64,
-    A_WRITE = 0x65
-} a_mode;
-
-
-void process_param(int8_t srv_c, int8_t msg_c, void* msg_data) {
-    switch (srv_c)
-    {
-    case A_READ:
-        if (msg_c == FLASH_RW_CODE) {
-            // Чтение структуры с флешки во внутреннюю память
-            break;
-        }
-        break;
-    case A_WRITE:
-        if (msg_c == FLASH_RW_CODE) {
-            // Запись структуры во флешку во внутреннюю память
-            break;
-        }
-        break;
-    default:
-        break;
-    }
-}
-
 
 
 
