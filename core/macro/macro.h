@@ -23,7 +23,7 @@
 
 #include <inttypes.h>
 
-#define M_FORMAT_OF(var) _Generic( (var)              , \
+#define M_FORMAT_OF(var) _Generic( (var)           , \
     signed char        : "hhd"                     , \
     signed short       : "hd"                      , \
     signed int         : "d"                       , \
@@ -37,7 +37,7 @@
     float              : "g"                       , \
     double             : "lg"                      , \
     long double        : "Lg"                      , \
-    signed char*       : "p (signed char*)"        , \
+    signed char*       : "s"                       , \
     signed short*      : "p (signed short*)"       , \
     signed int*        : "p (signed int*)"         , \
     signed long*       : "p (signed long*)"        , \
@@ -53,6 +53,16 @@
     void*              : "p (void*)"               , \
     default            : "X"                       )
 
-#define VA_GPRINT_ARG(...) VA_SEQ_UNFOLD(VA_EACH0(M_FORMAT_OF, __VA_ARGS__)) 
+#define VA_GPRINT_ARG(...) VA_EACH0(M_FORMAT_OF, __VA_ARGS__)
+
+
+
+#include <stdarg.h>
+// %1, %2, %3
+int gprintf(const char* format, int argc, ...) {
+
+}
+
+#define gprint(format, ...)
 
 #endif // !_MACRO_H_

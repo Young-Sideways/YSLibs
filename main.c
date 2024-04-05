@@ -48,8 +48,7 @@ int main(int argc, char* argv[]) {
     UNUSED(argc);
     UNUSED(argv);
 
-    _va_exec_printer(4, 256);
-
+    
     // task3();
 
     return EXIT_SUCCESS;
