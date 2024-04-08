@@ -69,7 +69,7 @@ typedef unsigned char ubyte;
 #pragma region --- GENERICS ---
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
 
-#define MIN(type) _Generic( (type)0               , \
+#define MIN(type) _Generic( ((type)0)             , \
     signed char        : SCHAR_MIN                , \
     signed short       : SHRT_MIN                 , \
     signed int         : INT_MIN                  , \
@@ -83,11 +83,11 @@ typedef unsigned char ubyte;
     float              : FLT_MIN                  , \
     double             : DBL_MIN                  , \
     long double        : LDBL_MIN                 , \
-    signed char*       :               (char*)NULL, \
-    signed short*      :              (short*)NULL, \
-    signed int*        :                (int*)NULL, \
-    signed long*       :               (long*)NULL, \
-    signed long long*  :          (long long*)NULL, \
+    signed char*       :        (signed char*)NULL, \
+    signed short*      :       (signed short*)NULL, \
+    signed int*        :         (signed int*)NULL, \
+    signed long*       :        (signed long*)NULL, \
+    signed long long*  :   (signed long long*)NULL, \
     unsigned char*     :      (unsigned char*)NULL, \
     unsigned short*    :     (unsigned short*)NULL, \
     unsigned*          :           (unsigned*)NULL, \
@@ -99,7 +99,7 @@ typedef unsigned char ubyte;
     void*              :               (void*)NULL, \
     default            : NULL                       )
 
-#define MAX(type) _Generic( (type)0                   , \
+#define MAX(type) _Generic( ((type)0)                 , \
     signed char        : SCHAR_MAX                    , \
     signed short       : SHRT_MAX                     , \
     signed int         : INT_MAX                      , \
@@ -113,11 +113,11 @@ typedef unsigned char ubyte;
     float              : FLT_MAX                      , \
     double             : DBL_MAX                      , \
     long double        : LDBL_MAX                     , \
-    signed char*       :               (char*)SIZE_MAX, \
-    signed short*      :              (short*)SIZE_MAX, \
-    signed int*        :                (int*)SIZE_MAX, \
-    signed long*       :               (long*)SIZE_MAX, \
-    signed long long*  :          (long long*)SIZE_MAX, \
+    signed char*       :        (signed char*)SIZE_MAX, \
+    signed short*      :       (signed short*)SIZE_MAX, \
+    signed int*        :         (signed int*)SIZE_MAX, \
+    signed long*       :        (signed long*)SIZE_MAX, \
+    signed long long*  :   (signed long long*)SIZE_MAX, \
     unsigned char*     :      (unsigned char*)SIZE_MAX, \
     unsigned short*    :     (unsigned short*)SIZE_MAX, \
     unsigned*          :       (unsigned int*)SIZE_MAX, \
@@ -131,97 +131,5 @@ typedef unsigned char ubyte;
 
 #endif
 #pragma endregion
-
-// Легаси...
-#if (0)
-
-#include <stdio.h>
-
-#define _t_min_print(type) printf("min (%.19s) : 0x%llX\n", #type, MIN(type))
-#define _t_max_print(type) printf("max (%.19s) : 0x%llX\n", #type, MAX(type))
-
-void __print_type_sizes(void) {
-    _t_min_print(char);
-    _t_min_print(short);
-    _t_min_print(int);
-    _t_min_print(long);
-    _t_min_print(long long);
-    _t_min_print(signed char);
-    _t_min_print(signed short);
-    _t_min_print(signed int);
-    _t_min_print(signed long);
-    _t_min_print(signed long long);
-    _t_min_print(unsigned char);
-    _t_min_print(unsigned short);
-    _t_min_print(unsigned int);
-    _t_min_print(unsigned long);
-    _t_min_print(unsigned long long);
-    _t_min_print(float);
-    _t_min_print(double);
-    _t_min_print(long double);
-    putchar('\n');
-    _t_min_print(char*);
-    _t_min_print(short*);
-    _t_min_print(int*);
-    _t_min_print(long*);
-    _t_min_print(long long*);
-    _t_min_print(signed char*);
-    _t_min_print(signed short*);
-    _t_min_print(signed int*);
-    _t_min_print(signed long*);
-    _t_min_print(signed long long*);
-    _t_min_print(unsigned char*);
-    _t_min_print(unsigned short*);
-    _t_min_print(unsigned int*);
-    _t_min_print(unsigned long*);
-    _t_min_print(unsigned long long*);
-    _t_min_print(float*);
-    _t_min_print(double*);
-    _t_min_print(long double*);
-    putchar('\n');
-    _t_max_print(char);
-    _t_max_print(short);
-    _t_max_print(int);
-    _t_max_print(long);
-    _t_max_print(long long);
-    _t_max_print(signed char);
-    _t_max_print(signed short);
-    _t_max_print(signed int);
-    _t_max_print(signed long);
-    _t_max_print(signed long long);
-    _t_max_print(unsigned char);
-    _t_max_print(unsigned short);
-    _t_max_print(unsigned int);
-    _t_max_print(unsigned long);
-    _t_max_print(unsigned long long);
-    _t_max_print(float);
-    _t_max_print(double);
-    _t_max_print(long double);
-    putchar('\n');
-    _t_max_print(char*);
-    _t_max_print(short*);
-    _t_max_print(int*);
-    _t_max_print(long*);
-    _t_max_print(long long*);
-    _t_max_print(signed char*);
-    _t_max_print(signed short*);
-    _t_max_print(signed int*);
-    _t_max_print(signed long*);
-    _t_max_print(signed long long*);
-    _t_max_print(unsigned char*);
-    _t_max_print(unsigned short*);
-    _t_max_print(unsigned int*);
-    _t_max_print(unsigned long*);
-    _t_max_print(unsigned long long*);
-    _t_max_print(float*);
-    _t_max_print(double*);
-    _t_max_print(long double*);
-    putchar('\n');
-}
-
-#undef _t_min_print
-#undef _t_max_print
-
-#endif
 
 #endif // !_CORE_H_

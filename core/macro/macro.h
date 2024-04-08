@@ -20,19 +20,4 @@
 #define M_ECHO(...) __VA_ARGS__
 #define M_OFFSETOF(container_type, field) &(((container_type*)NULL)->field)
 
-
-#include <inttypes.h>
-
-
-
-#define VA_GPRINT_ARG(...) VA_EACH0(M_FORMAT_OF, __VA_ARGS__)
-
-#include <stdarg.h>
-// %1, %2, %3
-int gprintf(const char* format, int argc, ...) {
-
-}
-
-#define gprint(format, ...)
-
 #endif // !_MACRO_H_

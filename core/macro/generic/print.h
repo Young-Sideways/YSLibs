@@ -38,7 +38,7 @@
     float              : "g"                       , \
     double             : "lg"                      , \
     long double        : "Lg"                      , \
-    signed char*       : "s"                       , \
+    signed char*       : "p (signed char*)"        , \
     signed short*      : "p (signed short*)"       , \
     signed int*        : "p (signed int*)"         , \
     signed long*       : "p (signed long*)"        , \
@@ -55,7 +55,6 @@
     default            : "X"                       )
 
 #define VA_GPRINT_ARGFORMAT(...) VA_EXEC0(M_FORMAT_OF, __VA_ARGS__)
-#define f
 
 #pragma endregion
 
