@@ -37,31 +37,14 @@ void arr_delete(_IN array_t* array);
 
 #pragma region --- ACCESSORS ---
 
-void* arr_at(array_t array, int position);
+void* arr_at(_IN array_t* array, _IN int position);
 
 #pragma endregion
 
 #pragma region --- INFORMATION ---
 
-int arr_size(array_t array);
-int arr_element_size(array_t array);
-
-#pragma endregion
-
-#pragma region --- ALGORITHM ADAPTER ---
-
-#ifdef _SEARCH_H_
-
-iterator_t arr_find(void* container, const void* value);
-iterator_t arr_last(void* container, const void* value);
-
-#endif // !_SEARCH_H_
-
-#ifdef _SORT_H_
-
-void arr_sort(_IN array_t* array, _IN _NULLABLE comparator_pt comparator);
-
-#endif // !_SORT_H_
+size_t arr_size(_IN array_t* array);
+size_t arr_element_size(_IN array_t* array);
 
 #pragma endregion
 

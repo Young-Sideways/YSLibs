@@ -21,11 +21,9 @@
 
 #pragma region --- MACROS ---
 
-#define DECLARE_METRIC_PASTE(...) VA_SEQ_SEMI(__VA_ARGS__)
-
 #define DECLARE_METRIC_TYPE(name, ...)      \
     struct M_CONCAT(metrics_struct_,name) {  \
-        DECLARE_METRIC_PASTE(__VA_ARGS__)   \
+        VA_SEQ_SEMI(__VA_ARGS__)   \
     }
 
 #define DECLARE_METRIC_INIT(name) \

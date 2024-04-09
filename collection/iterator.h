@@ -18,6 +18,7 @@
 #pragma endregion
 
 #pragma region --- MACROS ---
+
 #pragma endregion
 
 #pragma region --- TYPEDEFS ---
@@ -85,12 +86,6 @@ iterator_t it_first(_IN void* collection);
  */
 iterator_t it_last(_IN void* collection);
 
-/**
- *  @brief iterator destructor
- *  @param[in] iterator - valid iterator pointer
- */
-void it_delete(_IN iterator_t* iterator);
-
 #pragma endregion
 
 #pragma region --- FUNCIONS ---
@@ -114,20 +109,63 @@ void it_prev(_IN iterator_t* iterator);
 
 #pragma endregion
 
-#pragma region --- COMPARATOR ADAPTER ---
+#pragma region --- ALGORITHM ADAPTER ---
 
 #ifdef _COMPARATOR_H_
 
 /**
- *  @brief  compares @code lhs @endcode and @code rhs @endcode iterators
+ *  @brief      compares @code lhs @endcode and @code rhs @endcode iterators
  *  @param[in]  lhs  - valid left iterator pointer
  *  @param[in]  rhs  - valid right iterator pointer
  *  @param[in]  size - unused
- *  @retval offset between lhs and rhs, othewise @code CONTAINER_INVALID_INDEX @endcode
+ *  @retval     offset between lhs and rhs, othewise @code CONTAINER_INVALID_INDEX @endcode
  */
 comparator_t it_comp;
 
 #endif // !_COMPARATOR_H_
+
+#ifdef _SWAP_H_
+
+/**
+ *  @brief      swaps @code lhs @endcode and @code rhs @endcode iterator values
+ *  @param[in]  lhs  - valid left iterator pointer
+ *  @param[in]  rhs  - valid right iterator pointer
+ *  @param[in]  size - unused
+ *  @retval     offset between lhs and rhs, othewise @code CONTAINER_INVALID_INDEX @endcode
+ */
+swap_t it_swap;
+
+#endif // !_SWAP_H_
+
+#ifdef _SEARCH_H_
+
+/**
+ *  @brief      swaps @code lhs @endcode and @code rhs @endcode iterator values
+ *  @param[in]  lhs  - valid left iterator pointer
+ *  @param[in]  rhs  - valid right iterator pointer
+ *  @param[in]  size - unused
+ *  @retval     offset between lhs and rhs, othewise @code CONTAINER_INVALID_INDEX @endcode
+ */
+iterator_t it_search(iterator_t* begin, iterator_t* end) {
+
+};
+
+#endif // !_SEARCH_H_
+
+#ifdef _SORT_H_
+
+/**
+ *  @brief      swaps @code lhs @endcode and @code rhs @endcode iterator values
+ *  @param[in]  lhs  - valid left iterator pointer
+ *  @param[in]  rhs  - valid right iterator pointer
+ *  @param[in]  size - unused
+ *  @retval     offset between lhs and rhs, othewise @code CONTAINER_INVALID_INDEX @endcode
+ */
+void it_sort(iterator_t* begin, iterator_t* end) {
+
+};
+
+#endif // !_SORT_H_
 
 #pragma endregion
 

@@ -19,9 +19,9 @@
 
 #define INVALID_ITERATOR (iterator_t) { \
     .collection = NULL,                 \
-    .data = NULL,                       \
-    .stage = NULL,                      \
-    .direction = IT_UNDEFINED           \
+    .data       = NULL,                 \
+    .stage      = NULL,                 \
+    .direction  = IT_UNDEFINED          \
 }
 
 inline bool is_valid(iterator_t* iterator) {
@@ -133,12 +133,6 @@ iterator_t it_last(_IN void* collection) {
     return is_valid(&result) ? result : INVALID_ITERATOR;
 }
 
-void it_delete(_IN iterator_t* iterator) {
-    assert(iterator);
-
-    *iterator = INVALID_ITERATOR;
-}
-
 #pragma endregion
 
 #pragma region --- FUNCIONS ---
@@ -161,7 +155,7 @@ int it_comp(_IN iterator_t* lhs, _IN iterator_t* rhs, _IN size_t size) {
     UNUSED(size);
 
     assert(is_valid(lhs) && is_valid(rhs));
-    assert(lhs->collection != rhs->collection);
+    assert(lhs->collection == rhs->collection);
 
     return lhs->stage - rhs->stage;
 }

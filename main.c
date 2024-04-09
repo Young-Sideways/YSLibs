@@ -1,9 +1,41 @@
-#include "core/core.h"
-//#include "core/metrics.h"
-//#include "task3/task3.h"
+#if (0)
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <stdarg.h>
+
+double poli(double x, int argc, ...) {
+    double result = 0.0;
+    double x1 = 1.0;
+    va_list opt;
+    va_start(opt, argc);
+    while (argc--) {
+        double coef = (double)va_arg(opt, double);
+        result += x1 * coef;
+        x1 *= x;
+    }
+    va_end(opt);
+    return result;
+}
+
+#define gpoli(x, ...) poli(x, VA_NARG(__VA_ARGS__), VA_ARG_REVERSE(__VA_ARGS__))
+
+#include "utils/timer.h"
+
+
+double y = 0.0;
+char str[128];
+timer_t timer;
+
+tim_start(&timer);
+for (double x = -6.5; x < 55; x += 0.0000001)
+    y = gpoli(x, 0.0015, -0.0919, 25.419, 0);
+tim_stop(&timer);
+//tim_elapsed(&timer);
+printf("time: %s", tim_str(&timer, str));
+
+double x = 0.0;
+x = gpoli(8.298, 5e-8, -9e-6, 0.0006, -0.0177, 0.1938, 23.91, 0);
+x = gpoli(54.886, 0.0015, -0.0919, 25.419, 0);
+#endif
 
 #if (0) // Легаси
 #define _SEQ_PRINTERS
@@ -44,6 +76,7 @@ SETTINGS_TYPEDEF(setting_t,
 );
 #endif
 
+#if (0)
 #include "core/macro/generic/print.h"
 #include <string.h>
 
@@ -134,52 +167,21 @@ void __print_type_sizes(void) {
     T_PRINTER(MAX, long double*);
     putchar('\n');
 }
+#endif
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "core/core.h"
+#include "collection/array.h"
 
 int main(int argc, char* argv[]) {
     UNUSED(argc);
     UNUSED(argv);
 
-    __print_type_sizes();
+    array_t arr = 
 
     return EXIT_SUCCESS;
 }
-
-// legacy
-#if (0)
-
-#include <stdarg.h>
-
-double poli(double x, int argc, ...) {
-    double result = 0.0;
-    double x1 = 1.0;
-    va_list opt;
-    va_start(opt, argc);
-    while (argc--) {
-        double coef = (double)va_arg(opt, double);
-        result += x1 * coef;
-        x1 *= x;
-    }
-    va_end(opt);
-    return result;
-}
-
-#define gpoli(x, ...) poli(x, VA_NARG(__VA_ARGS__), VA_ARG_REVERSE(__VA_ARGS__))
-
-#include "utils/timer.h"
-
-
-double y = 0.0;
-char str[128];
-timer_t timer;
-
-tim_start(&timer);
-for (double x = -6.5; x < 55; x += 0.0000001)
-    y = gpoli(x, 0.0015, -0.0919, 25.419, 0);
-tim_stop(&timer);
-//tim_elapsed(&timer);
-printf("time: %s", tim_str(&timer, str));
-
-double x = 0.0;
-x = gpoli(8.298, 5e-8, -9e-6, 0.0006, -0.0177, 0.1938, 23.91, 0);
-x = gpoli(54.886, 0.0015, -0.0919, 25.419, 0);
-#endif

@@ -12,6 +12,7 @@
 #pragma once
 
 #pragma region --- INCLUDES ---
+
 #include "../algorithm/comparator.h"
 #include "../algorithm/search.h"
 #include "../algorithm/swap.h"
@@ -28,19 +29,27 @@
  *  @brief memory consumption growth factor for collections ( new size = ~x2 )
  *  @param n - current size
  */
-#define GROWTH_FACTOR(n) (n ? (n << 1) : 0x8U)
+#define GROWTH_FACTOR(n) (n ? (n << 1) : 0x1U)
 /**
  *  @def   COLLECTION_SIZE_MIN
  *  @brief Minimum size for all containers
  */
-#define COLLECTION_SIZE_MIN 0x0U
+#define COLLECTION_SIZE_MIN (0x0U)
 /**
  *  @def   COLLECTION_SIZE_MAX
  *  @brief Maximum size for all containers
  */
-#define COLLECTION_SIZE_MAX (UINT_MAX - 1)
+#define COLLECTION_SIZE_MAX (INTMAX_MAX)
+
+ /**
+  *  @def   COLLECTION_INVALID_INDEX
+  *  @brief Value of invalid index for all containers
+  */
+#define COLLECTION_INVALID_INDEX (INTMAX_C(-1))
 
 #pragma endregion
+
+#pragma region --- TYPEDEFS ---
 
 /**
  *  @typedef internal_memory_access_t
@@ -53,8 +62,8 @@ typedef void (*internal_memory_access_t)(_IN struct collection_header* collectio
  *  @brief  main data structure for all collections
  */
 struct collection_header {
-    uint32_t capacity  ;
-    uint32_t size      ;
+    size_t capacity    ;
+    size_t size        ;
     size_t element_size;
 
     comparator_pt _comp  ;
@@ -68,6 +77,9 @@ struct collection_header {
     internal_memory_access_t random_access;
 };
 
+#pragma endregion
+
+#pragma region --- FUNCTIONS ---
 
 struct collection_header header_allocator(
     _IN _NULLABLE const size_t capacity,
@@ -80,6 +92,17 @@ struct collection_header header_allocator(
     _IN const internal_memory_access_t prev,
     _IN _NULLABLE const internal_memory_access_t data_block,
     _IN _NULLABLE const internal_memory_access_t random_access);
+
+#pragma endregion
+
+#pragma region --- PUBLIC ---
+
+#define GENERAL_CHANGE_COMP(collection, value)   ((struct collection_header*)(&collection))->_comp   = value
+#define GENERAL_CHANGE_SEARCH(collection, value) ((struct collection_header*)(&collection))->_search = value
+#define GENERAL_CHANGE_SWAP(collection, value)   ((struct collection_header*)(&collection))->_swap   = value
+#define GENERAL_CHANGE_COMP(collection, value)   ((struct collection_header*)(&collection))->_sort   = value
+
+#pragma endregion
 
 #pragma region --- STATIC ASSERTION BLOCK ---
 
