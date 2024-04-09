@@ -13,7 +13,7 @@
 
 #pragma region --- INCLUDES ---
 
-#include "general.h"
+#include "../core/core.h"
 
 #pragma endregion
 
@@ -112,6 +112,12 @@ void it_next(_IN iterator_t* iterator);
  */
 void it_prev(_IN iterator_t* iterator);
 
+#pragma endregion
+
+#pragma region --- COMPARATOR ADAPTER ---
+
+#ifdef _COMPARATOR_H_
+
 /**
  *  @brief  compares @code lhs @endcode and @code rhs @endcode iterators
  *  @param[in]  lhs  - valid left iterator pointer
@@ -120,6 +126,8 @@ void it_prev(_IN iterator_t* iterator);
  *  @retval offset between lhs and rhs, othewise @code CONTAINER_INVALID_INDEX @endcode
  */
 comparator_t it_comp;
+
+#endif // !_COMPARATOR_H_
 
 #pragma endregion
 

@@ -11,7 +11,7 @@
 #include <string.h>
 
 struct collection_header header_allocator(
-    _IN _NULLABLE const size_t size,
+    _IN _NULLABLE const size_t capacity,
     _IN const size_t element_size,
     _IN _NULLABLE const comparator_pt _comp,
     _IN _NULLABLE const search_pt _search,
@@ -26,7 +26,8 @@ struct collection_header header_allocator(
     assert(prev);
 
     struct collection_header result = {
-        .size = size,
+        .capacity = capacity,
+        .size = 0u,
         .element_size = element_size,
         ._comp = _comp ? _comp : &memcmp,
         ._search = _search,

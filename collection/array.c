@@ -12,6 +12,9 @@
 #include <string.h>
 #include <stdlib.h>
 
+#define ARRAY_SIZE_MIN COLLECTION_SIZE_MIN
+#define ARRAY_SIZE_MAX COLLECTION_SIZE_MAX
+
 
 struct array {
     struct collection_header;
@@ -34,6 +37,7 @@ static void* data(array_t* collection, void** block, int* index) {
 static void* random_access(array_t* collection, void** block, int* index) {
     return (byte*)*block = (collection->data + (collection->element_size * *index));
 }
+
 
 array_t arr_init(size_t size, size_t element_size) {
     assert(element_size);

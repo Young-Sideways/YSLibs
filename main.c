@@ -53,17 +53,11 @@ do {                                            \
     char buf[128] = { 0 };                       \
     strcat(format, M_FORMAT_OF((type)0));       \
     sprintf(buf, format, foo(type));            \
-    printf("%s (%s) : %s\n", #foo, #type, buf); \
+    printf("%s (%-19s) : %s\n", #foo, #type, buf); \
 } while(0)
 
 void __print_type_sizes(void) {
-    do {
-        char format[32] = "%";
-        char buf[64] = { 0 };
-        strcat(format, _Generic(((char)0), signed char : "hhd", signed short : "hd", signed int : "d", signed long : "ld", signed long long : "lld", unsigned char : "hhu", unsigned short : "hu", unsigned : "u", unsigned long : "lu", unsigned long long : "llu", float : "g", double : "lg", long double : "Lg", signed char* : "s", signed short* : "p (signed short*)", signed int* : "p (signed int*)", signed long* : "p (signed long*)", signed long long* : "p (signed long long*)", unsigned char* : "p (unsigned char*)", unsigned short* : "p (unsigned short*)", unsigned* : "p (unsigned*)", unsigned long* : "p (unsigned long*)", unsigned long long* : "p (unsigned long long*)", float* : "p (float*)", double* : "p (double*)", long double* : "p (long double*)", void* : "p (void*)", default: "X"));
-        sprintf(buf, format, _Generic(((char)0), signed char : (-128), signed short : (-32768), signed int : (-2147483647 - 1), signed long : (-2147483647L - 1), signed long long : (-9223372036854775807i64 - 1), unsigned char : 0ui8, unsigned short : 0ui16, unsigned : 0u, unsigned long : 0ul, unsigned long long : 0ull, float : 1.175494351e-38F, double : 2.2250738585072014e-308, long double : 2.2250738585072014e-308, signed char* : (signed char*)((void*)0), signed short* : (signed short*)((void*)0), signed int* : (signed int*)((void*)0), signed long* : (signed long*)((void*)0), signed long long* : (signed long long*)((void*)0), unsigned char* : (unsigned char*)((void*)0), unsigned short* : (unsigned short*)((void*)0), unsigned* : (unsigned*)((void*)0), unsigned long* : (unsigned long*)((void*)0), unsigned long long* : (unsigned long long*)((void*)0), float* : (float*)((void*)0), double* : (double*)((void*)0), long double* : (long double*)((void*)0), void* : (void*)((void*)0), default: ((void*)0)));
-        printf("%s (%.19s) : %s\n", "MIN", "char", buf);
-    } while (0);
+    T_PRINTER(MIN, char);
     T_PRINTER(MIN, short);
     T_PRINTER(MIN, int);
     T_PRINTER(MIN, long);

@@ -38,7 +38,7 @@
     float              : "g"                       , \
     double             : "lg"                      , \
     long double        : "Lg"                      , \
-    signed char*       : "p (signed char*)"        , \
+    signed char*       : "s (signed char*)"        , \
     signed short*      : "p (signed short*)"       , \
     signed int*        : "p (signed int*)"         , \
     signed long*       : "p (signed long*)"        , \

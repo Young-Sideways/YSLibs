@@ -69,6 +69,7 @@ typedef unsigned char ubyte;
 #pragma region --- GENERICS ---
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
 
+#define M_STRING_LETERAL "(string)"
 #define MIN(type) _Generic( ((type)0)             , \
     signed char        : SCHAR_MIN                , \
     signed short       : SHRT_MIN                 , \
@@ -83,7 +84,7 @@ typedef unsigned char ubyte;
     float              : FLT_MIN                  , \
     double             : DBL_MIN                  , \
     long double        : LDBL_MIN                 , \
-    signed char*       :        (signed char*)NULL, \
+    signed char*       :          M_STRING_LETERAL, \
     signed short*      :       (signed short*)NULL, \
     signed int*        :         (signed int*)NULL, \
     signed long*       :        (signed long*)NULL, \
@@ -113,7 +114,7 @@ typedef unsigned char ubyte;
     float              : FLT_MAX                      , \
     double             : DBL_MAX                      , \
     long double        : LDBL_MAX                     , \
-    signed char*       :        (signed char*)SIZE_MAX, \
+    signed char*       :              M_STRING_LETERAL, \
     signed short*      :       (signed short*)SIZE_MAX, \
     signed int*        :         (signed int*)SIZE_MAX, \
     signed long*       :        (signed long*)SIZE_MAX, \

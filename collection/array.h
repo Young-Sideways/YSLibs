@@ -11,20 +11,24 @@
 
 #pragma once
 
-#include "general.h"
+#pragma region --- INCLUDES ---
+
 #include "../core/core.h"
 
-#define ARRAY_SIZE_MIN COLLECTION_SIZE_MIN
-#define ARRAY_SIZE_MAX COLLECTION_SIZE_MAX
+#pragma endregion
+
+#pragma region --- TYPEDEFS ---
 
 typedef struct array array_t;
 
+#pragma endregion
+
 #pragma region --- CONSTRUCTORS / DESTRUCTORS ---
 
-array_t arr_init(const size_t size, const size_t element_size);
+array_t arr_init(_IN const size_t size, _IN const size_t element_size);
 
 array_t arr_copy(_IN const array_t* array);
-array_t arr_move(_IN const array_t* array);
+array_t arr_move(_IN array_t* array);
 array_t arr_shadow(_IN const array_t* array);
 
 void arr_delete(_IN array_t* array);
@@ -44,13 +48,21 @@ int arr_element_size(array_t array);
 
 #pragma endregion
 
-#ifdef _SEARCH_H_
+#pragma region --- ALGORITHM ADAPTER ---
 
-#include "../algorithm/search.h"
+#ifdef _SEARCH_H_
 
 iterator_t arr_find(void* container, const void* value);
 iterator_t arr_last(void* container, const void* value);
 
 #endif // !_SEARCH_H_
+
+#ifdef _SORT_H_
+
+void arr_sort(_IN array_t* array, _IN _NULLABLE comparator_pt comparator);
+
+#endif // !_SORT_H_
+
+#pragma endregion
 
 #endif // !_ARRAY_H_

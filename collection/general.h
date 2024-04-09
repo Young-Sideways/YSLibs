@@ -11,6 +11,7 @@
 
 #pragma once
 
+#pragma region --- INCLUDES ---
 #include "../algorithm/comparator.h"
 #include "../algorithm/search.h"
 #include "../algorithm/swap.h"
@@ -18,22 +19,28 @@
 
 #include <limits.h>
 
+#pragma endregion
+
+#pragma region --- MACRO ---
+
 /**
  *  @def   GROWTH_FACTOR
  *  @brief memory consumption growth factor for collections ( new size = ~x2 )
  *  @param n - current size
  */
-#define GROWTH_FACTOR(n) (n < 0x8U ? 0x8U : (n << 1))
+#define GROWTH_FACTOR(n) (n ? (n << 1) : 0x8U)
 /**
  *  @def   COLLECTION_SIZE_MIN
  *  @brief Minimum size for all containers
  */
-#define COLLECTION_SIZE_MIN 0x8U
+#define COLLECTION_SIZE_MIN 0x0U
 /**
  *  @def   COLLECTION_SIZE_MAX
  *  @brief Maximum size for all containers
  */
 #define COLLECTION_SIZE_MAX (UINT_MAX - 1)
+
+#pragma endregion
 
 /**
  *  @typedef internal_memory_access_t
@@ -46,23 +53,24 @@ typedef void (*internal_memory_access_t)(_IN struct collection_header* collectio
  *  @brief  main data structure for all collections
  */
 struct collection_header {
-    uint32_t size;
+    uint32_t capacity  ;
+    uint32_t size      ;
     size_t element_size;
 
-    comparator_pt _comp;
+    comparator_pt _comp  ;
     search_pt     _search;
-    swap_pt       _swap;
-    sort_pt       _sort;
+    swap_pt       _swap  ;
+    sort_pt       _sort  ;
 
-    internal_memory_access_t next;
-    internal_memory_access_t prev;
-    internal_memory_access_t data_block;
+    internal_memory_access_t next         ;
+    internal_memory_access_t prev         ;
+    internal_memory_access_t data_block   ;
     internal_memory_access_t random_access;
 };
 
 
 struct collection_header header_allocator(
-    _IN _NULLABLE const size_t size,
+    _IN _NULLABLE const size_t capacity,
     _IN const size_t element_size,
     _IN _NULLABLE const comparator_pt _comp,
     _IN _NULLABLE const search_pt _search,

@@ -10,7 +10,7 @@
 
 #pragma region --- INCLUDES ---
 
-#include "../core/core.h"
+#include "general.h"
 
 #include <stdbool.h>
 #include <assert.h>
