@@ -13,13 +13,23 @@
 
 #pragma region --- INCLUDES ---
 
-#include "../core/core.h"
+#include "general.h"
+
+#pragma endregion
+
+#pragma region --- MACROS ---
+
+#define ARRAY_SIZE_MIN COLLECTION_SIZE_MIN
+#define ARRAY_SIZE_MAX COLLECTION_SIZE_MAX
 
 #pragma endregion
 
 #pragma region --- TYPEDEFS ---
 
-typedef struct array array_t;
+typedef struct {
+    COLLECTION_HEADER()
+    byte* data;
+} array_t;
 
 #pragma endregion
 

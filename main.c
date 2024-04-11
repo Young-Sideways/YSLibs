@@ -46,8 +46,6 @@ x = gpoli(54.886, 0.0015, -0.0919, 25.419, 0);
 #include "core/macro/exec.h"
 
 
-
-
 typedef struct { intptr_t offset; size_t size; } field_spec_t;
 
 #define FOLD_ADD_PARAM__(container_type, type, name) { (intptr_t)M_OFFSETOF(container_type, name), sizeof(type) }
@@ -181,7 +179,7 @@ int main(int argc, char* argv[]) {
     UNUSED(argc);
     UNUSED(argv);
 
-    array_t arr = 
+    array_t arr = arr_init(5, 4);
 
     return EXIT_SUCCESS;
 }

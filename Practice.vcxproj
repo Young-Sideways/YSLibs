@@ -154,8 +154,10 @@
     <ClInclude Include="algorithm\sort.h" />
     <ClInclude Include="algorithm\swap.h" />
     <ClInclude Include="collection\array.h" />
+    <ClInclude Include="collection\collections.h" />
     <ClInclude Include="collection\general.h" />
     <ClInclude Include="collection\iterator.h" />
+    <ClInclude Include="collection\private.h" />
     <ClInclude Include="collection\type.h" />
     <ClInclude Include="core\core.h" />
     <ClInclude Include="core\macro\exec.h" />

@@ -15,23 +15,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "general.h"
-
-#pragma endregion
-
-#pragma region --- MACROS ---
-
-#define ARRAY_SIZE_MIN COLLECTION_SIZE_MIN
-#define ARRAY_SIZE_MAX COLLECTION_SIZE_MAX
-
-#pragma endregion
-
-#pragma region --- TYPEDEFS ---
-
-struct array {
-    struct collection_header;
-    byte* data;
-};
+#include "../algorithm/search.h"
 
 #pragma endregion
 

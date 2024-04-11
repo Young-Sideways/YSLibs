@@ -134,5 +134,11 @@
     <ClInclude Include="collection\array.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="collection\private.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="collection\collections.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,46 +6,15 @@
  *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _GENERAL_H_
-#define _GENERAL_H_
+#ifndef _COLLECTION_GENERAL_H_
+#define _COLLECTION_GENERAL_H_
 
 #pragma once
 
 #pragma region --- INCLUDES ---
 
-#include "../algorithm/comparator.h"
-#include "../algorithm/search.h"
-#include "../algorithm/swap.h"
-#include "../algorithm/sort.h"
-
 #include <limits.h>
-
-#pragma endregion
-
-#pragma region --- MACRO ---
-
-/**
- *  @def   GROWTH_FACTOR
- *  @brief memory consumption growth factor for collections ( new size = ~x2 )
- *  @param n - current size
- */
-#define GROWTH_FACTOR(n) (n ? (n << 1) : 0x1U)
-/**
- *  @def   COLLECTION_SIZE_MIN
- *  @brief Minimum size for all containers
- */
-#define COLLECTION_SIZE_MIN (0x0U)
-/**
- *  @def   COLLECTION_SIZE_MAX
- *  @brief Maximum size for all containers
- */
-#define COLLECTION_SIZE_MAX (INTMAX_MAX)
-
- /**
-  *  @def   COLLECTION_INVALID_INDEX
-  *  @brief Value of invalid index for all containers
-  */
-#define COLLECTION_INVALID_INDEX (INTMAX_C(-1))
+#include "../core/core.h"
 
 #pragma endregion
 
@@ -66,10 +35,10 @@ struct collection_header {
     size_t size        ;
     size_t element_size;
 
-    comparator_pt _comp  ;
-    search_pt     _search;
-    swap_pt       _swap  ;
-    sort_pt       _sort  ;
+    void* _comp  ;
+    void* _search;
+    void* _swap  ;
+    void* _sort  ;
 
     internal_memory_access_t next         ;
     internal_memory_access_t prev         ;
@@ -79,15 +48,44 @@ struct collection_header {
 
 #pragma endregion
 
-#pragma region --- FUNCTIONS ---
+#pragma region --- MACRO ---
+
+/**
+ *  @def   GROWTH_FACTOR
+ *  @brief memory consumption growth factor for collections ( new size = ~x2 )
+ *  @param n - current size
+ */
+#define GROWTH_FACTOR(n) (n ? (n << 1) : 0x1U)
+/**
+*  @def   COLLECTION_SIZE_MIN
+*  @brief Minimum size for all containers
+*/
+#define COLLECTION_SIZE_MIN (0x0U)
+/**
+*  @def   COLLECTION_SIZE_MAX
+*  @brief Maximum size for all containers
+*/
+#define COLLECTION_SIZE_MAX (INTMAX_MAX)
+
+/**
+*  @def   COLLECTION_INVALID_INDEX
+*  @brief Value of invalid index for all containers
+*/
+#define COLLECTION_INVALID_INDEX (INTMAX_C(-1))
+
+#define COLLECTION_HEADER() struct collection_header;
+
+#pragma endregion
+
+#pragma region --- CONSTRUCTORS / DESTRUCTORS ---
 
 struct collection_header header_allocator(
     _IN _NULLABLE const size_t capacity,
     _IN const size_t element_size,
-    _IN _NULLABLE const comparator_pt _comp,
-    _IN _NULLABLE const search_pt _search,
-    _IN _NULLABLE const swap_pt _swap,
-    _IN _NULLABLE const sort_pt _sort,
+    _IN _NULLABLE const void* _comp,
+    _IN _NULLABLE const void* _search,
+    _IN _NULLABLE const void* _swap,
+    _IN _NULLABLE const void* _sort,
     _IN const internal_memory_access_t next,
     _IN const internal_memory_access_t prev,
     _IN _NULLABLE const internal_memory_access_t data_block,
@@ -129,4 +127,4 @@ TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(long double*)       );
 
 #pragma endregion
 
-#endif // !_GENERAL_H_
+#endif // !_COLLECTION_GENERAL_H_

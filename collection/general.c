@@ -8,17 +8,24 @@
 
 #include "general.h"
 
+#pragma region --- INCLUDE ---
+
 #include <string.h>
+#include "../algorithm/swap.h"
+
+#pragma endregion
+
+#pragma region --- CONSTRUCTORS / DESTRUCTORS ---
 
 struct collection_header header_allocator(
-    _IN _NULLABLE const size_t capacity,
-    _IN const size_t element_size,
-    _IN _NULLABLE const comparator_pt _comp,
-    _IN _NULLABLE const search_pt _search,
-    _IN _NULLABLE const swap_pt _swap,
-    _IN _NULLABLE const sort_pt _sort,
-    _IN const internal_memory_access_t next,
-    _IN const internal_memory_access_t prev,
+    _IN _NULLABLE const size_t                   capacity,
+    _IN           const size_t                   element_size,
+    _IN _NULLABLE const void*                    _comp,
+    _IN _NULLABLE const void*                    _search,
+    _IN _NULLABLE const void*                    _swap,
+    _IN _NULLABLE const void*                    _sort,
+    _IN           const internal_memory_access_t next,
+    _IN           const internal_memory_access_t prev,
     _IN _NULLABLE const internal_memory_access_t data_block,
     _IN _NULLABLE const internal_memory_access_t random_access)
 {
@@ -40,3 +47,5 @@ struct collection_header header_allocator(
     };
     return result;
 }
+
+#pragma endregion
