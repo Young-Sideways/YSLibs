@@ -1,6 +1,6 @@
 /*******************************************************************************
  *  @file      sequence.h
- *  @brief     translates argument to sequence
+ *  @brief     MACRO extension lib, that translates arguments to sequence
  *  @author    Young Sideways
  *  @date      2.04.2024
  *  @copyright © young.sideways@mail.ru, 2024. All right reserved.

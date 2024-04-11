@@ -4,40 +4,40 @@
 #pragma once
 
 #include "general.h"
-#include "../core/types.h"
+#include "../core/core.h"
 
 #define HASHTABLE_SIZE_MIN 0u
 #define HASHTABLE_SIZE_MAX INT_MAX
 
 typedef uint64_t hash_t;
 typedef uint32_t hash_t;
-typedef hash_t (hashfunc_t)(const void*, size_t);
+typedef hash_t(hashfunc_t)(const void*, size_t);
 typedef hashfunc_t* hashfunc_pt;
 
 size_t hash(const void* key, size_t size) {
-	size_t hash = 5381;
-	for (byte* begin = key; size; --size)
-		hash = ((hash << 5) + hash) ^ *begin;
-	return hash;
+    size_t hash = 5381;
+    for (byte* begin = key; size; --size)
+        hash = ((hash << 5) + hash) ^ *begin;
+    return hash;
 }
 size_t str_hash(const char* str) {
-	size_t hash = 5381;
-	while (*str)
-		hash = ((hash << 5) + hash) ^ *(str++);
-	return hash;
+    size_t hash = 5381;
+    while (*str)
+        hash = ((hash << 5) + hash) ^ *(str++);
+    return hash;
 }
 
 typedef struct {
-	void *key, *data;
-	entry_t* next;
+    void* key, * data;
+    entry_t* next;
 } entry_t;
 
 typedef struct {
-	struct collection_header;
+    struct collection_header;
 
-	hashfunc_pt hashfunc;
+    hashfunc_pt hashfunc;
 
-	entry_t** table;
+    entry_t** table;
 } hashtable_t;
 
 

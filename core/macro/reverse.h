@@ -1,6 +1,6 @@
 /*******************************************************************************
  *  @file      reverse.h
- *  @brief     MACRO Extension lib to reverse arguments
+ *  @brief     MACRO extension lib to reverse arguments
  *  @author    Young Sideways
  *  @date      29.03.2024
  *  @copyright © young.sideways@mail.ru, 2024. All right reserved.

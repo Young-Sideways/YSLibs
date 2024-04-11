@@ -28,7 +28,6 @@
 
 typedef struct {
     COLLECTION_HEADER()
-
     byte* data;
 } array_t;
 

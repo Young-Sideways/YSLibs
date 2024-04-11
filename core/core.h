@@ -17,6 +17,7 @@
 #include <limits.h>
 #include <float.h>
 #include <assert.h>
+#include <stdbool.h>
 
 #pragma endregion
 
@@ -70,7 +71,7 @@ typedef unsigned char ubyte;
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
 
 #define M_STRING_LETERAL "(string)"
-#define MIN(type) _Generic( ((type)0)             , \
+#define G_TMIN(type) _Generic( ((type)0)          , \
     signed char        : SCHAR_MIN                , \
     signed short       : SHRT_MIN                 , \
     signed int         : INT_MIN                  , \
@@ -100,7 +101,7 @@ typedef unsigned char ubyte;
     void*              :               (void*)NULL, \
     default            : NULL                       )
 
-#define MAX(type) _Generic( ((type)0)                 , \
+#define G_TMAX(type) _Generic( ((type)0)              , \
     signed char        : SCHAR_MAX                    , \
     signed short       : SHRT_MAX                     , \
     signed int         : INT_MAX                      , \

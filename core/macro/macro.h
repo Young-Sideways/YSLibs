@@ -20,4 +20,7 @@
 #define M_ECHO(...) __VA_ARGS__
 #define M_OFFSETOF(container_type, field) &(((container_type*)NULL)->field)
 
+#define M_MAX(x, y) (((x) > (y)) ? (x) : (y))
+#define M_MIN(x, y) (((x) < (y)) ? (x) : (y))
+
 #endif // !_MACRO_H_

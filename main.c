@@ -37,7 +37,7 @@ x = gpoli(8.298, 5e-8, -9e-6, 0.0006, -0.0177, 0.1938, 23.91, 0);
 x = gpoli(54.886, 0.0015, -0.0919, 25.419, 0);
 #endif
 
-#if (0) // Легаси
+#if (0) // Зачатки tuple
 #define _SEQ_PRINTERS
 
 #include "core/macro/varidatic.h"
@@ -88,81 +88,81 @@ do {                                            \
 } while(0)
 
 void __print_type_sizes(void) {
-    T_PRINTER(MIN, char);
-    T_PRINTER(MIN, short);
-    T_PRINTER(MIN, int);
-    T_PRINTER(MIN, long);
-    T_PRINTER(MIN, long long);
-    T_PRINTER(MIN, signed char);
-    T_PRINTER(MIN, signed short);
-    T_PRINTER(MIN, signed int);
-    T_PRINTER(MIN, signed long);
-    T_PRINTER(MIN, signed long long);
-    T_PRINTER(MIN, unsigned char);
-    T_PRINTER(MIN, unsigned short);
-    T_PRINTER(MIN, unsigned int);
-    T_PRINTER(MIN, unsigned long);
-    T_PRINTER(MIN, unsigned long long);
-    T_PRINTER(MIN, float);
-    T_PRINTER(MIN, double);
-    T_PRINTER(MIN, long double);
+    T_PRINTER(G_TMIN, char);
+    T_PRINTER(G_TMIN, short);
+    T_PRINTER(G_TMIN, int);
+    T_PRINTER(G_TMIN, long);
+    T_PRINTER(G_TMIN, long long);
+    T_PRINTER(G_TMIN, signed char);
+    T_PRINTER(G_TMIN, signed short);
+    T_PRINTER(G_TMIN, signed int);
+    T_PRINTER(G_TMIN, signed long);
+    T_PRINTER(G_TMIN, signed long long);
+    T_PRINTER(G_TMIN, unsigned char);
+    T_PRINTER(G_TMIN, unsigned short);
+    T_PRINTER(G_TMIN, unsigned int);
+    T_PRINTER(G_TMIN, unsigned long);
+    T_PRINTER(G_TMIN, unsigned long long);
+    T_PRINTER(G_TMIN, float);
+    T_PRINTER(G_TMIN, double);
+    T_PRINTER(G_TMIN, long double);
     putchar('\n');
-    T_PRINTER(MIN, char*);
-    T_PRINTER(MIN, short*);
-    T_PRINTER(MIN, int*);
-    T_PRINTER(MIN, long*);
-    T_PRINTER(MIN, long long*);
-    T_PRINTER(MIN, signed char*);
-    T_PRINTER(MIN, signed short*);
-    T_PRINTER(MIN, signed int*);
-    T_PRINTER(MIN, signed long*);
-    T_PRINTER(MIN, signed long long*);
-    T_PRINTER(MIN, unsigned char*);
-    T_PRINTER(MIN, unsigned short*);
-    T_PRINTER(MIN, unsigned int*);
-    T_PRINTER(MIN, unsigned long*);
-    T_PRINTER(MIN, unsigned long long*);
-    T_PRINTER(MIN, float*);
-    T_PRINTER(MIN, double*);
-    T_PRINTER(MIN, long double*);
+    T_PRINTER(G_TMIN, char*);
+    T_PRINTER(G_TMIN, short*);
+    T_PRINTER(G_TMIN, int*);
+    T_PRINTER(G_TMIN, long*);
+    T_PRINTER(G_TMIN, long long*);
+    T_PRINTER(G_TMIN, signed char*);
+    T_PRINTER(G_TMIN, signed short*);
+    T_PRINTER(G_TMIN, signed int*);
+    T_PRINTER(G_TMIN, signed long*);
+    T_PRINTER(G_TMIN, signed long long*);
+    T_PRINTER(G_TMIN, unsigned char*);
+    T_PRINTER(G_TMIN, unsigned short*);
+    T_PRINTER(G_TMIN, unsigned int*);
+    T_PRINTER(G_TMIN, unsigned long*);
+    T_PRINTER(G_TMIN, unsigned long long*);
+    T_PRINTER(G_TMIN, float*);
+    T_PRINTER(G_TMIN, double*);
+    T_PRINTER(G_TMIN, long double*);
     putchar('\n');
-    T_PRINTER(MAX, char);
-    T_PRINTER(MAX, short);
-    T_PRINTER(MAX, int);
-    T_PRINTER(MAX, long);
-    T_PRINTER(MAX, long long);
-    T_PRINTER(MAX, signed char);
-    T_PRINTER(MAX, signed short);
-    T_PRINTER(MAX, signed int);
-    T_PRINTER(MAX, signed long);
-    T_PRINTER(MAX, signed long long);
-    T_PRINTER(MAX, unsigned char);
-    T_PRINTER(MAX, unsigned short);
-    T_PRINTER(MAX, unsigned int);
-    T_PRINTER(MAX, unsigned long);
-    T_PRINTER(MAX, unsigned long long);
-    T_PRINTER(MAX, float);
-    T_PRINTER(MAX, double);
-    T_PRINTER(MAX, long double);
+    T_PRINTER(G_TMAX, char);
+    T_PRINTER(G_TMAX, short);
+    T_PRINTER(G_TMAX, int);
+    T_PRINTER(G_TMAX, long);
+    T_PRINTER(G_TMAX, long long);
+    T_PRINTER(G_TMAX, signed char);
+    T_PRINTER(G_TMAX, signed short);
+    T_PRINTER(G_TMAX, signed int);
+    T_PRINTER(G_TMAX, signed long);
+    T_PRINTER(G_TMAX, signed long long);
+    T_PRINTER(G_TMAX, unsigned char);
+    T_PRINTER(G_TMAX, unsigned short);
+    T_PRINTER(G_TMAX, unsigned int);
+    T_PRINTER(G_TMAX, unsigned long);
+    T_PRINTER(G_TMAX, unsigned long long);
+    T_PRINTER(G_TMAX, float);
+    T_PRINTER(G_TMAX, double);
+    T_PRINTER(G_TMAX, long double);
     putchar('\n');
-    T_PRINTER(MAX, char*);
-    T_PRINTER(MAX, short*);
-    T_PRINTER(MAX, int*);
-    T_PRINTER(MAX, long*);
-    T_PRINTER(MAX, long long*);
-    T_PRINTER(MAX, signed char*);
-    T_PRINTER(MAX, signed short*);
-    T_PRINTER(MAX, signed int*);
-    T_PRINTER(MAX, signed long*);
-    T_PRINTER(MAX, signed long long*);
-    T_PRINTER(MAX, unsigned char*);
-    T_PRINTER(MAX, unsigned short*);
-    T_PRINTER(MAX, unsigned int*);
-    T_PRINTER(MAX, unsigned long*);
-    T_PRINTER(MAX, unsigned long long*);
-    T_PRINTER(MAX, float*);
-    T_PRINTER(MAX, double*);
-    T_PRINTER(MAX, long double*);
+    T_PRINTER(G_TMAX, char*);
+    T_PRINTER(G_TMAX, short*);
+    T_PRINTER(G_TMAX, int*);
+    T_PRINTER(G_TMAX, long*);
+    T_PRINTER(G_TMAX, long long*);
+    T_PRINTER(G_TMAX, signed char*);
+    T_PRINTER(G_TMAX, signed short*);
+    T_PRINTER(G_TMAX, signed int*);
+    T_PRINTER(G_TMAX, signed long*);
+    T_PRINTER(G_TMAX, signed long long*);
+    T_PRINTER(G_TMAX, unsigned char*);
+    T_PRINTER(G_TMAX, unsigned short*);
+    T_PRINTER(G_TMAX, unsigned int*);
+    T_PRINTER(G_TMAX, unsigned long*);
+    T_PRINTER(G_TMAX, unsigned long long*);
+    T_PRINTER(G_TMAX, float*);
+    T_PRINTER(G_TMAX, double*);
+    T_PRINTER(G_TMAX, long double*);
     putchar('\n');
 }
 #endif
@@ -172,20 +172,32 @@ void __print_type_sizes(void) {
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "core/core.h"
 #include "collection/array.h"
+
 #include "algorithm/comparator.h"
+#include "algorithm/sort.h"
+
 #include "collection/iterator.h"
+#include "core/macro/foreach.h"
+
 
 int main(int argc, char* argv[]) {
     UNUSED(argc);
     UNUSED(argv);
 
     array_t arr = arr_init(10, sizeof(int));
-    int i = 0;
-    for (iterator_t it = it_begin(&arr), end = it_end(&arr); it_comp(&it, &end, NULL); it_next(&it)) {
-        int val = *(int*)it_get(&it);
-        printf("%d val = %d", i++, val);
+    int i = 9;
+    for_each(int, it, arr) {
+        *it = i--;
     }
+    for_each(int, it, arr) {
+        printf("arr[%d] = %d\n", ++i, *it);
+    }
+    i = 0;
+    it_sort(it_begin(&arr), it_end(&arr));
+    for_each(int, it, arr) {
+        printf("arr[%d] = %d\n", i++, *it);
+    }
+
     return EXIT_SUCCESS;
 }

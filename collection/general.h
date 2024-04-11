@@ -120,7 +120,7 @@ struct collection_header header_allocator(
 #define GENERAL_CHANGE_COMP(collection, value)   ((struct collection_header*)(&collection))->_comp   = value
 #define GENERAL_CHANGE_SEARCH(collection, value) ((struct collection_header*)(&collection))->_search = value
 #define GENERAL_CHANGE_SWAP(collection, value)   ((struct collection_header*)(&collection))->_swap   = value
-#define GENERAL_CHANGE_COMP(collection, value)   ((struct collection_header*)(&collection))->_sort   = value
+#define GENERAL_CHANGE_SORT(collection, value)   ((struct collection_header*)(&collection))->_sort   = value
 
 #pragma endregion
 
