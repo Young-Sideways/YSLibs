@@ -17,57 +17,53 @@
 
 #pragma endregion
 
+
+#define INVALID_STAGE (INT32_MIN)
+
 #define INVALID_ITERATOR (iterator_t) { \
     .collection = NULL,                 \
     .data       = NULL,                 \
-    .stage      = NULL,                 \
+    .stage      = INVALID_STAGE,        \
     .direction  = IT_UNDEFINED          \
 }
 
-inline bool is_valid(iterator_t* iterator) {
+
+inline bool is_bound(iterator_t* iterator) {
     assert(iterator);
-
-    if (iterator->collection == NULL)
-        return false;
-
     switch (iterator->direction)
     {
-    case IT_REVERSE: {
-        if (iterator->stage < -1 || iterator->stage >= iterator->collection->size)
-            return false;
-        if ((iterator->stage == -1) ^ !!iterator->data)
-            return false;
-        break;
-    }
-    case IT_UNDEFINED:
-        return false;
-    case IT_FORWARD: {
-        if (iterator->stage < 0 || iterator->stage > iterator->collection->size)
-            return false;
-        if ((iterator->stage == iterator->collection->size) ^ !!iterator->data)
-            return false;
-        break;
-    }
+    case IT_REVERSE:
+        return !(iterator->stage < -1 || iterator->stage >= iterator->collection->size); // [-1 ... N)  --->  true, otherwise false
+    case IT_FORWARD:
+        return !(iterator->stage < 0 || iterator->stage > iterator->collection->size);   // (-1 ... N]  --->  true, otherwise false
     default:
         return false;
     }
-
-    return true;
 }
 
-#pragma region --- CONSTRUCTORS / DESTRUCTORS ---
+inline bool is_range(iterator_t* iterator) {
+    assert(iterator);
+    return !(iterator->stage < 0 || iterator->stage >= iterator->collection->size); // [0 ... N - 1]  --->  true, otherwise false
+}
 
+inline bool on_bound(iterator_t* iterator) {
+    return is_bound(iterator) && ((iterator->stage == -1) || (iterator->stage == iterator->collection->size));
+}
+
+
+#pragma region --- CONSTRUCTORS / DESTRUCTORS ---
 
 iterator_t it_begin(_IN void* collection) {
     assert(collection);
 
     iterator_t result = (iterator_t){
-        .collection = collection,
-        .data = NULL,
-        .stage = 0,
-        .direction = IT_FORWARD
+            .collection = collection,
+            .data = NULL,
+            .stage = 0,
+            .direction = IT_FORWARD
     };
     result.collection->random_access(collection, &(result.data), &(result.stage));
+
     return is_valid(&result) ? result : INVALID_ITERATOR;
 }
 iterator_t it_end(_IN void* collection) {

@@ -174,12 +174,18 @@ void __print_type_sizes(void) {
 
 #include "core/core.h"
 #include "collection/array.h"
+#include "algorithm/comparator.h"
+#include "collection/iterator.h"
 
 int main(int argc, char* argv[]) {
     UNUSED(argc);
     UNUSED(argv);
 
-    array_t arr = arr_init(5, 4);
-
+    array_t arr = arr_init(10, sizeof(int));
+    int i = 0;
+    for (iterator_t it = it_begin(&arr), end = it_end(&arr); it_comp(&it, &end, NULL); it_next(&it)) {
+        int val = *(int*)it_get(&it);
+        printf("%d val = %d", i++, val);
+    }
     return EXIT_SUCCESS;
 }

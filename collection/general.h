@@ -22,7 +22,7 @@
 
 /**
  *  @typedef internal_memory_access_t
- *  @brief   function prototype for unifying access to container memory
+ *  @brief   function prototype typedef for unifying access to container memory
  */
 typedef void (*internal_memory_access_t)(_IN struct collection_header* collection, _INOUT _NULLABLE void**, _INOUT _NULLABLE int*);
 
@@ -65,31 +65,53 @@ struct collection_header {
 *  @def   COLLECTION_SIZE_MAX
 *  @brief Maximum size for all containers
 */
-#define COLLECTION_SIZE_MAX (INTMAX_MAX)
+#define COLLECTION_SIZE_MAX ((uint32_t)INT32_MAX)
 
 /**
 *  @def   COLLECTION_INVALID_INDEX
 *  @brief Value of invalid index for all containers
 */
-#define COLLECTION_INVALID_INDEX (INTMAX_C(-1))
+#define COLLECTION_INVALID_INDEX (INT32_C(-1))
 
+/**
+ *  @def   COLLECTION_HEADER
+ *  @brief inplace default collection header struct
+ */
 #define COLLECTION_HEADER() struct collection_header;
+
+/**
+ *  @def   COLLECTION_INVALID_HEADER
+ *  @brief invalid value for default collection header
+ */
+#define COLLECTION_INVALID_HEADER() (struct collection_header){ \
+    .capacity       = 0,                                        \
+    .size           = 0,                                        \
+    .element_size   = 0,                                        \
+    ._comp          = NULL,                                     \
+    ._search        = NULL,                                     \
+    ._swap          = NULL,                                     \
+    ._sort          = NULL,                                     \
+    .next           = NULL,                                     \
+    .prev           = NULL,                                     \
+    .data_block     = NULL,                                     \
+    .random_access  = NULL                                      \
+}
 
 #pragma endregion
 
 #pragma region --- CONSTRUCTORS / DESTRUCTORS ---
 
 struct collection_header header_allocator(
-    _IN _NULLABLE const size_t capacity,
-    _IN const size_t element_size,
-    _IN _NULLABLE const void* _comp,
-    _IN _NULLABLE const void* _search,
-    _IN _NULLABLE const void* _swap,
-    _IN _NULLABLE const void* _sort,
-    _IN const internal_memory_access_t next,
-    _IN const internal_memory_access_t prev,
-    _IN _NULLABLE const internal_memory_access_t data_block,
-    _IN _NULLABLE const internal_memory_access_t random_access);
+    _IN _NULLABLE const size_t                   capacity     ,
+    _IN           const size_t                   element_size ,
+    _IN _NULLABLE const void*                    _comp        ,
+    _IN _NULLABLE const void*                    _search      ,
+    _IN _NULLABLE const void*                    _swap        ,
+    _IN _NULLABLE const void*                    _sort        ,
+    _IN           const internal_memory_access_t next         ,
+    _IN           const internal_memory_access_t prev         ,
+    _IN _NULLABLE const internal_memory_access_t data_block   ,
+    _IN           const internal_memory_access_t random_access);
 
 #pragma endregion
 
@@ -123,6 +145,8 @@ TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned long long*));
 TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(float*)             );
 TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(double*)            );
 TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(long double*)       );
+
+static_assert(sizeof(int32_t) == sizeof(uint32_t), "Collection core error: fixed size for signed and unsigned 32 bit integers are different");
 #undef TYPE_SIZE_ASSERT
 
 #pragma endregion

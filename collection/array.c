@@ -35,6 +35,10 @@ static void* data(array_t* collection, void** block, int* index) {
     return collection->data;
 }
 static void* random_access(array_t* collection, void** block, int* index) {
+    int private_index = *index;
+    if (private_index < 0)
+        private_index += collection->size;
+    assert(private_index > -1 && private_index < collection->size);
     return (byte*)*block = (collection->data + (collection->element_size * *index));
 }
 
@@ -51,41 +55,37 @@ static bool is_valid(array_t* array) {
 #pragma region --- CONSTRUCTORS / DESTRUCTORS ---
 
 array_t arr_init(const size_t size, const size_t element_size) {
-    assert(element_size);
-    assert(size <= ARRAY_SIZE_MAX);
+    array_t result = (array_t){
+        header_allocator(
+            size,
+            element_size,
+            NULL,
+            &linear_search,
+            NULL,
+            &qsort,
+            &next,
+            &prev,
+            &data,
+            &random_access),
+        .data = NULL
+    };
 
-    array_t result = { 0 };
-
-    void* block = calloc(size, element_size);
-    if (block) {
-        result = (array_t){
-            header_allocator(
-                size,
-                element_size,
-                NULL,
-                &linear_search,
-                NULL,
-                &qsort,
-                &next,
-                &prev,
-                &data,
-                &random_access),
-            NULL };
+    if (result.data = calloc(size, element_size))
         result.size = size;
-        result.data = block;
-    }
+    else
+        result = (array_t){ COLLECTION_INVALID_HEADER() , NULL };
+
     return result;
 }
 
 array_t arr_shadow(_IN const array_t* array) {
-    assert(is_valid(array));
+    assert(array);
     return arr_init(array->size, array->element_size);
 }
 
 array_t arr_copy(_IN const array_t* array) {
-    assert(is_valid(array));
-    array_t result = arr_init(array->size, array->element_size);
-    if (result.size)
+    array_t result = arr_shadow(array);
+    if (result.data)
         memcpy(result.data, array->data, result.size * result.element_size);
 }
 
@@ -100,7 +100,7 @@ array_t arr_move(_IN array_t* array) {
 void arr_delete(_IN array_t* array) {
     assert(is_valid(array));
     free(array->data);
-    *array = (array_t){ 0 };
+    *array = (array_t){ COLLECTION_INVALID_HEADER(), NULL};
 }
 
 #pragma endregion
@@ -111,7 +111,7 @@ void* arr_at(array_t* array, int position) {
     assert(is_valid(array));
     if (position < 0)
         position = array->size + position;
-    assert(position < array->size);
+    assert(position > -1 && position < array->size);
     return array->data + position * array->element_size;
 }
 
