@@ -172,32 +172,15 @@ void __print_type_sizes(void) {
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "collection/array.h"
-
-#include "algorithm/comparator.h"
-#include "algorithm/sort.h"
-
-#include "collection/iterator.h"
-#include "core/macro/foreach.h"
+#include "core/core.h"
+#include "task3/task3.h"
 
 
 int main(int argc, char* argv[]) {
     UNUSED(argc);
     UNUSED(argv);
 
-    array_t arr = arr_init(10, sizeof(int));
-    int i = 9;
-    for_each(int, it, arr) {
-        *it = i--;
-    }
-    for_each(int, it, arr) {
-        printf("arr[%d] = %d\n", ++i, *it);
-    }
-    i = 0;
-    it_sort(it_begin(&arr), it_end(&arr));
-    for_each(int, it, arr) {
-        printf("arr[%d] = %d\n", i++, *it);
-    }
+    task3();
 
     return EXIT_SUCCESS;
 }

@@ -64,9 +64,9 @@ int task3() {
             continue;
         }
 
-        printf("\t1. forward comparator\n");
-        printf("\t2. reverse comparator\n");
-        printf("\t3. back\n");
+        puts("\t1. forward comparator");
+        puts("\t2. reverse comparator");
+        puts("\t3. back");
         printf("Select compare function: ");
         mode = getch_menu();
         putchar('\n');
@@ -84,7 +84,7 @@ int task3() {
             continue;
         default:
             system("cls||clear");
-            printf("Incorrect mode. Please repeat input\n");
+            puts("Incorrect mode. Please repeat input");
             continue;
         }
 
@@ -92,7 +92,7 @@ int task3() {
         unsigned count = 0;
         if (!scanf("%u", &count)) {
             system("cls||clear");
-            printf("Incorrect number of sorting elements. Please repeat input\n");
+            puts("Incorrect number of sorting elements. Please repeat input");
             continue;
         }
         putchar('\n');
@@ -100,7 +100,7 @@ int task3() {
         int* array = (int*)malloc(count * sizeof(int));
         if (!array) {
             system("cls||clear");
-            printf("Error via allocating memory for array\n");
+            puts("Error via allocating memory for array");
             return 1;
         }
 
