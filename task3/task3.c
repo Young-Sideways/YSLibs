@@ -109,13 +109,13 @@ int task3() {
         random_fill(array, count, NULL, INT_MIN, INT_MAX);
         tim_stop(&timer);
         char str[20];
-        printf("Generated for: %s\n\n", tim_str(&timer, str));
+        printf("Generated for: %s\n\n", tim_str(&timer, TIM_PRECISION_AUTO));
 
         printf("Sorting array...\n");
         tim_start(&timer);
         sort(array, count, sizeof(int), comp, &i32_swap);
         tim_stop(&timer);
-        printf("Sorting done! Sorted for: %s\n", tim_str(&timer, str));
+        printf("Sorting done! Sorted for: %s\n", tim_str(&timer, TIM_PRECISION_AUTO));
 
         puts("\n------------------------------------------------------------------------\n");
         free(array);

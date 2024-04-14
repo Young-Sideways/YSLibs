@@ -7,9 +7,8 @@
  ******************************************************************************/
 
 
-
 /******************************************************************************************************************************************************************************
-                                                                           ITERATOR APPLICATION LAYER
+                                                                     ITERATOR IMPLEMENTATION LAYER TABLE
 
 |-----------|-------------------------|------------------------|-----------------------------|-------------------------|-------------------------|-----------------------------|
 |  elements | BEGIN                   | END                    | RBEGIN                      | REND                    | FIRST                   | LAST                        |
@@ -38,7 +37,7 @@
 
 #pragma region --- INCLUDES ---
 
-#include "../core/core.h"
+#include "general.h"
 
 #pragma endregion
 
@@ -155,7 +154,7 @@ void it_prev(_IN iterator_t* iterator);
 static int it_comp(void* lhs, void* rhs, size_t size) {
     UNUSED(size);
 
-    extern bool _iterator_private_is_valid(iterator_t* iterator);
+    extern inline bool _iterator_private_is_valid(iterator_t* iterator);
 
     assert(_iterator_private_is_valid(lhs) && _iterator_private_is_valid(rhs));
     assert(((iterator_t*)lhs)->collection == ((iterator_t*)rhs)->collection);
@@ -175,7 +174,7 @@ static int it_comp(void* lhs, void* rhs, size_t size) {
 static void it_swap(void* lhs, void* rhs, size_t size) {
     UNUSED(size);
 
-    extern bool _iterator_private_is_valid(iterator_t* iterator);
+    extern inline bool _iterator_private_is_valid(iterator_t* iterator);
 
     assert(_iterator_private_is_valid(lhs) && _iterator_private_is_valid(rhs));
     assert(((iterator_t*)lhs)->collection == ((iterator_t*)rhs)->collection);

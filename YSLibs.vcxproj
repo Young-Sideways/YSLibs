@@ -139,6 +139,7 @@
     <ClCompile Include="collection\array.c" />
     <ClCompile Include="collection\general.c" />
     <ClCompile Include="collection\iterator.c" />
+    <ClCompile Include="collection\string.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="core\metrics.c" />
     <ClCompile Include="task1\task1.c" />
@@ -159,6 +160,7 @@
     <ClInclude Include="collection\general.h" />
     <ClInclude Include="collection\iterator.h" />
     <ClInclude Include="collection\private.h" />
+    <ClInclude Include="collection\string.h" />
     <ClInclude Include="collection\type.h" />
     <ClInclude Include="core\core.h" />
     <ClInclude Include="core\macro\exec.h" />

@@ -13,7 +13,6 @@
 
 #pragma region --- INCLUDES ---
 
-#include <limits.h>
 #include "../core/core.h"
 
 #pragma endregion
