@@ -10,10 +10,8 @@
 
 #pragma region --- INCLUDES ---
 
-#include <assert.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
 #include "../algorithm/search.h"
 
@@ -25,19 +23,21 @@ static inline void random_access(array_t* collection, void** block, int* index) 
     *block = (*index < 0 || *index >= collection->size) ? NULL : (collection->data + (collection->element_size * *index)); 
 }
 static inline void next(array_t* collection, void** block, int* index) {
-    *index += 1;
     random_access(collection, block, index);
+    if (*block)
+        *index += 1;
 }
 static inline void prev(array_t* collection, void** block, int* index) {
-    *index -= 1;
     random_access(collection, block, index);
+    if (*block)
+        *index -= 1;
 }
 static inline void data(array_t* collection, void** block, int* index) {
     UNUSED(index);
     *block = collection->data;
 }
 
-static bool _iterator_private_is_valid(array_t* array) {
+static inline bool _array_private_is_valid(array_t* array) {
     return (array)
         && (array->size == array->capacity)
         && (array->size <= ARRAY_SIZE_MAX)
@@ -84,14 +84,14 @@ array_t arr_copy(_IN const array_t* array) {
 }
 
 array_t arr_move(_IN array_t* array) {
-    assert(_iterator_private_is_valid(array));
+    assert(_array_private_is_valid(array));
     array_t result = *array;
     *array = (array_t){ 0 };
     return result;
 }
 
 void arr_delete(_IN array_t* array) {
-    assert(_iterator_private_is_valid(array));
+    assert(_array_private_is_valid(array));
     free(array->data);
     *array = (array_t){ COLLECTION_INVALID_HEADER(), NULL};
 }
@@ -101,7 +101,7 @@ void arr_delete(_IN array_t* array) {
 #pragma region --- ACCESSORS ---
 
 void* arr_at(array_t* array, int position) {
-    assert(_iterator_private_is_valid(array));
+    assert(_array_private_is_valid(array));
     if (position < 0)
         position = array->size + position;
     assert(position > -1 && position < array->size);
@@ -113,11 +113,11 @@ void* arr_at(array_t* array, int position) {
 #pragma region --- INFORMATION ---
 
 size_t arr_size(array_t* array) {
-    assert(_iterator_private_is_valid(array));
+    assert(_array_private_is_valid(array));
     return array->size;
 }
 size_t arr_element_size(array_t* array) {
-    assert(_iterator_private_is_valid(array));
+    assert(_array_private_is_valid(array));
     return array->element_size;
 }
 

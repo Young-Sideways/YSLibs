@@ -3,113 +3,124 @@
  *  @brief     high precision single thread timer for mesure code performance and
  *             work with time stamps
  *  @author    Young Sideways
- *  @date      14.02.2024
+ *  @date      14.04.2024
  *  @copyright © Young Sideways, 2024. All right reserved.
  ******************************************************************************/
 
 #include "timer.h"
 
+#pragma region --- INCLUDES ---
+
 #include <assert.h>
-#include <stdint.h>
 #include <stdio.h>
+#include <string.h>
+#include <math.h>
+
+#pragma endregion
+
+#pragma region --- MACROS ---
+
+#define DEFAULT_TIME ((timediff_t)0)
+
+#pragma endregion
+
+#pragma region --- STATIC ---
+
+static const char* const _timer_postfix[] = {
+    "ns",
+    "us",
+    "ms",
+    "s"
+};
+
+#pragma endregion
+
+#pragma region --- FUNCIONS ---
 
 timer_state_t tim_start(timer_t* timer) {
     assert(timer);
 
-#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
-    struct timespec now;
-    if (timespec_get(&now, TIME_UTC)) {
-        timer->begin = now;
-        timer->started = true;
-    }
-    else
-        return TIM_FAIL;
-#else // __STDC_VERSION__ < 201112L
-    timer->begin = clock();
+    *timer = (timer_t){
+        .begin   = (struct timespec){ .tv_sec = 0, .tv_nsec = 0 },
+        .elapsed = DEFAULT_TIME,
+        .started = false,
+        .string  = { 0 }
+    };
+
+    if (timespec_get(&(timer->begin), TIME_UTC) != TIME_UTC)
+        return TIM_STATE_INVALID;
+
     timer->started = true;
-#endif
-    timer->elapsed = 0;
-    return TIM_OK;
+    return TIM_STATE_OK;
 }
 
 timer_state_t tim_stop(timer_t* timer) {
     assert(timer);
 
-#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
-    struct timespec now;
-    if (timespec_get(&now, TIME_UTC)) {
-        timer->end = now;
-        timer->started = false;
-    }
-    else
-        return TIM_FAIL;
-#else // __STDC_VERSION__ < 201112L
-    timer->end = clock();
-    timer->started = false;
-#endif
-    return TIM_OK;
-}
+    if (timer->started == false)
+        return TIM_STATE_FAIL;
 
-timediff_t tim_elapsed(const timer_t* timer) {
-    assert(timer);
-    if (timer->started)
-        return INVALID_TIME;
-#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
-    return (timer->end.tv_sec - timer->begin.tv_sec) * 1000000000 + (timer->end.tv_nsec - timer->begin.tv_nsec);
-#else // __STDC_VERSION__ < 201112L
-    return timer->end - timer->begin;
-#endif
+    struct timespec now;
+    if (timespec_get(&now, TIME_UTC) != TIME_UTC)
+        return TIM_STATE_INVALID;
+
+    timer->started = false;
+    timer->elapsed += ((timediff_t)now.tv_sec * 1000000000 + (timediff_t)now.tv_nsec) - ((timediff_t)timer->begin.tv_sec * 1000000000 + (timediff_t)timer->begin.tv_nsec);
+
+    if (timer->elapsed < 0) {
+        timer->elapsed = INVALID_TIME;
+        return TIM_STATE_INVALID;
+    }
+
+    return TIM_STATE_OK;
 }
 
 timer_state_t tim_continue(timer_t* timer) {
     assert(timer);
 
-    if (timer->started)
-        return TIM_ALREADY_STARTED;
+    if (timer->started == true)
+        return TIM_STATE_FAIL;
 
-    timediff_t timediff = tim_elapsed(timer);
-    if (timediff < 0)
-        return TIM_INVALID;
+    if (tim_elapsed(timer) == INVALID_TIME)
+        return TIM_STATE_INVALID;
 
-    if (tim_start(timer) != TIM_OK)
-        return TIM_FAIL;
+    if (timespec_get(&(timer->begin), TIME_UTC) != TIME_UTC)
+        return TIM_STATE_INVALID;
 
-    timer->elapsed += timediff;
-    return TIM_OK;
+    timer->started = true;
+    return TIM_STATE_OK;
 }
 
-const char* tim_str(timer_t* timer, char* str) {
-    assert(timer);
-    if (!str || timer->started)
-        return "";
-
-    int64_t time = tim_elapsed(timer);
-    if (time < 0)
-        return "";
-    time += timer->elapsed;
-    if (time > 1000000000)
-        sprintf(str, "%.3lfs", (double)time / 1000000000);
-    else if (time > 1000000)
-        sprintf(str, "%.3lfms", (double)time / 1000000);
-    else if (time > 1000)
-        sprintf(str, "%.3lfus", (double)time / 1000);
-    else
-        sprintf(str, "%lluns", time);
-    return str;
-}
-
-
-char* timer_str(timer_t* timer, char* str) {
+timediff_t tim_elapsed(const timer_t* timer) {
     assert(timer);
 
-    if (!str || timer->started)
-        return "";
-    int64_t time = tim_elapsed(timer);
-    if (time < 0)
-        return "";
-    time += timer->elapsed;
-
-    double sec = ((double)time / CLOCKS_PER_SEC);
-    sprintf(str, "%.3Lfs", sec);
-    return str;
+    return timer->started ? INVALID_TIME : timer->elapsed;
 }
+
+const char const* tim_str(timer_t* timer, timer_precision_t precision) {
+    timediff_t diff = tim_elapsed(timer);
+    if (diff == INVALID_TIME)
+        return "";
+
+    double time = diff;
+
+PRECISION_OVERHEAD_LABEL:
+    switch (precision) {
+    case TIM_PRECISION_SECONDS:
+        time /= 1000;
+    case TIM_PRECISION_MILLISECONDS:
+        time /= 1000;
+    case TIM_PRECISION_MICROSECONDS:
+        time /= 1000;
+    case TIM_PRECISION_NANOSECONDS:
+        snprintf(timer->string, 32, "%.3f%s", time, _timer_postfix[precision]);
+        break;
+    default:
+        precision = (int)fmin(3, log10(time + 1) / 3);
+        goto PRECISION_OVERHEAD_LABEL;
+    }
+
+    return timer->string;
+}
+
+#pragma endregion

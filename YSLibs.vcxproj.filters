@@ -57,6 +57,9 @@
     <ClCompile Include="collection\array.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="collection\string.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="algorithm\types.h">
@@ -141,6 +144,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="core\macro\foreach.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="collection\string.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

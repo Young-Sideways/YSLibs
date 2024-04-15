@@ -10,16 +10,13 @@
 
 #pragma region --- INCLUDES ---
 
-#include "general.h"
-
-#include <stdbool.h>
 #include <assert.h>
 
 #pragma endregion
 
 #pragma region --- STATIC ---
 
-inline bool _iterator_private_is_bound(iterator_t* iterator) {
+static inline bool _iterator_private_is_bound(iterator_t* iterator) {
     assert(iterator);
     switch (iterator->direction)
     {
@@ -32,18 +29,18 @@ inline bool _iterator_private_is_bound(iterator_t* iterator) {
     }
 }
 
-inline bool _iterator_private_is_range(iterator_t* iterator) {
+static inline bool _iterator_private_is_range(iterator_t* iterator) {
     assert(iterator);
     return iterator->collection && !(iterator->stage < 0 || iterator->stage >= iterator->collection->size); // [0 ... N - 1]  --->  true, otherwise false
 }
 
-inline bool _iterator_private_is_valid(iterator_t* iterator) {
+static inline bool _iterator_private_is_valid(iterator_t* iterator) {
     assert(iterator);
     return iterator->collection && _iterator_private_is_bound(iterator);
 }
 
 // Maybe deprecated...
-inline bool _iterator_private_on_bound(iterator_t* iterator) {
+static inline bool _iterator_private_on_bound(iterator_t* iterator) {
     return _iterator_private_is_valid(iterator) && ((iterator->stage == -1) || (iterator->stage == iterator->collection->size));
 }
 

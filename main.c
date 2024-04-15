@@ -173,14 +173,33 @@ void __print_type_sizes(void) {
 #include <stdlib.h>
 
 #include "core/core.h"
-#include "task3/task3.h"
+#include "utils/timer.h"
 
 
 int main(int argc, char* argv[]) {
     UNUSED(argc);
     UNUSED(argv);
 
-    task3();
+
+    timer_t timer;
+
+    tim_start(&timer);
+    for (int i = 0; i < 100000000; i++) {
+        int b = i;
+    }
+    tim_stop(&timer);
+
+    printf("1 for. elapsed(us precision  ): %s\n", tim_str(&timer, TIM_PRECISION_MICROSECONDS));
+
+    tim_continue(&timer);
+    for (int i = 0; i < 1000000; i++) {
+        int b = i;
+    }
+    tim_stop(&timer);
+
+    printf("1 for. elapsed(auto precision): %s\n", tim_str(&timer, TIM_PRECISION_AUTO));
+
+    //task3();
 
     return EXIT_SUCCESS;
 }
