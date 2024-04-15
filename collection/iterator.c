@@ -50,6 +50,7 @@ static inline bool _iterator_private_on_bound(iterator_t* iterator) {
 
 iterator_t it_begin(_IN void* collection) {
     assert(collection);
+
     iterator_t result = (iterator_t){
             .collection = collection,
             .data = NULL,
@@ -71,6 +72,8 @@ iterator_t it_end(_IN void* collection) {
 
 iterator_t it_rbegin(_IN void* collection) {
     assert(collection);
+
+    struct collection_header* header = ((struct collection_header*)collection) - 1;
 
     iterator_t result = (iterator_t){
         .collection = collection,

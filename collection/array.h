@@ -31,6 +31,8 @@ typedef struct {
     byte* data;
 } array_t;
 
+typedef byte* array_t;
+
 #pragma endregion
 
 #pragma region --- CONSTRUCTORS / DESTRUCTORS ---

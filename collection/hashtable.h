@@ -1,34 +1,37 @@
+/*******************************************************************************
+ *  @file      hashtable.h
+ *  @brief     
+ *  @author    Young Sideways
+ *  @date      15.04.2024
+ *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ ******************************************************************************/
+
 #ifndef _HASHTABLE_H_
 #define _HASHTABLE_H_
 
 #pragma once
 
+#pragma region --- INCLUDES ---
+
 #include "general.h"
-#include "../core/core.h"
 
-#define HASHTABLE_SIZE_MIN 0u
-#define HASHTABLE_SIZE_MAX INT_MAX
+#pragma endregion
 
-typedef uint64_t hash_t;
+#pragma region --- MACRO ---
+
+#define HASHTABLE_SIZE_MIN COLLECTION_SIZE_MIN
+#define HASHTABLE_SIZE_MAX COLLECTION_SIZE_MAX
+
+#pragma endregion
+
+#pragma region --- TYPEDEFS ---
+
 typedef uint32_t hash_t;
 typedef hash_t(hashfunc_t)(const void*, size_t);
 typedef hashfunc_t* hashfunc_pt;
 
-size_t hash(const void* key, size_t size) {
-    size_t hash = 5381;
-    for (byte* begin = key; size; --size)
-        hash = ((hash << 5) + hash) ^ *begin;
-    return hash;
-}
-size_t str_hash(const char* str) {
-    size_t hash = 5381;
-    while (*str)
-        hash = ((hash << 5) + hash) ^ *(str++);
-    return hash;
-}
-
 typedef struct {
-    void* key, * data;
+    void *key, *data;
     entry_t* next;
 } entry_t;
 
@@ -40,6 +43,24 @@ typedef struct {
     entry_t** table;
 } hashtable_t;
 
+#pragma endregion
+
+#pragma region --- DEFAULTS ---
+
+hash_t hash(const void* key, size_t size) {
+    hash_t hash = 5381;
+    for (byte* begin = (byte*)key; size; --size)
+        hash = ((hash << 5) + hash) ^ *begin;
+    return hash;
+}
+hash_t str_hash(const char* str) {
+    hash_t hash = 5381;
+    while (*str)
+        hash = ((hash << 5) + hash) ^ *(str++);
+    return hash;
+}
+
+#pragma endregion
 
 #pragma region --- CONSTRUCTORS / DESTRUCTORS ---
 
@@ -48,44 +69,20 @@ void ht_delete(hashtable_t*);
 
 #pragma endregion
 
-#pragma region --- INCLUDES ---
-
-#pragma endregion
-
-#pragma region --- MACROS ---
-
-#pragma endregion
-
-#pragma region --- TYPEDEFS ---
-
-#pragma endregion
-
-#pragma region --- CONSTRUCTORS / DESTRUCTORS ---
-
-#pragma endregion
 #pragma region --- FUNCIONS ---
 
-#pragma endregion
-#pragma region ---  ---
-
-#pragma endregion
-#pragma region ---  ---
-
-#pragma endregion
-#pragma region ---  ---
-
-#pragma endregion
-#pragma region --- GENERICS ---
-
-#pragma endregion
-//---------------------------------------------------------------------------------------------//
 void ht_copy(hashtable_t* dest, hashtable_t* src);
 void ht_move(hashtable_t* dest, hashtable_t* src);
 void ht_swap(hashtable_t dest, hashtable_t src);
-//---------------------------------------------------------------------------------------------//
+
 void ht_insert(hashtable_t container, void* key, void* value);
 bool ht_contains(hashtable_t container, void* key);
 void* ht_lookup(hashtable_t container, void* key);
-//---------------------------------------------------------------------------------------------//
 
-#endif // !HASHTABLE_H
+#pragma endregion
+
+#pragma region ---  ---
+
+#pragma endregion
+
+#endif // !_HASHTABLE_H_
