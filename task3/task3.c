@@ -24,17 +24,18 @@ int task3() {
     char mode = '\0';
     timer_t timer;
 
+    char str[32];
     sort_pt sort = NULL;
     comparator_pt comp = NULL;
 
-    printf("Starting \"task3\" module\n\n");
+    puts("Starting \"task3\" module\n");
 
     while (cycle) {
-        printf("\t1. selection_sort\n");
-        printf("\t2. insertion_sort\n");
-        printf("\t3. quick_sort\n");
-        printf("\t4. default C q_sort\n");
-        printf("\t5. back\n");
+        puts("\t1. selection_sort");
+        puts("\t2. insertion_sort");
+        puts("\t3. quick_sort");
+        puts("\t4. default C q_sort");
+        puts("\t5. back");
         printf("Select sorting algorithm: ");
         mode = getch_menu();
         putchar('\n');
@@ -54,13 +55,13 @@ int task3() {
             sort = &qsort;
             break;
         case '5':
-            printf("exit \"task3\" module\n");
+            puts("exit \"task3\" module");
             cycle = false;
             system("cls||clear");
             continue;
         default:
             system("cls||clear");
-            printf("Incorrect mode. Please repeat input\n");
+            puts("Incorrect mode. Please repeat input");
             continue;
         }
 
@@ -74,10 +75,10 @@ int task3() {
         switch (mode)
         {
         case '1':
-            comp = &i32_fcomp;
+            comp = i32_fcomp;
             break;
         case '2':
-            comp = &i32_rcomp;
+            comp = i32_rcomp;
             break;
         case '3':
             system("cls||clear");
@@ -104,14 +105,13 @@ int task3() {
             return 1;
         }
 
-        printf("Filling array with random numbers...\n");
+        puts("Filling array with random numbers...");
         tim_start(&timer);
         random_fill(array, count, NULL, INT_MIN, INT_MAX);
         tim_stop(&timer);
-        char str[20];
         printf("Generated for: %s\n\n", tim_str(&timer, str));
 
-        printf("Sorting array...\n");
+        puts("Sorting array...");
         tim_start(&timer);
         sort(array, count, sizeof(int), comp, &i32_swap);
         tim_stop(&timer);
