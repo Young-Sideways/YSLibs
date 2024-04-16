@@ -26,10 +26,7 @@
 
 #pragma region --- TYPEDEFS ---
 
-typedef struct {
-    COLLECTION_HEADER()
-    byte* data;
-} array_t;
+typedef COLLECTION_TYPE_DECLARATOR() array_t;
 
 typedef byte* array_t;
 

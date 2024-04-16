@@ -6,6 +6,35 @@
  *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
+/*******************************************************************************
+ * 
+ * UCH - universal collection header
+ * SCH - specific collection header
+ * DAT - data segments
+ * 
+ * - inplace container type
+ *     |---------------|---------------|---------------|
+ *     |      UCH      |      SCH      |      DAT      |
+ *     |---------------|---------------|---------------|
+ * -size(UCH)          0            size(SCH)      size(DAT)
+ *     |---------------|---------------|---------------|
+ *
+ * 
+ * - reference container type
+ *     |---------------|---------------|
+ *     |      UCH      |      SCH      |
+ *     |---------------|---------------|
+ * -size(UCH)          0            size(SCH)
+ *     |---------------|------|--------|
+ *                            |
+ *                         pointer          |---------------|
+ *                            |             |      DAT      |
+ *                            ------------> |---------------|
+ *                                          0           size(DAT)
+ *                                          |---------------|
+ * 
+ ******************************************************************************/
+
 #ifndef _COLLECTION_GENERAL_H_
 #define _COLLECTION_GENERAL_H_
 
@@ -17,49 +46,21 @@
 
 #pragma endregion
 
-#pragma region --- TYPEDEFS ---
-
-/**
- *  @typedef internal_memory_access_t
- *  @brief   function prototype typedef for unifying access to container memory
- */
-typedef void (*internal_memory_access_t)(_IN struct collection_header* collection, _INOUT _NULLABLE void**, _INOUT _NULLABLE int*);
-
-/**
- *  @struct collection_header
- *  @brief  main data structure for all collections
- */
-struct collection_header {
-    size_t capacity    ;
-    size_t size        ;
-    size_t element_size;
-
-    void* _comp  ;
-    void* _search;
-    void* _swap  ;
-    void* _sort  ;
-
-    internal_memory_access_t next         ;
-    internal_memory_access_t prev         ;
-    internal_memory_access_t data_block   ;
-    internal_memory_access_t random_access;
-};
-
-#pragma endregion
-
 #pragma region --- MACRO ---
 
 /**
  *  @def   GROWTH_FACTOR
- *  @brief memory consumption growth factor for collections ( new size = ~x2 )
+ *  @brief memory consumption growth factor for collections ( new size = x2 )
  *  @param n - current size
  */
 #define GROWTH_FACTOR(n) (n ? (n << 1) : 0x1U)
+
 /**
 *  @def   COLLECTION_SIZE_MIN
 *  @brief Minimum size for all containers
 */
 #define COLLECTION_SIZE_MIN (0x0U)
+
 /**
 *  @def   COLLECTION_SIZE_MAX
 *  @brief Maximum size for all containers
@@ -72,54 +73,13 @@ struct collection_header {
 */
 #define COLLECTION_INVALID_INDEX (INT32_C(-1))
 
-/**
- *  @def   COLLECTION_HEADER
- *  @brief inplace default collection header struct
- */
-#define COLLECTION_HEADER() struct collection_header;
-
-/**
- *  @def   COLLECTION_INVALID_HEADER
- *  @brief invalid value for default collection header
- */
-#define COLLECTION_INVALID_HEADER() (struct collection_header){ \
-    .capacity       = 0,                                        \
-    .size           = 0,                                        \
-    .element_size   = 0,                                        \
-    ._comp          = NULL,                                     \
-    ._search        = NULL,                                     \
-    ._swap          = NULL,                                     \
-    ._sort          = NULL,                                     \
-    .next           = NULL,                                     \
-    .prev           = NULL,                                     \
-    .data_block     = NULL,                                     \
-    .random_access  = NULL                                      \
-}
+#define COLLECTION_TYPE_DECLARATOR() struct { uint8_t; }*
 
 #pragma endregion
 
 #pragma region --- CONSTRUCTORS / DESTRUCTORS ---
 
-struct collection_header header_allocator(
-    _IN _NULLABLE const size_t                   capacity     ,
-    _IN           const size_t                   element_size ,
-    _IN _NULLABLE const void*                    _comp        ,
-    _IN _NULLABLE const void*                    _search      ,
-    _IN _NULLABLE const void*                    _swap        ,
-    _IN _NULLABLE const void*                    _sort        ,
-    _IN           const internal_memory_access_t next         ,
-    _IN           const internal_memory_access_t prev         ,
-    _IN _NULLABLE const internal_memory_access_t data_block   ,
-    _IN           const internal_memory_access_t random_access);
-
-#pragma endregion
-
-#pragma region --- PUBLIC ---
-
-#define GENERAL_CHANGE_COMP(collection, value)   ((struct collection_header*)(&collection))->_comp   = value
-#define GENERAL_CHANGE_SEARCH(collection, value) ((struct collection_header*)(&collection))->_search = value
-#define GENERAL_CHANGE_SWAP(collection, value)   ((struct collection_header*)(&collection))->_swap   = value
-#define GENERAL_CHANGE_SORT(collection, value)   ((struct collection_header*)(&collection))->_sort   = value
+void delete(_INOUT void** collection);
 
 #pragma endregion
 
