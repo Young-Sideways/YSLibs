@@ -26,13 +26,7 @@
 
 #pragma region --- TYPEDEFS ---
 
-typedef char* string_t;
-
-typedef struct {
-    COLLECTION_HEADER()
-
-
-} string_t;
+COLLECTION_TYPE_DECLARATOR(string_t);
 
 #pragma endregion
 

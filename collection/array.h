@@ -26,9 +26,7 @@
 
 #pragma region --- TYPEDEFS ---
 
-typedef COLLECTION_TYPE_DECLARATOR() array_t;
-
-typedef byte* array_t;
+COLLECTION_TYPE_DECLARATOR(array_t);
 
 #pragma endregion
 
@@ -36,24 +34,22 @@ typedef byte* array_t;
 
 array_t arr_init(_IN const size_t size, _IN const size_t element_size);
 
-array_t arr_copy(_IN const array_t* array);
+array_t arr_copy(_IN const array_t array);
 array_t arr_move(_IN array_t* array);
-array_t arr_shadow(_IN const array_t* array);
-
-void arr_delete(_IN array_t* array);
+array_t arr_shadow(_IN const array_t array);
 
 #pragma endregion
 
 #pragma region --- ACCESSORS ---
 
-void* arr_at(_IN array_t* array, _IN int position);
+void* arr_at(_IN array_t array, _IN int position);
 
 #pragma endregion
 
 #pragma region --- INFORMATION ---
 
-size_t arr_size(_IN array_t* array);
-size_t arr_element_size(_IN array_t* array);
+size_t arr_size(_IN const array_t array);
+size_t arr_element_size(_IN const array_t array);
 
 #pragma endregion
 

@@ -29,7 +29,7 @@
  *  @typedef uch_access_t
  *  @brief   function prototype typedef for unifying access to container memory
  */
-typedef void (*uch_access_t)(_IN struct unversal_collection_header* collection, _INOUT _NULLABLE void**, _INOUT _NULLABLE int*);
+typedef void (*uch_access_t)(_IN struct universal_collection_header* collection, _INOUT void**, _INOUT int*);
 
 /**
  *  @typedef uch_dtor_t
@@ -38,10 +38,10 @@ typedef void (*uch_access_t)(_IN struct unversal_collection_header* collection, 
 typedef void (*uch_dtor_t)(_IN void* collection);
 
 /**
- *  @struct collection_header
+ *  @struct universal_collection_header
  *  @brief  main data structure for all collections
  */
-struct unversal_collection_header {
+struct universal_collection_header {
     size_t capacity;
     size_t size;
     size_t element_size;
@@ -67,7 +67,7 @@ struct unversal_collection_header {
  *  @def   UCH_INVALID
  *  @brief invalid value for UCH
  */
-#define UCH_INVALID() (struct unversal_collection_header){ \
+#define UCH_INVALID() (struct universal_collection_header){ \
     .capacity     = 0,                                     \
     .size         = 0,                                     \
     .element_size = 0,                                     \
@@ -82,16 +82,16 @@ struct unversal_collection_header {
     ._dtor        = NULL                                   \
 }
 
-#define UCH_EXRACT(collection) (((struct unversal_collection_header*)collection) - 1)
+#define UCH_EXTRACT(collection) (((struct universal_collection_header*)(collection)) - 1)
 
-#define UCH_DECL_REF(collection, name) struct unversal_collection_header* name = UCH_EXRACT(collection)
-#define UCH_DECL_CREF(collection, name) const struct unversal_collection_header* const name = UCH_EXRACT(collection)
+#define UCH_DECL_REF(collection, name) struct universal_collection_header* name = UCH_EXTRACT(collection)
+#define UCH_DECL_CREF(collection, name) const struct unviersal_collection_header* const name = UCH_EXTRACT(collection)
 
 #pragma endregion
 
 #pragma region --- CONSTRUCTORS / DESTRUCTORS ---
 
-struct unversal_collection_header uch_allocator(
+static struct universal_collection_header uch_allocator(
     _IN _NULLABLE const size_t       capacity    ,
     _IN _NULLABLE const size_t       size        ,
     _IN           const size_t       element_size,
@@ -110,7 +110,7 @@ struct unversal_collection_header uch_allocator(
     assert(_next);
     assert(_prev);
 
-    struct unversal_collection_header result = {
+    struct universal_collection_header result = {
         .capacity     = capacity,
         .size         = size,
         .element_size = element_size,
@@ -125,6 +125,31 @@ struct unversal_collection_header uch_allocator(
         ._dtor        = _dtor
     };
     return result;
+}
+
+#pragma endregion
+
+#pragma region --- DEFAULTS ---
+
+static void _private_default_init(_IN struct universal_collection_header* collection, void** _data, int* _stage) {
+    UNUSED(collection);
+    *_data = NULL;
+    *_stage = 0;
+}
+static void _private_default_next(_IN struct universal_collection_header* collection, void** _data, int* _stage) {
+    UNUSED(collection);
+    *_data = NULL;
+    *_stage = 0;
+}
+static void _private_default_prev(_IN struct universal_collection_header* collection, void** _data, int* _stage) {
+    UNUSED(collection);
+    *_data = NULL;
+    *_stage = 0;
+}
+static void _private_default_data(_IN struct universal_collection_header* collection, void** _data, int* _stage) {
+    UNUSED(collection);
+    *_data = NULL;
+    *_stage = 0;
 }
 
 #pragma endregion

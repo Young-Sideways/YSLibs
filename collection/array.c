@@ -13,112 +13,109 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "../algorithm/search.h"
+//#include "../algorithm/search.h"
+#include "private.h"
 
 #pragma endregion
 
 #pragma region --- STATIC ---
 
-static inline void random_access(array_t* collection, void** block, int* index) {
-    *block = (*index < 0 || *index >= collection->size) ? NULL : (collection->data + (collection->element_size * *index)); 
+static inline void _init(array_t collection, void** block, int* index) {
+    UCH_DECL_REF(collection, header);
+    *block = (*index < 0 || *index >= header->size) ? NULL : ((byte*)collection + header->element_size * *index);
 }
-static inline void next(array_t* collection, void** block, int* index) {
-    random_access(collection, block, index);
+static inline void _next(array_t collection, void** block, int* index) {
+    int local_index = *index + 1;
+    _init(collection, block, &local_index);
     if (*block)
         *index += 1;
 }
-static inline void prev(array_t* collection, void** block, int* index) {
-    random_access(collection, block, index);
-    if (*block)
-        *index -= 1;
-}
-static inline void data(array_t* collection, void** block, int* index) {
-    UNUSED(index);
-    *block = collection->data;
+static inline void _prev(array_t collection, void** block, int* index) {
+    int local_index = *index - 1;
+    _init(collection, block, &local_index);
+    *index = ((*block) ? (*index - 1) : INT_MIN);
 }
 
-static inline bool _array_private_is_valid(array_t* array) {
-    return (array)
-        && (array->size == array->capacity)
-        && (array->size <= ARRAY_SIZE_MAX)
-        && (array->element_size)
-        && (array->data);
+static inline bool _array_private_is_valid(array_t array) {
+    UCH_DECL_REF(array, header);
+    return (header->size == header->capacity)
+        && (header->size <= ARRAY_SIZE_MAX)
+        && (header->element_size);
 }
 #pragma endregion
 
 #pragma region --- CONSTRUCTORS / DESTRUCTORS ---
 
 array_t arr_init(const size_t size, const size_t element_size) {
-    array_t result = (array_t){
-        header_allocator(
+    byte* block = calloc(sizeof(struct universal_collection_header) + (size * element_size), sizeof(byte));
+    if (block) {
+        *(struct universal_collection_header*)block = uch_allocator(
+            size,
             size,
             element_size,
             NULL,
-            &linear_search,
             NULL,
-            &qsort,
-            &next,
-            &prev,
-            &data,
-            &random_access),
-        .data = NULL
-    };
-
-    if (result.data = calloc(size, element_size))
-        result.size = size;
-    else
-        result = (array_t){ COLLECTION_INVALID_HEADER() , NULL };
-
-    return result;
+            NULL,
+            NULL,
+            &_init,
+            &_next,
+            &_prev,
+            NULL,
+            NULL);
+        block += sizeof(struct universal_collection_header);
+    }
+    return block;
 }
 
-array_t arr_shadow(_IN const array_t* array) {
+array_t arr_shadow(_IN const array_t array) {
     assert(array);
-    return arr_init(array->size, array->element_size);
+    return arr_init(UCH_EXTRACT(array)->size, UCH_EXTRACT(array)->element_size);
 }
 
-array_t arr_copy(_IN const array_t* array) {
-    array_t result = arr_shadow(array);
-    if (result.data)
-        memcpy(result.data, array->data, result.size * result.element_size);
+array_t arr_copy(_IN const array_t array) {
+    assert(array);
+    byte* block = malloc(sizeof(struct universal_collection_header) + (UCH_EXTRACT(array)->size * UCH_EXTRACT(array)->element_size));
+    if (block) {
+        if (memcpy(block, UCH_EXTRACT(array), sizeof(struct universal_collection_header) + (UCH_EXTRACT(array)->size * UCH_EXTRACT(array)->element_size)))
+            block += sizeof(struct universal_collection_header);
+        else {
+            free(block);
+            block = NULL;
+        }
+    }
+    return block;
 }
 
 array_t arr_move(_IN array_t* array) {
     assert(_array_private_is_valid(array));
     array_t result = *array;
-    *array = (array_t){ 0 };
+    *array = NULL;
     return result;
-}
-
-void arr_delete(_IN array_t* array) {
-    assert(_array_private_is_valid(array));
-    free(array->data);
-    *array = (array_t){ COLLECTION_INVALID_HEADER(), NULL};
 }
 
 #pragma endregion
 
 #pragma region --- ACCESSORS ---
 
-void* arr_at(array_t* array, int position) {
+void* arr_at(array_t array, int position) {
     assert(_array_private_is_valid(array));
     if (position < 0)
-        position = array->size + position;
-    assert(position > -1 && position < array->size);
-    return array->data + position * array->element_size;
+        position = UCH_EXTRACT(array)->size + position;
+    assert(position > -1 && position < UCH_EXTRACT(array)->size);
+    return (byte*)array + position * UCH_EXTRACT(array)->element_size;
 }
 
 #pragma endregion
 
 #pragma region --- INFORMATION ---
 
-size_t arr_size(array_t* array) {
+size_t arr_size(array_t array) {
     assert(_array_private_is_valid(array));
-    return array->size;
+    return UCH_EXTRACT(array)->size;
 }
-size_t arr_element_size(array_t* array) {
+size_t arr_element_size(array_t array) {
     assert(_array_private_is_valid(array));
-    return array->element_size;
+    return UCH_EXTRACT(array)->element_size;
 }
 
 #pragma endregion

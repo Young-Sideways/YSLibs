@@ -104,10 +104,10 @@ typedef enum {
  *  @brief  Defines iterator structure
  */
 typedef struct {
-    struct collection_header* collection;
-    byte*                     data      ;
-    int                       stage     ;
-    it_direction_t            direction ;
+    void*          collection;
+    byte*          data      ;
+    int            stage     ;
+    it_direction_t direction ;
 } iterator_t;
 
 #pragma endregion
@@ -196,18 +196,9 @@ void it_prev(_IN iterator_t* iterator);
  *  @param[in]  lhs  - valid left iterator pointer
  *  @param[in]  rhs  - valid right iterator pointer
  *  @param[in]  size - unused
- *  @retval     offset between lhs and rhs, othewise @code CONTAINER_INVALID_INDEX @endcode
+ *  @retval     offset between lhs and rhs
  */
-static int it_comp(void* lhs, void* rhs, size_t size) {
-    UNUSED(size);
-
-    extern inline bool _iterator_private_is_valid(iterator_t* iterator);
-
-    assert(_iterator_private_is_valid(lhs) && _iterator_private_is_valid(rhs));
-    assert(((iterator_t*)lhs)->collection == ((iterator_t*)rhs)->collection);
-
-    return ((iterator_t*)lhs)->stage - ((iterator_t*)rhs)->stage;
-}
+int it_comp(_IN void* lhs, _IN void* rhs, _IN size_t size);
 
 #ifdef _SWAP_H_
 
@@ -223,11 +214,9 @@ static void it_swap(void* lhs, void* rhs, size_t size) {
 
     extern inline bool _iterator_private_is_valid(iterator_t* iterator);
 
-    assert(_iterator_private_is_valid(lhs) && _iterator_private_is_valid(rhs));
-    assert(((iterator_t*)lhs)->collection == ((iterator_t*)rhs)->collection);
+    it_comp(lhs, rhs, 0);
 
-    swap_pt data_swap = ((iterator_t*)lhs)->collection->_swap;
-    data_swap(((iterator_t*)lhs)->data, ((iterator_t*)rhs)->data, ((iterator_t*)lhs)->collection->element_size);
+    swap(((iterator_t*)lhs)->data, ((iterator_t*)rhs)->data, ((iterator_t*)lhs)->collection->element_size);
 }
 
 #endif // !_SWAP_H_
@@ -266,6 +255,7 @@ void it_sort(_IN iterator_t begin, _IN iterator_t end) {
     }
     else {
         // implementation iterators sort...
+        // mayby use external bubble sort
     }
 }
 

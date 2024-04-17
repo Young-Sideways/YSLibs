@@ -20,10 +20,11 @@
 void delete(void** collection)
 {
     assert(collection);
-    UCH_DECL_REF(*collection, shifted);
-    if (shifted->_dtor)
-        shifted->_dtor(*collection);
-    free(*collection);
+    assert(*collection);
+
+    if (UCH_EXTRACT(*collection)->_dtor)
+        UCH_EXTRACT(*collection)->_dtor(collection);
+    free(UCH_EXTRACT(*collection));
     *collection = NULL;
 }
 

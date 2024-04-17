@@ -15,6 +15,7 @@
 
 #include "array.h"
 #include "iterator.h"
+#include "../core/macro/foreach.h"
 
 #pragma endregion
 

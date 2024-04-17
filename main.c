@@ -173,6 +173,13 @@ void __print_type_sizes(void) {
 #include <stdlib.h>
 
 #include "core/core.h"
+
+#include "algorithm/comparator.h"
+#include "algorithm/swap.h"
+#include "algorithm/search.h"
+#include "algorithm/sort.h"
+#include "collection/collections.h"
+
 #include "utils/timer.h"
 #include "task3/task3.h"
 
@@ -185,6 +192,16 @@ int main(int argc, char* argv[]) {
     tim_start(&timer);
     tim_stop(&timer);
     printf("%s\n", tim_str(&timer, TIM_PRECISION_AUTO));
+
+    array_t arr = new(array_t, 10, sizeof(int));
+    int i = 0;
+    for_each(int, it, arr) {
+        *it = i++;
+        printf("%d: %d\n", i, *it);
+    }
+    //for_each(int, it, arr) {
+    //    printf("%d: %d\n", --i,*it);
+    //}
 
     //task3();
 

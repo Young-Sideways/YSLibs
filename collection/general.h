@@ -73,7 +73,7 @@
 */
 #define COLLECTION_INVALID_INDEX (INT32_C(-1))
 
-#define COLLECTION_TYPE_DECLARATOR() struct { uint8_t; }*
+#define COLLECTION_TYPE_DECLARATOR(typename) typedef struct typename *typename
 
 #pragma endregion
 
@@ -82,6 +82,13 @@
 void delete(_INOUT void** collection);
 
 #pragma endregion
+
+#pragma region --- FUNCTIONS ---
+
+// void set_comp
+
+#pragma endregion
+
 
 #pragma region --- STATIC ASSERTION BLOCK ---
 

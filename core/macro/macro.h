@@ -23,4 +23,8 @@
 #define M_MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define M_MIN(x, y) (((x) < (y)) ? (x) : (y))
 
+#define M_TERNAR(predicate, if_true, if_false) ((predicate) ? (if_true) : (if_false))
+
+#define M_SPARSE(min, max, lhs, rhs) min = M_MIN(lhs, rhs), max = M_MAX(lhs,rhs)
+
 #endif // !_MACRO_H_
