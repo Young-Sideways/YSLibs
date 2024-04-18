@@ -46,11 +46,4 @@ void* arr_at(_IN array_t array, _IN int position);
 
 #pragma endregion
 
-#pragma region --- INFORMATION ---
-
-size_t arr_size(_IN const array_t array);
-size_t arr_element_size(_IN const array_t array);
-
-#pragma endregion
-
 #endif // !_ARRAY_H_

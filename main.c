@@ -184,6 +184,26 @@ void __print_type_sizes(void) {
 #include "task3/task3.h"
 
 
+struct collection_universal_header {
+    size_t capacity;
+    size_t size;
+    size_t element_size;
+};
+
+struct collection_algorithm_adapter {
+    void* _comparaor;
+    void* _search;
+    void* _swap;
+    void* _sort;
+};
+struct collection_iterator_adapter {
+    void* _init;
+    void* _next;
+    void* _prev;
+    void* _data;
+};
+
+
 int main(int argc, char* argv[]) {
     UNUSED(argc);
     UNUSED(argv);
@@ -194,14 +214,21 @@ int main(int argc, char* argv[]) {
     printf("%s\n", tim_str(&timer, TIM_PRECISION_AUTO));
 
     array_t arr = new(array_t, 10, sizeof(int));
-    int i = 0;
+    int i = 9;
     for_each(int, it, arr) {
-        *it = i++;
-        printf("%d: %d\n", i, *it);
+        *it = i--;
     }
-    //for_each(int, it, arr) {
-    //    printf("%d: %d\n", --i,*it);
-    //}
+    i = 0;
+    for_each(int, it, arr) {
+        printf("%d: %d\n", ++i, *it);
+    }
+    set_sort(arr, &quick_sort);
+    it_sort(it_begin(arr), it_end(arr));
+    i = 0;
+    for_each(int, it, arr) {
+        printf("%d: %d\n", ++i, *it);
+    }
+    delete(&arr);
 
     //task3();
 

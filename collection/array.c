@@ -13,27 +13,34 @@
 #include <string.h>
 #include <stdlib.h>
 
-//#include "../algorithm/search.h"
+#include "../algorithm/search.h"
 #include "private.h"
 
 #pragma endregion
 
 #pragma region --- STATIC ---
 
-static inline void _init(array_t collection, void** block, int* index) {
+static inline void _init(struct universal_collection_header* collection, void** block, int* index) {
     UCH_DECL_REF(collection, header);
-    *block = (*index < 0 || *index >= header->size) ? NULL : ((byte*)collection + header->element_size * *index);
+    if (*index < 0) {
+        *index = -1;
+        *block = NULL;
+        return;
+    }
+    if (*index >= header->size) {
+        *index = header->size;
+        *block = NULL;
+        return;
+    }
+    *block = ((byte*)collection + header->element_size * *index);
 }
-static inline void _next(array_t collection, void** block, int* index) {
-    int local_index = *index + 1;
-    _init(collection, block, &local_index);
-    if (*block)
-        *index += 1;
+static inline void _next(struct universal_collection_header* collection, void** block, int* index) {
+    *index += 1;
+    _init(collection, block, index);
 }
-static inline void _prev(array_t collection, void** block, int* index) {
-    int local_index = *index - 1;
-    _init(collection, block, &local_index);
-    *index = ((*block) ? (*index - 1) : INT_MIN);
+static inline void _prev(struct universal_collection_header* collection, void** block, int* index) {
+    *index -= 1;
+    _init(collection, block, index);
 }
 
 static inline bool _array_private_is_valid(array_t array) {
@@ -53,7 +60,7 @@ array_t arr_init(const size_t size, const size_t element_size) {
             size,
             size,
             element_size,
-            NULL,
+            &memcmp,
             NULL,
             NULL,
             NULL,
@@ -64,7 +71,7 @@ array_t arr_init(const size_t size, const size_t element_size) {
             NULL);
         block += sizeof(struct universal_collection_header);
     }
-    return block;
+    return (array_t)block;
 }
 
 array_t arr_shadow(_IN const array_t array) {
@@ -83,11 +90,11 @@ array_t arr_copy(_IN const array_t array) {
             block = NULL;
         }
     }
-    return block;
+    return (array_t)block;
 }
 
 array_t arr_move(_IN array_t* array) {
-    assert(_array_private_is_valid(array));
+    assert(_array_private_is_valid(*array));
     array_t result = *array;
     *array = NULL;
     return result;
@@ -100,22 +107,9 @@ array_t arr_move(_IN array_t* array) {
 void* arr_at(array_t array, int position) {
     assert(_array_private_is_valid(array));
     if (position < 0)
-        position = UCH_EXTRACT(array)->size + position;
+        position = (int)UCH_EXTRACT(array)->size + position;
     assert(position > -1 && position < UCH_EXTRACT(array)->size);
     return (byte*)array + position * UCH_EXTRACT(array)->element_size;
-}
-
-#pragma endregion
-
-#pragma region --- INFORMATION ---
-
-size_t arr_size(array_t array) {
-    assert(_array_private_is_valid(array));
-    return UCH_EXTRACT(array)->size;
-}
-size_t arr_element_size(array_t array) {
-    assert(_array_private_is_valid(array));
-    return UCH_EXTRACT(array)->element_size;
 }
 
 #pragma endregion

@@ -117,7 +117,7 @@ iterator_t it_last(_IN void* collection) {
 
 void* it_get(_IN iterator_t* iterator) {
     assert(iterator);
-    assert(_iterator_private_is_valid(iterator));
+    assert(_iterator_private_is_valid(iterator) && _iterator_private_is_range(iterator));
     return iterator->data;
 }
 void it_next(_IN iterator_t* iterator) {
@@ -128,10 +128,10 @@ void it_next(_IN iterator_t* iterator) {
         switch (iterator->direction)
         {
         case IT_REVERSE:
-            UCH_EXTRACT(iterator->collection)->_prev(iterator->collection, &iterator->data, &iterator->stage);
+            UCH_EXTRACT(iterator->collection)->_prev(iterator->collection, &(iterator->data), &(iterator->stage));
             break;
         case IT_FORWARD:
-            UCH_EXTRACT(iterator->collection)->_next(iterator->collection, &iterator->data, &iterator->stage);
+            UCH_EXTRACT(iterator->collection)->_next(iterator->collection, &(iterator->data), &(iterator->stage));
             break;
         default:
             break;
@@ -158,10 +158,10 @@ void it_prev(_IN iterator_t* iterator) {
         switch (iterator->direction)
         {
         case IT_REVERSE:
-            UCH_EXTRACT(iterator->collection)->_next(iterator->collection, &iterator->data, &iterator->stage);
+            UCH_EXTRACT(iterator->collection)->_next(iterator->collection, &(iterator->data), &(iterator->stage));
             break;
         case IT_FORWARD:
-            UCH_EXTRACT(iterator->collection)->_prev(iterator->collection, &iterator->data, &iterator->stage);
+            UCH_EXTRACT(iterator->collection)->_prev(iterator->collection, &(iterator->data), &(iterator->stage));
             break;
         default:
             break;
@@ -197,14 +197,14 @@ int it_comp(void* lhs, void* rhs, size_t size) {
     return ((iterator_t*)lhs)->stage - ((iterator_t*)rhs)->stage;
 }
 
-static void* _iterator_private_try_normalize_forward(_IN iterator_t begin, _IN iterator_t end, _OUT size_t* size) {
+void* _iterator_private_try_normalize_forward(_IN iterator_t begin, _IN iterator_t end, _OUT size_t* size) {
     assert(size);
 
     explain_assert(_iterator_private_is_valid(&begin), "iterator error: invalid begin iterator"         );
     explain_assert(_iterator_private_is_valid(&end)  , "iterator error: invalid end iterator"           );
     explain_assert(begin.collection == end.collection, "iterator error: differrent iterator collections");
     explain_assert(begin.direction == end.direction  , "iterator error: differrent iterator directions" );
-    explain_assert(it_comp(&begin, &end, NULL) >= 0  , "iterator error: the end is to the left of begin");
+    explain_assert(it_comp(&begin, &end, NULL) <= 0  , "iterator error: the end is to the left of begin");
 
     if (!UCH_EXTRACT(begin.collection)->_data) {
         *size = 0U;

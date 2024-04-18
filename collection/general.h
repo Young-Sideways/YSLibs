@@ -12,13 +12,22 @@
  * SCH - specific collection header
  * DAT - data segments
  * 
- * - inplace container type
+ * 
+ * - inplace container type with specific header
  *     |---------------|---------------|---------------|
  *     |      UCH      |      SCH      |      DAT      |
  *     |---------------|---------------|---------------|
  * -size(UCH)          0            size(SCH)      size(DAT)
  *     |---------------|---------------|---------------|
- *
+ * 
+ * 
+ * - inplace container type without specific header
+ *     |---------------|---------------|
+ *     |      UCH      |      DAT      |
+ *     |---------------|---------------|
+ * -size(UCH)          0           size(DAT)
+ *     |---------------|---------------|
+ * 
  * 
  * - reference container type
  *     |---------------|---------------|
@@ -85,10 +94,20 @@ void delete(_INOUT void** collection);
 
 #pragma region --- FUNCTIONS ---
 
-// void set_comp
+size_t get_size(void* collection);
+size_t get_capacity(void* collection);
+size_t get_element_size (void* collection);
+
+void* get_comp(void* collection);
+void set_comp(void* collection, void* value);
+void* get_swap(void* collection);
+void set_swap(void* collection, void* value);
+void* get_search(void* collection);
+void set_search(void* collection, void* value);
+void* get_sort(void* collection);
+void set_sort(void* collection, void* value);
 
 #pragma endregion
-
 
 #pragma region --- STATIC ASSERTION BLOCK ---
 

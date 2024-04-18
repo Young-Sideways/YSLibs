@@ -212,11 +212,13 @@ int it_comp(_IN void* lhs, _IN void* rhs, _IN size_t size);
 static void it_swap(void* lhs, void* rhs, size_t size) {
     UNUSED(size);
 
-    extern inline bool _iterator_private_is_valid(iterator_t* iterator);
+    extern bool _iterator_private_is_range(iterator_t* iterator);
 
     it_comp(lhs, rhs, 0);
+    explain_assert(_iterator_private_is_range((iterator_t*)lhs), "iterator error: left iterator out of range");
+    explain_assert(_iterator_private_is_range((iterator_t*)rhs), "iterator error: right iterator out of range");
 
-    swap(((iterator_t*)lhs)->data, ((iterator_t*)rhs)->data, ((iterator_t*)lhs)->collection->element_size);
+    swap(((iterator_t*)lhs)->data, ((iterator_t*)rhs)->data, get_element_size(((iterator_t*)lhs)->collection));
 }
 
 #endif // !_SWAP_H_
@@ -231,6 +233,12 @@ static void it_swap(void* lhs, void* rhs, size_t size) {
  *  @retval     offset between lhs and rhs, othewise @code CONTAINER_INVALID_INDEX @endcode
  */
 iterator_t it_find(_IN iterator_t begin, _IN iterator_t end, _IN void* value) {
+    it_comp(&begin, &end, 0);
+    comparator_pt comp = get_comp(begin.collection);
+    if (comp)
+        for (iterator_t it = begin; it_comp(&begin, &end, 0) <= 0; it_next(&it))
+            if (comp(it.data, value, get_element_size(begin.collection)) == 0)
+                return it;
     return INVALID_ITERATOR;
 }
 
@@ -248,10 +256,9 @@ void it_sort(_IN iterator_t begin, _IN iterator_t end) {
 
     size_t size = 0;
     byte* address = _iterator_private_try_normalize_forward(begin, end, &size);
-    struct collection_header* header = begin.collection;
     if (address) {
-        sort_pt data_sort = header->_sort;
-        data_sort(address, size, header->element_size, header->_comp, header->_swap);
+        sort_pt data_sort = get_sort(begin.collection);
+        data_sort(address, size, get_element_size(begin.collection), get_comp(begin.collection), get_swap(begin.collection));
     }
     else {
         // implementation iterators sort...

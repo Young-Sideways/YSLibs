@@ -17,9 +17,7 @@
 #pragma region --- INCLUDES ---
 
 #include "../core/core.h"
-
 #include <string.h>
-#include "../algorithm/swap.h"
 
 #pragma endregion
 
@@ -58,6 +56,16 @@ struct universal_collection_header {
 
     uch_dtor_t   _dtor;
 };
+
+typedef enum {
+    EMPTY       = 0x0,
+
+    LINEAR           = 0x1,
+    LINEAR_REFERENCE = 0x2,
+
+    ASSOCIATIVE = 0x2,
+    CUSTOM      = 0x3
+} collection_classification;
 
 #pragma endregion
 
@@ -116,7 +124,7 @@ static struct universal_collection_header uch_allocator(
         .element_size = element_size,
         ._comp        = (_comp ? _comp : &memcmp),
         ._search      = _search,
-        ._swap        = (_swap ? _swap : &swap),
+        ._swap        = _swap,
         ._sort        = _sort,
         ._init        = _init,
         ._next        = _next,
@@ -128,31 +136,5 @@ static struct universal_collection_header uch_allocator(
 }
 
 #pragma endregion
-
-#pragma region --- DEFAULTS ---
-
-static void _private_default_init(_IN struct universal_collection_header* collection, void** _data, int* _stage) {
-    UNUSED(collection);
-    *_data = NULL;
-    *_stage = 0;
-}
-static void _private_default_next(_IN struct universal_collection_header* collection, void** _data, int* _stage) {
-    UNUSED(collection);
-    *_data = NULL;
-    *_stage = 0;
-}
-static void _private_default_prev(_IN struct universal_collection_header* collection, void** _data, int* _stage) {
-    UNUSED(collection);
-    *_data = NULL;
-    *_stage = 0;
-}
-static void _private_default_data(_IN struct universal_collection_header* collection, void** _data, int* _stage) {
-    UNUSED(collection);
-    *_data = NULL;
-    *_stage = 0;
-}
-
-#pragma endregion
-
 
 #endif // !_COLLECTION_PRIVATE_H_

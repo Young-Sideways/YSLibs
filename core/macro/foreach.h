@@ -22,7 +22,7 @@
 #ifdef _ITERATOR_H_
 
 #define for_each(type, it, collection, ...) \
-    for (iterator_t _##it = it_begin(collection), _##end = it_end(collection); it_comp(&_##it, &_##end, NULL); it_next(&_##it)) \
+    for (iterator_t _##it = it_begin(collection), _end = it_end(collection); it_comp(&_##it, &_end, NULL); it_next(&_##it)) \
         for (type* it = (type*)it_get(&_##it); it; it = NULL)
 
 #define rfor_each(type, it, collection, ...) \
