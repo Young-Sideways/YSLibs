@@ -26,23 +26,19 @@
 
 #pragma region --- TYPEDEFS ---
 
-COLLECTION_TYPE_DECLARATOR(string_t);
+COLLECTION_DECLARE_TYPE(string_t,
+    char* const data
+);
 
 #pragma endregion
 
-#pragma region --- CONSTRUCTORS / DESTRUCTORS ---
+#pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 
 string_t str_init();
 
-string_t str_copy(_IN const string_t* array);
-string_t str_move(_IN string_t* array);
-string_t str_shadow(_IN const string_t* array);
-
-void str_delete(_IN string_t* array);
-
 #pragma endregion
 
-#pragma region --- FUNCIONS ---
+#pragma region --- FUNCION ---
 
 
 

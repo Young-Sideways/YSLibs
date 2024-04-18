@@ -49,9 +49,12 @@
 
 #pragma once
 
-#pragma region --- INCLUDES ---
+#pragma region --- INCLUDE ---
 
 #include "../core/core.h"
+#include "../core/macro/sequence.h"
+
+#include <stdint.h>
 
 #pragma endregion
 
@@ -82,30 +85,27 @@
 */
 #define COLLECTION_INVALID_INDEX (INT32_C(-1))
 
-#define COLLECTION_TYPE_DECLARATOR(typename) typedef struct typename *typename
+#define COLLECTION_DECLARE_TYPE(name, ...) typedef const struct { struct collection_universal_header; VA_SEQ_SEMI(__VA_ARGS__) } * const name
 
 #pragma endregion
 
-#pragma region --- CONSTRUCTORS / DESTRUCTORS ---
+#pragma region --- TYPEDEFS ---
+
+struct collection_universal_header {
+    size_t capacity;
+    size_t size;
+    size_t element_size;
+};
+
+#pragma endregion
+
+#pragma region --- UNIVERSAL CONSTRUCTORS / DESTRUCTORS ---
+
+void* copy(void* collection);
+void* move(void* collection);
+void* shadow(void* collection);
 
 void delete(_INOUT void** collection);
-
-#pragma endregion
-
-#pragma region --- FUNCTIONS ---
-
-size_t get_size(void* collection);
-size_t get_capacity(void* collection);
-size_t get_element_size (void* collection);
-
-void* get_comp(void* collection);
-void set_comp(void* collection, void* value);
-void* get_swap(void* collection);
-void set_swap(void* collection, void* value);
-void* get_search(void* collection);
-void set_search(void* collection, void* value);
-void* get_sort(void* collection);
-void set_sort(void* collection, void* value);
 
 #pragma endregion
 

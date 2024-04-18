@@ -6,12 +6,10 @@
  *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _EXEC_H_
-#define _EXEC_H_
+#ifndef _M_EXEC_H_
+#define _M_EXEC_H_
 
 #pragma once
-
-#include "macro.h"
 
 #pragma region --- MARCO GENERATOR ---
 #ifdef _SEQ_PRINTERS
@@ -59,7 +57,14 @@ void _va_exec_printer(int scale, int n) {
 #endif
 #pragma endregion
 
-#pragma region --- MACROS ---
+#pragma region --- INCLUDE ---
+
+#include "macro.h"
+#include "varidatic.h"
+
+#pragma endregion
+
+#pragma region --- MACRO ---
 
 // @printer_setting : _va_exec_printer(4, 256);
 #define M_EXEC0_0(_f) _f()
@@ -1090,17 +1095,17 @@ void _va_exec_printer(int scale, int n) {
 #define M_EXEC3_254(_f, _p1, _p2, _p3, _1, ...) _f(_p1, _p2, _p3, _1), M_EXEC3_253(_f, _p1, _p2, _p3, __VA_ARGS__)
 #define M_EXEC3_255(_f, _p1, _p2, _p3, _1, ...) _f(_p1, _p2, _p3, _1), M_EXEC3_254(_f, _p1, _p2, _p3, __VA_ARGS__)
 
-#define M_EXEC(_f, ...) _f(__VA_ARGS__)
+#pragma endregion
 
-#ifdef _VARIDATIC_H_
+#pragma region --- VARIDATIC ---
+
+#define M_EXEC(_f, ...) _f(__VA_ARGS__)
 
 #define VA_EXEC0(_f, ...) M_CONCAT_LATER(M_EXEC0_, VA_NARG(__VA_ARGS__))(_f, __VA_ARGS__)
 #define VA_EXEC1(_f, _p1, ...) M_CONCAT_LATER(M_EXEC1_, VA_NARG(__VA_ARGS__))(_f, _p1, __VA_ARGS__)
 #define VA_EXEC2(_f, _p1, _p2, ...) M_CONCAT_LATER(M_EXEC2_, VA_NARG(__VA_ARGS__))(_f, _p1, _p2, __VA_ARGS__)
 #define VA_EXEC3(_f, _p1, _p2, _p3, ...) M_CONCAT_LATER(M_EXEC3_, VA_NARG(__VA_ARGS__))(_f, _p1, _p2, _p3, __VA_ARGS__)
 
-#endif // !_VARIDATIC_H_
-
 #pragma endregion
 
-#endif // !_EXEC_H_
+#endif // !_M_EXEC_H_

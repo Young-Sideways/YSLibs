@@ -6,8 +6,8 @@
  *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _SEQUENCE_H_
-#define _SEQUENCE_H_
+#ifndef _M_SEQUENCE_H_
+#define _M_SEQUENCE_H_
 
 #pragma once
 
@@ -40,6 +40,13 @@ void _va_seq_semi_printer(int n) {
 }
 
 #endif // !_SEQ_PRINTERS
+#pragma endregion
+
+#pragma region --- INCLUDE ---
+
+#include "macro.h"
+#include "varidatic.h"
+
 #pragma endregion
 
 #pragma region --- MACRO ---
@@ -559,16 +566,15 @@ void _va_seq_semi_printer(int n) {
 #define M_SEQ_UNFOLD_254(_1, ...) _1 M_SEQ_UNFOLD_253(__VA_ARGS__)
 #define M_SEQ_UNFOLD_255(_1, ...) _1 M_SEQ_UNFOLD_254(__VA_ARGS__)
 
-#ifdef _VARIDATIC_H_
+#pragma endregion
+
+#pragma region --- VARIDATIC ---
 
 #define VA_SEQ_SEMI(...) M_CONCAT_LATER(M_SEQ_SEMI_, VA_NARG(__VA_ARGS__))(__VA_ARGS__)
 #define VA_SEQ_UNFOLD(...) M_CONCAT_LATER(M_SEQ_UNFOLD_, VA_NARG(__VA_ARGS__))(__VA_ARGS__)
 
-#endif // !_VARIDATIC_H_
-
 #define VA_SEQ_COMMA(...) __VA_ARGS__
-
 
 #pragma endregion
 
-#endif // !_SEQUENCE_H_
+#endif // !_M_SEQUENCE_H_

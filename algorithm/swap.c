@@ -10,6 +10,7 @@
 
 #pragma region --- INCLUDES ---
 
+#include <stdint.h>
 #include <math.h>
 
 #pragma endregion

@@ -1,6 +1,6 @@
 /*******************************************************************************
  *  @file      variant.h
- *  @brief     Core variant type
+ *  @brief     variant type
  *  @author    Young Sideways
  *  @date      8.04.2024
  *  @copyright © Young Sideways, 2024. All right reserved.

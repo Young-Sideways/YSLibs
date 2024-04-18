@@ -48,16 +48,19 @@
     <ClCompile Include="core\metrics.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="collection\iterator.c">
+    <ClCompile Include="collection\iterator\iterator.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="collection\general.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="collection\array.c">
+    <ClCompile Include="collection\array\array.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="collection\string.c">
+    <ClCompile Include="collection\string\string.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="collection\private.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -128,13 +131,13 @@
     <ClInclude Include="core\type\variant.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="collection\iterator.h">
+    <ClInclude Include="collection\iterator\iterator.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="collection\general.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="collection\array.h">
+    <ClInclude Include="collection\array\array.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="collection\private.h">
@@ -146,7 +149,16 @@
     <ClInclude Include="core\macro\foreach.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="collection\string.h">
+    <ClInclude Include="collection\string\string.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="core\debug.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="core\macro\generic\type.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="core\type\tuple.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

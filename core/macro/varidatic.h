@@ -6,12 +6,12 @@
  *  @copyright © Young Sideways, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _VARIDATIC_H_
-#define _VARIDATIC_H_
+#ifndef _M_VARIDATIC_H_
+#define _M_VARIDATIC_H_
 
 #pragma once
 
-#pragma region --- MACRO GENERATORS ---
+#pragma region --- MACRO GENERATOR ---
 
 #ifdef _SEQ_PRINTERS
 
@@ -66,7 +66,7 @@ void _va_commaseq_n_printer(int n, const char* name, int separate) {
 
 #pragma endregion
 
-#pragma region --- MACROS ---
+#pragma region --- MACRO ---
 
 // @printer_settings : _va_arg_n_printer(256, "VA_ARG_N", 16);
 #define VA_ARG_N( \
@@ -147,4 +147,4 @@ void _va_commaseq_n_printer(int n, const char* name, int separate) {
 
 #pragma endregion
 
-#endif // !_VARIDATIC_H_
+#endif // !_M_VARIDATIC_H_

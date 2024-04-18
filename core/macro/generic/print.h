@@ -6,23 +6,23 @@
  *  @copyright © Young Sideways, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _GPRINT_H_
-#define _GPRINT_H_
+#ifndef _G_PRINT_H_
+#define _G_PRINT_H_
 
 #pragma once
 
-#pragma region --- INCLUDES ---
+#pragma region --- INCLUDE ---
 
 #include "../varidatic.h"
 #include "../exec.h"
 
 #pragma endregion
 
-#pragma region --- MACROS ---
+#pragma region --- MACRO ---
 
 #pragma endregion
 
-#pragma region --- GENERICS ---
+#pragma region --- GENERIC ---
 
 #define M_FORMAT_OF(var) _Generic( (var)           , \
     signed char        : "hhd"                     , \
@@ -58,8 +58,7 @@
 
 #pragma endregion
 
-
-#pragma region --- FUNCIONS ---
+#pragma region --- FUNCION ---
 
 int gprintf(const char* format, int argc, ...) {
 
@@ -67,4 +66,4 @@ int gprintf(const char* format, int argc, ...) {
 
 #pragma endregion
 
-#endif // !_GPRINT_H_
+#endif // !_G_PRINT_H_

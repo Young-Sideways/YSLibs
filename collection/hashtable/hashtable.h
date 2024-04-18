@@ -11,7 +11,7 @@
 
 #pragma once
 
-#pragma region --- INCLUDES ---
+#pragma region --- INCLUDE ---
 
 #include "general.h"
 
@@ -24,7 +24,7 @@
 
 #pragma endregion
 
-#pragma region --- TYPEDEFS ---
+#pragma region --- TYPEDEF ---
 
 typedef uint32_t hash_t;
 typedef hash_t(hashfunc_t)(const void*, size_t);
@@ -45,7 +45,7 @@ typedef struct {
 
 #pragma endregion
 
-#pragma region --- DEFAULTS ---
+#pragma region --- DEFAULT ---
 
 hash_t hash(const void* key, size_t size) {
     hash_t hash = 5381;
@@ -62,14 +62,14 @@ hash_t str_hash(const char* str) {
 
 #pragma endregion
 
-#pragma region --- CONSTRUCTORS / DESTRUCTORS ---
+#pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 
 hashtable_t ht_create(size_t);
 void ht_delete(hashtable_t*);
 
 #pragma endregion
 
-#pragma region --- FUNCIONS ---
+#pragma region --- FUNCION ---
 
 void ht_copy(hashtable_t* dest, hashtable_t* src);
 void ht_move(hashtable_t* dest, hashtable_t* src);

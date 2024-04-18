@@ -12,73 +12,54 @@
 
 #pragma once
 
-// UCH - Universal collectoin header
-
 #pragma region --- INCLUDES ---
 
 #include "../core/core.h"
-#include <string.h>
+#include "../core/debug.h"
+
+#include "general.h"
 
 #pragma endregion
 
 #pragma region --- TYPEDEFS ---
 
 /**
- *  @typedef uch_access_t
+ *  @typedef u_acc_t
  *  @brief   function prototype typedef for unifying access to container memory
  */
-typedef void (*uch_access_t)(_IN struct universal_collection_header* collection, _INOUT void**, _INOUT int*);
+typedef void (*u_acc_t)(_IN struct universal_collection_header* collection, _INOUT void**, _INOUT int*);
 
 /**
- *  @typedef uch_dtor_t
- *  @brief   function prototype typedef for unifying collection delete
+ *  @typedef uch_mgr_t
+ *  @brief   function prototype typedef for unifying collection managing
  */
-typedef void (*uch_dtor_t)(_IN void* collection);
+typedef void (*u_mgr_t)(_IN void* collection);
 
-/**
- *  @struct universal_collection_header
- *  @brief  main data structure for all collections
- */
-struct universal_collection_header {
-    size_t capacity;
-    size_t size;
-    size_t element_size;
-
+struct collection_algorithm_adapter {
     void* _comp;
-    void* _search;
     void* _swap;
+    void* _srch;
     void* _sort;
-
-    uch_access_t _init;
-    uch_access_t _next;
-    uch_access_t _prev;
-    uch_access_t _data;
-
-    uch_dtor_t   _dtor;
 };
-
-typedef enum {
-    EMPTY       = 0x0,
-
-    LINEAR           = 0x1,
-    LINEAR_REFERENCE = 0x2,
-
-    ASSOCIATIVE = 0x2,
-    CUSTOM      = 0x3
-} collection_classification;
+struct collection_iterator_adapter {
+    u_acc_t _init;
+    u_acc_t _next;
+    u_acc_t _prev;
+};
+struct collection_manager {
+    u_mgr_t _copy;
+    u_mgr_t _dtor;
+};
 
 #pragma endregion
 
-#pragma region --- MACROS ---
+#pragma region --- MACRO ---
 
 /**
  *  @def   UCH_INVALID
  *  @brief invalid value for UCH
  */
 #define UCH_INVALID() (struct universal_collection_header){ \
-    .capacity     = 0,                                     \
-    .size         = 0,                                     \
-    .element_size = 0,                                     \
     ._comp        = NULL,                                  \
     ._search      = NULL,                                  \
     ._swap        = NULL,                                  \
@@ -97,43 +78,37 @@ typedef enum {
 
 #pragma endregion
 
-#pragma region --- CONSTRUCTORS / DESTRUCTORS ---
+#pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 
-static struct universal_collection_header uch_allocator(
-    _IN _NULLABLE const size_t       capacity    ,
-    _IN _NULLABLE const size_t       size        ,
-    _IN           const size_t       element_size,
-    _IN _NULLABLE const void*        _comp       ,
-    _IN _NULLABLE const void*        _search     ,
-    _IN _NULLABLE const void*        _swap       ,
-    _IN _NULLABLE const void*        _sort       ,
-    _IN           const uch_access_t _init       ,
-    _IN           const uch_access_t _next       ,
-    _IN           const uch_access_t _prev       ,
-    _IN _NULLABLE const uch_access_t _data       ,
-    _IN _NULLABLE const uch_dtor_t   _dtor       )
-{
-    assert(element_size);
-    assert(_init);
-    assert(_next);
-    assert(_prev);
+struct collection_universal_header _alloc_cuh(
+    _IN _NULLABLE const size_t capacity, 
+    _IN _NULLABLE const size_t size, 
+    _IN           const size_t element_size
+);
 
-    struct universal_collection_header result = {
-        .capacity     = capacity,
-        .size         = size,
-        .element_size = element_size,
-        ._comp        = (_comp ? _comp : &memcmp),
-        ._search      = _search,
-        ._swap        = _swap,
-        ._sort        = _sort,
-        ._init        = _init,
-        ._next        = _next,
-        ._prev        = _prev,
-        ._data        = _data,
-        ._dtor        = _dtor
-    };
-    return result;
-}
+struct collection_algorithm_adapter _alloc_caa(
+    _IN _NULLABLE const void* _comp,
+    _IN _NULLABLE const void* _swap,
+    _IN _NULLABLE const void* _srch,
+    _IN _NULLABLE const void* _sort
+);
+
+struct collection_iterator_adapter _alloc_cia(
+    _IN const u_acc_t _init, 
+    _IN const u_acc_t _next, 
+    _IN const u_acc_t _prev
+);
+
+struct collection_manager _alloc_cm(
+    _IN           const u_mgr_t _copy, 
+    _IN _NULLABLE const u_mgr_t _dtor
+);
+
+#pragma endregion
+
+#pragma region --- DEFAULT ---
+
+void _default_manager(_IN void* collection);
 
 #pragma endregion
 

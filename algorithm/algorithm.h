@@ -6,7 +6,6 @@
  *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-
 #ifndef _ALGORITHM_H_
 #define _ALGORITHM_H_
 

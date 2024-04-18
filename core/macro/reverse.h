@@ -11,9 +11,7 @@
 
 #pragma once
 
-#include "macro.h"
-
-#pragma region --- MACRO GENERATORS ---
+#pragma region --- MACRO GENERATOR ---
 
 #ifdef _SEQ_PRINTERS
 
@@ -36,7 +34,14 @@ void _va_arg_reverse_printer(int n) {
 
 #pragma endregion
 
-#pragma region --- MACROS ---
+#pragma region --- INCLUDE ---
+
+#include "macro.h"
+#include "varidatic.h"
+
+#pragma endregion
+
+#pragma region --- MACRO ---
 
 // @printer_setting : _va_arg_reverse_printer(256);
 #define M_ARG_REVERSE_1(_1) _1
@@ -295,11 +300,11 @@ void _va_arg_reverse_printer(int n) {
 #define M_ARG_REVERSE_254(_1, ...) M_ARG_REVERSE_253(__VA_ARGS__), _1
 #define M_ARG_REVERSE_255(_1, ...) M_ARG_REVERSE_254(__VA_ARGS__), _1
 
-#ifdef _VARIDATIC_H_
+#pragma endregion
+
+#pragma region --- VARIDATIC ---
 
 #define VA_ARG_REVERSE(...) M_CONCAT_LATER(M_ARG_REVERSE_, VA_NARG(__VA_ARGS__))(__VA_ARGS__)
-
-#endif // !_VARIDATIC_H_
 
 #pragma endregion
 
