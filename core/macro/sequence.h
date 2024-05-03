@@ -31,10 +31,10 @@ void _va_seq_semi_printer(int n) {
         printf("#define M_SEQ_UNFOLD_%d(_1, ...) _1 M_SEQ_UNFOLD_%d(__VA_ARGS__)\n", i, i - 1);
 
     printf(
-        "\n#ifdef _VARIDATIC_H_\n\n"
+        "\n#ifdef _VARIADIC_H_\n\n"
         "#define VA_SEQ_SEMI(...) M_CONCAT_LATER(M_SEQ_SEMI_, VA_NARG(__VA_ARGS__))(__VA_ARGS__)\n"
         "#define VA_SEQ_UNFOLD(...) M_CONCAT_LATER(M_SEQ_UNFOLD_, VA_NARG(__VA_ARGS__))(__VA_ARGS__)\n\n"
-        "#endif // !_VARIDATIC_H_\n\n"
+        "#endif // !_VARIADIC_H_\n\n"
         "#define VA_SEQ_COMMA(...) __VA_ARGS__\n"
     );
 }
@@ -45,7 +45,7 @@ void _va_seq_semi_printer(int n) {
 #pragma region --- INCLUDE ---
 
 #include "macro.h"
-#include "varidatic.h"
+#include "variadic.h"
 
 #pragma endregion
 
@@ -568,7 +568,7 @@ void _va_seq_semi_printer(int n) {
 
 #pragma endregion
 
-#pragma region --- VARIDATIC ---
+#pragma region --- VARIADIC ---
 
 #define VA_SEQ_SEMI(...) M_CONCAT_LATER(M_SEQ_SEMI_, VA_NARG(__VA_ARGS__))(__VA_ARGS__)
 #define VA_SEQ_UNFOLD(...) M_CONCAT_LATER(M_SEQ_UNFOLD_, VA_NARG(__VA_ARGS__))(__VA_ARGS__)

@@ -9,7 +9,7 @@
 #if (0) // Зачатки tuple
 #define _SEQ_PRINTERS
 
-#include "core/macro/varidatic.h"
+#include "core/macro/variadic.h"
 #include "core/macro/reverse.h"
 #include "core/macro/sequence.h"
 #include "core/macro/exec.h"

@@ -1,13 +1,13 @@
 /*******************************************************************************
- *  @file      varidatic.h
- *  @brief     Varidatic macro helpers definition
+ *  @file      variadic.h
+ *  @brief     Variadic macro helpers definition
  *  @author    Young Sideways
  *  @date      25.03.2024
  *  @copyright © Young Sideways, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _M_VARIDATIC_H_
-#define _M_VARIDATIC_H_
+#ifndef _M_VARIADIC_H_
+#define _M_VARIADIC_H_
 
 #pragma once
 
@@ -147,4 +147,4 @@ void _va_commaseq_n_printer(int n, const char* name, int separate) {
 
 #pragma endregion
 
-#endif // !_M_VARIDATIC_H_
+#endif // !_M_VARIADIC_H_

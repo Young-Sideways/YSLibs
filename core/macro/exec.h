@@ -21,7 +21,7 @@ void _va_exec_printer(int scale, int n) {
 
     const char macro_name[]             = "EXEC";
     const char macro_prefix[]           = "M_"  ;
-    const char macro_varidatic_prefix[] = "VA_" ;
+    const char macro_variadic_prefix[] = "VA_" ;
 
     char param_seq[128] = ", ";
     char param_str[32] = { 0 };
@@ -45,13 +45,13 @@ void _va_exec_printer(int scale, int n) {
     sprintf(param_seq, ", ");
 
     puts("#define M_EXEC(_f, ...) _f(__VA_ARGS__)");
-    puts("\n#ifdef _VARIDATIC_H_\n");
+    puts("\n#ifdef _VARIADIC_H_\n");
     for (int i = 0; i < scale; ++i) {
-        printf("#define %s%s%d(_f%s...) M_CONCAT_LATER(%s%s%d_, VA_NARG(__VA_ARGS__))(_f%s__VA_ARGS__)\n", macro_varidatic_prefix, macro_name, i, param_seq, macro_prefix, macro_name, i, param_seq);
+        printf("#define %s%s%d(_f%s...) M_CONCAT_LATER(%s%s%d_, VA_NARG(__VA_ARGS__))(_f%s__VA_ARGS__)\n", macro_variadic_prefix, macro_name, i, param_seq, macro_prefix, macro_name, i, param_seq);
         sprintf(param_str, "_p%d, ", i + 1);
         strcat(param_seq, param_str);
     }
-    puts("\n#endif // !_VARIDATIC_H_");
+    puts("\n#endif // !_VARIADIC_H_");
 }
 
 #endif
@@ -60,7 +60,7 @@ void _va_exec_printer(int scale, int n) {
 #pragma region --- INCLUDE ---
 
 #include "macro.h"
-#include "varidatic.h"
+#include "variadic.h"
 
 #pragma endregion
 
@@ -1097,7 +1097,7 @@ void _va_exec_printer(int scale, int n) {
 
 #pragma endregion
 
-#pragma region --- VARIDATIC ---
+#pragma region --- VARIADIC ---
 
 #define M_EXEC(_f, ...) _f(__VA_ARGS__)
 

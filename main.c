@@ -9,7 +9,7 @@ int main(int argc, char* argv[]) {
     UNUSED(argc);
     UNUSED(argv);
     
-
+    printf("Hello!");
 
     return EXIT_SUCCESS;
 }

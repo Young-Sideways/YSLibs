@@ -37,7 +37,7 @@ void _va_arg_reverse_printer(int n) {
 #pragma region --- INCLUDE ---
 
 #include "macro.h"
-#include "varidatic.h"
+#include "variadic.h"
 
 #pragma endregion
 
@@ -302,7 +302,7 @@ void _va_arg_reverse_printer(int n) {
 
 #pragma endregion
 
-#pragma region --- VARIDATIC ---
+#pragma region --- VARIADIC ---
 
 #define VA_ARG_REVERSE(...) M_CONCAT_LATER(M_ARG_REVERSE_, VA_NARG(__VA_ARGS__))(__VA_ARGS__)
 

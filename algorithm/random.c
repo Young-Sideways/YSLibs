@@ -12,6 +12,7 @@
 
 #include <time.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #pragma endregion
 
@@ -19,11 +20,11 @@
 
 void random_init() { srand(time(NULL)); }
 
-inline int _random() { return (int32_t)(((uint32_t)rand() << 30) | ((uint32_t)rand() << 15) | (uint32_t)rand()); }
+inline int _random() { return (int)(((unsigned)rand() << 30) | ((unsigned)rand() << 15) | (unsigned)rand()); }
 
 int random(int from, int to) {
     assert(from <= to);
-    return (int32_t)((int64_t)_random() % ((int64_t)to - (int64_t)from) + (int64_t)from);
+    return (int)((long long)_random() % ((long long)to - (long long)from) + (long long)from);
 }
 
 void random_fill(int* array, size_t size, random_pt generator, int min, int max) {
