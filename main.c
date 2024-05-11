@@ -1,15 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <locale.h>
 
-#include "algorithm/algorithm.h"
-#include "collection/collections.h"
+#include "core/core.h"
+#include "utils/console.h"
+#include <math.h>
 
 
 int main(int argc, char* argv[]) {
     UNUSED(argc);
     UNUSED(argv);
-    
-    printf("Hello!");
+
+    con_enum("Hello!\nMy name is\nDmitrii", ALIGN_HCENTER, ARABIC_NUMERALS);
 
     return EXIT_SUCCESS;
 }

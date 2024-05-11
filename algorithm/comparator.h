@@ -14,6 +14,7 @@
 #pragma region --- INCLUDES ---
 
 #include "../core/core.h"
+#include <stdint.h>
 
 #pragma endregion
 

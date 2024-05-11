@@ -132,36 +132,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="algorithm\random.c" />
-    <ClCompile Include="algorithm\search.c" />
-    <ClCompile Include="algorithm\sort.c" />
-    <ClCompile Include="algorithm\swap.c" />
-    <ClCompile Include="collection\array\array.c" />
-    <ClCompile Include="collection\general.c" />
-    <ClCompile Include="collection\iterator\iterator.c" />
-    <ClCompile Include="collection\private.c" />
-    <ClCompile Include="collection\string\string.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="core\metrics.c" />
-    <ClCompile Include="task1\task1.c" />
-    <ClCompile Include="task2\task2.c" />
-    <ClCompile Include="task3\task3.c" />
-    <ClCompile Include="utils\timer.c" />
-    <ClCompile Include="utils\utils.c" />
+    <ClCompile Include="utils\console.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="algorithm\algorithm.h" />
-    <ClInclude Include="algorithm\comparator.h" />
-    <ClInclude Include="algorithm\random.h" />
-    <ClInclude Include="algorithm\search.h" />
-    <ClInclude Include="algorithm\sort.h" />
-    <ClInclude Include="algorithm\swap.h" />
-    <ClInclude Include="collection\array\array.h" />
-    <ClInclude Include="collection\collections.h" />
-    <ClInclude Include="collection\general.h" />
-    <ClInclude Include="collection\iterator\iterator.h" />
-    <ClInclude Include="collection\private.h" />
-    <ClInclude Include="collection\string\string.h" />
     <ClInclude Include="collection\type.h" />
     <ClInclude Include="core\core.h" />
     <ClInclude Include="core\debug.h" />
@@ -172,16 +147,13 @@
     <ClInclude Include="core\macro\macro.h" />
     <ClInclude Include="core\macro\reverse.h" />
     <ClInclude Include="core\macro\sequence.h" />
+    <ClInclude Include="core\macro\variadic.h" />
     <ClInclude Include="core\metrics.h" />
     <ClInclude Include="core\macro\varidatic.h" />
     <ClInclude Include="core\type\tuple.h" />
     <ClInclude Include="core\type\variant.h" />
-    <ClInclude Include="task1\task1.h" />
-    <ClInclude Include="task2\task2.h" />
     <ClInclude Include="algorithm\types.h" />
-    <ClInclude Include="task3\task3.h" />
-    <ClInclude Include="utils\timer.h" />
-    <ClInclude Include="utils\utils.h" />
+    <ClInclude Include="utils\console.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

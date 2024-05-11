@@ -13,8 +13,8 @@
 
 #pragma region --- INCLUDES ---
 
-#include "array.h"
-#include "iterator.h"
+#include "array/array.h"
+#include "iterator/iterator.h"
 #include "../core/macro/foreach.h"
 
 #pragma endregion
