@@ -11,20 +11,20 @@
 
 #pragma once
 
-#pragma region --- INCLUDES ---
+#pragma region --- INCLUDE ---
 
 #include "../core/core.h"
 
 #pragma endregion
 
-#pragma region --- TYPEDEFS ---
+#pragma region --- TYPEDEF ---
 
 typedef void (swap_t)(_INOUT void*, _INOUT void*, _IN size_t);
 typedef swap_t* swap_pt;
 
 #pragma endregion
 
-#pragma region --- FUNCTIONS ---
+#pragma region --- FUNCTION ---
 
 /**
  * @brief swaps values between lhs and rhs pointers with size
@@ -36,17 +36,17 @@ swap_t swap;
 
 #pragma endregion
 
-#pragma region --- DECLARATORS ---
+#pragma region --- DECLARATOR ---
 #ifdef _SWAP_DECLARATOR_
 
-#define DECLARE_SWAP(prefix, type)                                 \
-    inline void prefix##_swap(void* lhs, void* rhs, size_t size) { \
-        UNUSED(size);                                              \
-        assert(lhs);                                               \
-        assert(rhs);                                               \
-        type temp = *(type*)lhs;                                   \
-        *(type*)lhs = *(type*)rhs;                                 \
-        *(type*)rhs = temp;                                        \
+#define DECLARE_SWAP(prefix, type)                                        \
+    static inline void prefix##_swap(void* lhs, void* rhs, size_t size) { \
+        UNUSED(size);                                                     \
+        assert(lhs);                                                      \
+        assert(rhs);                                                      \
+        type temp = *(type*)lhs;                                          \
+        *(type*)lhs = *(type*)rhs;                                        \
+        *(type*)rhs = temp;                                               \
     }
 
 DECLARE_SWAP(i8  , int8_t     );

@@ -1,6 +1,7 @@
 /*******************************************************************************
  *  @file      private.c
  *  @brief     private collection members definition
+ *  @note      only for internal use
  *  @author    Young Sideways
  *  @date      19.04.2024
  *  @copyright © Young Sideways, 2024. All right reserved.
@@ -13,6 +14,7 @@
 #include <string.h>
 
 #include "../algorithm/swap.h"
+#include "../core/macro/macro.h"
 
 #pragma endregion
 
@@ -24,12 +26,12 @@
 
 #pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 
-struct collection_universal_header _alloc_cuh(
+struct collection_universal_header alloc_cuh(
     _IN _NULLABLE const size_t capacity,
     _IN _NULLABLE const size_t size,
     _IN           const size_t element_size)
 {
-    explain_assert(element_size, "collection error: size of element cant be 0");
+    explain_assert(element_size, "collection error: size of element can't be zero");
     explain_assert(size <= capacity, "collection error: size greater than capacity");
 
     return (struct collection_universal_header) {
@@ -39,21 +41,21 @@ struct collection_universal_header _alloc_cuh(
     };
 }
 
-struct collection_algorithm_adapter _alloc_caa(
+struct collection_algorithm_adapter alloc_caa(
     _IN _NULLABLE const void* _comp,
     _IN _NULLABLE const void* _swap,
     _IN _NULLABLE const void* _srch,
     _IN _NULLABLE const void* _sort)
 {
     return (struct collection_algorithm_adapter) {
-        ._comp = M_TERNAR(_comp, _comp, &memcmp),
-        ._swap = M_TERNAR(_swap, _swap, &swap),
+        ._comp = M_ISNULL(_comp, &memcmp),
+        ._swap = M_ISNULL(_swap, &swap),
         ._srch = _srch,
         ._sort = _sort
     };
 }
 
-struct collection_iterator_adapter _alloc_cia(
+struct collection_iterator_adapter alloc_cia(
     _IN const u_acc_t _init,
     _IN const u_acc_t _next,
     _IN const u_acc_t _prev)
@@ -68,27 +70,29 @@ struct collection_iterator_adapter _alloc_cia(
     };
 }
 
-struct collection_manager _alloc_cm(
+struct collection_manager_adapter alloc_cma(
     _IN           const u_mgr_t _copy,
     _IN _NULLABLE const u_mgr_t _dtor)
 {
     assert(_copy);
-    return (struct collection_manager) {
+    return (struct collection_manager_adapter) {
         ._copy = _copy,
         ._dtor = _dtor
     };
 }
 
-#pragma endregion
-
-#pragma region --- FUNCION ---
-#pragma endregion
-
-#pragma region --- DEFAULT ---
-
-void _default_manager(_IN void* collection) {
-    UNUSED(collection);
+struct collection_private_header alloc_cph(
+    _IN           struct collection_algorithm_adapter caa,
+    _IN           struct collection_iterator_adapter cia,
+    _IN           struct collection_manager_adapter cma,
+    _IN _NULLABLE void* _data)
+{
+    return (struct collection_private_header) {
+        .caa   = caa,
+        .cia   = cia,
+        .cma   = cma,
+        ._data = _data
+    };
 }
 
 #pragma endregion
-

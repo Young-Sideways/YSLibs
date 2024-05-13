@@ -11,21 +11,21 @@
 
 #pragma once
 
-#pragma region --- INCLUDES ---
+#pragma region --- INCLUDE ---
 
 #include "swap.h"
 #include "comparator.h"
 
 #pragma endregion
 
-#pragma region --- TYPEDEFS ---
+#pragma region --- TYPEDEF ---
 
 typedef void (sort_t)(_INOUT void*, _IN size_t, _IN size_t, _IN _NULLABLE comparator_pt, _IN _NULLABLE swap_pt);
 typedef sort_t* sort_pt;
 
 #pragma endregion
 
-#pragma region --- FUNCTIONS ---
+#pragma region --- FUNCTION ---
 
 /**
  *  @brief Implementation of selection sort

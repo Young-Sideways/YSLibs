@@ -1,17 +1,26 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <locale.h>
 
-#include "core/core.h"
-#include "utils/console.h"
-#include <math.h>
+#include "algorithm/algorithm.h"
+#include "collection/collections.h"
 
+int size = 10;
 
 int main(int argc, char* argv[]) {
     UNUSED(argc);
     UNUSED(argv);
 
-    con_enum("Hello!\nMy name is\nDmitrii", ALIGN_HCENTER, ARABIC_NUMERALS);
+    array_t arr = new(array_t, int, size);
+    if (arr) {
+        int i = 1;
+        for_each(int, it, arr)
+            printf("%d: %d\n", i++, *it);
+
+
+
+
+        delete(&arr);
+    }
 
     return EXIT_SUCCESS;
 }

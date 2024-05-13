@@ -11,20 +11,20 @@
 
 #pragma once
 
-#pragma region --- INCLUDES ---
+#pragma region --- INCLUDE ---
 
 #include "../core/core.h"
 
 #pragma endregion
 
-#pragma region --- TYPEDEFS ---
+#pragma region --- TYPEDEF ---
 
 typedef (random_t)(_IN int, _IN int);
 typedef random_t* random_pt;
 
 #pragma endregion
 
-#pragma region --- FUNCTIONS ---
+#pragma region --- FUNCTION ---
 
 /// @brief Initilizes a PRNG with current time stamp
 void random_init();
@@ -45,7 +45,7 @@ random_t random;
  * @param min - minimum value of generated range
  * @param max - maximum value of generated range
  */
-void random_fill(int*, size_t, random_pt, int, int);
+void random_fill(int*, size_t, _NULLABLE random_pt, int, int);
 
 #pragma endregion
 

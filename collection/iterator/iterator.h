@@ -82,13 +82,16 @@
 
 #pragma once
 
-#pragma region --- INCLUDES ---
+#pragma region --- INCLUDE ---
 
-#include "general.h"
+#include <stdbool.h>
+
+#include "../general.h"
+#include "../../core/debug.h"
 
 #pragma endregion
 
-#pragma region --- TYPEDEFS ---
+#pragma region --- TYPEDEF ---
  /**
   *  @enum  it_direction_t
   *  @brief Defines iterator bypass type
@@ -104,17 +107,17 @@ typedef enum {
  *  @brief  Defines iterator structure
  */
 typedef struct {
-    void*          collection;
-    byte*          data      ;
-    int            stage     ;
-    it_direction_t direction ;
+    struct collection_universal_header* collection;
+    byte*                               data      ;
+    int                                 stage     ;
+    it_direction_t                      direction ;
 } iterator_t;
 
 #pragma endregion
 
 #pragma region --- MACRO ---
 
-#define INVALID_STAGE (INT32_MIN)
+#define INVALID_STAGE COLLECTION_INVALID_INDEX
 
 #define INVALID_ITERATOR (iterator_t) { \
     .collection = NULL,                 \
@@ -232,7 +235,7 @@ static void it_swap(void* lhs, void* rhs, size_t size) {
  *  @param[in]  size - unused
  *  @retval     offset between lhs and rhs, othewise @code CONTAINER_INVALID_INDEX @endcode
  */
-iterator_t it_find(_IN iterator_t begin, _IN iterator_t end, _IN void* value) {
+static iterator_t it_find(_IN iterator_t begin, _IN iterator_t end, _IN void* value) {
     it_comp(&begin, &end, 0);
     comparator_pt comp = get_comp(begin.collection);
     if (comp)
@@ -251,7 +254,7 @@ iterator_t it_find(_IN iterator_t begin, _IN iterator_t end, _IN void* value) {
  *  @param[in]  begin - valid left begin iterator
  *  @param[in]  end   - valid right end iterator
  */
-void it_sort(_IN iterator_t begin, _IN iterator_t end) {
+static void it_sort(_IN iterator_t begin, _IN iterator_t end) {
     extern void* _iterator_private_try_normalize_forward(iterator_t begin, iterator_t end, size_t* size);
 
     size_t size = 0;

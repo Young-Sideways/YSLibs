@@ -12,104 +12,87 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
-#include "../algorithm/search.h"
-#include "private.h"
+#include "../../algorithm/search.h"
+#include "../private.h"
 
 #pragma endregion
 
 #pragma region --- STATIC ---
 
-static inline void _init(struct universal_collection_header* collection, void** block, int* index) {
-    UCH_DECL_REF(collection, header);
+static inline void _init(struct collection_universal_header* collection, void** block, int* index) {
+    *block = NULL;
+    if (*index == COLLECTION_INVALID_INDEX)
+        return;
     if (*index < 0) {
         *index = -1;
-        *block = NULL;
         return;
     }
-    if (*index >= header->size) {
-        *index = header->size;
-        *block = NULL;
+    if (*index >= collection->size) {
+        *index = collection->size;
         return;
     }
-    *block = ((byte*)collection + header->element_size * *index);
+    *block = ((byte*)CPH_EXTRACT(collection)->_data + collection->element_size * *index);
 }
-static inline void _next(struct universal_collection_header* collection, void** block, int* index) {
+static inline void _next(struct collection_universal_header* collection, void** block, int* index) {
     *index += 1;
     _init(collection, block, index);
 }
-static inline void _prev(struct universal_collection_header* collection, void** block, int* index) {
+static inline void _prev(struct collection_universal_header* collection, void** block, int* index) {
     *index -= 1;
     _init(collection, block, index);
 }
+static inline void* _copy(void* collection) {
+    array_t from = (array_t)collection;
+    CPH_CREF(collection, from_header);
+
+    byte* result = (byte*)malloc(sizeof(struct collection_private_header) + sizeof(struct array_t) + (from->size + from->element_size));
+    if (result) {
+        memcpy(result, from_header, sizeof(struct collection_private_header) + sizeof(struct array_t) + (from->size + from->element_size));
+        result += sizeof(struct collection_private_header);
+    }
+    return (array_t)result;
+}
 
 static inline bool _array_private_is_valid(array_t array) {
-    UCH_DECL_REF(array, header);
-    return (header->size == header->capacity)
-        && (header->size <= ARRAY_SIZE_MAX)
-        && (header->element_size);
+    return (array->size == array->capacity)
+        && (array->size <= ARRAY_SIZE_MAX)
+        && (array->element_size)
+        && (array->data);
 }
+
 #pragma endregion
 
 #pragma region --- CONSTRUCTORS / DESTRUCTORS ---
 
-array_t arr_init(const size_t size, const size_t element_size) {
-    byte* block = calloc(sizeof(struct universal_collection_header) + (size * element_size), sizeof(byte));
+array_t arr_init(_IN const size_t size, _IN const size_t element_size) {
+    struct array_t* result = NULL;
+    struct collection_private_header* block = (struct collection_private_header*)malloc(sizeof(struct collection_private_header) + sizeof(struct array_t) + (size + element_size));
     if (block) {
-        *(struct universal_collection_header*)block = uch_allocator(
-            size,
-            size,
-            element_size,
-            &memcmp,
-            NULL,
-            NULL,
-            NULL,
-            &_init,
-            &_next,
-            &_prev,
-            NULL,
+        *block = alloc_cph(
+            alloc_caa(NULL, NULL, NULL, NULL),
+            alloc_cia(&_init, &_next, &_prev),
+            alloc_cma(&_copy, NULL),
             NULL);
-        block += sizeof(struct universal_collection_header);
+
+        result = (struct array_t*)(block + 1);
+        *result = (struct array_t){ alloc_cuh(size, size, element_size), NULL };
+
+        block->_data = result->data = (void*)(result + 1);
+        memset(result->data, 0, size * element_size);
     }
-    return (array_t)block;
-}
-
-array_t arr_shadow(_IN const array_t array) {
-    assert(array);
-    return arr_init(UCH_EXTRACT(array)->size, UCH_EXTRACT(array)->element_size);
-}
-
-array_t arr_copy(_IN const array_t array) {
-    assert(array);
-    byte* block = malloc(sizeof(struct universal_collection_header) + (UCH_EXTRACT(array)->size * UCH_EXTRACT(array)->element_size));
-    if (block) {
-        if (memcpy(block, UCH_EXTRACT(array), sizeof(struct universal_collection_header) + (UCH_EXTRACT(array)->size * UCH_EXTRACT(array)->element_size)))
-            block += sizeof(struct universal_collection_header);
-        else {
-            free(block);
-            block = NULL;
-        }
-    }
-    return (array_t)block;
-}
-
-array_t arr_move(_IN array_t* array) {
-    assert(_array_private_is_valid(*array));
-    array_t result = *array;
-    *array = NULL;
-    return result;
+    return (array_t)result;
 }
 
 #pragma endregion
 
 #pragma region --- ACCESSORS ---
 
-void* arr_at(array_t array, int position) {
+void* arr_at(_IN array_t array, _IN int position) {
     assert(_array_private_is_valid(array));
-    if (position < 0)
-        position = (int)UCH_EXTRACT(array)->size + position;
-    assert(position > -1 && position < UCH_EXTRACT(array)->size);
-    return (byte*)array + position * UCH_EXTRACT(array)->element_size;
+    assert(position >= 0 && position < array->size);
+    return (byte*)array->data + position * array->element_size;
 }
 
 #pragma endregion

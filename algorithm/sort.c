@@ -8,16 +8,18 @@
 
 #include "sort.h"
 
-#pragma region --- INCLUDES ---
+#pragma region --- INCLUDE ---
 
 #include <math.h>
 #include <string.h>
 
+#include "../core/debug.h"
+
 #pragma endregion
 
-#pragma region --- FUNCTIONS ---
+#pragma region --- FUNCTION ---
 
-void selection_sort(void* array, size_t count, size_t element_size, comparator_pt _comparator, swap_pt _swap) {
+void selection_sort(_INOUT void* array, _IN size_t count, _IN size_t element_size, _IN _NULLABLE comparator_pt _comparator, _IN _NULLABLE swap_pt _swap) {
     assert(array);
     assert(count);
     assert(element_size);
@@ -37,7 +39,7 @@ void selection_sort(void* array, size_t count, size_t element_size, comparator_p
     }
 }
 
-void insertion_sort(void* array, size_t count, size_t element_size, comparator_pt _comparator, swap_pt _swap) {
+void insertion_sort(_INOUT void* array, _IN size_t count, _IN size_t element_size, _IN _NULLABLE comparator_pt _comparator, _IN _NULLABLE swap_pt _swap) {
     assert(array);
     assert(count);
     assert(element_size);
@@ -78,7 +80,7 @@ static void _private_quick_sort(byte* begin, byte* end, size_t element_size, com
     _private_quick_sort(pivot + element_size, end, element_size, _comparator, _swap);
 }
 
-void quick_sort(void* array, size_t count, size_t element_size, comparator_pt _comparator, swap_pt _swap) {
+void quick_sort(_INOUT void* array, _IN size_t count, _IN size_t element_size, _IN _NULLABLE comparator_pt _comparator, _IN _NULLABLE swap_pt _swap) {
     assert(array);
     assert(count);
     assert(element_size);

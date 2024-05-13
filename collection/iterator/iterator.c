@@ -10,7 +10,8 @@
 
 #pragma region --- INCLUDES ---
 
-#include "private.h"
+#include <stdbool.h>
+#include "../private.h"
 
 #pragma endregion
 
@@ -21,21 +22,21 @@ static inline bool _iterator_private_is_init(iterator_t* iterator) {
 }
 
 static inline bool _iterator_private_is_bound(iterator_t* iterator) {
-    UCH_DECL_REF(iterator->collection, header);
+    CPH_REF(iterator->collection, header);
 
     switch (iterator->direction)
     {
     case IT_REVERSE:
-        return !(iterator->stage < -1 || iterator->stage >= header->size); // [-1 ... N)  --->  true, otherwise false
+        return !(iterator->stage < -1 || iterator->stage >= iterator->collection->size); // [-1 ... N)  --->  true, otherwise false
     case IT_FORWARD:
-        return !(iterator->stage < 0 || iterator->stage > header->size);   // (-1 ... N]  --->  true, otherwise false
+        return !(iterator->stage < 0 || iterator->stage > iterator->collection->size);   // (-1 ... N]  --->  true, otherwise false
     default:
         return false;
     }
 }
 
 static inline bool _iterator_private_is_range(iterator_t* iterator) {
-    return !(iterator->stage < 0 || iterator->stage >= UCH_EXTRACT(iterator->collection)->size); // [0 ... N)  --->  true, otherwise false
+    return !(iterator->stage < 0 || iterator->stage >= iterator->collection->size); // [0 ... N)  --->  true, otherwise false
 }
 
 static inline bool _iterator_private_is_valid(iterator_t* iterator) {
@@ -55,7 +56,7 @@ iterator_t it_begin(_IN void* collection) {
             .stage      = 0,
             .direction  = IT_FORWARD
     };
-    UCH_EXTRACT(collection)->_init(collection, &(result.data), &(result.stage));
+    CPH_EXTRACT(collection)->cia._init(collection, &(result.data), &(result.stage));
     return result;
 }
 iterator_t it_end(_IN void* collection) {
@@ -64,7 +65,7 @@ iterator_t it_end(_IN void* collection) {
     return (iterator_t) {
         .collection = collection,
         .data = NULL,
-        .stage = (int)UCH_EXTRACT(collection)->size,
+        .stage = (int)((struct collection_universal_header*)collection)->size,
         .direction = IT_FORWARD
     };
 }
@@ -75,10 +76,10 @@ iterator_t it_rbegin(_IN void* collection) {
     iterator_t result = (iterator_t){
         .collection = collection,
         .data = NULL,
-        .stage = (int)UCH_EXTRACT(collection)->size - 1,
+        .stage = (int)((struct collection_universal_header*)collection)->size - 1,
         .direction = IT_REVERSE
     };
-    UCH_EXTRACT(collection)->_init(collection, &(result.data), &(result.stage));
+    CPH_EXTRACT(collection)->cia._init(collection, &(result.data), &(result.stage));
     return result;
 }
 
@@ -102,12 +103,12 @@ iterator_t it_last(_IN void* collection) {
     iterator_t result = (iterator_t){
         .collection = collection,
         .data = NULL,
-        .stage = (int)UCH_EXTRACT(collection)->size,
+        .stage = (int)((struct collection_universal_header*)collection)->size,
         .direction = IT_FORWARD
     };
     if (result.stage)
         result.stage--;
-    UCH_EXTRACT(collection)->_init(collection, &(result.data), &(result.stage));
+    CPH_EXTRACT(collection)->cia._init(collection, &(result.data), &(result.stage));
     return _iterator_private_is_valid(&result) ? result : INVALID_ITERATOR;
 }
 
@@ -128,10 +129,10 @@ void it_next(_IN iterator_t* iterator) {
         switch (iterator->direction)
         {
         case IT_REVERSE:
-            UCH_EXTRACT(iterator->collection)->_prev(iterator->collection, &(iterator->data), &(iterator->stage));
+            CPH_EXTRACT(iterator->collection)->cia._prev(iterator->collection, &(iterator->data), &(iterator->stage));
             break;
         case IT_FORWARD:
-            UCH_EXTRACT(iterator->collection)->_next(iterator->collection, &(iterator->data), &(iterator->stage));
+            CPH_EXTRACT(iterator->collection)->cia._next(iterator->collection, &(iterator->data), &(iterator->stage));
             break;
         default:
             break;
@@ -158,10 +159,10 @@ void it_prev(_IN iterator_t* iterator) {
         switch (iterator->direction)
         {
         case IT_REVERSE:
-            UCH_EXTRACT(iterator->collection)->_next(iterator->collection, &(iterator->data), &(iterator->stage));
+            CPH_EXTRACT(iterator->collection)->cia._next(iterator->collection, &(iterator->data), &(iterator->stage));
             break;
         case IT_FORWARD:
-            UCH_EXTRACT(iterator->collection)->_prev(iterator->collection, &(iterator->data), &(iterator->stage));
+            CPH_EXTRACT(iterator->collection)->cia._prev(iterator->collection, &(iterator->data), &(iterator->stage));
             break;
         default:
             break;
@@ -185,7 +186,7 @@ void it_prev(_IN iterator_t* iterator) {
 
 #pragma region --- ALGORITHM ADAPTER ---
 
-#include "../core/macro/macro.h"
+#include "../../core/macro/macro.h"
 
 int it_comp(void* lhs, void* rhs, size_t size) {
     UNUSED(size);
@@ -200,24 +201,21 @@ int it_comp(void* lhs, void* rhs, size_t size) {
 void* _iterator_private_try_normalize_forward(_IN iterator_t begin, _IN iterator_t end, _OUT size_t* size) {
     assert(size);
 
-    explain_assert(_iterator_private_is_valid(&begin), "iterator error: invalid begin iterator"         );
-    explain_assert(_iterator_private_is_valid(&end)  , "iterator error: invalid end iterator"           );
-    explain_assert(begin.collection == end.collection, "iterator error: differrent iterator collections");
-    explain_assert(begin.direction == end.direction  , "iterator error: differrent iterator directions" );
-    explain_assert(it_comp(&begin, &end, NULL) <= 0  , "iterator error: the end is to the left of begin");
+    explain_assert(_iterator_private_is_valid(&begin), "iterator error: invalid begin iterator"                           );
+    explain_assert(_iterator_private_is_valid(&end)  , "iterator error: invalid end iterator"                             );
+    explain_assert(begin.collection == end.collection, "iterator error: differrent iterator collections"                  );
+    explain_assert(begin.direction == end.direction  , "iterator error: differrent iterator directions"                   );
+    explain_assert(it_comp(&begin, &end, 0U) <= 0    , "iterator error: the end iterator is to the left of begin iterator");
 
-    if (!UCH_EXTRACT(begin.collection)->_data) {
+    if (!CPH_EXTRACT(begin.collection)->_data) {
         *size = 0U;
         return NULL;
     }
 
-    UCH_DECL_REF(begin.collection, header);
+    int range = it_comp(&begin, &end, 0U);
 
-    int range = it_comp(&begin, &end, NULL);
-
-    byte* base_address = NULL;
-    header->_data(header, &base_address, NULL);
-    base_address += begin.stage * header->element_size;
+    byte* base_address = CPH_EXTRACT(begin.collection)->_data;
+    base_address += begin.stage * begin.collection->element_size;
     *size = range;
     return base_address;
 }

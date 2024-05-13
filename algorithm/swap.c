@@ -8,14 +8,16 @@
 
 #include "swap.h"
 
-#pragma region --- INCLUDES ---
+#pragma region --- INCLUDE ---
 
 #include <stdint.h>
 #include <math.h>
 
+#include "../core/debug.h"
+
 #pragma endregion
 
-#pragma region --- FUNCTIONS ---
+#pragma region --- FUNCTION ---
 
 void swap(void* lhs, void* rhs, size_t size) {
     assert(lhs);

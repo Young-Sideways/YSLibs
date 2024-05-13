@@ -8,39 +8,56 @@
 
 /*******************************************************************************
  * 
- * UCH - universal collection header
- * SCH - specific collection header
- * DAT - data segments
+ * adaptors - private headers
+ * CUH      - universal collection header
+ * SCH      - specific collection header
+ * DAT      - data segment
  * 
  * 
  * - inplace container type with specific header
- *     |---------------|---------------|---------------|
- *     |      UCH      |      SCH      |      DAT      |
- *     |---------------|---------------|---------------|
- * -size(UCH)          0            size(SCH)      size(DAT)
- *     |---------------|---------------|---------------|
- * 
+ *     +---------------+---------------+---------------+---------------+
+ *     |   adaptors    |      CUH      |      SCH      |      DAT      |
+ *     +---------------+---------------+---------------+---------------+
+ * -size(adaptors)     0            size(CUH)      size(SCH)       size(DAT)
+ *     +---------------+---------------+---------------+---------------+
  * 
  * - inplace container type without specific header
- *     |---------------|---------------|
- *     |      UCH      |      DAT      |
- *     |---------------|---------------|
- * -size(UCH)          0           size(DAT)
- *     |---------------|---------------|
+ *     +---------------+---------------+---------------+
+ *     |   adaptors    |      CUH      |      DAT      |
+ *     +---------------+---------------+---------------+
+ * -size(adaptors)     0           size(CUH)       size(DAT)
+ *     +---------------+---------------+---------------+
  * 
+ * 
+ * - reference container type with specific header
+ *     +---------------+---------------+---------------+
+ *     |   adaptors    |      CUH      |      SCH      |
+ *     +---------------+---------------+---------------+
+ * -size(adaptors)     0           size(CUH)       size(SCH)
+ *     +---------------+-----------+---+-----------+---+
+ *                                 |               *
+ *                                 |               *
+ *                                 |       * maybe pointer *
+ *                                 |               *
+ *                                 |               v
+ *                              pointer     +---------------+
+ *                                 |        |      DAT      |
+ *                                 +------> +---------------+
+ *                                          0           size(DAT)
+ *                                          +---------------+
  * 
  * - reference container type
- *     |---------------|---------------|
- *     |      UCH      |      SCH      |
- *     |---------------|---------------|
- * -size(UCH)          0            size(SCH)
- *     |---------------|------|--------|
- *                            |
- *                         pointer          |---------------|
- *                            |             |      DAT      |
- *                            ------------> |---------------|
+ *     +---------------+---------------+
+ *     |   adaptors    |      CUH      |
+ *     +---------------+---------------+
+ * -size(adaptors)     0           size(CUH)
+ *     +---------------+-----------+---+
+ *                                 |
+ *                              pointer     +---------------+
+ *                                 |        |      DAT      |
+ *                                 +------> +---------------+
  *                                          0           size(DAT)
- *                                          |---------------|
+ *                                          +---------------+
  * 
  ******************************************************************************/
 
@@ -52,7 +69,6 @@
 #pragma region --- INCLUDE ---
 
 #include "../core/core.h"
-#include "../core/macro/sequence.h"
 
 #include <stdint.h>
 
@@ -83,13 +99,11 @@
 *  @def   COLLECTION_INVALID_INDEX
 *  @brief Value of invalid index for all containers
 */
-#define COLLECTION_INVALID_INDEX (INT32_C(-1))
-
-#define COLLECTION_DECLARE_TYPE(name, ...) typedef const struct { struct collection_universal_header; VA_SEQ_SEMI(__VA_ARGS__) } * const name
+#define COLLECTION_INVALID_INDEX (INT32_MIN)
 
 #pragma endregion
 
-#pragma region --- TYPEDEFS ---
+#pragma region --- TYPEDEF ---
 
 struct collection_universal_header {
     size_t capacity;
@@ -99,13 +113,53 @@ struct collection_universal_header {
 
 #pragma endregion
 
-#pragma region --- UNIVERSAL CONSTRUCTORS / DESTRUCTORS ---
+#pragma region --- UNIVERSAL CONSTRUCTOR / DESTRUCTOR ---
 
-void* copy(void* collection);
-void* move(void* collection);
-void* shadow(void* collection);
+void* copy(_IN const void* collection);
+void* move(_INOUT void** collection);
 
 void delete(_INOUT void** collection);
+
+#pragma endregion
+
+#pragma region --- GETTER / SETTER ---
+
+#define _DECL_GET_SET(type, name, field)                                              \
+    static type get_##name(void* collection) {                                        \
+        extern void* _collection_private_##field##_get(void*);                        \
+        return (type)_collection_private_##field##_get(collection);                   \
+    }                                                                                 \
+    static void set_##name(void* collection, type value) {                            \
+        extern void _collection_private_##field##_set(void* collection, void* value); \
+        _collection_private_##field##_set(collection, (void*)value);                  \
+    }
+
+#ifdef _SWAP_H_
+
+_DECL_GET_SET(swap_pt, swap, _swap)
+
+#endif // _SWAP_H_
+
+#ifdef _COMPARATOR_H_
+
+_DECL_GET_SET(comparator_pt, comp, _comp)
+
+#endif // _COMPARATOR_H_
+
+#ifdef _SEARCH_H_
+
+_DECL_GET_SET(search_pt, search, _srch)
+
+#endif // _SEARCH_H_
+
+#ifdef _SORT_H_
+
+_DECL_GET_SET(sort_pt, sort, _sort)
+
+#endif // _SORT_H_
+
+
+#undef _DECL_GET_SET
 
 #pragma endregion
 

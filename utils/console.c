@@ -67,7 +67,7 @@ char* enum_to_alphabet(int num, char* buffer, size_t buffer_size, bool is_upper)
     int i = 0;
     do {
         num--;
-        buffer[i++] = is_upper ? 'A' : 'a' + num % 26;
+        buffer[i++] = (is_upper ? 'A' : 'a') + (num % 26);
         num /= 26;
     } while (num > 0);
     buffer[i--] = '\0';
@@ -79,75 +79,83 @@ char* enum_to_alphabet(int num, char* buffer, size_t buffer_size, bool is_upper)
     return buffer;
 }
 
-char* con_enum_translate(int number, enumeration_t enumeration, char* buffer, size_t buffer_size) {
+char* con_enum_translate(int number, enumeration_t enumeration, char* buffer, size_t buffer_size, _NULLABLE size_t* ret_size) {
+    const char* str = NULL;
     switch (enumeration)
     {
     case ARABIC_NUMERALS:
-        return enum_to_arabic(number, buffer, buffer_size);
+        str = enum_to_arabic(number, buffer, buffer_size);
+        break;
     case ROMAN_NUMERALS:
-        return enum_to_roman(number, buffer, buffer_size);
+        str = enum_to_roman(number, buffer, buffer_size);
+        break;
     case ALPHABET_LOWERCASE:
-        return enum_to_alphabet(number, buffer, buffer_size, false);
+        str = enum_to_alphabet(number, buffer, buffer_size, false);
+        break;
     case ALPHABET_UPPERCASE:
-        return enum_to_alphabet(number, buffer, buffer_size, true);
+        str = enum_to_alphabet(number, buffer, buffer_size, true);
+        break;
     default:
         break;
     }
-    return NULL;
+    if (str && ret_size)
+        *ret_size = strlen(str);
+    return str;
 }
 
 void con_enum(const char* content, alignment_t align, enumeration_t enumeration) {
     if (!content || !*content)
         return;
-    size_t max_size = 0,
-           total_size = 0,
-           current_size = 0,
-           rows = 0;
 
-    char buf[128] = { 0 };
+    size_t max_size = 0;
+    size_t max_enum_size = 0;
 
-    for (int retval = 0; (retval = sscanf(content + total_size, "%*[^\r\n]%n", &current_size)) != EOF;) {
-        if (retval == 0) {
-            total_size++;
-            continue;
-        }
+    int i = 1;
+    for (const char* str = content; *str;) {
+        size_t current_size = strcspn(str, "\r\n");
         if (current_size) {
-            total_size += current_size;
-            rows++;
             if (max_size < current_size)
                 max_size = current_size;
-        }
-        current_size = 0;
-    }
-    total_size = 0;
-    for (int i = 1, retval = 0; (retval = sscanf(content + total_size, "%128[^\r\n]%n", buf, &current_size)) != EOF;) {
-        if (retval == 0) {
-            total_size++;
-            continue;
-        }
-        if (current_size) {
-            total_size += current_size;
+            str += current_size;
+
             char num_buf[32] = { 0 };
+            size_t enum_size = 0;
+            con_enum_translate(i, enumeration, num_buf, 32, &enum_size);
+            if (max_enum_size < enum_size)
+                max_enum_size = enum_size;
+            i++;
+        }
+        else
+            str++;
+    }
+    i = 1;
+    for (const char* str = content; *str;) {
+        size_t current_size = strcspn(str, "\r\n");
+        if (current_size) {
+            char num_buf[32] = { 0 };
+            con_enum_translate(i, enumeration, num_buf, 32, NULL);
             switch (align & ALIGN_HMASK)
             {
             case ALIGN_HRIGHT:
-                printf("%s: %-*s\n", con_enum_translate(i, enumeration, num_buf, 32), (unsigned)max_size, buf);
+                printf("%-*s: %*.*s\n", (unsigned)max_enum_size, num_buf, (unsigned)max_size, (unsigned)current_size, str);
                 break;
             case ALIGN_HCENTER:
-                printf("%s: %*s\n", con_enum_translate(i, enumeration, num_buf, 32), (unsigned)((max_size - current_size) / 2 + current_size), buf);
+                printf("%-*s: %*.*s\n", (unsigned)max_enum_size, num_buf, (unsigned)((max_size - current_size) / 2 + current_size), (unsigned)current_size, str);
                 break;
             case ALIGN_HLEFT:
             default:
-                printf("%s: %s\n", con_enum_translate(i, enumeration, num_buf, 32), buf);
+                printf("%-*s: %.*s\n", (unsigned)max_enum_size, num_buf, (unsigned)current_size, str);
                 break;
             }
             i++;
-            current_size = 0;
+            str += current_size;
         }
+        else
+            str++;
     }
 }
 
-void con_box(char* content, alignment_t align, int padding) {
+void con_box(char* content, alignment_t align, padding_t padding) {
 
 }
 
@@ -155,5 +163,6 @@ void con_box(char* content, alignment_t align, int padding) {
 
 #pragma region ---  ---
 #pragma endregion
+
 #pragma region --- GENERIC ---
 #pragma endregion

@@ -8,15 +8,17 @@
 
 #include "search.h"
 
-#pragma region --- INCLUDES ---
+#pragma region --- INCLUDE ---
 
 #include <string.h>
 
+#include "../core/debug.h"
+
 #pragma endregion
 
-#pragma region --- FUNCTIONS ---
+#pragma region --- FUNCTION ---
 
-void* linear_search(void* array, size_t count, size_t element_size, void* value, comparator_pt comparator) {
+void* linear_search(_IN void* array, _IN _NULLABLE size_t count, _IN size_t element_size, _IN void* value, _IN _NULLABLE comparator_pt comparator) {
     assert(array);
     assert(element_size);
     assert(value);
@@ -30,7 +32,7 @@ void* linear_search(void* array, size_t count, size_t element_size, void* value,
     return NULL;
 }
 
-void* binary_search(void* array, size_t count, size_t element_size, void* value, comparator_pt comparator) {
+void* binary_search(_IN void* array, _IN _NULLABLE size_t count, _IN size_t element_size, _IN void* value, _IN _NULLABLE comparator_pt comparator) {
     assert(array);
     assert(element_size);
     assert(value);

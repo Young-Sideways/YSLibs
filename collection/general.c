@@ -17,65 +17,49 @@
 
 #pragma region --- CONSTRUCTORS / DESTRUCTORS ---
 
-void delete(void** collection)
-{
+void* copy(_IN const void* collection) {
+    assert(collection);
+    return CPH_EXTRACT(collection)->cma._copy((void*)collection);
+}
+void* move(_INOUT void** collection) {
+    assert(collection);
+    void* result = copy(*collection);
+    if (result) {
+        delete(collection);
+        return result;
+    }
+    return collection;
+}
+
+void delete(_INOUT void** collection) {
     assert(collection);
     assert(*collection);
-
-    if (UCH_EXTRACT(*collection)->_dtor)
-        UCH_EXTRACT(*collection)->_dtor(collection);
-    free(UCH_EXTRACT(*collection));
+    CPH_REF(*collection, header);
+    if (header->cma._dtor)
+        header->cma._dtor(collection);
+    free(header);
     *collection = NULL;
 }
 
 #pragma endregion
 
-#pragma region --- FUNCTIONS ---
+#pragma region --- GETTER / SETTER ---
 
-size_t get_capacity(void* collection) {
-    assert(collection);
-    return UCH_EXTRACT(collection)->capacity;
-}
-size_t get_size(void* collection) {
-    assert(collection);
-    return UCH_EXTRACT(collection)->size;
-}
-size_t get_element_size(void* collection) {
-    assert(collection);
-    return UCH_EXTRACT(collection)->element_size;
-}
+#define DECL_GET_SET(field)                                                 \
+    void* _collection_private_##field##_get(void* collection) {             \
+        assert(collection);                                                 \
+        return CPH_EXTRACT(collection)->caa.field;                          \
+    }                                                                       \
+    void _collection_private_##field##_set(void* collection, void* value) { \
+        assert(collection);                                                 \
+        CPH_EXTRACT(collection)->caa.field = value;                         \
+    }
 
-void* get_comp(void* collection) {
-    assert(collection);
-    return UCH_EXTRACT(collection)->_comp;
-}
-void set_comp(void* collection, void* value) {
-    assert(collection);
-    UCH_EXTRACT(collection)->_comp = value;
-}
-void* get_swap(void* collection) {
-    assert(collection);
-    return UCH_EXTRACT(collection)->_swap;
-}
-void set_swap(void* collection, void* value) {
-    assert(collection);
-    UCH_EXTRACT(collection)->_swap = value;
-}
-void* get_search(void* collection) {
-    assert(collection);
-    return UCH_EXTRACT(collection)->_search;
-}
-void set_search(void* collection, void* value) {
-    assert(collection);
-    UCH_EXTRACT(collection)->_search = value;
-}
-void* get_sort(void* collection) {
-    assert(collection);
-    return UCH_EXTRACT(collection)->_sort;
-}
-void set_sort(void* collection, void* value) {
-    assert(collection);
-    UCH_EXTRACT(collection)->_sort = value;
-}
+DECL_GET_SET(_comp)
+DECL_GET_SET(_swap)
+DECL_GET_SET(_srch)
+DECL_GET_SET(_sort)
+
+#undef DECL_GET_SET
 
 #pragma endregion

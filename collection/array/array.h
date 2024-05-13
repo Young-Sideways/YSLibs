@@ -26,17 +26,16 @@
 
 #pragma region --- TYPEDEFS ---
 
-COLLECTION_TYPE_DECLARATOR(array_t);
+typedef const struct array_t {
+    struct collection_universal_header;
+    void* data;
+} *array_t;
 
 #pragma endregion
 
 #pragma region --- CONSTRUCTORS / DESTRUCTORS ---
 
 array_t arr_init(_IN const size_t size, _IN const size_t element_size);
-
-array_t arr_copy(_IN const array_t array);
-array_t arr_move(_IN array_t* array);
-array_t arr_shadow(_IN const array_t array);
 
 #pragma endregion
 

@@ -8,7 +8,7 @@
 
 #include "random.h"
 
-#pragma region --- INCLUDES ---
+#pragma region --- INCLUDE ---
 
 #include <time.h>
 #include <stdlib.h>
@@ -16,7 +16,7 @@
 
 #pragma endregion
 
-#pragma region --- FUNCTIONS ---
+#pragma region --- FUNCTION ---
 
 void random_init() { srand(time(NULL)); }
 
@@ -27,7 +27,7 @@ int random(int from, int to) {
     return (int)((long long)_random() % ((long long)to - (long long)from) + (long long)from);
 }
 
-void random_fill(int* array, size_t size, random_pt generator, int min, int max) {
+void random_fill(int* array, size_t size, _NULLABLE random_pt generator, int min, int max) {
     if (!generator)
         generator = &random;
     for (int i = 0; i < size; ++i)

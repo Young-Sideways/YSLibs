@@ -67,6 +67,8 @@ typedef struct padding_t {
     int bottom;
 } padding_t;
 
+typedef const char* (enumerator_to_str_t)(int num, char* buffer, size_t buffer_size);
+
 #pragma endregion
 
 #pragma region --- FUNCION ---
@@ -75,15 +77,18 @@ char* enum_to_arabic(int num, char* buffer, size_t buffer_size);
 char* enum_to_roman(int num, char* buffer, size_t buffer_size);
 char* enum_to_alphabet(int num, char* buffer, size_t buffer_size, bool is_upper);
 
-char* con_enum_translate(int number, enumeration_t enumeration, char* buffer, size_t buffer_size);
+char* con_enum_translate(int number, enumeration_t enumeration, char* buffer, size_t buffer_size, _NULLABLE size_t* ret_size);
 
 void con_enum(const char* content, alignment_t align, enumeration_t enumeration);
 
-void con_box(char* content, alignment_t align, int padding);
+void con_box(char* content, alignment_t align, padding_t padding);
 
 #pragma endregion
 
-#pragma region ---  ---
+#pragma region --- MENU ---
+
+void menu_selector(const char* items[], int item_count) {}
+
 #pragma endregion
 
 #endif // !_CONSOLE_H_

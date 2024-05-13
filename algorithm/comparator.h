@@ -11,35 +11,35 @@
 
 #pragma once
 
-#pragma region --- INCLUDES ---
+#pragma region --- INCLUDE ---
 
 #include "../core/core.h"
 #include <stdint.h>
 
 #pragma endregion
 
-#pragma region --- TYPEDEFS ---
+#pragma region --- TYPEDEF ---
 
 typedef int (comparator_t)(_IN const void* lhs, _IN const void* rhs, _IN size_t size);
 typedef comparator_t* comparator_pt;
 
 #pragma endregion
 
-#pragma region --- DECLARATORS ---
+#pragma region --- DECLARATOR ---
 #ifdef _COMPARATOR_DECLARATOR_
 
-#define DECLARE_COMP(prefix, type)                                              \
-    inline int prefix##_fcomp(const void* lhs, const void* rhs, size_t size) {  \
-        UNUSED(size);                                                           \
-        assert(lhs);                                                            \
-        assert(rhs);                                                            \
-        return ((*(type*)lhs > *(type*)rhs) - (*(type*)lhs < *(type*)rhs));     \
-    };                                                                          \
-    inline int prefix##_rcomp(const void* lhs, const void* rhs, size_t size) {  \
-        UNUSED(size);                                                           \
-        assert(lhs);                                                            \
-        assert(rhs);                                                            \
-        return ((*(type*)lhs < *(type*)rhs) - (*(type*)lhs > *(type*)rhs));     \
+#define DECLARE_COMP(prefix, type)                                                     \
+    static inline int prefix##_fcomp(const void* lhs, const void* rhs, size_t size) {  \
+        UNUSED(size);                                                                  \
+        assert(lhs);                                                                   \
+        assert(rhs);                                                                   \
+        return ((*(type*)lhs > *(type*)rhs) - (*(type*)lhs < *(type*)rhs));            \
+    };                                                                                 \
+    static inline int prefix##_rcomp(const void* lhs, const void* rhs, size_t size) {  \
+        UNUSED(size);                                                                  \
+        assert(lhs);                                                                   \
+        assert(rhs);                                                                   \
+        return ((*(type*)lhs < *(type*)rhs) - (*(type*)lhs > *(type*)rhs));            \
     }
 
 DECLARE_COMP(i8  , int8_t     );
