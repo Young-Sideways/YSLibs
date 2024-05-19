@@ -21,8 +21,10 @@
 
 #ifdef NDEBUG
     #define explain_assert(expression, msg) ((void)0)
+    #define explain_error(msg) ((void)0)
 #else
     #define explain_assert(expression, msg) assert((expression) && msg)
+    #define explain_error(msg) explain_assert(0, msg)
 #endif
 
 #pragma endregion

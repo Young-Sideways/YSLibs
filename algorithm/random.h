@@ -45,7 +45,7 @@ random_t random;
  * @param min - minimum value of generated range
  * @param max - maximum value of generated range
  */
-void random_fill(int*, size_t, _NULLABLE random_pt, int, int);
+void random_fill(int* array, size_t size, _NULLABLE random_pt generator, int min, int max);
 
 #pragma endregion
 

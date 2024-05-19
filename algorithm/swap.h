@@ -19,7 +19,7 @@
 
 #pragma region --- TYPEDEF ---
 
-typedef void (swap_t)(_INOUT void*, _INOUT void*, _IN size_t);
+typedef void (swap_t)(_INOUT void* lhs, _INOUT void* rhs, _IN size_t size);
 typedef swap_t* swap_pt;
 
 #pragma endregion

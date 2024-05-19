@@ -94,6 +94,12 @@ struct collection_private_header {
 
 #pragma endregion
 
+#pragma region --- PLACEHOLDER ---
+
+static inline void __function_placeholder() { return; };
+
+#pragma endregion
+
 #pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 
 struct collection_universal_header alloc_cuh(

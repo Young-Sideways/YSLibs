@@ -158,7 +158,6 @@ _DECL_GET_SET(sort_pt, sort, _sort)
 
 #endif // _SORT_H_
 
-
 #undef _DECL_GET_SET
 
 #pragma endregion

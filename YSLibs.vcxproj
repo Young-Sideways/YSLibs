@@ -141,8 +141,6 @@
     <ClCompile Include="collection\iterator\iterator.c" />
     <ClCompile Include="collection\private.c" />
     <ClCompile Include="main.c" />
-    <ClCompile Include="core\metrics.c" />
-    <ClCompile Include="utils\console.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="algorithm\algorithm.h" />
@@ -167,12 +165,8 @@
     <ClInclude Include="core\macro\reverse.h" />
     <ClInclude Include="core\macro\sequence.h" />
     <ClInclude Include="core\macro\variadic.h" />
-    <ClInclude Include="core\metrics.h" />
     <ClInclude Include="core\macro\varidatic.h" />
-    <ClInclude Include="core\type\tuple.h" />
-    <ClInclude Include="core\type\variant.h" />
     <ClInclude Include="algorithm\types.h" />
-    <ClInclude Include="utils\console.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

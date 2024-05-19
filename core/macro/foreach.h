@@ -22,12 +22,12 @@
 #ifdef _ITERATOR_H_
 
 #define for_each(type, it, collection) \
-    for (iterator_t _##it = it_begin(collection), _iter_local_end = it_end(collection); it_comp(&_##it, &_iter_local_end, NULL); it_next(&_##it)) \
-        for (type* it = (type*)it_get(&_##it); it; it = NULL)
+    for (iterator_t _##it = it_begin(collection), _iter_local_end = it_end(collection); it_comp(&_##it, &_iter_local_end, 0U) != 0; it_next(&_##it)) \
+        for (type* it = (type*)it_get(_##it); it; it = NULL)
 
 #define rfor_each(type, it, collection) \
-    for (iterator_t _##it = it_rbegin(collection), _##end = it_rend(collection); it_comp(&_##it, &_##end, NULL); it_next(&_##it)) \
-        for (type* it = (type*)it_get(&_##it); it; it = NULL)
+    for (iterator_t _##it = it_rbegin(collection), _##end = it_rend(collection); it_comp(&_##it, &_##end, 0U); it_next(&_##it)) \
+        for (type* it = (type*)it_get(_##it); it; it = NULL)
 
 #else // !_ITERATOR_H_
 

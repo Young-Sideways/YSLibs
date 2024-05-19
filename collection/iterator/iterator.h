@@ -173,22 +173,28 @@ iterator_t it_last(_IN void* collection);
 
 #pragma region --- FUNCIONS ---
 
+extern inline bool it_valid(_IN iterator_t iterator);
+
+extern inline bool it_comparable(_IN iterator_t lhs, _IN iterator_t rhs);
+
+extern inline bool it_equal(_IN iterator_t lhs, _IN iterator_t rhs);
+
 /**
  *  @brief     pointer to data block
  *  @param[in] iterator - valid iterator pointer
  *  @retval             - returns valid data pointer, otherwise @code{.c} NULL @endcode
  */
-void* it_get(_IN iterator_t* iterator);
+void* it_get(_IN iterator_t iterator);
 /**
  *  @brief shifts iterator to next data block of container
  *  @param[in] iterator - valid iterator pointer
  */
-void it_next(_IN iterator_t* iterator);
+void it_next(_INOUT iterator_t* iterator);
 /**
  *  @brief shifts iterator to previous data block of container
  *  @param[in] iterator - valid iterator pointer
  */
-void it_prev(_IN iterator_t* iterator);
+void it_prev(_INOUT iterator_t* iterator);
 
 #pragma endregion
 
@@ -215,13 +221,15 @@ int it_comp(_IN void* lhs, _IN void* rhs, _IN size_t size);
 static void it_swap(void* lhs, void* rhs, size_t size) {
     UNUSED(size);
 
-    extern bool _iterator_private_is_range(iterator_t* iterator);
+    explain_assert(lhs, "iterator error: invalid left iterator");
+    explain_assert(rhs, "iterator error: invalid right iterator");
 
-    it_comp(lhs, rhs, 0);
-    explain_assert(_iterator_private_is_range((iterator_t*)lhs), "iterator error: left iterator out of range");
-    explain_assert(_iterator_private_is_range((iterator_t*)rhs), "iterator error: right iterator out of range");
+    if (!it_comparable(*(iterator_t*)lhs, *(iterator_t*)rhs)) {
+        explain_error("iterator error: invalid comparison between two iterators");
+        return INVALID_STAGE;
+    }
 
-    swap(((iterator_t*)lhs)->data, ((iterator_t*)rhs)->data, get_element_size(((iterator_t*)lhs)->collection));
+    swap(((iterator_t*)lhs)->data, ((iterator_t*)rhs)->data, (((iterator_t*)lhs)->collection)->element_size);
 }
 
 #endif // !_SWAP_H_
@@ -236,13 +244,14 @@ static void it_swap(void* lhs, void* rhs, size_t size) {
  *  @retval     offset between lhs and rhs, othewise @code CONTAINER_INVALID_INDEX @endcode
  */
 static iterator_t it_find(_IN iterator_t begin, _IN iterator_t end, _IN void* value) {
-    it_comp(&begin, &end, 0);
+    if (it_comp(&begin, &end, 0) == INVALID_STAGE)
+        return it_end(begin.collection);
     comparator_pt comp = get_comp(begin.collection);
     if (comp)
-        for (iterator_t it = begin; it_comp(&begin, &end, 0) <= 0; it_next(&it))
-            if (comp(it.data, value, get_element_size(begin.collection)) == 0)
+        for (iterator_t it = begin; it_comp(&begin, &end, 0U) <= 0; it_next(&it))
+            if (comp(it.data, value, begin.collection->element_size) == 0)
                 return it;
-    return INVALID_ITERATOR;
+    return it_end(begin.collection);
 }
 
 #endif // !_SEARCH_H_
@@ -255,18 +264,19 @@ static iterator_t it_find(_IN iterator_t begin, _IN iterator_t end, _IN void* va
  *  @param[in]  end   - valid right end iterator
  */
 static void it_sort(_IN iterator_t begin, _IN iterator_t end) {
-    extern void* _iterator_private_try_normalize_forward(iterator_t begin, iterator_t end, size_t* size);
+    if (!it_comparable(begin, end) || !get_comp(begin.collection))
+        goto IT_ERR_UNSORTABLE;
 
-    size_t size = 0;
-    byte* address = _iterator_private_try_normalize_forward(begin, end, &size);
-    if (address) {
-        sort_pt data_sort = get_sort(begin.collection);
-        data_sort(address, size, get_element_size(begin.collection), get_comp(begin.collection), get_swap(begin.collection));
-    }
-    else {
-        // implementation iterators sort...
-        // mayby use external bubble sort
-    }
+    // simple buble sort
+    comparator_pt comp = get_comp(begin.collection);
+    for (iterator_t i = begin, i_end = end; it_comp(&i, &i_end, 0U); it_next(&i))
+        for (iterator_t j = i, j_end = end; it_comp(&j, &j_end, 0U); it_next(&j))
+            if (comp(i.data, j.data, i.collection->element_size) > 0)
+                it_swap(&i, &j, 0U);
+    return;
+
+IT_ERR_UNSORTABLE:
+    explain_error("iterator error: collection can't be sorted");
 }
 
 #endif // !_SORT_H_

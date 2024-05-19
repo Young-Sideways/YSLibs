@@ -11,7 +11,7 @@
 
 #pragma once
 
-#pragma region --- INCLUDES ---
+#pragma region --- INCLUDE ---
 
 #include "iterator/iterator.h"
 #include "../core/macro/foreach.h"
@@ -24,10 +24,9 @@
 
 #define new(type, element_type, ...) _Generic( ((type)0),  \
     array_t : arr_init(__VA_ARGS__, sizeof(element_type)), \
-    default : ((void)0)                                    \
+    default : ((void*)0)                                   \
 )
 
 #pragma endregion
-
 
 #endif // !_COLLECTIONS_H_

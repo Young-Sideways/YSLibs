@@ -18,15 +18,6 @@
     <ClCompile Include="main.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="core\metrics.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="utils\console.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="algorithm\random.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="algorithm\search.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -48,6 +39,9 @@
     <ClCompile Include="collection\iterator\iterator.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="algorithm\random.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="algorithm\types.h">
@@ -57,9 +51,6 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="core\core.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="core\metrics.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="core\macro\macro.h">
@@ -80,9 +71,6 @@
     <ClInclude Include="core\macro\generic\print.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="core\type\variant.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="core\macro\foreach.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
@@ -92,22 +80,13 @@
     <ClInclude Include="core\macro\generic\type.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="core\type\tuple.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="core\macro\variadic.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="utils\console.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="algorithm\algorithm.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="algorithm\comparator.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="algorithm\random.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="algorithm\search.h">
@@ -132,6 +111,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="collection\iterator\iterator.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="algorithm\random.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

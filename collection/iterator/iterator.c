@@ -15,40 +15,13 @@
 
 #pragma endregion
 
-#pragma region --- STATIC ---
-
-static inline bool _iterator_private_is_init(iterator_t* iterator) {
-    return iterator->collection && (iterator->stage != INVALID_STAGE) && (iterator->direction != IT_UNDEFINED);
-}
-
-static inline bool _iterator_private_is_bound(iterator_t* iterator) {
-    CPH_REF(iterator->collection, header);
-
-    switch (iterator->direction)
-    {
-    case IT_REVERSE:
-        return !(iterator->stage < -1 || iterator->stage >= iterator->collection->size); // [-1 ... N)  --->  true, otherwise false
-    case IT_FORWARD:
-        return !(iterator->stage < 0 || iterator->stage > iterator->collection->size);   // (-1 ... N]  --->  true, otherwise false
-    default:
-        return false;
-    }
-}
-
-static inline bool _iterator_private_is_range(iterator_t* iterator) {
-    return !(iterator->stage < 0 || iterator->stage >= iterator->collection->size); // [0 ... N)  --->  true, otherwise false
-}
-
-static inline bool _iterator_private_is_valid(iterator_t* iterator) {
-    return _iterator_private_is_init(iterator) && _iterator_private_is_bound(iterator);
-}
-
-#pragma endregion
-
 #pragma region --- CONSTRUCTORS / DESTRUCTORS ---
 
 iterator_t it_begin(_IN void* collection) {
-    assert(collection);
+    if (!collection) {
+        explain_error("iterator error: bad pointer to container");
+        return INVALID_ITERATOR;
+    }
 
     iterator_t result = (iterator_t){
             .collection = collection,
@@ -60,7 +33,10 @@ iterator_t it_begin(_IN void* collection) {
     return result;
 }
 iterator_t it_end(_IN void* collection) {
-    assert(collection);
+    if (!collection) {
+        explain_error("iterator error: bad pointer to container");
+        return INVALID_ITERATOR;
+    }
 
     return (iterator_t) {
         .collection = collection,
@@ -71,7 +47,10 @@ iterator_t it_end(_IN void* collection) {
 }
 
 iterator_t it_rbegin(_IN void* collection) {
-    assert(collection);
+    if (!collection) {
+        explain_error("iterator error: bad pointer to container");
+        return INVALID_ITERATOR;
+    }
 
     iterator_t result = (iterator_t){
         .collection = collection,
@@ -84,7 +63,10 @@ iterator_t it_rbegin(_IN void* collection) {
 }
 
 iterator_t it_rend(_IN void* collection) {
-    assert(collection);
+    if (!collection) {
+        explain_error("iterator error: bad pointer to container");
+        return INVALID_ITERATOR;
+    }
 
     return (iterator_t) {
         .collection = collection,
@@ -98,7 +80,10 @@ iterator_t it_first(_IN void* collection) {
     return it_begin(collection);
 }
 iterator_t it_last(_IN void* collection) {
-    assert(collection);
+    if (!collection) {
+        explain_error("iterator error: bad pointer to container");
+        return INVALID_ITERATOR;
+    }
 
     iterator_t result = (iterator_t){
         .collection = collection,
@@ -109,23 +94,69 @@ iterator_t it_last(_IN void* collection) {
     if (result.stage)
         result.stage--;
     CPH_EXTRACT(collection)->cia._init(collection, &(result.data), &(result.stage));
-    return _iterator_private_is_valid(&result) ? result : INVALID_ITERATOR;
+    return it_valid(result) ? result : INVALID_ITERATOR;
 }
 
 #pragma endregion
 
 #pragma region --- FUNCIONS ---
 
-void* it_get(_IN iterator_t* iterator) {
-    assert(iterator);
-    assert(_iterator_private_is_valid(iterator) && _iterator_private_is_range(iterator));
-    return iterator->data;
-}
-void it_next(_IN iterator_t* iterator) {
-    assert(iterator);
-    assert(_iterator_private_is_valid(iterator));
+inline bool it_valid(_IN iterator_t iterator) {
+    if (!iterator.collection)
+        goto IT_ERR_COLLECTION;
+    bool is_bound = false;
+    switch (iterator.direction)
+    {
+    case IT_REVERSE:
+        is_bound = !((iterator.stage < -1) || (iterator.stage >= (int)iterator.collection->size)); // [-1 ... N)  --->  true, otherwise false
+        break;
+    case IT_FORWARD:
+        is_bound = !((iterator.stage < 0) || (iterator.stage > (int)iterator.collection->size));   // (-1 ... N]  --->  true, otherwise false
+        break;
+    default:
+        goto IT_ERR_DIRECTION;
+    }
+    if (!is_bound)
+        goto IT_ERR_STAGE;
+    if ((iterator.stage >= 0 && iterator.stage < (int)iterator.collection->size) ^ (!!iterator.data))
+        goto IT_ERR_DATA;
 
-    if (_iterator_private_is_range(iterator))
+    return true;
+
+IT_ERR_COLLECTION:
+    explain_error("iterator error: collection points to NULL");
+IT_ERR_DIRECTION:
+    explain_error("iterator error: undefined direction");
+IT_ERR_STAGE:
+    explain_error("iterator error: invalid stage");
+IT_ERR_DATA:
+    explain_error("iterator error: invalid data pointer");
+    return false;
+}
+
+static inline bool _private_iterator_in_bound(iterator_t* iterator) {
+    return (iterator->stage >= 0) && (iterator->stage < (int)iterator->collection->size);
+}
+
+inline bool it_comparable(_IN iterator_t lhs, _IN iterator_t rhs) {
+    return it_valid(lhs) && it_valid(rhs) && (lhs.collection == rhs.collection) && (lhs.direction == rhs.direction);
+}
+
+inline bool it_equal(_IN iterator_t lhs, _IN iterator_t rhs) {
+    return it_valid(lhs) && it_valid(rhs) && (lhs.collection == rhs.collection) && (lhs.direction == rhs.direction) && (lhs.stage == rhs.stage) && (lhs.data == rhs.data);
+}
+
+void* it_get(_IN iterator_t iterator) {
+    return it_valid(iterator) ? iterator.data : NULL;
+}
+
+void it_next(_INOUT iterator_t* iterator) {
+    if (!iterator || !it_valid(*iterator)) {
+        explain_error("iterator error: invalid iterator");
+        return;
+    }
+
+    if (_private_iterator_in_bound(iterator))
         switch (iterator->direction)
         {
         case IT_REVERSE:
@@ -151,11 +182,13 @@ void it_next(_IN iterator_t* iterator) {
             break;
         }
 }
-void it_prev(_IN iterator_t* iterator) {
-    assert(iterator);
-    assert(_iterator_private_is_valid);
+void it_prev(_INOUT iterator_t* iterator) {
+    if (!iterator || !it_valid(*iterator)) {
+        explain_error("iterator error: invalid iterator");
+        return;
+    }
 
-    if (_iterator_private_is_range(iterator))
+    if (_private_iterator_in_bound(iterator))
         switch (iterator->direction)
         {
         case IT_REVERSE:
@@ -186,38 +219,16 @@ void it_prev(_IN iterator_t* iterator) {
 
 #pragma region --- ALGORITHM ADAPTER ---
 
-#include "../../core/macro/macro.h"
-
-int it_comp(void* lhs, void* rhs, size_t size) {
+int it_comp(_IN void* lhs, _IN void* rhs, _IN size_t size) {
     UNUSED(size);
 
-    explain_assert(_iterator_private_is_valid(lhs), "iterator error: invalid begin iterator");
-    explain_assert(_iterator_private_is_valid(rhs), "iterator error: invalid end iterator"  );
-    assert(((iterator_t*)lhs)->collection == ((iterator_t*)rhs)->collection);
+    explain_assert(lhs, "iterator error: invalid left iterator");
+    explain_assert(rhs, "iterator error: invalid right iterator");
+
+    if (!lhs || !rhs || !it_comparable(*(iterator_t*)lhs, *(iterator_t*)rhs))
+        return INVALID_STAGE;
 
     return ((iterator_t*)lhs)->stage - ((iterator_t*)rhs)->stage;
-}
-
-void* _iterator_private_try_normalize_forward(_IN iterator_t begin, _IN iterator_t end, _OUT size_t* size) {
-    assert(size);
-
-    explain_assert(_iterator_private_is_valid(&begin), "iterator error: invalid begin iterator"                           );
-    explain_assert(_iterator_private_is_valid(&end)  , "iterator error: invalid end iterator"                             );
-    explain_assert(begin.collection == end.collection, "iterator error: differrent iterator collections"                  );
-    explain_assert(begin.direction == end.direction  , "iterator error: differrent iterator directions"                   );
-    explain_assert(it_comp(&begin, &end, 0U) <= 0    , "iterator error: the end iterator is to the left of begin iterator");
-
-    if (!CPH_EXTRACT(begin.collection)->_data) {
-        *size = 0U;
-        return NULL;
-    }
-
-    int range = it_comp(&begin, &end, 0U);
-
-    byte* base_address = CPH_EXTRACT(begin.collection)->_data;
-    base_address += begin.stage * begin.collection->element_size;
-    *size = range;
-    return base_address;
 }
 
 #pragma endregion

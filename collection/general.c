@@ -13,6 +13,8 @@
 #include "private.h"
 #include <stdlib.h>
 
+#include <stdarg.h>
+
 #pragma endregion
 
 #pragma region --- CONSTRUCTORS / DESTRUCTORS ---
@@ -45,14 +47,17 @@ void delete(_INOUT void** collection) {
 
 #pragma region --- GETTER / SETTER ---
 
-#define DECL_GET_SET(field)                                                 \
-    void* _collection_private_##field##_get(void* collection) {             \
-        assert(collection);                                                 \
-        return CPH_EXTRACT(collection)->caa.field;                          \
-    }                                                                       \
-    void _collection_private_##field##_set(void* collection, void* value) { \
-        assert(collection);                                                 \
-        CPH_EXTRACT(collection)->caa.field = value;                         \
+#define DECL_GET_SET(field)                                                                                                 \
+    void* _collection_private_##field##_get(void* collection) {                                                             \
+        assert(collection);                                                                                                 \
+        explain_assert(CPH_EXTRACT(collection)->caa.field, "collection error: container has no " #field " funtion");        \
+        return (CPH_EXTRACT(collection)->caa.field == &__function_placeholder) ? NULL : CPH_EXTRACT(collection)->caa.field; \
+    }                                                                                                                       \
+    void _collection_private_##field##_set(void* collection, void* value) {                                                 \
+        assert(collection);                                                                                                 \
+        explain_assert(CPH_EXTRACT(collection)->caa.field, "collection error: container has no " #field " funtion");        \
+        if (CPH_EXTRACT(collection)->caa.field)                                                                             \
+            CPH_EXTRACT(collection)->caa.field = value;                                                                     \
     }
 
 DECL_GET_SET(_comp)

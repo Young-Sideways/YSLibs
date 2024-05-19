@@ -30,7 +30,7 @@ static inline void _init(struct collection_universal_header* collection, void** 
         return;
     }
     if (*index >= collection->size) {
-        *index = collection->size;
+        *index = (int)collection->size;
         return;
     }
     *block = ((byte*)CPH_EXTRACT(collection)->_data + collection->element_size * *index);
@@ -68,10 +68,10 @@ static inline bool _array_private_is_valid(array_t array) {
 
 array_t arr_init(_IN const size_t size, _IN const size_t element_size) {
     struct array_t* result = NULL;
-    struct collection_private_header* block = (struct collection_private_header*)malloc(sizeof(struct collection_private_header) + sizeof(struct array_t) + (size + element_size));
+    struct collection_private_header* block = (struct collection_private_header*)malloc(sizeof(struct collection_private_header) + sizeof(struct array_t) + (size * element_size));
     if (block) {
         *block = alloc_cph(
-            alloc_caa(NULL, NULL, NULL, NULL),
+            alloc_caa(NULL, NULL, __function_placeholder, __function_placeholder),
             alloc_cia(&_init, &_next, &_prev),
             alloc_cma(&_copy, NULL),
             NULL);

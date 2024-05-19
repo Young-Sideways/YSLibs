@@ -3,26 +3,55 @@
 
 #include "algorithm/algorithm.h"
 #include "collection/collections.h"
+const int size = 10;
 
-int size = 10;
 
-int main(int argc, char* argv[]) {
+int main(int argc, char** argv) {
     UNUSED(argc);
     UNUSED(argv);
 
     array_t arr = new(array_t, int, size);
     if (arr) {
         int i = 1;
-        for_each(int, it, arr)
+        set_sort(arr, quick_sort);
+
+
+        for_each(int, it, arr) {
+            printf("%d: %d\n", i, *it = i);
+            i++;
+        }
+
+        iterator_t value = it_find(it_begin(arr), it_end(arr), (int[1]) { 3 });
+        if (!it_equal(value, it_end(arr))) {
+            printf("found value '%d' at stage '%d'\n", *(int*)it_get(value), value.stage);
+        }
+
+        it_sort(it_rbegin(arr), it_rend(arr));
+        i = 1;
+        for_each(int, it, arr) {
             printf("%d: %d\n", i++, *it);
+        }
 
+        value = it_find(it_begin(arr), it_end(arr), (int[1]) { 3 });
+        if (!it_equal(value, it_end(arr))) {
+            printf("found value '%d' at stage '%d'\n", *(int*)it_get(value), value.stage);
+        }
 
+        it_sort(it_begin(arr), it_end(arr));
+        i = 1;
+        for_each(int, it, arr) {
+            printf("%d: %d\n", i++, *it);
+        }
 
+        value = it_find(it_begin(arr), it_end(arr), (int[1]) { 3 });
+        if (!it_equal(value, it_end(arr))) {
+            printf("found value '%d' at stage '%d'\n", *(int*)it_get(value), value.stage);
+        }
 
         delete(&arr);
     }
 
-    return EXIT_SUCCESS;
+    return 0;
 }
 
 #if (0)

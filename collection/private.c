@@ -33,6 +33,7 @@ struct collection_universal_header alloc_cuh(
 {
     explain_assert(element_size, "collection error: size of element can't be zero");
     explain_assert(size <= capacity, "collection error: size greater than capacity");
+    explain_assert(size <= COLLECTION_SIZE_MAX, "collection error: size greater than COLLECTION_SIZE_MAX");
 
     return (struct collection_universal_header) {
         .capacity = capacity,
@@ -48,8 +49,8 @@ struct collection_algorithm_adapter alloc_caa(
     _IN _NULLABLE const void* _sort)
 {
     return (struct collection_algorithm_adapter) {
-        ._comp = M_ISNULL(_comp, &memcmp),
-        ._swap = M_ISNULL(_swap, &swap),
+        ._comp = M_ISNULL(_comp, memcmp),
+        ._swap = M_ISNULL(_swap, swap),
         ._srch = _srch,
         ._sort = _sort
     };
