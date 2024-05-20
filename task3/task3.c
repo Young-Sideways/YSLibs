@@ -13,7 +13,7 @@
 #include "../algorithm/algorithm.h"
 
 #include "../utils/timer.h"
-#include "../utils/utils.h"
+#include "../utils/console.h"
 
 #include <stdbool.h>
 #include <stdlib.h>
@@ -24,21 +24,21 @@ int task3() {
     char mode = '\0';
     timer_t timer;
 
-    char str[32];
     sort_pt sort = NULL;
     comparator_pt comp = NULL;
 
     puts("Starting \"task3\" module\n");
 
     while (cycle) {
-        puts("\t1. selection_sort");
-        puts("\t2. insertion_sort");
-        puts("\t3. quick_sort");
-        puts("\t4. default C q_sort");
-        puts("\t5. back");
+        con_enum(
+            "selection_sort" ENDL
+            "insertion_sort" ENDL
+            "quick_sort" ENDL
+            "default C q_sort" ENDL
+            "back" ENDL,
+            ALIGN_HLEFT, enum_to_arabic);
         printf("Select sorting algorithm: ");
-        mode = getch_menu();
-        putchar('\n');
+        printf("%c\n\n", mode = menu_getc());
 
         switch (mode)
         {
@@ -52,7 +52,7 @@ int task3() {
             sort = &quick_sort;
             break;
         case '4':
-            sort = &qsort;
+            sort = (sort_pt)&qsort;
             break;
         case '5':
             puts("exit \"task3\" module");
@@ -65,12 +65,13 @@ int task3() {
             continue;
         }
 
-        puts("\t1. forward comparator");
-        puts("\t2. reverse comparator");
-        puts("\t3. back");
+        con_enum(
+            "forward comparator" ENDL
+            "reverse comparator" ENDL
+            "back" ENDL,
+            ALIGN_HLEFT, enum_to_arabic);
         printf("Select compare function: ");
-        mode = getch_menu();
-        putchar('\n');
+        printf("%c\n\n", mode = menu_getc());
 
         switch (mode)
         {
@@ -109,7 +110,6 @@ int task3() {
         tim_start(&timer);
         random_fill(array, count, NULL, INT_MIN, INT_MAX);
         tim_stop(&timer);
-        char str[20];
         printf("Generated for: %s\n\n", tim_str(&timer, TIM_PRECISION_AUTO));
 
         puts("Sorting array...");

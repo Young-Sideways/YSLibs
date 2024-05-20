@@ -1,15 +1,37 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "algorithm/algorithm.h"
-#include "collection/collections.h"
-const int size = 10;
+#include "core/core.h"
+#include "core/macro/macro.h"
+//#include "task3/task3.h"
+
+#include "collection/hashtable/hashtable.h"
 
 
 int main(int argc, char** argv) {
     UNUSED(argc);
     UNUSED(argv);
 
+    //task3();
+
+    hashtable_t ht = ht_init(16, sizeof(int), sizeof(char*), NULL);
+
+    int key1 = 3567245;
+    int key2 = 924;
+
+    ht_insert(ht, &key1, (char*) { "Hello" });
+    ht_insert(ht, &key2, (char*) { "world" });
+
+    printf("at key '%d' : %s\n", key1, ht_contains(ht, &key1) ? "true" : "false");
+    printf("at key '%d' : %s\n", 26534, ht_contains(ht, (int[]) { 26534 }) ? "true" : "false");
+    printf("at key '%d' : %s\n", key2, ht_contains(ht, &key2) ? "true" : "false");
+
+    return 0;
+}
+
+#if (0)
+
+int array_test() {
     array_t arr = new(array_t, int, size);
     if (arr) {
         int i = 1;
@@ -50,9 +72,9 @@ int main(int argc, char** argv) {
 
         delete(&arr);
     }
-
-    return 0;
 }
+
+#endif
 
 #if (0)
 #include "core/macro/generic/print.h"

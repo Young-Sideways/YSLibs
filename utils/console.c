@@ -12,8 +12,8 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #include <stdbool.h>
-#include <math.h>
 
 #pragma endregion
 
@@ -24,14 +24,13 @@
 
 #pragma region --- FUNCION ---
 
-char* enum_to_arabic(int num, char* buffer, size_t buffer_size) {
+const char* enum_to_arabic(_IN int num, _INOUT char* buffer, _IN size_t buffer_size) {
     if (!buffer || buffer_size == 0)
         return NULL;
     snprintf(buffer, buffer_size, "%d", num);
     return buffer;
 }
-
-char* enum_to_roman(int num, char* buffer, size_t buffer_size) {
+const char* enum_to_roman(_IN int num, _INOUT char* buffer, _IN size_t buffer_size) {
     if (!buffer || buffer_size == 0)
         return NULL;
     if (num <= 0 || num >= 4000)
@@ -58,8 +57,7 @@ char* enum_to_roman(int num, char* buffer, size_t buffer_size) {
     strcat(buffer, ones[num % 10]);
     return buffer;
 }
-
-char* enum_to_alphabet(int num, char* buffer, size_t buffer_size, bool is_upper) {
+const char* enum_to_alpha(_IN int num, _INOUT char* buffer, _IN size_t buffer_size) {
     if (!buffer)
         return NULL;
     if (num <= 0)
@@ -67,7 +65,26 @@ char* enum_to_alphabet(int num, char* buffer, size_t buffer_size, bool is_upper)
     int i = 0;
     do {
         num--;
-        buffer[i++] = (is_upper ? 'A' : 'a') + (num % 26);
+        buffer[i++] = 'a' + (num % 26);
+        num /= 26;
+    } while (num > 0);
+    buffer[i--] = '\0';
+    for (int j = 0; j < i; j++, i--) {
+        char temp = buffer[j];
+        buffer[j] = buffer[i];
+        buffer[i] = temp;
+    }
+    return buffer;
+}
+const char* enum_to_ALPHA(_IN int num, _INOUT char* buffer, _IN size_t buffer_size) {
+    if (!buffer)
+        return NULL;
+    if (num <= 0)
+        return enum_to_arabic(num, buffer, buffer_size);
+    int i = 0;
+    do {
+        num--;
+        buffer[i++] = 'A' + (num % 26);
         num /= 26;
     } while (num > 0);
     buffer[i--] = '\0';
@@ -79,32 +96,17 @@ char* enum_to_alphabet(int num, char* buffer, size_t buffer_size, bool is_upper)
     return buffer;
 }
 
-char* con_enum_translate(int number, enumeration_t enumeration, char* buffer, size_t buffer_size, _NULLABLE size_t* ret_size) {
-    const char* str = NULL;
-    switch (enumeration)
-    {
-    case ARABIC_NUMERALS:
-        str = enum_to_arabic(number, buffer, buffer_size);
-        break;
-    case ROMAN_NUMERALS:
-        str = enum_to_roman(number, buffer, buffer_size);
-        break;
-    case ALPHABET_LOWERCASE:
-        str = enum_to_alphabet(number, buffer, buffer_size, false);
-        break;
-    case ALPHABET_UPPERCASE:
-        str = enum_to_alphabet(number, buffer, buffer_size, true);
-        break;
-    default:
-        break;
-    }
-    if (str && ret_size)
-        *ret_size = strlen(str);
+char* con_enum_translate(_IN int number, _IN const enum_to_str_pt translator, _INOUT char* buffer, _IN size_t buffer_size, _NULLABLE size_t* ret_size) {
+    if (!translator)
+        return NULL;
+    const char* str = translator(number, buffer, buffer_size);
+    if (ret_size) 
+        *ret_size = str ? strlen(str) : 0U;
     return str;
 }
 
-void con_enum(const char* content, alignment_t align, enumeration_t enumeration) {
-    if (!content || !*content)
+void con_enum(_IN const char* content, _IN alignment_t align, _IN enum_to_str_pt translator) {
+    if (!content || !*content || !translator)
         return;
 
     size_t max_size = 0;
@@ -120,7 +122,8 @@ void con_enum(const char* content, alignment_t align, enumeration_t enumeration)
 
             char num_buf[32] = { 0 };
             size_t enum_size = 0;
-            con_enum_translate(i, enumeration, num_buf, 32, &enum_size);
+            translator(i, num_buf, sizeof(num_buf));
+            enum_size = strlen(num_buf);
             if (max_enum_size < enum_size)
                 max_enum_size = enum_size;
             i++;
@@ -133,7 +136,7 @@ void con_enum(const char* content, alignment_t align, enumeration_t enumeration)
         size_t current_size = strcspn(str, "\r\n");
         if (current_size) {
             char num_buf[32] = { 0 };
-            con_enum_translate(i, enumeration, num_buf, 32, NULL);
+            translator(i, num_buf, sizeof(num_buf));
             switch (align & ALIGN_HMASK)
             {
             case ALIGN_HRIGHT:
@@ -159,10 +162,12 @@ void con_box(char* content, alignment_t align, padding_t padding) {
 
 }
 
-#pragma endregion
+char menu_getc(void) {
+    char mode = '\0';
+    do {
+        mode = _getch();
+    } while (isspace(mode));
+    return mode;
+}
 
-#pragma region ---  ---
-#pragma endregion
-
-#pragma region --- GENERIC ---
 #pragma endregion

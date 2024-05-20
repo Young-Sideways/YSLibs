@@ -15,6 +15,7 @@
 
 #include "../core/core.h"
 #include <stdint.h>
+#include <assert.h>
 
 #pragma endregion
 

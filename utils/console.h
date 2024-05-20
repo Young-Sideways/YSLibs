@@ -53,13 +53,6 @@ typedef enum {
     ALIGN_MASK    = ALIGN_HMASK | ALIGN_VMASK
 } alignment_t;
 
-typedef enum {
-    ARABIC_NUMERALS    = 0x1,
-    ROMAN_NUMERALS     = 0x2,
-    ALPHABET_LOWERCASE = 0x4,
-    ALPHABET_UPPERCASE = 0x8
-} enumeration_t;
-
 typedef struct padding_t {
     int left;
     int right;
@@ -67,19 +60,21 @@ typedef struct padding_t {
     int bottom;
 } padding_t;
 
-typedef const char* (enumerator_to_str_t)(int num, char* buffer, size_t buffer_size);
+typedef const char* (enum_to_str_t)(_IN int num, _INOUT char* buffer, _IN size_t buffer_size);
+typedef enum_to_str_t *enum_to_str_pt;
 
 #pragma endregion
 
 #pragma region --- FUNCION ---
 
-char* enum_to_arabic(int num, char* buffer, size_t buffer_size);
-char* enum_to_roman(int num, char* buffer, size_t buffer_size);
-char* enum_to_alphabet(int num, char* buffer, size_t buffer_size, bool is_upper);
+enum_to_str_t enum_to_arabic;
+enum_to_str_t enum_to_roman;
+enum_to_str_t enum_to_alpha;
+enum_to_str_t enum_to_ALPHA;
 
-char* con_enum_translate(int number, enumeration_t enumeration, char* buffer, size_t buffer_size, _NULLABLE size_t* ret_size);
+char* con_enum_translate(_IN int number, _IN const enum_to_str_pt translator, _INOUT char* buffer, _IN size_t buffer_size, _NULLABLE size_t* ret_size);
 
-void con_enum(const char* content, alignment_t align, enumeration_t enumeration);
+void con_enum(_IN const char* content, _IN alignment_t align, _IN enum_to_str_pt translator);
 
 void con_box(char* content, alignment_t align, padding_t padding);
 
@@ -87,7 +82,7 @@ void con_box(char* content, alignment_t align, padding_t padding);
 
 #pragma region --- MENU ---
 
-void menu_selector(const char* items[], int item_count) {}
+char menu_getc(void);
 
 #pragma endregion
 

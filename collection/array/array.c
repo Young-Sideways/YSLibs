@@ -55,6 +55,10 @@ static inline void* _copy(void* collection) {
     return (array_t)result;
 }
 
+#pragma endregion
+
+#pragma region --- PRIVATE ---
+
 static inline bool _array_private_is_valid(array_t array) {
     return (array->size == array->capacity)
         && (array->size <= ARRAY_SIZE_MAX)

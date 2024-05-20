@@ -13,6 +13,4 @@
 
 #include "../core/core.h"
 
-char getch_menu();
-
 #endif // !_UTILS_H_

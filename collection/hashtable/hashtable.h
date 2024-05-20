@@ -1,6 +1,7 @@
 /*******************************************************************************
  *  @file      hashtable.h
- *  @brief     
+ *  @brief     Implementation of key-value associative hash container
+ *  @attribute associative, non-sortable
  *  @author    Young Sideways
  *  @date      15.04.2024
  *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
@@ -13,75 +14,78 @@
 
 #pragma region --- INCLUDE ---
 
-#include "general.h"
+#include <stdbool.h>
+
+#include "../general.h"
 
 #pragma endregion
 
 #pragma region --- MACRO ---
 
-#define HASHTABLE_SIZE_MIN COLLECTION_SIZE_MIN
+#if (COLLECTION_SIZE_MIN < 8U)
+    #define HASHTABLE_SIZE_MIN (8U)
+#else
+    #define HASHTABLE_SIZE_MIN COLLECTION_SIZE_MIN
+#endif
 #define HASHTABLE_SIZE_MAX COLLECTION_SIZE_MAX
+
+/**
+ *  @def   HASHTABLE_LOAD_FACTOR
+ *  @brief default max load factor of all table - 75%
+ */
+#define HASHTABLE_MAX_LOAD_FACTOR (0.75)
+
+/**
+ *  @def   HASHTABLE_MAX_BUCKET_LOAD_FACTOR_PER_SIZE
+ *  @brief default max load factor of 1 bucket, before table rehashing - 35%
+ */
+#define HASHTABLE_MAX_BUCKET_LOAD_FACTOR_PER_SIZE (0.35)
+
+#define HASHTABLE_GROWTH_FACTOR(n) GROWTH_FACTOR(n)
 
 #pragma endregion
 
 #pragma region --- TYPEDEF ---
 
 typedef uint32_t hash_t;
-typedef hash_t(hashfunc_t)(const void*, size_t);
+#define DEFAULT_HASH_VALUE ((hash_t)0U)
+
+typedef hash_t(hashfunc_t)(_IN const void* key, _IN size_t key_size);
+
 typedef hashfunc_t* hashfunc_pt;
 
-typedef struct {
-    void *key, *data;
-    entry_t* next;
-} entry_t;
+typedef struct ht_entry_t {
+    struct ht_entry_t* next;
+} *ht_entry_t;
 
-typedef struct {
-    struct collection_header;
-
+typedef const struct hashtable_t {
+    struct collection_universal_header;
     hashfunc_pt hashfunc;
-
-    entry_t** table;
-} hashtable_t;
+    size_t key_size;
+} *hashtable_t;
 
 #pragma endregion
 
 #pragma region --- DEFAULT ---
 
-hash_t hash(const void* key, size_t size) {
-    hash_t hash = 5381;
-    for (byte* begin = (byte*)key; size; --size)
-        hash = ((hash << 5) + hash) ^ *begin;
-    return hash;
-}
-hash_t str_hash(const char* str) {
-    hash_t hash = 5381;
-    while (*str)
-        hash = ((hash << 5) + hash) ^ *(str++);
-    return hash;
-}
+hashfunc_t hash;
+hashfunc_t str_hash;
 
 #pragma endregion
 
 #pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 
-hashtable_t ht_create(size_t);
-void ht_delete(hashtable_t*);
+hashtable_t ht_init(_IN size_t size, _IN size_t key_size, _IN size_t value_size, _IN _NULLABLE hashfunc_pt hashfunc);
 
 #pragma endregion
 
 #pragma region --- FUNCION ---
 
-void ht_copy(hashtable_t* dest, hashtable_t* src);
-void ht_move(hashtable_t* dest, hashtable_t* src);
-void ht_swap(hashtable_t dest, hashtable_t src);
+void ht_insert(_IN hashtable_t table, _IN const void* key, _IN const void* value);
+void ht_erase(_IN hashtable_t table, _IN const void* key);
 
-void ht_insert(hashtable_t container, void* key, void* value);
-bool ht_contains(hashtable_t container, void* key);
-void* ht_lookup(hashtable_t container, void* key);
-
-#pragma endregion
-
-#pragma region ---  ---
+bool ht_contains(_IN const hashtable_t table, _IN const void* key);
+void* ht_lookup(_IN const hashtable_t table, _IN const void* key);
 
 #pragma endregion
 

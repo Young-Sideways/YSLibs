@@ -138,9 +138,13 @@
     <ClCompile Include="algorithm\swap.c" />
     <ClCompile Include="collection\array\array.c" />
     <ClCompile Include="collection\general.c" />
+    <ClCompile Include="collection\hashtable\hashtable.c" />
     <ClCompile Include="collection\iterator\iterator.c" />
     <ClCompile Include="collection\private.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="task3\task3.c" />
+    <ClCompile Include="utils\console.c" />
+    <ClCompile Include="utils\timer.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="algorithm\algorithm.h" />
@@ -152,6 +156,7 @@
     <ClInclude Include="collection\array\array.h" />
     <ClInclude Include="collection\collections.h" />
     <ClInclude Include="collection\general.h" />
+    <ClInclude Include="collection\hashtable\hashtable.h" />
     <ClInclude Include="collection\iterator\iterator.h" />
     <ClInclude Include="collection\private.h" />
     <ClInclude Include="collection\type.h" />
@@ -167,6 +172,9 @@
     <ClInclude Include="core\macro\variadic.h" />
     <ClInclude Include="core\macro\varidatic.h" />
     <ClInclude Include="algorithm\types.h" />
+    <ClInclude Include="task3\task3.h" />
+    <ClInclude Include="utils\console.h" />
+    <ClInclude Include="utils\timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

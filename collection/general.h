@@ -69,7 +69,7 @@
 #pragma region --- INCLUDE ---
 
 #include "../core/core.h"
-
+#include <stdbool.h>
 #include <stdint.h>
 
 #pragma endregion
@@ -81,7 +81,7 @@
  *  @brief memory consumption growth factor for collections ( new size = x2 )
  *  @param n - current size
  */
-#define GROWTH_FACTOR(n) (n ? (n << 1) : 0x1U)
+#define GROWTH_FACTOR(n) (n ? (n << 1) : 1U)
 
 /**
 *  @def   COLLECTION_SIZE_MIN
@@ -159,6 +159,12 @@ _DECL_GET_SET(sort_pt, sort, _sort)
 #endif // _SORT_H_
 
 #undef _DECL_GET_SET
+
+#pragma endregion
+
+#pragma region --- FUNCTION ---
+
+bool is_empty(_IN const void* collection);
 
 #pragma endregion
 

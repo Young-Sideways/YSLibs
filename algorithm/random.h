@@ -19,7 +19,7 @@
 
 #pragma region --- TYPEDEF ---
 
-typedef (random_t)(_IN int, _IN int);
+typedef (random_t)(_IN int min, _IN int max);
 typedef random_t* random_pt;
 
 #pragma endregion
