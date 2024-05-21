@@ -19,7 +19,18 @@
 
 #pragma region --- TYPEDEF ---
 
-typedef void (swap_t)(_INOUT void* lhs, _INOUT void* rhs, _IN size_t size);
+/**
+ *  @typedef swap_t
+ *  @brief   defines type of swap function
+ *  @param[in,out] lhs,rhs - Pointers to values
+ *  @param[in]     size    - Memory size to swap
+ */
+typedef void (swap_t)(void* lhs, void* rhs, size_t size);
+
+/**
+ *  @typedef swap_pt
+ *  @brief   pointer type to \ref swap_t function
+ */
 typedef swap_t* swap_pt;
 
 #pragma endregion
@@ -27,10 +38,9 @@ typedef swap_t* swap_pt;
 #pragma region --- FUNCTION ---
 
 /**
- * @brief swaps values between lhs and rhs pointers with size
- * @param lhs  - left-hand side value pointer
- * @param rhs  - right-hand side value pointer
- * @param size - swapable area size
+ * @brief Swaps values between \p lhs and \p rhs pointers with size
+ * @param[in,out] lhs,rhs  - Pointers to values
+ * @param[in]     size     - Memory size to swap
  */
 swap_t swap;
 

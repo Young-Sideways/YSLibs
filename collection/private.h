@@ -26,21 +26,26 @@
 /**
  *  @typedef u_acc_t
  *  @brief   function prototype typedef for unifying access to container memory
+ *  @param[in]     collection - Pointer to main collection structure
+ *  @param[in,out] block      - init/proccessed block
+ *  @param[in,out] stage      - init/proccessed stage
  */
-typedef void (*u_acc_t)(_IN struct collection_universal_header* collection, _INOUT void**, _INOUT int*);
+typedef void (*u_acc_t)(struct collection_universal_header* collection, void** block, int* stage);
 
 /**
  *  @typedef u_mgr_t
  *  @brief   function prototype typedef for unifying collection managing
+ *  @param[in]     collection - Pointer to main collection structure
  */
-typedef void* (*u_mgr_t)(_IN void* collection);
+typedef void* (*u_mgr_t)(void* collection);
 
 /**
  *  @struct collection_algorithm_adapter
  *  @brief  algorithm adapter header
+ * 
  *  default field policy:
  *      NULL   : this algorithm can NOT be applied
- *      POINTER: this algorithm can be applied to the container, and pointer can be replaced to another function
+ *      POINTER: this algorithm can be applied to the container, and function pointer can be replaced to another function
  */
 struct collection_algorithm_adapter {
     void* _comp;
@@ -96,41 +101,41 @@ struct collection_private_header {
 
 #pragma region --- PLACEHOLDER ---
 
-static inline void __function_placeholder() { return; };
+static inline void function_placeholder() {};
 
 #pragma endregion
 
 #pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 
 struct collection_universal_header alloc_cuh(
-    _IN _NULLABLE const size_t capacity, 
-    _IN _NULLABLE const size_t size, 
-    _IN           const size_t element_size
+    const size_t capacity, 
+    const size_t size, 
+    const size_t element_size
 );
 
 struct collection_algorithm_adapter alloc_caa(
-    _IN _NULLABLE const void* _comp, 
-    _IN _NULLABLE const void* _swap, 
-    _IN _NULLABLE const void* _srch, 
-    _IN _NULLABLE const void* _sort
+    const void* _comp, 
+    const void* _swap, 
+    const void* _srch, 
+    const void* _sort
 );
 
 struct collection_iterator_adapter alloc_cia(
-    _IN const u_acc_t _init, 
-    _IN const u_acc_t _next, 
-    _IN const u_acc_t _prev
+    const u_acc_t _init, 
+    const u_acc_t _next, 
+    const u_acc_t _prev
 );
 
 struct collection_manager_adapter alloc_cma(
-    _IN           const u_mgr_t _copy, 
-    _IN _NULLABLE const u_mgr_t _dtor
+    const u_mgr_t _copy, 
+    const u_mgr_t _dtor
 );
 
 struct collection_private_header alloc_cph(
-    _IN           struct collection_algorithm_adapter caa,
-    _IN           struct collection_iterator_adapter cia,
-    _IN           struct collection_manager_adapter cma,
-    _IN _NULLABLE void* _data
+    struct collection_algorithm_adapter caa,
+    struct collection_iterator_adapter cia,
+    struct collection_manager_adapter cma,
+    void* _data
 );
 
 #pragma endregion

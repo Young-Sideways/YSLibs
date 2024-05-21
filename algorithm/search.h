@@ -20,7 +20,20 @@
 
 #pragma region --- TYPEDEF ---
 
-typedef void* (search_t)(_IN void*, _IN _NULLABLE size_t, _IN size_t, _IN void*, _IN _NULLABLE comparator_pt);
+/**
+ *  @typedef search_t
+ *  @brief   defines type of search function
+ *  @param[in,out] array        - Pointer to memory block
+ *  @param[in]     count        - Number of elements
+ *  @param[in]     element_size - Size of each element
+ *  @param[in]     value        - Pointer to reference value
+ *  @param[in]     comparator   - Pointer to comparator function
+ */
+typedef void* (search_t)(const void* array, const size_t count, const size_t element_size, const void* value, comparator_pt comparator);
+/**
+ *  @typedef search_pt
+ *  @brief   pointer type to \ref search_t function
+ */
 typedef search_t* search_pt;
 
 #pragma endregion

@@ -59,7 +59,7 @@ timer_state_t     tim_start(timer_t* timer);
 timer_state_t     tim_stop(timer_t* timer);
 timer_state_t     tim_continue(timer_t* timer);
 timediff_t        tim_elapsed(const timer_t* timer);
-const char const* tim_str(timer_t* timer, timer_precision_t precision);
+const char* const tim_str(timer_t* timer, timer_precision_t precision);
 
 #pragma endregion
 

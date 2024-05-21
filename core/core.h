@@ -14,26 +14,6 @@
 #pragma region --- MACRO ---
 
 /**
- *  @def   _IN
- *  @brief input parameter
- */
-#define _IN
-/**
- *  @def   _OUT
- *  @brief ouput parameter
- */
-#define _OUT
-/**
- *  @def   _INOUT
- *  @brief input/output parameter
- */
-#define _INOUT
-/**
- *  @def   _NULLABLE
- *  @brief parameter can be NULL
- */
-#define _NULLABLE
-/**
  *  @def   UNUSED
  *  @brief mark parameter as unused
  *  @param variable - parameter

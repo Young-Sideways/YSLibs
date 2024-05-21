@@ -128,73 +128,73 @@ typedef struct {
 
 #pragma endregion
 
-#pragma region --- CONSTRUCTORS / DESTRUCTORS ---
+#pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 
 /**
  *  @brief  forward iterator constructor
  *  @param[in] collection - collection, including valid base collection header
  *  @retval               - forward iterator to begining element
  */
-iterator_t it_begin(_IN void* collection);
+iterator_t it_begin(void* collection);
 /**
  *  @brief  forward iterator constructor
  *  @param[in] collection - collection, including valid base collection header
  *  @retval               - forward iterator to memory block after last container element
  */
-iterator_t it_end(_IN void* collection);
+iterator_t it_end(void* collection);
 
 /**
  *  @brief  reverse iterator constructor
  *  @param[in] collection - collection, including valid base collection header
  *  @retval               - reverse iterator to last element
  */
-iterator_t it_rbegin(_IN void* collection);
+iterator_t it_rbegin(void* collection);
 /**
  *  @brief  reverse iterator constructor
  *  @param[in] collection - collection, including valid base collection header
  *  @retval               - reverse iterator to memory block before first container element
  */
-iterator_t it_rend(_IN void* collection);
+iterator_t it_rend(void* collection);
 
 /**
  *  @brief  forward iterator constructor
  *  @param[in] collection - collection, including valid base collection header
  *  @retval               - forward iterator to first element
  */
-iterator_t it_first(_IN void* collection);
+iterator_t it_first(void* collection);
 /**
  *  @brief  forward iterator constructor
  *  @param[in] collection - collection, including valid base collection header
  *  @retval               - forward iterator to last element
  */
-iterator_t it_last(_IN void* collection);
+iterator_t it_last(void* collection);
 
 #pragma endregion
 
 #pragma region --- FUNCIONS ---
 
-extern inline bool it_valid(_IN iterator_t iterator);
+bool it_valid(iterator_t iterator);
 
-extern inline bool it_comparable(_IN iterator_t lhs, _IN iterator_t rhs);
+bool it_comparable(iterator_t lhs, iterator_t rhs);
 
-extern inline bool it_equal(_IN iterator_t lhs, _IN iterator_t rhs);
+bool it_equal(iterator_t lhs, iterator_t rhs);
 
 /**
  *  @brief     pointer to data block
  *  @param[in] iterator - valid iterator pointer
  *  @retval             - returns valid data pointer, otherwise @code{.c} NULL @endcode
  */
-void* it_get(_IN iterator_t iterator);
+void* it_get(iterator_t iterator);
 /**
  *  @brief shifts iterator to next data block of container
  *  @param[in] iterator - valid iterator pointer
  */
-void it_next(_INOUT iterator_t* iterator);
+void it_next(iterator_t* iterator);
 /**
  *  @brief shifts iterator to previous data block of container
  *  @param[in] iterator - valid iterator pointer
  */
-void it_prev(_INOUT iterator_t* iterator);
+void it_prev(iterator_t* iterator);
 
 #pragma endregion
 
@@ -207,7 +207,7 @@ void it_prev(_INOUT iterator_t* iterator);
  *  @param[in]  size - unused
  *  @retval     offset between lhs and rhs
  */
-int it_comp(_IN void* lhs, _IN void* rhs, _IN size_t size);
+int it_comp(void* lhs, void* rhs, size_t size);
 
 #ifdef _SWAP_H_
 

@@ -97,12 +97,12 @@ timediff_t tim_elapsed(const timer_t* timer) {
     return timer->started ? INVALID_TIME : timer->elapsed;
 }
 
-const char const* tim_str(timer_t* timer, timer_precision_t precision) {
+const char* const tim_str(timer_t* timer, timer_precision_t precision) {
     timediff_t diff = tim_elapsed(timer);
     if (diff == INVALID_TIME)
         return "";
 
-    double time = diff;
+    double time = (double)diff;
 
 PRECISION_OVERHEAD_LABEL:
     switch (precision) {

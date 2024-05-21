@@ -17,20 +17,15 @@
 
 #pragma endregion
 
-#pragma region --- MACRO ---
-#pragma endregion
-#pragma region --- TYPEDEF ---
-#pragma endregion
-
 #pragma region --- FUNCION ---
 
-const char* enum_to_arabic(_IN int num, _INOUT char* buffer, _IN size_t buffer_size) {
+const char* enum_to_arabic(int num, char* buffer, size_t buffer_size) {
     if (!buffer || buffer_size == 0)
         return NULL;
     snprintf(buffer, buffer_size, "%d", num);
     return buffer;
 }
-const char* enum_to_roman(_IN int num, _INOUT char* buffer, _IN size_t buffer_size) {
+const char* enum_to_roman(int num, char* buffer, size_t buffer_size) {
     if (!buffer || buffer_size == 0)
         return NULL;
     if (num <= 0 || num >= 4000)
@@ -57,7 +52,7 @@ const char* enum_to_roman(_IN int num, _INOUT char* buffer, _IN size_t buffer_si
     strcat(buffer, ones[num % 10]);
     return buffer;
 }
-const char* enum_to_alpha(_IN int num, _INOUT char* buffer, _IN size_t buffer_size) {
+const char* enum_to_alpha(int num, char* buffer, size_t buffer_size) {
     if (!buffer)
         return NULL;
     if (num <= 0)
@@ -76,7 +71,7 @@ const char* enum_to_alpha(_IN int num, _INOUT char* buffer, _IN size_t buffer_si
     }
     return buffer;
 }
-const char* enum_to_ALPHA(_IN int num, _INOUT char* buffer, _IN size_t buffer_size) {
+const char* enum_to_ALPHA(int num, char* buffer, size_t buffer_size) {
     if (!buffer)
         return NULL;
     if (num <= 0)
@@ -96,7 +91,7 @@ const char* enum_to_ALPHA(_IN int num, _INOUT char* buffer, _IN size_t buffer_si
     return buffer;
 }
 
-char* con_enum_translate(_IN int number, _IN const enum_to_str_pt translator, _INOUT char* buffer, _IN size_t buffer_size, _NULLABLE size_t* ret_size) {
+char* con_enum_translate(int number, const enum_to_str_pt translator, char* buffer, size_t buffer_size, size_t* ret_size) {
     if (!translator)
         return NULL;
     const char* str = translator(number, buffer, buffer_size);
@@ -105,7 +100,7 @@ char* con_enum_translate(_IN int number, _IN const enum_to_str_pt translator, _I
     return str;
 }
 
-void con_enum(_IN const char* content, _IN alignment_t align, _IN enum_to_str_pt translator) {
+void con_enum(const char* content, alignment_t align, enum_to_str_pt translator) {
     if (!content || !*content || !translator)
         return;
 

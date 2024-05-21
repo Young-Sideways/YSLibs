@@ -8,7 +8,7 @@
 
 #include "array.h"
 
-#pragma region --- INCLUDES ---
+#pragma region --- INCLUDE ---
 
 #include <string.h>
 #include <stdlib.h>
@@ -29,7 +29,7 @@ static inline void _init(struct collection_universal_header* collection, void** 
         *index = -1;
         return;
     }
-    if (*index >= collection->size) {
+    if (*index >= (int)collection->size) {
         *index = (int)collection->size;
         return;
     }
@@ -52,7 +52,7 @@ static inline void* _copy(void* collection) {
         memcpy(result, from_header, sizeof(struct collection_private_header) + sizeof(struct array_t) + (from->size + from->element_size));
         result += sizeof(struct collection_private_header);
     }
-    return (array_t)result;
+    return (void*)result;
 }
 
 #pragma endregion
@@ -68,14 +68,14 @@ static inline bool _array_private_is_valid(array_t array) {
 
 #pragma endregion
 
-#pragma region --- CONSTRUCTORS / DESTRUCTORS ---
+#pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 
-array_t arr_init(_IN const size_t size, _IN const size_t element_size) {
+array_t arr_init(const size_t size, const size_t element_size) {
     struct array_t* result = NULL;
     struct collection_private_header* block = (struct collection_private_header*)malloc(sizeof(struct collection_private_header) + sizeof(struct array_t) + (size * element_size));
     if (block) {
         *block = alloc_cph(
-            alloc_caa(NULL, NULL, __function_placeholder, __function_placeholder),
+            alloc_caa(NULL, NULL, &function_placeholder, &function_placeholder),
             alloc_cia(&_init, &_next, &_prev),
             alloc_cma(&_copy, NULL),
             NULL);
@@ -91,12 +91,12 @@ array_t arr_init(_IN const size_t size, _IN const size_t element_size) {
 
 #pragma endregion
 
-#pragma region --- ACCESSORS ---
+#pragma region --- ACCESSOR ---
 
-void* arr_at(_IN array_t array, _IN int position) {
+void* arr_at(array_t array, int index) {
     assert(_array_private_is_valid(array));
-    assert(position >= 0 && position < array->size);
-    return (byte*)array->data + position * array->element_size;
+    assert(index >= 0 && index < (int)array->size);
+    return (byte*)array->data + index * array->element_size;
 }
 
 #pragma endregion

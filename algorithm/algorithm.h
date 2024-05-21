@@ -17,7 +17,13 @@
 #include "sort.h"
 #include "random.h"
 
-void reverse(void* block, size_t capacity, size_t element_size) {
+/**
+ *  @brief 
+ *  @param[in,out] block        - Pointer to memory block
+ *  @param[in]     capacity     - Number of elements
+ *  @param[in]     element_size - Size of each element
+ */
+static void reverse(void* block, const size_t capacity, const size_t element_size) {
     for (byte* first = block, *last = (byte*)block + (capacity - 1) * element_size; first < last; first += element_size, last -= element_size)
         swap(first, last, element_size);
 }

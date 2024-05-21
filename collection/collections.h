@@ -13,18 +13,22 @@
 
 #pragma region --- INCLUDE ---
 
+#include "../core/macro/arg.h"
+
 #include "iterator/iterator.h"
 #include "../core/macro/foreach.h"
 
 #include "array/array.h"
+#include "hashtable/hashtable.h"
 
 #pragma endregion
 
-#pragma region --- GENERICS ---
 
-#define new(type, element_type, ...) _Generic( ((type)0),  \
-    array_t : arr_init(__VA_ARGS__, sizeof(element_type)), \
-    default : ((void*)0)                                   \
+#pragma region --- GENERICS ---
+//hashtable_t : ht_init(VA_ARG_FIRST(__VA_ARGS__), sizeof(VA_ARG_FIRST(element_type)), sizeof(VA_ARG_TAIL(element_type)), VA_ARG_TAIL(__VA_ARGS__)),
+#define new(container_type, element_type, ...) _Generic( ((container_type)0),                                                                        \
+    array_t     : arr_init(__VA_ARGS__, sizeof(element_type)),                                                                                       \
+    default : ((void*)0)                                                                                                                             \
 )
 
 #pragma endregion

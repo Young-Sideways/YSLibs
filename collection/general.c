@@ -18,11 +18,11 @@
 
 #pragma region --- CONSTRUCTORS / DESTRUCTORS ---
 
-void* copy(_IN const void* collection) {
+void* copy(const void* collection) {
     assert(collection);
     return CPH_EXTRACT(collection)->cma._copy((void*)collection);
 }
-void* move(_INOUT void** collection) {
+void* move(void** collection) {
     assert(collection);
     void* result = copy(*collection);
     if (result) {
@@ -32,7 +32,7 @@ void* move(_INOUT void** collection) {
     return collection;
 }
 
-void delete(_INOUT void** collection) {
+void delete(void** collection) {
     assert(collection);
     assert(*collection);
     CPH_REF(*collection, header);
@@ -50,7 +50,7 @@ void delete(_INOUT void** collection) {
     void* _collection_private_##field##_get(void* collection) {                                                             \
         assert(collection);                                                                                                 \
         explain_assert(CPH_EXTRACT(collection)->caa.field, "collection error: container has no "#field" funtion");          \
-        return (CPH_EXTRACT(collection)->caa.field == &__function_placeholder) ? NULL : CPH_EXTRACT(collection)->caa.field; \
+        return (CPH_EXTRACT(collection)->caa.field == &function_placeholder) ? NULL : CPH_EXTRACT(collection)->caa.field; \
     }                                                                                                                       \
     void _collection_private_##field##_set(void* collection, void* value) {                                                 \
         assert(collection);                                                                                                 \
@@ -70,7 +70,7 @@ DECL_GET_SET(_sort)
 
 #pragma region --- FUNCTION ---
 
-bool is_empty(_IN const void* collection) {
+bool is_empty(const void* collection) {
     explain_assert(collection, "collection error: NULL pointer arg");
     return !(((struct collection_universal_header*)collection)->size);
 }

@@ -19,7 +19,7 @@
 
 #pragma region --- FUNCTION ---
 
-void selection_sort(_INOUT void* array, _IN size_t count, _IN size_t element_size, _IN _NULLABLE comparator_pt _comparator, _IN _NULLABLE swap_pt _swap) {
+void selection_sort(void* array, size_t count, size_t element_size, comparator_pt _comparator, swap_pt _swap) {
     assert(array);
     assert(count);
     assert(element_size);
@@ -39,7 +39,7 @@ void selection_sort(_INOUT void* array, _IN size_t count, _IN size_t element_siz
     }
 }
 
-void insertion_sort(_INOUT void* array, _IN size_t count, _IN size_t element_size, _IN _NULLABLE comparator_pt _comparator, _IN _NULLABLE swap_pt _swap) {
+void insertion_sort(void* array, size_t count, size_t element_size, comparator_pt _comparator, swap_pt _swap) {
     assert(array);
     assert(count);
     assert(element_size);
@@ -49,14 +49,14 @@ void insertion_sort(_INOUT void* array, _IN size_t count, _IN size_t element_siz
     if (!_swap)
         _swap = &swap;
 
-    for (byte *sorted = array, *last = sorted + ((count - 1) * element_size); sorted < last; sorted += element_size)
-        for (byte* ptr = sorted + element_size; ptr > (byte*)array; ptr -= element_size)
+    for (ubyte*sorted = array, *last = sorted + ((count - 1) * element_size); sorted < last; sorted += element_size)
+        for (ubyte* ptr = sorted + element_size; ptr > (ubyte*)array; ptr -= element_size)
             if (_comparator(ptr, ptr - element_size, element_size) < 0)
                 _swap(ptr, ptr - element_size, element_size);
 }
 
-static void* partition(byte* first, byte* last, size_t element_size, comparator_pt _comparator, swap_pt _swap) {
-    byte* pivot = last;
+static void* partition(ubyte* first, ubyte* last, size_t element_size, comparator_pt _comparator, swap_pt _swap) {
+    ubyte* pivot = last;
     last -= element_size;
 LOOP:
     while (_comparator(first, pivot, element_size) < 0) first += element_size;
@@ -72,15 +72,15 @@ LOOP:
     return first;
 }
 
-static void _private_quick_sort(byte* begin, byte* end, size_t element_size, comparator_pt _comparator, swap_pt _swap) {
+static void _private_quick_sort(ubyte* begin, ubyte* end, size_t element_size, comparator_pt _comparator, swap_pt _swap) {
     if (begin >= end)
         return;
-    byte* pivot = (byte*)partition(begin, end, element_size, _comparator, _swap);
+    ubyte* pivot = (ubyte*)partition(begin, end, element_size, _comparator, _swap);
     _private_quick_sort(begin, pivot - element_size, element_size, _comparator, _swap);
     _private_quick_sort(pivot + element_size, end, element_size, _comparator, _swap);
 }
 
-void quick_sort(_INOUT void* array, _IN size_t count, _IN size_t element_size, _IN _NULLABLE comparator_pt _comparator, _IN _NULLABLE swap_pt _swap) {
+void quick_sort(void* array, size_t count, size_t element_size, comparator_pt _comparator, swap_pt _swap) {
     assert(array);
     assert(count);
     assert(element_size);
@@ -90,7 +90,7 @@ void quick_sort(_INOUT void* array, _IN size_t count, _IN size_t element_size, _
     if (!_swap)
         _swap = &swap;
 
-    _private_quick_sort(array, (byte*)array + ((count - 1) * element_size), element_size, _comparator, _swap);
+    _private_quick_sort(array, (ubyte*)array + ((count - 1) * element_size), element_size, _comparator, _swap);
 }
 
 #pragma endregion

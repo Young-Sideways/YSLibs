@@ -20,41 +20,31 @@
 
 #pragma region --- TYPEDEF ---
 
-typedef void (sort_t)(_INOUT void*, _IN size_t, _IN size_t, _IN _NULLABLE comparator_pt, _IN _NULLABLE swap_pt);
+/**
+ *  @typedef sort_t
+ *  @brief   defines type of sort function
+ *  @param[in,out] array        - Pointer to memory block
+ *  @param[in]     count        - Element count
+ *  @param[in]     element_size - Size of each element
+ *  @param[in]     _comparator  - Pointer to comparator function
+ *  @param[in]     _swap        - Pointer to swap function
+ */
+typedef void (sort_t)(void* array, const size_t count, const size_t element_size, comparator_pt _comparator, swap_pt _swap);
+
+/**
+ *  @typedef sort_pt
+ *  @brief   pointer type to \ref sort_t function
+ */
 typedef sort_t* sort_pt;
 
 #pragma endregion
 
 #pragma region --- FUNCTION ---
 
-/**
- *  @brief Implementation of selection sort
- *  @param array        - pointer to array
- *  @param count        - number of elements
- *  @param element_size - size of each element
- *  @param comparator   - pointer to compare function
- *  @param swap         - pointer to swap funtion
- */
 sort_t selection_sort;
 
-/**
- *  @brief Implementation of insertion sort
- *  @param array        - pointer to array
- *  @param count        - number of elements
- *  @param element_size - size of each element
- *  @param comparator   - pointer to compare function
- *  @param swap         - pointer to swap funtion
- */
 sort_t insertion_sort;
 
-/**
- *  @brief Implementation of quick sort
- *  @param array        - pointer to array
- *  @param count        - number of elements
- *  @param element_size - size of each element
- *  @param comparator   - pointer to compare function
- *  @param swap         - pointer to swap funtion
- */
 sort_t quick_sort;
 
 #pragma endregion

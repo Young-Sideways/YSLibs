@@ -162,10 +162,9 @@
     <ClInclude Include="collection\type.h" />
     <ClInclude Include="core\core.h" />
     <ClInclude Include="core\debug.h" />
+    <ClInclude Include="core\macro\arg.h" />
     <ClInclude Include="core\macro\exec.h" />
     <ClInclude Include="core\macro\foreach.h" />
-    <ClInclude Include="core\macro\generic\print.h" />
-    <ClInclude Include="core\macro\generic\type.h" />
     <ClInclude Include="core\macro\macro.h" />
     <ClInclude Include="core\macro\reverse.h" />
     <ClInclude Include="core\macro\sequence.h" />

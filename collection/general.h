@@ -115,10 +115,10 @@ struct collection_universal_header {
 
 #pragma region --- UNIVERSAL CONSTRUCTOR / DESTRUCTOR ---
 
-void* copy(_IN const void* collection);
-void* move(_INOUT void** collection);
+void* copy(const void* collection);
+void* move(void** collection);
 
-void delete(_INOUT void** collection);
+void delete(void** collection);
 
 #pragma endregion
 
@@ -164,7 +164,7 @@ _DECL_GET_SET(sort_pt, sort, _sort)
 
 #pragma region --- FUNCTION ---
 
-bool is_empty(_IN const void* collection);
+bool is_empty(const void* collection);
 
 #pragma endregion
 

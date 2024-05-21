@@ -18,18 +18,12 @@
 
 #pragma endregion
 
-#pragma region --- MACRO ---
-#pragma endregion
-
-#pragma region --- TYPEDEF ---
-#pragma endregion
-
 #pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 
 struct collection_universal_header alloc_cuh(
-    _IN _NULLABLE const size_t capacity,
-    _IN _NULLABLE const size_t size,
-    _IN           const size_t element_size)
+    const size_t capacity,
+    const size_t size,
+    const size_t element_size)
 {
     explain_assert(element_size, "collection error: size of element can't be zero");
     explain_assert(size <= capacity, "collection error: size greater than capacity");
@@ -43,10 +37,10 @@ struct collection_universal_header alloc_cuh(
 }
 
 struct collection_algorithm_adapter alloc_caa(
-    _IN _NULLABLE const void* _comp,
-    _IN _NULLABLE const void* _swap,
-    _IN _NULLABLE const void* _srch,
-    _IN _NULLABLE const void* _sort)
+    const void* _comp,
+    const void* _swap,
+    const void* _srch,
+    const void* _sort)
 {
     return (struct collection_algorithm_adapter) {
         ._comp = M_ISNULL(_comp, memcmp),
@@ -57,13 +51,13 @@ struct collection_algorithm_adapter alloc_caa(
 }
 
 struct collection_iterator_adapter alloc_cia(
-    _IN const u_acc_t _init,
-    _IN const u_acc_t _next,
-    _IN const u_acc_t _prev)
+    const u_acc_t _init,
+    const u_acc_t _next,
+    const u_acc_t _prev)
 {
-    assert(_init);
-    assert(_next);
-    assert(_prev);
+    explain_assert(_init, "collection error: invalid arg");
+    explain_assert(_next, "collection error: invalid arg");
+    explain_assert(_prev, "collection error: invalid arg");
     return (struct collection_iterator_adapter) {
         ._init = _init,
         ._next = _next,
@@ -72,8 +66,8 @@ struct collection_iterator_adapter alloc_cia(
 }
 
 struct collection_manager_adapter alloc_cma(
-    _IN           const u_mgr_t _copy,
-    _IN _NULLABLE const u_mgr_t _dtor)
+    const u_mgr_t _copy,
+    const u_mgr_t _dtor)
 {
     assert(_copy);
     return (struct collection_manager_adapter) {
@@ -83,10 +77,10 @@ struct collection_manager_adapter alloc_cma(
 }
 
 struct collection_private_header alloc_cph(
-    _IN           struct collection_algorithm_adapter caa,
-    _IN           struct collection_iterator_adapter cia,
-    _IN           struct collection_manager_adapter cma,
-    _IN _NULLABLE void* _data)
+    struct collection_algorithm_adapter caa,
+    struct collection_iterator_adapter cia,
+    struct collection_manager_adapter cma,
+    void* _data)
 {
     return (struct collection_private_header) {
         .caa   = caa,

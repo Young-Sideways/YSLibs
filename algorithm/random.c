@@ -18,19 +18,19 @@
 
 #pragma region --- FUNCTION ---
 
-void random_init() { srand(time(NULL)); }
+void random_init() { srand((unsigned int)time(NULL)); }
 
-inline int _random() { return (int)(((unsigned)rand() << 30) | ((unsigned)rand() << 15) | (unsigned)rand()); }
+static inline int _random() { return (int)(((unsigned)rand() << 30) | ((unsigned)rand() << 15) | (unsigned)rand()); }
 
-int random(int from, int to) {
-    assert(from <= to);
-    return (int)((long long)_random() % ((long long)to - (long long)from) + (long long)from);
+int random(int min, int max) {
+    assert(min <= max);
+    return (int)((long long)_random() % ((long long)min - (long long)max) + (long long)min);
 }
 
-void random_fill(int* array, size_t size, _NULLABLE random_pt generator, int min, int max) {
+void random_fill(int* array, size_t size, random_pt generator, int min, int max) {
     if (!generator)
         generator = &random;
-    for (int i = 0; i < size; ++i)
+    for (int i = 0; i < (int)size; ++i)
         array[i] = generator(min, max);
 }
 

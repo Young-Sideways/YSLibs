@@ -50,9 +50,9 @@
 typedef uint32_t hash_t;
 #define DEFAULT_HASH_VALUE ((hash_t)0U)
 
-typedef hash_t(hashfunc_t)(_IN const void* key, _IN size_t key_size);
+typedef hash_t (hasher_t)(const void* key, size_t key_size);
 
-typedef hashfunc_t* hashfunc_pt;
+typedef hasher_t* hasher_pt;
 
 typedef struct ht_entry_t {
     struct ht_entry_t* next;
@@ -60,7 +60,7 @@ typedef struct ht_entry_t {
 
 typedef const struct hashtable_t {
     struct collection_universal_header;
-    hashfunc_pt hashfunc;
+    hasher_pt hasher;
     size_t key_size;
 } *hashtable_t;
 
@@ -68,24 +68,25 @@ typedef const struct hashtable_t {
 
 #pragma region --- DEFAULT ---
 
-hashfunc_t hash;
-hashfunc_t str_hash;
+hasher_t hash;
+hasher_t str_hash;
 
 #pragma endregion
 
 #pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 
-hashtable_t ht_init(_IN size_t size, _IN size_t key_size, _IN size_t value_size, _IN _NULLABLE hashfunc_pt hashfunc);
+hashtable_t ht_init(size_t size, size_t key_size, size_t value_size, hasher_pt hasher);
 
 #pragma endregion
 
 #pragma region --- FUNCION ---
 
-void ht_insert(_IN hashtable_t table, _IN const void* key, _IN const void* value);
-void ht_erase(_IN hashtable_t table, _IN const void* key);
+void ht_insert(hashtable_t table, const void* key, const void* value);
+void ht_erase(hashtable_t table, const void* key);
 
-bool ht_contains(_IN const hashtable_t table, _IN const void* key);
-void* ht_lookup(_IN const hashtable_t table, _IN const void* key);
+bool ht_contains(const hashtable_t table, const void* key);
+void* ht_lookup(const hashtable_t table, const void* key);
+void* ht_from_value(const hashtable_t table, const void* value);
 
 #pragma endregion
 

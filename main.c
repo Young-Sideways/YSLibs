@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "core/core.h"
-#include "core/macro/macro.h"
 //#include "task3/task3.h"
 
-#include "collection/hashtable/hashtable.h"
+#include "collection/collections.h"
 
 
 int main(int argc, char** argv) {
@@ -14,18 +14,25 @@ int main(int argc, char** argv) {
 
     //task3();
 
-    hashtable_t ht = ht_init(16, sizeof(int), sizeof(char*), NULL);
+    hashtable_t ht = ht_init(90, sizeof(char*), sizeof(char*), str_hash);
+    
+#if (0)
+    char *name = malloc(4);
+    strcpy(name, "Bob");
+#else
+    const char name[] = "Bob";
+#endif
+    
+    ht_insert(ht, name, &"1 month");
+    ht_insert(ht, &"Rob", &"3 week");
+    ht_insert(ht, &"Danny", &"27 days");
 
-    int key1 = 3567245;
-    int key2 = 924;
-
-    ht_insert(ht, &key1, (char*) { "Hello" });
-    ht_insert(ht, &key2, (char*) { "world" });
-
-    printf("at key '%d' : %s\n", key1, ht_contains(ht, &key1) ? "true" : "false");
-    printf("at key '%d' : %s\n", 26534, ht_contains(ht, (int[]) { 26534 }) ? "true" : "false");
-    printf("at key '%d' : %s\n", key2, ht_contains(ht, &key2) ? "true" : "false");
-
+    printf("name: '%s', time: '%s'\n", name, ht_contains(ht, name) ? "true" : "false");
+    printf("name: '%s', time: '%s'\n", "Ivan", ht_contains(ht, &"Ivan") ? "true" : "false");
+    printf("name: '%s', time: '%s'\n", "Rob", ht_contains(ht, &"Rob") ? "true" : "false");
+    printf("name: '%s', time: '%s'\n", "Danny", ht_contains(ht, &"Danny") ? "true" : "false");
+    //hashtable_t ht = new(hashtable_t, (char*, char*), 90, NULL);
+    array_t arr = new(array_t, int, 10);
     return 0;
 }
 

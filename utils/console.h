@@ -60,7 +60,7 @@ typedef struct padding_t {
     int bottom;
 } padding_t;
 
-typedef const char* (enum_to_str_t)(_IN int num, _INOUT char* buffer, _IN size_t buffer_size);
+typedef const char* (enum_to_str_t)(int num, char* buffer, size_t buffer_size);
 typedef enum_to_str_t *enum_to_str_pt;
 
 #pragma endregion
@@ -72,9 +72,9 @@ enum_to_str_t enum_to_roman;
 enum_to_str_t enum_to_alpha;
 enum_to_str_t enum_to_ALPHA;
 
-char* con_enum_translate(_IN int number, _IN const enum_to_str_pt translator, _INOUT char* buffer, _IN size_t buffer_size, _NULLABLE size_t* ret_size);
+char* con_enum_translate(int number, const enum_to_str_pt translator, char* buffer, size_t buffer_size, size_t* ret_size);
 
-void con_enum(_IN const char* content, _IN alignment_t align, _IN enum_to_str_pt translator);
+void con_enum(const char* content, alignment_t align, enum_to_str_pt translator);
 
 void con_box(char* content, alignment_t align, padding_t padding);
 

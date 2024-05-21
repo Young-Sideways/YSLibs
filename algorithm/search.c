@@ -18,7 +18,7 @@
 
 #pragma region --- FUNCTION ---
 
-void* linear_search(_IN void* array, _IN _NULLABLE size_t count, _IN size_t element_size, _IN void* value, _IN _NULLABLE comparator_pt comparator) {
+void* linear_search(const void* array, const size_t count, const size_t element_size, const void* value, comparator_pt comparator) {
     assert(array);
     assert(element_size);
     assert(value);
@@ -26,13 +26,13 @@ void* linear_search(_IN void* array, _IN _NULLABLE size_t count, _IN size_t elem
     if (!comparator)
         comparator = memcmp;
 
-    for (char* begin = array, *end = begin + (count * element_size); begin < end; begin += element_size)
+    for (ubyte* begin = array, *end = begin + (count * element_size); begin < end; begin += element_size)
         if (comparator(begin, value, element_size))
             return array;
     return NULL;
 }
 
-void* binary_search(_IN void* array, _IN _NULLABLE size_t count, _IN size_t element_size, _IN void* value, _IN _NULLABLE comparator_pt comparator) {
+void* binary_search(const void* array, const size_t count, const size_t element_size, const void* value, comparator_pt comparator) {
     assert(array);
     assert(element_size);
     assert(value);
@@ -44,9 +44,9 @@ void* binary_search(_IN void* array, _IN _NULLABLE size_t count, _IN size_t elem
     if (count == 1)
         comparator(value, array, element_size) ? NULL : array;
 
-    byte* mid = (byte*)array;
-    for (byte* begin = mid, *end = mid + (count * element_size); begin < end;) {
-        mid = (((end - begin) / element_size) / 2) * element_size;
+    ubyte* mid = (ubyte*)array;
+    for (ubyte* begin = mid, *end = mid + (count * element_size); begin < end;) {
+        mid = begin + (((size_t)(end - begin) / element_size) / 2) * element_size;
         int compared = comparator(value, mid, element_size);
         if (compared == 0)
             return mid;

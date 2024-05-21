@@ -19,33 +19,34 @@
 
 #pragma region --- TYPEDEF ---
 
-typedef (random_t)(_IN int min, _IN int max);
+/**
+ *  @typedef random_t
+ *  @param[in] min,max - Generated values range
+ */
+typedef int (random_t)(int min, int max);
+/**
+ *  @typedef random_pt
+ *  @brief   pointer type to \ref random_t function
+ */
 typedef random_t* random_pt;
 
 #pragma endregion
 
 #pragma region --- FUNCTION ---
 
-/// @brief Initilizes a PRNG with current time stamp
+/// @brief Initilizes a RNG generator with current time stamp
 void random_init();
 
-/**
- * @brief default random function
- * @param min - minimum value of generated range
- * @param max - maximum value of generated range
- * @return generated value via [min; max]
- */
 random_t random;
 
 /**
- * @brief fills int array with predicated PRNG
- * @param array - pointer to int array
- * @param size - size of input array
- * @param generator - pointer to PRNG (can be NULL)
- * @param min - minimum value of generated range
- * @param max - maximum value of generated range
+ * @brief fill int array with \p generator
+ * @param[in,out] array     - Pointer to int array
+ * @param[in]     size      - Size of \p array
+ * @param[in]     generator - Pointer to RNG generator
+ * @param[in]     min,max   - Generated values range
  */
-void random_fill(int* array, size_t size, _NULLABLE random_pt generator, int min, int max);
+void random_fill(int* array, size_t size, random_pt generator, int min, int max);
 
 #pragma endregion
 

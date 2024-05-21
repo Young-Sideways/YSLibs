@@ -8,16 +8,16 @@
 
 #include "iterator.h"
 
-#pragma region --- INCLUDES ---
+#pragma region --- INCLUDE ---
 
 #include <stdbool.h>
 #include "../private.h"
 
 #pragma endregion
 
-#pragma region --- CONSTRUCTORS / DESTRUCTORS ---
+#pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 
-iterator_t it_begin(_IN void* collection) {
+iterator_t it_begin(void* collection) {
     if (!collection) {
         explain_error("iterator error: bad pointer to container");
         return INVALID_ITERATOR;
@@ -32,7 +32,7 @@ iterator_t it_begin(_IN void* collection) {
     CPH_EXTRACT(collection)->cia._init(collection, &(result.data), &(result.stage));
     return result;
 }
-iterator_t it_end(_IN void* collection) {
+iterator_t it_end(void* collection) {
     if (!collection) {
         explain_error("iterator error: bad pointer to container");
         return INVALID_ITERATOR;
@@ -46,7 +46,7 @@ iterator_t it_end(_IN void* collection) {
     };
 }
 
-iterator_t it_rbegin(_IN void* collection) {
+iterator_t it_rbegin(void* collection) {
     if (!collection) {
         explain_error("iterator error: bad pointer to container");
         return INVALID_ITERATOR;
@@ -61,8 +61,7 @@ iterator_t it_rbegin(_IN void* collection) {
     CPH_EXTRACT(collection)->cia._init(collection, &(result.data), &(result.stage));
     return result;
 }
-
-iterator_t it_rend(_IN void* collection) {
+iterator_t it_rend(void* collection) {
     if (!collection) {
         explain_error("iterator error: bad pointer to container");
         return INVALID_ITERATOR;
@@ -76,10 +75,10 @@ iterator_t it_rend(_IN void* collection) {
     };
 }
 
-iterator_t it_first(_IN void* collection) {
+iterator_t it_first(void* collection) {
     return it_begin(collection);
 }
-iterator_t it_last(_IN void* collection) {
+iterator_t it_last(void* collection) {
     if (!collection) {
         explain_error("iterator error: bad pointer to container");
         return INVALID_ITERATOR;
@@ -101,7 +100,7 @@ iterator_t it_last(_IN void* collection) {
 
 #pragma region --- FUNCIONS ---
 
-inline bool it_valid(_IN iterator_t iterator) {
+bool it_valid(iterator_t iterator) {
     if (!iterator.collection)
         goto IT_ERR_COLLECTION;
     bool is_bound = false;
@@ -138,19 +137,19 @@ static inline bool _private_iterator_in_bound(iterator_t* iterator) {
     return (iterator->stage >= 0) && (iterator->stage < (int)iterator->collection->size);
 }
 
-inline bool it_comparable(_IN iterator_t lhs, _IN iterator_t rhs) {
+bool it_comparable(iterator_t lhs, iterator_t rhs) {
     return it_valid(lhs) && it_valid(rhs) && (lhs.collection == rhs.collection) && (lhs.direction == rhs.direction);
 }
 
-inline bool it_equal(_IN iterator_t lhs, _IN iterator_t rhs) {
+bool it_equal(iterator_t lhs, iterator_t rhs) {
     return it_valid(lhs) && it_valid(rhs) && (lhs.collection == rhs.collection) && (lhs.direction == rhs.direction) && (lhs.stage == rhs.stage) && (lhs.data == rhs.data);
 }
 
-void* it_get(_IN iterator_t iterator) {
+void* it_get(iterator_t iterator) {
     return it_valid(iterator) ? iterator.data : NULL;
 }
 
-void it_next(_INOUT iterator_t* iterator) {
+void it_next(iterator_t* iterator) {
     if (!iterator || !it_valid(*iterator)) {
         explain_error("iterator error: invalid iterator");
         return;
@@ -182,7 +181,7 @@ void it_next(_INOUT iterator_t* iterator) {
             break;
         }
 }
-void it_prev(_INOUT iterator_t* iterator) {
+void it_prev(iterator_t* iterator) {
     if (!iterator || !it_valid(*iterator)) {
         explain_error("iterator error: invalid iterator");
         return;
@@ -219,7 +218,7 @@ void it_prev(_INOUT iterator_t* iterator) {
 
 #pragma region --- ALGORITHM ADAPTER ---
 
-int it_comp(_IN void* lhs, _IN void* rhs, _IN size_t size) {
+int it_comp(void* lhs, void* rhs, size_t size) {
     UNUSED(size);
 
     explain_assert(lhs, "iterator error: invalid left iterator");

@@ -12,21 +12,25 @@
 
 #pragma once
 
-#pragma region --- INCLUDES ---
+#pragma region --- INCLUDE ---
 
 #include "../general.h"
 
 #pragma endregion
 
-#pragma region --- MACROS ---
+#pragma region --- MACRO ---
 
 #define ARRAY_SIZE_MIN COLLECTION_SIZE_MIN
 #define ARRAY_SIZE_MAX COLLECTION_SIZE_MAX
 
 #pragma endregion
 
-#pragma region --- TYPEDEFS ---
+#pragma region --- TYPEDEF ---
 
+/**
+ *  @typedef array_t
+ *  @brief   static array
+ */
 typedef const struct array_t {
     struct collection_universal_header;
     void* data;
@@ -34,15 +38,25 @@ typedef const struct array_t {
 
 #pragma endregion
 
-#pragma region --- CONSTRUCTORS / DESTRUCTORS ---
+#pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 
-array_t arr_init(_IN const size_t size, _IN const size_t element_size);
+/**
+ *  @brief   Array construct
+ *  @param[in] size         - Number of elements
+ *  @param[in] element_size - Size of each element
+ */
+array_t arr_init(const size_t size, const size_t element_size);
 
 #pragma endregion
 
-#pragma region --- ACCESSORS ---
+#pragma region --- ACCESSOR ---
 
-void* arr_at(_IN array_t array, _IN int position);
+/**
+ *  @brief   Array element accessor
+ *  @param[in] array - Container
+ *  @param[in] index - Index of element
+ */
+void* arr_at(array_t array, int index);
 
 #pragma endregion
 
