@@ -26,9 +26,9 @@ void* linear_search(const void* array, const size_t count, const size_t element_
     if (!comparator)
         comparator = memcmp;
 
-    for (ubyte* begin = array, *end = begin + (count * element_size); begin < end; begin += element_size)
+    for (ubyte* begin = (void*)array, *end = begin + (count * element_size); begin < end; begin += element_size)
         if (comparator(begin, value, element_size))
-            return array;
+            return (void*)array;
     return NULL;
 }
 

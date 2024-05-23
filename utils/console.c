@@ -19,13 +19,13 @@
 
 #pragma region --- FUNCION ---
 
-const char* enum_to_arabic(int num, char* buffer, size_t buffer_size) {
+char* enum_to_arabic(int num, char* buffer, size_t buffer_size) {
     if (!buffer || buffer_size == 0)
         return NULL;
     snprintf(buffer, buffer_size, "%d", num);
     return buffer;
 }
-const char* enum_to_roman(int num, char* buffer, size_t buffer_size) {
+char* enum_to_roman(int num, char* buffer, size_t buffer_size) {
     if (!buffer || buffer_size == 0)
         return NULL;
     if (num <= 0 || num >= 4000)
@@ -52,7 +52,7 @@ const char* enum_to_roman(int num, char* buffer, size_t buffer_size) {
     strcat(buffer, ones[num % 10]);
     return buffer;
 }
-const char* enum_to_alpha(int num, char* buffer, size_t buffer_size) {
+char* enum_to_alpha(int num, char* buffer, size_t buffer_size) {
     if (!buffer)
         return NULL;
     if (num <= 0)
@@ -71,7 +71,7 @@ const char* enum_to_alpha(int num, char* buffer, size_t buffer_size) {
     }
     return buffer;
 }
-const char* enum_to_ALPHA(int num, char* buffer, size_t buffer_size) {
+char* enum_to_ALPHA(int num, char* buffer, size_t buffer_size) {
     if (!buffer)
         return NULL;
     if (num <= 0)
@@ -94,7 +94,7 @@ const char* enum_to_ALPHA(int num, char* buffer, size_t buffer_size) {
 char* con_enum_translate(int number, const enum_to_str_pt translator, char* buffer, size_t buffer_size, size_t* ret_size) {
     if (!translator)
         return NULL;
-    const char* str = translator(number, buffer, buffer_size);
+    char* str = translator(number, buffer, buffer_size);
     if (ret_size) 
         *ret_size = str ? strlen(str) : 0U;
     return str;
@@ -162,6 +162,7 @@ char menu_getc(void) {
     do {
         mode = _getch();
     } while (isspace(mode));
+    printf("%c\n", mode);
     return mode;
 }
 

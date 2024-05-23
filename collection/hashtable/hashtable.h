@@ -86,7 +86,6 @@ void ht_erase(hashtable_t table, const void* key);
 
 bool ht_contains(const hashtable_t table, const void* key);
 void* ht_lookup(const hashtable_t table, const void* key);
-void* ht_from_value(const hashtable_t table, const void* value);
 
 #pragma endregion
 

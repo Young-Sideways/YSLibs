@@ -43,10 +43,10 @@ struct collection_algorithm_adapter alloc_caa(
     const void* _sort)
 {
     return (struct collection_algorithm_adapter) {
-        ._comp = M_ISNULL(_comp, memcmp),
-        ._swap = M_ISNULL(_swap, swap),
-        ._srch = _srch,
-        ._sort = _sort
+        ._comp = M_ISNULL((void*)_comp, memcmp),
+        ._swap = M_ISNULL((void*)_swap, swap),
+        ._srch = (void*)_srch,
+        ._sort = (void*)_sort
     };
 }
 

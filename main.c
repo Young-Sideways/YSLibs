@@ -1,177 +1,50 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+/*******************************************************************************
+ *  @file      main.c
+ *  @brief     main file of project
+ *  @author    Young Sideways
+ *  @date      23.05.2024
+ *  @copyright © Young Sideways, 2024. All right reserved.
+ ******************************************************************************/
 
-#include "core/core.h"
-//#include "task3/task3.h"
-
-#include "collection/collections.h"
-
+#include "main.h"
 
 int main(int argc, char** argv) {
     UNUSED(argc);
     UNUSED(argv);
 
-    //task3();
+    bool cycle = true;
+    char mode = '\0';
 
-    hashtable_t ht = ht_init(90, sizeof(char*), sizeof(char*), str_hash);
-    
-#if (0)
-    char *name = malloc(4);
-    strcpy(name, "Bob");
-#else
-    const char name[] = "Bob";
-#endif
-    
-    ht_insert(ht, name, &"1 month");
-    ht_insert(ht, &"Rob", &"3 week");
-    ht_insert(ht, &"Danny", &"27 days");
+    puts("Welcome to YS Libs");
 
-    printf("name: '%s', time: '%s'\n", name, ht_contains(ht, name) ? "true" : "false");
-    printf("name: '%s', time: '%s'\n", "Ivan", ht_contains(ht, &"Ivan") ? "true" : "false");
-    printf("name: '%s', time: '%s'\n", "Rob", ht_contains(ht, &"Rob") ? "true" : "false");
-    printf("name: '%s', time: '%s'\n", "Danny", ht_contains(ht, &"Danny") ? "true" : "false");
-    //hashtable_t ht = new(hashtable_t, (char*, char*), 90, NULL);
-    array_t arr = new(array_t, int, 10);
+    while (cycle) {
+        con_enum(
+            "task1 module\n"
+            "task2 module\n"
+            "task3 module\n"
+            "exit"
+            , ALIGN_HLEFT, enum_to_arabic);
+        printf("Enter task number: ");
+        mode = menu_getc();
+        switch (mode)
+        {
+        case '1':
+            task1();
+            break;
+        case '2':
+            task2();
+            break;
+        case '3':
+            task3();
+            break;
+        case '4':
+            puts("Exiting...");
+            cycle = false;
+            break;
+        default:
+            puts("Invalid input");
+            break;
+        }
+    }
     return 0;
 }
-
-#if (0)
-
-int array_test() {
-    array_t arr = new(array_t, int, size);
-    if (arr) {
-        int i = 1;
-        set_sort(arr, quick_sort);
-
-
-        for_each(int, it, arr) {
-            printf("%d: %d\n", i, *it = i);
-            i++;
-        }
-
-        iterator_t value = it_find(it_begin(arr), it_end(arr), (int[1]) { 3 });
-        if (!it_equal(value, it_end(arr))) {
-            printf("found value '%d' at stage '%d'\n", *(int*)it_get(value), value.stage);
-        }
-
-        it_sort(it_rbegin(arr), it_rend(arr));
-        i = 1;
-        for_each(int, it, arr) {
-            printf("%d: %d\n", i++, *it);
-        }
-
-        value = it_find(it_begin(arr), it_end(arr), (int[1]) { 3 });
-        if (!it_equal(value, it_end(arr))) {
-            printf("found value '%d' at stage '%d'\n", *(int*)it_get(value), value.stage);
-        }
-
-        it_sort(it_begin(arr), it_end(arr));
-        i = 1;
-        for_each(int, it, arr) {
-            printf("%d: %d\n", i++, *it);
-        }
-
-        value = it_find(it_begin(arr), it_end(arr), (int[1]) { 3 });
-        if (!it_equal(value, it_end(arr))) {
-            printf("found value '%d' at stage '%d'\n", *(int*)it_get(value), value.stage);
-        }
-
-        delete(&arr);
-    }
-}
-
-#endif
-
-#if (0)
-#include "core/macro/generic/print.h"
-#include <string.h>
-
-#define T_PRINTER(foo, type)                    \
-do {                                            \
-    char format[48] = "%";                      \
-    char buf[128] = { 0 };                       \
-    strcat(format, M_FORMAT_OF((type)0));       \
-    sprintf(buf, format, foo(type));            \
-    printf("%s (%-19s) : %s\n", #foo, #type, buf); \
-} while(0)
-
-void __print_type_sizes(void) {
-    T_PRINTER(G_TMIN, char);
-    T_PRINTER(G_TMIN, short);
-    T_PRINTER(G_TMIN, int);
-    T_PRINTER(G_TMIN, long);
-    T_PRINTER(G_TMIN, long long);
-    T_PRINTER(G_TMIN, signed char);
-    T_PRINTER(G_TMIN, signed short);
-    T_PRINTER(G_TMIN, signed int);
-    T_PRINTER(G_TMIN, signed long);
-    T_PRINTER(G_TMIN, signed long long);
-    T_PRINTER(G_TMIN, unsigned char);
-    T_PRINTER(G_TMIN, unsigned short);
-    T_PRINTER(G_TMIN, unsigned int);
-    T_PRINTER(G_TMIN, unsigned long);
-    T_PRINTER(G_TMIN, unsigned long long);
-    T_PRINTER(G_TMIN, float);
-    T_PRINTER(G_TMIN, double);
-    T_PRINTER(G_TMIN, long double);
-    putchar('\n');
-    T_PRINTER(G_TMIN, char*);
-    T_PRINTER(G_TMIN, short*);
-    T_PRINTER(G_TMIN, int*);
-    T_PRINTER(G_TMIN, long*);
-    T_PRINTER(G_TMIN, long long*);
-    T_PRINTER(G_TMIN, signed char*);
-    T_PRINTER(G_TMIN, signed short*);
-    T_PRINTER(G_TMIN, signed int*);
-    T_PRINTER(G_TMIN, signed long*);
-    T_PRINTER(G_TMIN, signed long long*);
-    T_PRINTER(G_TMIN, unsigned char*);
-    T_PRINTER(G_TMIN, unsigned short*);
-    T_PRINTER(G_TMIN, unsigned int*);
-    T_PRINTER(G_TMIN, unsigned long*);
-    T_PRINTER(G_TMIN, unsigned long long*);
-    T_PRINTER(G_TMIN, float*);
-    T_PRINTER(G_TMIN, double*);
-    T_PRINTER(G_TMIN, long double*);
-    putchar('\n');
-    T_PRINTER(G_TMAX, char);
-    T_PRINTER(G_TMAX, short);
-    T_PRINTER(G_TMAX, int);
-    T_PRINTER(G_TMAX, long);
-    T_PRINTER(G_TMAX, long long);
-    T_PRINTER(G_TMAX, signed char);
-    T_PRINTER(G_TMAX, signed short);
-    T_PRINTER(G_TMAX, signed int);
-    T_PRINTER(G_TMAX, signed long);
-    T_PRINTER(G_TMAX, signed long long);
-    T_PRINTER(G_TMAX, unsigned char);
-    T_PRINTER(G_TMAX, unsigned short);
-    T_PRINTER(G_TMAX, unsigned int);
-    T_PRINTER(G_TMAX, unsigned long);
-    T_PRINTER(G_TMAX, unsigned long long);
-    T_PRINTER(G_TMAX, float);
-    T_PRINTER(G_TMAX, double);
-    T_PRINTER(G_TMAX, long double);
-    putchar('\n');
-    T_PRINTER(G_TMAX, char*);
-    T_PRINTER(G_TMAX, short*);
-    T_PRINTER(G_TMAX, int*);
-    T_PRINTER(G_TMAX, long*);
-    T_PRINTER(G_TMAX, long long*);
-    T_PRINTER(G_TMAX, signed char*);
-    T_PRINTER(G_TMAX, signed short*);
-    T_PRINTER(G_TMAX, signed int*);
-    T_PRINTER(G_TMAX, signed long*);
-    T_PRINTER(G_TMAX, signed long long*);
-    T_PRINTER(G_TMAX, unsigned char*);
-    T_PRINTER(G_TMAX, unsigned short*);
-    T_PRINTER(G_TMAX, unsigned int*);
-    T_PRINTER(G_TMAX, unsigned long*);
-    T_PRINTER(G_TMAX, unsigned long long*);
-    T_PRINTER(G_TMAX, float*);
-    T_PRINTER(G_TMAX, double*);
-    T_PRINTER(G_TMAX, long double*);
-    putchar('\n');
-}
-#endif

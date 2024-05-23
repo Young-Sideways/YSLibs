@@ -243,7 +243,7 @@ static void it_swap(void* lhs, void* rhs, size_t size) {
  *  @param[in]  size - unused
  *  @retval     offset between lhs and rhs, othewise @code CONTAINER_INVALID_INDEX @endcode
  */
-static iterator_t it_find(_IN iterator_t begin, _IN iterator_t end, _IN void* value) {
+static iterator_t it_find(iterator_t begin, iterator_t end, void* value) {
     if (it_comp(&begin, &end, 0) == INVALID_STAGE)
         return it_end(begin.collection);
     comparator_pt comp = get_comp(begin.collection);
@@ -263,7 +263,7 @@ static iterator_t it_find(_IN iterator_t begin, _IN iterator_t end, _IN void* va
  *  @param[in]  begin - valid left begin iterator
  *  @param[in]  end   - valid right end iterator
  */
-static void it_sort(_IN iterator_t begin, _IN iterator_t end) {
+static void it_sort(iterator_t begin, iterator_t end) {
     if (!it_comparable(begin, end) || !get_comp(begin.collection))
         goto IT_ERR_UNSORTABLE;
 

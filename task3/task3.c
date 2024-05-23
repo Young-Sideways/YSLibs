@@ -38,7 +38,8 @@ int task3() {
             "back" ENDL,
             ALIGN_HLEFT, enum_to_arabic);
         printf("Select sorting algorithm: ");
-        printf("%c\n\n", mode = menu_getc());
+        mode = menu_getc();
+        putchar('\n');
 
         switch (mode)
         {
