@@ -26,6 +26,8 @@
 #define _VA_ARG_HEAD_HELPER(...) VA_ARG_REVERSE(VA_ARG_TAIL(__VA_ARGS__))
 #define VA_ARG_HEAD(...) _VA_ARG_HEAD_HELPER(VA_ARG_REVERSE(__VA_ARGS__))
 
+#define _VA_ARG_TAIL_HELPER_0
+
 #define VA_ARG_TAIL(arg, ...) __VA_ARGS__
 
 #pragma endregion

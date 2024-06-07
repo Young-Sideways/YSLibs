@@ -13,7 +13,7 @@
 
 #pragma region --- INCLUDES ---
 
-#include "general.h"
+#include "../general.h"
 
 #pragma endregion
 
@@ -26,30 +26,35 @@
 
 #pragma region --- TYPEDEFS ---
 
-COLLECTION_DECLARE_TYPE(string_t,
-    char* const data
-);
-
+typedef const struct string_t {
+    struct collection_universal_header;
+    void* data;
+}* string_t;
 #pragma endregion
 
 #pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 
-string_t str_init();
+string_t str_init(const char* str);
+string_t str_winit(const wchar_t* wstr);
 
 #pragma endregion
 
 #pragma region --- FUNCION ---
 
+void str_trim(string_t string);
+void str_ctrim(string_t string, const void* chars);
 
+void str_reverse(string_t string);
 
-#pragma endregion
+void str_cat(string_t dst, const string_t src);
+string_t str_dup(const string_t src);
 
-#pragma region --- ALGORITHM ADAPTER ---
+int str_chr(string_t string, int c);
+int str_str(string_t string, const string_t sub);
+int str_cstr(string_t string, const void* sub);
+size_t str_count(const string_t string, int c);
 
-char* trim(char* string);
-char* ctrim(char* string, char* chars);
-
-void str_reverse(char* string);
+string_t str_join(const string_t* strings, const void* delimeter);
 
 #pragma endregion
 

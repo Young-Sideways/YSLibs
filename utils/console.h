@@ -80,6 +80,46 @@ void con_box(char* content, alignment_t align, padding_t padding);
 
 #pragma endregion
 
+#pragma region --- FORMAT ---
+
+#include "../core/macro/exec.h"
+
+#define M_FORMAT_OF(var) _Generic( (var)  , \
+    signed char        : "%hhd"           , \
+    signed short       : "%hd"            , \
+    signed int         : "%d"             , \
+    signed long        : "%ld"            , \
+    signed long long   : "%lld"           , \
+    unsigned char      : "%hhu"           , \
+    unsigned short     : "%hu"            , \
+    unsigned           : "%u"             , \
+    unsigned long      : "%lu"            , \
+    unsigned long long : "%llu"           , \
+    float              : "%f"             , \
+    double             : "%lf"            , \
+    long double        : "%Lf"            , \
+    signed char*       : "%s"             , \
+    signed short*      : "%p"             , \
+    signed int*        : "%p"             , \
+    signed long*       : "%p"             , \
+    signed long long*  : "%p"             , \
+    unsigned char*     : "%p"             , \
+    unsigned short*    : "%p"             , \
+    unsigned*          : "%p"             , \
+    unsigned long*     : "%p"             , \
+    unsigned long long*: "%p"             , \
+    float*             : "%p"             , \
+    double*            : "%p"             , \
+    long double*       : "%p"             , \
+    void*              : "%p"             , \
+    default            : "%X"             )
+
+
+#define _fmt_print(format, arg_size, arg_fmt, ...)
+#define fmt_print(format, ...)
+
+#pragma endregion
+
 #pragma region --- MENU ---
 
 char menu_getc(void);

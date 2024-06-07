@@ -142,10 +142,8 @@
     <ClCompile Include="collection\hashtable\hashtable.c" />
     <ClCompile Include="collection\iterator\iterator.c" />
     <ClCompile Include="collection\private.c" />
+    <ClCompile Include="collection\string\string.c" />
     <ClCompile Include="main.c" />
-    <ClCompile Include="task1\task1.c" />
-    <ClCompile Include="task2\task2.c" />
-    <ClCompile Include="task3\task3.c" />
     <ClCompile Include="utils\console.c" />
     <ClCompile Include="utils\timer.c" />
   </ItemGroup>
@@ -162,6 +160,7 @@
     <ClInclude Include="collection\hashtable\hashtable.h" />
     <ClInclude Include="collection\iterator\iterator.h" />
     <ClInclude Include="collection\private.h" />
+    <ClInclude Include="collection\string\string.h" />
     <ClInclude Include="collection\type.h" />
     <ClInclude Include="core\core.h" />
     <ClInclude Include="core\debug.h" />
@@ -173,9 +172,6 @@
     <ClInclude Include="core\macro\sequence.h" />
     <ClInclude Include="core\macro\variadic.h" />
     <ClInclude Include="main.h" />
-    <ClInclude Include="task1\task1.h" />
-    <ClInclude Include="task2\task2.h" />
-    <ClInclude Include="task3\task3.h" />
     <ClInclude Include="utils\console.h" />
     <ClInclude Include="utils\timer.h" />
   </ItemGroup>

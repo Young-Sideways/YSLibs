@@ -26,10 +26,49 @@
 
 #include "core/core.h"
 
-#include "task1/task1.h"
-#include "task2/task2.h"
-#include "task3/task3.h"
-
 #include "utils/console.h"
+
+#if defined(_TISBI_)
+//#include "task1/task1.h"
+//#include "task2/task2.h"
+//#include "task3/task3.h"
+
+int task_processor() {
+    bool cycle = true;
+    char mode = '\0';
+
+    puts("Welcome to YS Libs");
+
+    while (cycle) {
+        con_enum(
+            "task1 module\n"
+            "task2 module\n"
+            "task3 module\n"
+            "exit"
+            , ALIGN_HLEFT, enum_to_arabic);
+        printf("Enter task number: ");
+        mode = menu_getc();
+        switch (mode)
+        {
+        case '1':
+            task1();
+            break;
+        case '2':
+            task2();
+            break;
+        case '3':
+            task3();
+            break;
+        case '4':
+            puts("Exiting...");
+            cycle = false;
+            break;
+        default:
+            puts("Invalid input");
+            break;
+        }
+    }
+}
+#endif !_TISBI_
 
 #pragma endregion
