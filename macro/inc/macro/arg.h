@@ -3,7 +3,7 @@
  *  @brief     arg macro
  *  @author    Young Sideways
  *  @date      21.05.2024
- *  @copyright © Young Sideways, 2024. All right reserved.
+ *  @copyright пїЅ Young Sideways, 2024. All right reserved.
  ******************************************************************************/
 
 #ifndef _M_ARG_H_
@@ -15,7 +15,7 @@
 
 #pragma endregion
 
-// FIX: Поправить багу, связанную с передачей 1 или 0 элементов в макросы...
+// FIX: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 1 пїЅпїЅпїЅ 0 пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ...
 #pragma region --- VARIADIC ---
 
 #define VA_ARG_FIRST(arg, ...) arg
@@ -25,8 +25,6 @@
 
 #define _VA_ARG_HEAD_HELPER(...) VA_ARG_REVERSE(VA_ARG_TAIL(__VA_ARGS__))
 #define VA_ARG_HEAD(...) _VA_ARG_HEAD_HELPER(VA_ARG_REVERSE(__VA_ARGS__))
-
-#define _VA_ARG_TAIL_HELPER_0
 
 #define VA_ARG_TAIL(arg, ...) __VA_ARGS__
 

@@ -3,17 +3,17 @@
  *  @brief     swap algorithms
  *  @author    Young Sideways
  *  @date      14.02.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright ï¿½ young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#include "swap.h"
+#include "algorithm/swap.h"
 
 #pragma region --- INCLUDE ---
 
 #include <stdint.h>
 #include <math.h>
 
-#include "../core/debug.h"
+#include "core/debug.h"
 
 #pragma endregion
 

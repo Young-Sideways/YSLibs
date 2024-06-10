@@ -3,10 +3,10 @@
  *  @brief     sort algorithms
  *  @author    Young Sideways
  *  @date      14.02.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright ï¿½ young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#include "sort.h"
+#include "algorithm/sort.h"
 
 #pragma region --- INCLUDE ---
 

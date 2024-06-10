@@ -1,13 +1,13 @@
 /*******************************************************************************
- *  @file      variadic.h
- *  @brief     Variadic macro helpers definition
+ *  @file      private_variadic.h
+ *  @brief     
  *  @author    Young Sideways
- *  @date      25.03.2024
+ *  @date      10.06.2024
  *  @copyright © Young Sideways, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _M_VARIADIC_H_
-#define _M_VARIADIC_H_
+#ifndef _PRIVATE_M_VARIADIC_H_
+#define _PRIVATE_M_VARIADIC_H_
 
 #pragma once
 
@@ -131,13 +131,6 @@ void _va_commaseq_n_printer(int n, const char* name, int separate) {
 
 #define VA_HASCOMMA(...) VA_ARG_N_(__VA_ARGS__, VA_COMMASEQ_N())
 
-#define VA_NARG(...)                                \
-          VA_NARG_HELPER(                           \
-              VA_HASCOMMA(__VA_ARGS__),             \
-              VA_HASCOMMA(VA_COMMA __VA_ARGS__ ()), \
-              VA_ARG_N_(__VA_ARGS__, VA_RSEQ_N())   \
-        )
-
 #define VA_NARG_HELPER(a, b, N) VA_NARG_HELPER_(a, b, N)
 #define VA_NARG_HELPER_(a, b, N) VA_NARG_APPLY_ ## a ## b(N)
 
@@ -147,4 +140,4 @@ void _va_commaseq_n_printer(int n, const char* name, int separate) {
 
 #pragma endregion
 
-#endif // !_M_VARIADIC_H_
+#endif // !_PRIVATE_M_VARIADIC_H_

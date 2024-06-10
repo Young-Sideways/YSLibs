@@ -3,10 +3,10 @@
  *  @brief     random algorithm
  *  @author    Young Sideways
  *  @date      14.02.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright ï¿½ young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#include "random.h"
+#include "algorithm/random.h"
 
 #pragma region --- INCLUDE ---
 
