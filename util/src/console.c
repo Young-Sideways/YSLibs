@@ -3,10 +3,10 @@
  *  @brief     Console utils
  *  @author    Young Sideways
  *  @date      11.05.2024
- *  @copyright © Young Sideways, 2024. All right reserved.
+ *  @copyright ï¿½ Young Sideways, 2024. All right reserved.
  ******************************************************************************/
 
-#include "console.h"
+#include "util/console.h"
 
 #pragma region --- INCLUDE ---
 
@@ -160,7 +160,7 @@ void con_box(char* content, alignment_t align, padding_t padding) {
 char menu_getc(void) {
     char mode = '\0';
     do {
-        mode = _getch();
+        mode = getchar();
     } while (isspace(mode));
     printf("%c\n", mode);
     return mode;

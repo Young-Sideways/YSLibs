@@ -3,7 +3,7 @@
  *  @brief     Console utils
  *  @author    Young Sideways
  *  @date      11.05.2024
- *  @copyright © Young Sideways, 2024. All right reserved.
+ *  @copyright ï¿½ Young Sideways, 2024. All right reserved.
  ******************************************************************************/
 
 #ifndef _CONSOLE_H_
@@ -13,7 +13,7 @@
 
 #pragma region --- INCLUDE ---
 
-#include "../core/core.h"
+#include "core.h"
 #include <stddef.h>
 #include <stdbool.h>
 
@@ -82,7 +82,7 @@ void con_box(char* content, alignment_t align, padding_t padding);
 
 #pragma region --- FORMAT ---
 
-#include "../core/macro/exec.h"
+#include "macro/exec.h"
 
 #define M_FORMAT_OF(var) _Generic( (var)  , \
     signed char        : "%hhd"           , \

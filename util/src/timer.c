@@ -4,16 +4,15 @@
  *             work with time stamps
  *  @author    Young Sideways
  *  @date      14.04.2024
- *  @copyright © Young Sideways, 2024. All right reserved.
+ *  @copyright ï¿½ Young Sideways, 2024. All right reserved.
  ******************************************************************************/
 
-#include "timer.h"
+#include "util/timer.h"
 
 #pragma region --- INCLUDES ---
 
 #include <assert.h>
 #include <stdio.h>
-#include <string.h>
 #include <math.h>
 
 #pragma endregion

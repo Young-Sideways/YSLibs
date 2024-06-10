@@ -9,15 +9,16 @@
 //#include "main.h"
 
 #include <stdio.h>
-#include "macro/variadic.h"
-
+#include "util/timer.h"
 
 
 int main(int argc, char** argv) {
     //UNUSED(argc);
     //UNUSED(argv);
-
-    printf("args: %d\n", VA_NARG(1, 2, 3, 4));
+    timer_t tim;
+    tim_start(&tim);
+    
+    printf("args: %d\n", 5);
 
     //_getch();
     return 0;
