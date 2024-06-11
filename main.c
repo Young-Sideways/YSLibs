@@ -9,16 +9,21 @@
 //#include "main.h"
 
 #include <stdio.h>
-#include "util/timer.h"
+#include "util/inc/util/timer.h"
+#include <sys/unistd.h>
+#include <unistd.h>
 
 
 int main(int argc, char** argv) {
     //UNUSED(argc);
     //UNUSED(argv);
-    timer_t tim;
+    tim_t tim;
     tim_start(&tim);
-    
-    printf("args: %d\n", 5);
+    sleep(5);
+    tim_stop(&tim);
+    int a = 10;
+    int b[a];
+    printf("elapsed: %s\n", tim_str(&tim, TIM_PRECISION_AUTO));
 
     //_getch();
     return 0;

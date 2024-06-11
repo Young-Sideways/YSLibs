@@ -36,10 +36,10 @@ static const char* const _timer_postfix[] = {
 
 #pragma region --- FUNCIONS ---
 
-timer_state_t tim_start(timer_t* timer) {
+tim_state_t tim_start(tim_t* timer) {
     assert(timer);
 
-    *timer = (timer_t){
+    *timer = (tim_t){
         .begin   = (struct timespec){ .tv_sec = 0, .tv_nsec = 0 },
         .elapsed = DEFAULT_TIME,
         .started = false,
@@ -53,7 +53,7 @@ timer_state_t tim_start(timer_t* timer) {
     return TIM_STATE_OK;
 }
 
-timer_state_t tim_stop(timer_t* timer) {
+tim_state_t tim_stop(tim_t* timer) {
     assert(timer);
 
     if (timer->started == false)
@@ -74,7 +74,7 @@ timer_state_t tim_stop(timer_t* timer) {
     return TIM_STATE_OK;
 }
 
-timer_state_t tim_continue(timer_t* timer) {
+tim_state_t tim_continue(tim_t* timer) {
     assert(timer);
 
     if (timer->started == true)
@@ -90,13 +90,13 @@ timer_state_t tim_continue(timer_t* timer) {
     return TIM_STATE_OK;
 }
 
-timediff_t tim_elapsed(const timer_t* timer) {
+timediff_t tim_elapsed(const tim_t* timer) {
     assert(timer);
 
     return timer->started ? INVALID_TIME : timer->elapsed;
 }
 
-const char* const tim_str(timer_t* timer, timer_precision_t precision) {
+const char* const tim_str(tim_t* timer, tim_precision_t precision) {
     timediff_t diff = tim_elapsed(timer);
     if (diff == INVALID_TIME)
         return "";

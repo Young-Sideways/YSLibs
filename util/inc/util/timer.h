@@ -4,7 +4,7 @@
  *             work with time stamps
  *  @author    Young Sideways
  *  @date      14.04.2024
- *  @copyright © Young Sideways, 2024. All right reserved.
+ *  @copyright ï¿½ Young Sideways, 2024. All right reserved.
  ******************************************************************************/
 
 #ifndef _TIMER_H_
@@ -30,36 +30,36 @@
 
 typedef int64_t timediff_t;
 
-typedef struct {
+typedef struct tim_t {
     struct timespec begin;
     timediff_t elapsed;
     bool started;
     char string[32];
-} timer_t;
+} tim_t;
 
-typedef enum {
+typedef enum tim_state_t {
     TIM_STATE_INVALID = -1,
     TIM_STATE_OK      =  0,
     TIM_STATE_FAIL    =  1
-} timer_state_t;
+} tim_state_t;
 
-typedef enum {
+typedef enum tim_precision_t{
     TIM_PRECISION_AUTO          = -1,
     TIM_PRECISION_NANOSECONDS   =  0,
     TIM_PRECISION_MICROSECONDS  =  1,
     TIM_PRECISION_MILLISECONDS  =  2,
     TIM_PRECISION_SECONDS       =  3
-} timer_precision_t;
+} tim_precision_t;
 
 #pragma endregion
 
 #pragma region --- FUNCIONS ---
 
-timer_state_t     tim_start(timer_t* timer);
-timer_state_t     tim_stop(timer_t* timer);
-timer_state_t     tim_continue(timer_t* timer);
-timediff_t        tim_elapsed(const timer_t* timer);
-const char* const tim_str(timer_t* timer, timer_precision_t precision);
+tim_state_t       tim_start(tim_t* timer);
+tim_state_t       tim_stop(tim_t* timer);
+tim_state_t       tim_continue(tim_t* timer);
+timediff_t        tim_elapsed(const tim_t* timer);
+const char* const tim_str(tim_t* timer, tim_precision_t precision);
 
 #pragma endregion
 
