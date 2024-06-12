@@ -9,9 +9,8 @@
 //#include "main.h"
 
 #include <stdio.h>
-#include "util/inc/util/timer.h"
-#include <sys/unistd.h>
-#include <unistd.h>
+#include "util/timer.h"
+#include <windows.h>
 
 
 int main(int argc, char** argv) {
@@ -19,7 +18,7 @@ int main(int argc, char** argv) {
     //UNUSED(argv);
     tim_t tim;
     tim_start(&tim);
-    sleep(5);
+    _sleep(5);
     tim_stop(&tim);
     int a = 10;
     int b[a];

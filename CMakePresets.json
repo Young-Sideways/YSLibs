@@ -1,80 +1,122 @@
 {
     "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 19,
+        "patch": 0
+    },
     "configurePresets": [
-        {
-            "name": "windows-base",
+        {   "name": "use-ninja",
             "hidden": true,
             "generator": "Ninja",
-            "binaryDir": "${sourceDir}/out/build/${presetName}",
-            "installDir": "${sourceDir}/out/install/${presetName}",
             "cacheVariables": {
-                "CMAKE_C_COMPILER": "clang.exe",
-                "CMAKE_CXX_COMPILER": "clang++.exe"
-            },
-            "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Windows"
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
             }
         },
-        {
-            "name": "win-x64-debug",
-            "displayName": "Win x64 Debug",
-            "inherits": "windows-base",
-            "architecture": {
-                "value": "x64",
-                "strategy": "external"
-            },
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug"
-            }
-        },
-        {
-            "name": "win-x64-release",
-            "displayName": "Win x64 Release",
-            "inherits": "x64-debug",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
-            }
-        },
-        {
-            "name": "linux-base",
+
+        {   "name": "default-dirs",
             "hidden": true,
-            "generator": "Ninja",
             "binaryDir": "${sourceDir}/out/build/${presetName}",
-            "installDir": "${sourceDir}/out/install/${presetName}",
+            "installDir": "${sourceDir}/out/install/${presetName}"
+        },
+
+        {   "name": "debug-build",
+            "hidden": true,
             "cacheVariables": {
-                "CMAKE_C_COMPILER": "/usr/bin/clang",
-                "CMAKE_CXX_COMPILER": "/usr/bin/clang++"
-            },
-            "environment": {
-                "C_FLAGS" : "-m"
-            },
+                "CMAKE_BUILD_TYPE": "Debug",
+                "USE_DEBUG_OUTPUT": "ON",
+                "USE_LOG": "ON",
+                "USE_LOG_SEVERITY": "0"
+            }
+        },
+        {   "name": "release-build",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "USE_DEBUG_OUTPUT": "OFF",
+                "USE_LOG": "OFF"
+            }
+        },
+        
+        {   "name": "use-clang",
+            "hidden": true,
+            "inherits": [ "default-dirs", "use-ninja" ],
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++"
+            }
+        },
+        {   "name": "use-clang-cl",
+            "hidden": true,
+            "inherits": [ "default-dirs", "use-ninja" ],
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang"
+            }
+        },
+        
+
+        {   "name": "linux-base",
+            "hidden": true,
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
                 "rhs": "Linux"
             }
         },
-        {
-            "name": "linux-x64-debug",
-            "displayName": "Linux x64 Debug",
-            "inherits": "linux-base",
-            "architecture": {
-                "value": "x64",
-                "strategy": "external"
+        {   "name": "linux-clang-debug",
+            "displayName": "Linux clang debug",
+            "inherits": [ "linux-base", "use-clang", "debug-build" ]
+        },
+        {   "name": "linux-clang-release",
+            "displayName": "Linux clang release",
+            "inherits": [ "linux-base", "use-clang", "release-build" ]
+        },
+
+        {   "name": "windows-base",
+            "hidden": true,
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
             },
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug"
+            "architecture": {
+              "value": "x64",
+              "strategy": "external"
+            },
+            "toolset": {
+              "value": "v143,host=x64",
+              "strategy": "external"
+            },
+            "vendor": {
+                "microsoft.com/VisualStudioSettings/CMake/1.0": {
+                    "hostOS": "Windows",
+                    "intelliSenseMode": "windows-clang-x64"
+                }
             }
         },
-        {
-            "name": "linux-x64-release",
-            "displayName": "Linux x64 Release",
-            "inherits": "linux-x64-debug",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
-            }
+        {   "name": "windows-clang-debug",
+            "displayName": "Windows x64 clang-cl Debug",
+            "inherits": [ "windows-base", "use-clang-cl", "debug-build" ]
+        },
+        {   "name": "windows-clang-release",
+            "displayName": "Windows x64 clang-cl Release",
+            "inherits": [ "windows-base", "use-clang-cl", "release-build" ]
+        }
+    ],
+    "buildPresets": [
+        {   "name": "linux-clang-debug",
+            "configurePreset": "linux-clang-debug"
+        },
+        {   "name": "linux-clang-release",
+            "configurePreset": "linux-clang-release"
+        },
+        
+        {   "name": "windows-clang-debug",
+            "configurePreset": "windows-clang-debug"
+        },
+        {   "name": "windows-clang-release",
+            "configurePreset": "windows-clang-release"
         }
     ]
 }
