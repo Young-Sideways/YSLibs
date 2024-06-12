@@ -50,8 +50,8 @@
             "hidden": true,
             "inherits": [ "default-dirs", "use-ninja" ],
             "cacheVariables": {
-                "CMAKE_C_COMPILER": "clang",
-                "CMAKE_CXX_COMPILER": "clang"
+                "CMAKE_C_COMPILER": "clang.exe",
+                "CMAKE_CXX_COMPILER": "clang++.exe"
             }
         },
         
@@ -80,6 +80,9 @@
                 "lhs": "${hostSystemName}",
                 "rhs": "Windows"
             },
+            "cacheVariables": {
+                "CMAKE_MAKE_PROGRAM": "C:/Program Files/Ninja/ninja.exe"
+            },
             "architecture": {
               "value": "x64",
               "strategy": "external"
@@ -96,27 +99,12 @@
             }
         },
         {   "name": "windows-clang-debug",
-            "displayName": "Windows x64 clang-cl Debug",
+            "displayName": "Windows x64 clang Debug",
             "inherits": [ "windows-base", "use-clang-cl", "debug-build" ]
         },
         {   "name": "windows-clang-release",
-            "displayName": "Windows x64 clang-cl Release",
+            "displayName": "Windows x64 clang Release",
             "inherits": [ "windows-base", "use-clang-cl", "release-build" ]
-        }
-    ],
-    "buildPresets": [
-        {   "name": "linux-clang-debug",
-            "configurePreset": "linux-clang-debug"
-        },
-        {   "name": "linux-clang-release",
-            "configurePreset": "linux-clang-release"
-        },
-        
-        {   "name": "windows-clang-debug",
-            "configurePreset": "windows-clang-debug"
-        },
-        {   "name": "windows-clang-release",
-            "configurePreset": "windows-clang-release"
         }
     ]
 }
