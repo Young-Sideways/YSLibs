@@ -15,7 +15,7 @@
 
 
 
-#define LOG_MODULE_NAME "general"
+//#define LOG_MODULE_NAME "general"
 #define LOG_MODULE_SEPARATE (true)
 #include "util/log.h"
 

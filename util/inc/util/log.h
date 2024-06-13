@@ -124,7 +124,7 @@ typedef void (*log_handler_t)(int type, log_exec_ctx_t ctx, const char* format, 
 #pragma region --- MODULE ---
 
 #ifndef LOG_MODULE_NAME
-#define LOG_MODULE_NAME ""
+#define LOG_MODULE_NAME "undefined"
 #endif // !LOG_MODULE_NAME
 
 #ifndef LOG_MODULE_POLICY
