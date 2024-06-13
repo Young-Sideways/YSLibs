@@ -1,6 +1,6 @@
 /*******************************************************************************
  *  @file      timer.h
- *  @brief     high precision single thread timer for mesure code performance and
+ *  @brief     high precision single thread timer for measure code performance and
  *             work with time stamps
  *  @author    Young Sideways
  *  @date      14.04.2024

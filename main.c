@@ -9,19 +9,30 @@
 //#include "main.h"
 
 #include <stdio.h>
-#include "util/timer.h"
+#include <string.h>
+#include "core.h"
+#include "util/console.h"
+
+
+
+#define LOG_MODULE_NAME "general"
+#define LOG_MODULE_SEPARATE (true)
+#include "util/log.h"
 
 
 int main(int argc, char** argv) {
-    //UNUSED(argc);
-    //UNUSED(argv);
-    tim_t tim;
-    tim_start(&tim);
-    tim_stop(&tim);
-    int a = 10;
-    int b[a];
-    printf("elapsed: %s\n", tim_str(&tim, TIM_PRECISION_AUTO));
-    printf("b size: %lld\n", sizeof(b));
+    char path[128] = { 0 };
+    if (argc) {
+        path_from_filepath(argv[0], path);
+    }
+    log_system_init(path, "log");
+
+    warn("test warn    '%s'", "hi");
+    info("test info    '%d'", 346);
+    debug("test debug   '%c'", 'G');
+    critical("test critical '%f'", 6.23);
+    error("test error   '%%'");
+
 
     //_getch();
     return 0;

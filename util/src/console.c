@@ -166,4 +166,82 @@ char menu_getc(void) {
     return mode;
 }
 
+int file_from_filepath(const char* filepath, char* buffer) {
+    if (!path_is_valid(filepath) || !buffer)
+        return -1;
+#if defined(__linux__) || defined(__APPLE__) || defined(__MACH__)
+    char* sep = strrchr(filepath, '/');
+    if (sep) {
+        strcpy(buffer, sep + 1); // copy FILE or FILE.EXTENSION or DIR
+        return (int)strlen(buffer);
+    }
+    else
+        return -1;
+#elif defined(_WIN32)
+    char* sep = strrchr(filepath, '\\');
+    if (sep) {
+        strcpy(buffer, sep + 1); // copy FILE or FILE.EXTENSION or DIR
+        return (int)strlen(buffer);
+    }
+    else
+        return -1;
+#else
+#error "Your OS does not supported"
+#endif
+}
+int path_from_filepath(const char* filepath, char* buffer) {
+    if (!path_is_valid(filepath) || !buffer)
+        return -1;
+#if defined(__linux__) || defined(__APPLE__) || defined(__MACH__)
+    char* sep = strrchr(filepath, '/');
+    if (sep) {
+        strncpy(buffer, filepath, sep - filepath + 1); // copy FILE or FILE.EXTENSION or DIR
+        return (int)strlen(buffer);
+    }
+    else
+        return -1;
+#elif defined(_WIN32)
+    char* sep = strrchr(filepath, '\\');
+    if (sep) {
+        strcpy(buffer, sep + 1); // copy FILE or FILE.EXTENSION or DIR
+        return (int)strlen(buffer);
+    }
+    else
+        return -1;
+#else
+#error "Your OS does not supported"
+#endif
+}
+bool path_is_obsolete(const char* path) {
+    if (!path)
+        return false;
+    size_t path_size = strlen(path);
+    if (path_size == 0U)
+        return false;
+#if defined(__linux__) || defined(__APPLE__) || defined(__MACH__)
+    return path[0] == '/';
+#elif defined(_WIN32) // WARN: May not work on Windows with too many disks
+    return (path_size > 1) ? (path[0] == '\\' || path[1] == ':') : false;
+#else
+#error "Your OS does not supported"
+#endif
+}
+bool path_is_local(const char* path) {
+    if (!path)
+        return false;
+    size_t path_size = strlen(path);
+    if (path_size == 0U)
+        return false;
+#if defined(__linux__) || defined(__APPLE__) || defined(__MACH__)
+    return path[0] != '/';
+#elif defined(_WIN32) // WARN: May not work on Windows with too many disks
+    return (path_size > 1) ? !(path[0] == '\\' || path[1] == ':') : false;
+#else
+#error "Your OS does not supported"
+#endif
+}
+
+bool path_is_valid(const char* path) {
+    return path_is_obsolete(path) || path_is_local(path);
+}
 #pragma endregion

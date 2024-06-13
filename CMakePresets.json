@@ -6,21 +6,22 @@
         "patch": 0
     },
     "configurePresets": [
-        {   "name": "use-ninja",
+        {
+            "name": "use-ninja",
             "hidden": true,
             "generator": "Ninja",
             "cacheVariables": {
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
             }
         },
-
-        {   "name": "default-dirs",
+        {
+            "name": "default-dirs",
             "hidden": true,
             "binaryDir": "${sourceDir}/out/build/${presetName}",
             "installDir": "${sourceDir}/out/install/${presetName}"
         },
-
-        {   "name": "debug-build",
+        {
+            "name": "debug-build",
             "hidden": true,
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
@@ -29,7 +30,8 @@
                 "USE_LOG_SEVERITY": "0"
             }
         },
-        {   "name": "release-build",
+        {
+            "name": "release-build",
             "hidden": true,
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
@@ -37,26 +39,32 @@
                 "USE_LOG": "OFF"
             }
         },
-        
-        {   "name": "use-clang",
+        {
+            "name": "use-clang",
             "hidden": true,
-            "inherits": [ "default-dirs", "use-ninja" ],
+            "inherits": [
+                "default-dirs",
+                "use-ninja"
+            ],
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "clang",
                 "CMAKE_CXX_COMPILER": "clang++"
             }
         },
-        {   "name": "use-clang-cl",
+        {
+            "name": "use-clang-cl",
             "hidden": true,
-            "inherits": [ "default-dirs", "use-ninja" ],
+            "inherits": [
+                "default-dirs",
+                "use-ninja"
+            ],
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "clang.exe",
                 "CMAKE_CXX_COMPILER": "clang++.exe"
             }
         },
-        
-
-        {   "name": "linux-base",
+        {
+            "name": "linux-base",
             "hidden": true,
             "condition": {
                 "type": "equals",
@@ -64,16 +72,26 @@
                 "rhs": "Linux"
             }
         },
-        {   "name": "linux-clang-debug",
+        {
+            "name": "linux-clang-debug",
             "displayName": "Linux clang debug",
-            "inherits": [ "linux-base", "use-clang", "debug-build" ]
+            "inherits": [
+                "linux-base",
+                "use-clang",
+                "debug-build"
+            ]
         },
-        {   "name": "linux-clang-release",
+        {
+            "name": "linux-clang-release",
             "displayName": "Linux clang release",
-            "inherits": [ "linux-base", "use-clang", "release-build" ]
+            "inherits": [
+                "linux-base",
+                "use-clang",
+                "release-build"
+            ]
         },
-
-        {   "name": "windows-base",
+        {
+            "name": "windows-base",
             "hidden": true,
             "condition": {
                 "type": "equals",
@@ -84,12 +102,12 @@
                 "CMAKE_MAKE_PROGRAM": "C:/Program Files/Ninja/ninja.exe"
             },
             "architecture": {
-              "value": "x64",
-              "strategy": "external"
+                "value": "x64",
+                "strategy": "external"
             },
             "toolset": {
-              "value": "v143,host=x64",
-              "strategy": "external"
+                "value": "v143,host=x64",
+                "strategy": "external"
             },
             "vendor": {
                 "microsoft.com/VisualStudioSettings/CMake/1.0": {
@@ -98,13 +116,37 @@
                 }
             }
         },
-        {   "name": "windows-clang-debug",
+        {
+            "name": "windows-clang-debug",
             "displayName": "Windows x64 clang Debug",
-            "inherits": [ "windows-base", "use-clang-cl", "debug-build" ]
+            "inherits": [
+                "windows-base",
+                "use-clang-cl",
+                "debug-build"
+            ]
         },
-        {   "name": "windows-clang-release",
+        {
+            "name": "windows-clang-release",
             "displayName": "Windows x64 clang Release",
-            "inherits": [ "windows-base", "use-clang-cl", "release-build" ]
+            "inherits": [
+                "windows-base",
+                "use-clang-cl",
+                "release-build"
+            ]
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "linux-clang-debug",
+            "description": "",
+            "displayName": "Linux clang Debug",
+            "configurePreset": "linux-clang-debug"
+        },
+        {
+            "name": "linux-clang-release",
+            "description": "",
+            "displayName": "Linux clang Debug",
+            "configurePreset": "linux-clang-release"
         }
     ]
 }

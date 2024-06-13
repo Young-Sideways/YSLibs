@@ -115,7 +115,7 @@ PRECISION_OVERHEAD_LABEL:
         snprintf(timer->string, 32, "%.3f%s", time, _timer_postfix[precision]);
         break;
     default:
-        precision = (__typeof__(precision))fmin(3, log10(time + 1) / 3);
+        precision = (tim_precision_t)fmin(3, log10(time + 1) / 3);
         goto PRECISION_OVERHEAD_LABEL;
     }
 

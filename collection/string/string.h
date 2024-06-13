@@ -1,9 +1,9 @@
 /*******************************************************************************
  *  @file      string.h
- *  @brief     C compactible dynamic string
+ *  @brief     C compatible dynamic string
  *  @author    Young Sideways
  *  @date      14.04.2024
- *  @copyright © Young Sideways, 2024. All right reserved.
+ *  @copyright ï¿½ Young Sideways, 2024. All right reserved.
  ******************************************************************************/
 
 #ifndef _STRING_H_

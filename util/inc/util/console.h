@@ -124,6 +124,11 @@ void con_box(char* content, alignment_t align, padding_t padding);
 
 char menu_getc(void);
 
+int file_from_filepath(const char* filepath, char* buffer);
+int path_from_filepath(const char* filepath, char* buffer);
+bool path_is_local(const char* path);
+bool path_is_valid(const char* path);
+
 #pragma endregion
 
 #endif // !_CONSOLE_H_
