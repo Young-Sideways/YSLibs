@@ -4,10 +4,10 @@
  *  @note      only for internal use
  *  @author    Young Sideways
  *  @date      19.04.2024
- *  @copyright © Young Sideways, 2024. All right reserved.
+ *  @copyright ï¿½ Young Sideways, 2024. All right reserved.
  ******************************************************************************/
 
-#include "private.h"
+#include "../prv/collection/private.h"
 
 #pragma region --- INCLUDE ---
 

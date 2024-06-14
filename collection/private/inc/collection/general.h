@@ -3,7 +3,7 @@
  *  @brief     general structures and control functions for collections
  *  @author    Young Sideways
  *  @date      15.02.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright ï¿½ young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
 /*******************************************************************************
@@ -68,7 +68,7 @@
 
 #pragma region --- INCLUDE ---
 
-#include "../core/core.h"
+#include "core.h"
 #include <stdbool.h>
 #include <stdint.h>
 

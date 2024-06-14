@@ -3,14 +3,14 @@
  *  @brief     general structures and control functions for collections
  *  @author    Young Sideways
  *  @date      19.02.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright ï¿½ young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#include "general.h"
+#include "../prv/collection/general.h"
 
 #pragma region --- INCLUDE ---
 
-#include "private.h"
+#include "../prv/collection/private.h"
 #include <stdlib.h>
 #include <stdarg.h>
 
@@ -50,7 +50,7 @@ void delete(void** collection) {
     void* _collection_private_##field##_get(void* collection) {                                                             \
         assert(collection);                                                                                                 \
         explain_assert(CPH_EXTRACT(collection)->caa.field, "collection error: container has no "#field" funtion");          \
-        return (CPH_EXTRACT(collection)->caa.field == &function_placeholder) ? NULL : CPH_EXTRACT(collection)->caa.field; \
+        return (CPH_EXTRACT(collection)->caa.field == &function_placeholder) ? NULL : CPH_EXTRACT(collection)->caa.field;   \
     }                                                                                                                       \
     void _collection_private_##field##_set(void* collection, void* value) {                                                 \
         assert(collection);                                                                                                 \

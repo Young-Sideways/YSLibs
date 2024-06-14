@@ -4,7 +4,7 @@
  *  @note      only for internal use
  *  @author    Young Sideways
  *  @date      10.04.2024
- *  @copyright © Young Sideways, 2024. All right reserved.
+ *  @copyright ï¿½ Young Sideways, 2024. All right reserved.
  ******************************************************************************/
 
 #ifndef _COLLECTION_PRIVATE_H_
@@ -14,8 +14,8 @@
 
 #pragma region --- INCLUDES ---
 
-#include "../core/core.h"
-#include "../core/debug.h"
+#include "core.h"
+#include "debug.h"
 
 #include "general.h"
 

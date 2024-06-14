@@ -3,10 +3,10 @@
  *  @brief     Object Tag Table
  *  @author    Young Sideways
  *  @date      30.05.2024
- *  @copyright © Young Sideways, 2024. All right reserved.
+ *  @copyright Â© young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#include "ottable.h"
+#include "collection/ottable.h"
 
 #pragma region --- INCLUDE ---
 #pragma endregion

@@ -3,11 +3,11 @@
  *  @brief     Object Tag Table
  *  @author    Young Sideways
  *  @date      30.05.2024
- *  @copyright © Young Sideways, 2024. All right reserved.
+ *  @copyright Â© young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _OTTABLE_H_
-#define _OTTABLE_H_
+#ifndef OTTABLE_H_
+#define OTTABLE_H_
 
 #pragma once
 
@@ -130,4 +130,4 @@ typedef struct object_list_t {
 #pragma region ---  ---
 #pragma endregion
 
-#endif // !_OTTABLE_H_
+#endif // !OTTABLE_H_
