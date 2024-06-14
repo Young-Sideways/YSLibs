@@ -3,11 +3,11 @@
  *  @brief     MACRO core lib
  *  @author    Young Sideways
  *  @date      29.03.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright Â© young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _MACRO_H_
-#define _MACRO_H_
+#ifndef MACRO_H_
+#define MACRO_H_
 
 #pragma once
 
@@ -28,4 +28,4 @@
 
 #define M_SPARSE(min, max, lhs, rhs) min = M_MIN(lhs, rhs), max = M_MAX(lhs,rhs)
 
-#endif // !_MACRO_H_
+#endif // !MACRO_H_

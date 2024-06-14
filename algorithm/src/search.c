@@ -3,7 +3,7 @@
  *  @brief     search algorithms
  *  @author    Young Sideways
  *  @date      14.02.2024
- *  @copyright � young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
 #include "algorithm/search.h"
@@ -11,8 +11,6 @@
 #pragma region --- INCLUDE ---
 
 #include <string.h>
-
-#include "../core/debug.h"
 
 #pragma endregion
 
@@ -24,7 +22,7 @@ void* linear_search(const void* array, const size_t count, const size_t element_
     assert(value);
 
     if (!comparator)
-        comparator = memcmp;
+        comparator = &memcmp;
 
     for (ubyte* begin = (void*)array, *end = begin + (count * element_size); begin < end; begin += element_size)
         if (comparator(begin, value, element_size))
@@ -38,11 +36,11 @@ void* binary_search(const void* array, const size_t count, const size_t element_
     assert(value);
 
     if (!comparator)
-        comparator = memcmp;
+        comparator = &memcmp;
     if (count == 0)
         return NULL;
     if (count == 1)
-        comparator(value, array, element_size) ? NULL : array;
+        return (void*)(comparator(value, array, element_size) ? NULL : array);
 
     ubyte* mid = (ubyte*)array;
     for (ubyte* begin = mid, *end = mid + (count * element_size); begin < end;) {

@@ -3,11 +3,11 @@
  *  @brief     Generic print function
  *  @author    Young Sideways
  *  @date      8.04.2024
- *  @copyright © Young Sideways, 2024. All right reserved.
+ *  @copyright Â© young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _G_PRINT_H_
-#define _G_PRINT_H_
+#ifndef G_PRINT_H_
+#define G_PRINT_H_
 
 #pragma once
 
@@ -62,10 +62,4 @@ struct {
 
 #pragma endregion
 
-#pragma region --- FUNCION ---
-
-
-
-#pragma endregion
-
-#endif // !_G_PRINT_H_
+#endif // !G_PRINT_H_

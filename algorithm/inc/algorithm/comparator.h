@@ -3,21 +3,20 @@
  *  @brief     comparator algorithms
  *  @author    Young Sideways
  *  @date      14.02.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright Â© young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _COMPARATOR_H_
-#define _COMPARATOR_H_
+#ifndef COMPARATOR_H_
+#define COMPARATOR_H_
 
 #pragma once
 
 #pragma region --- INCLUDE ---
 
-#include "../core/core.h"
-#include "../core/debug.h"
+#include <stddef.h>
 
-#include <stdint.h>
-#include <assert.h>
+#include "core.h"
+#include "debug.h"
 
 #pragma endregion
 
@@ -42,6 +41,8 @@ typedef comparator_t* comparator_pt;
 #pragma region --- DECLARATOR ---
 
 #ifdef _COMPARATOR_DECLARATOR_
+
+#include <stdint.h>
 
 #define DECLARE_COMP(prefix, type)                                                     \
     static inline int prefix##_fcomp(const void* lhs, const void* rhs, size_t size) {  \
@@ -75,4 +76,4 @@ DECLARE_COMP(ldbl, long double);
 
 #pragma endregion
 
-#endif // !_COMPARATOR_H_
+#endif // !COMPARATOR_H_

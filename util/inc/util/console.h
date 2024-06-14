@@ -3,11 +3,11 @@
  *  @brief     Console utils
  *  @author    Young Sideways
  *  @date      11.05.2024
- *  @copyright � Young Sideways, 2024. All right reserved.
+ *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _CONSOLE_H_
-#define _CONSOLE_H_
+#ifndef CONSOLE_H_
+#define CONSOLE_H_
 
 #pragma once
 
@@ -131,4 +131,4 @@ bool path_is_valid(const char* path);
 
 #pragma endregion
 
-#endif // !_CONSOLE_H_
+#endif // !CONSOLE_H_

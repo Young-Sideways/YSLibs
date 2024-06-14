@@ -3,17 +3,16 @@
  *  @brief     sort algorithms
  *  @author    Young Sideways
  *  @date      14.02.2024
- *  @copyright � young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
 #include "algorithm/sort.h"
 
 #pragma region --- INCLUDE ---
 
-#include <math.h>
 #include <string.h>
 
-#include "../core/debug.h"
+#include "debug.h"
 
 #pragma endregion
 
@@ -72,12 +71,12 @@ LOOP:
     return first;
 }
 
-static void _private_quick_sort(ubyte* begin, ubyte* end, size_t element_size, comparator_pt _comparator, swap_pt _swap) {
+static void private_quick_sort__(ubyte* begin, ubyte* end, size_t element_size, comparator_pt _comparator, swap_pt _swap) {
     if (begin >= end)
         return;
     ubyte* pivot = (ubyte*)partition(begin, end, element_size, _comparator, _swap);
-    _private_quick_sort(begin, pivot - element_size, element_size, _comparator, _swap);
-    _private_quick_sort(pivot + element_size, end, element_size, _comparator, _swap);
+    private_quick_sort__(begin, pivot - element_size, element_size, _comparator, _swap);
+    private_quick_sort__(pivot + element_size, end, element_size, _comparator, _swap);
 }
 
 void quick_sort(void* array, size_t count, size_t element_size, comparator_pt _comparator, swap_pt _swap) {
@@ -90,7 +89,7 @@ void quick_sort(void* array, size_t count, size_t element_size, comparator_pt _c
     if (!_swap)
         _swap = &swap;
 
-    _private_quick_sort(array, (ubyte*)array + ((count - 1) * element_size), element_size, _comparator, _swap);
+    private_quick_sort__(array, (ubyte*)array + ((count - 1) * element_size), element_size, _comparator, _swap);
 }
 
 #pragma endregion

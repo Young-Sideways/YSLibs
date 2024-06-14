@@ -4,11 +4,11 @@
  *             work with time stamps
  *  @author    Young Sideways
  *  @date      14.04.2024
- *  @copyright � Young Sideways, 2024. All right reserved.
+ *  @copyright © Young Sideways, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _TIMER_H_
-#define _TIMER_H_
+#ifndef TIMER_H_
+#define TIMER_H_
 
 #pragma once
 
@@ -63,4 +63,4 @@ const char* const tim_str(tim_t* timer, tim_precision_t precision);
 
 #pragma endregion
 
-#endif // !_TIMER_H_
+#endif // !TIMER_H_

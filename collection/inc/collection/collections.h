@@ -3,23 +3,23 @@
  *  @brief     General collections header to include all collections
  *  @author    Young Sideways
  *  @date      16.04.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright Â© young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _COLLECTIONS_H_
-#define _COLLECTIONS_H_
+#ifndef COLLECTIONS_H_
+#define COLLECTIONS_H_
 
 #pragma once
 
 #pragma region --- INCLUDE ---
 
-#include "../core/macro/arg.h"
+#include "macro/arg.h"
 
-#include "iterator/iterator.h"
-#include "../core/macro/foreach.h"
+#include "iterator.h"
+#include "macro/foreach.h"
 
-#include "array/array.h"
-#include "hashtable/hashtable.h"
+#include "array.h"
+#include "hashtable.h"
 
 #pragma endregion
 
@@ -60,4 +60,4 @@
 
 #pragma endregion
 
-#endif // !_COLLECTIONS_H_
+#endif // !COLLECTIONS_H_

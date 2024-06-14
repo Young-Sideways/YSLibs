@@ -1,13 +1,13 @@
 /*******************************************************************************
  *  @file      debug.h
- *  @brief     debug module helps debuging your code
+ *  @brief     debug module helps debug your code
  *  @author    Young Sideways
  *  @date      18.04.2024
- *  @copyright © Young Sideways, 2024. All right reserved.
+ *  @copyright Â© Young Sideways, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _DEBUG_H_
-#define _DEBUG_H_
+#ifndef DEBUG_H_
+#define DEBUG_H_
 
 #pragma once
 
@@ -29,4 +29,4 @@
 
 #pragma endregion
 
-#endif // !_DEBUG_H_
+#endif // !DEBUG_H_

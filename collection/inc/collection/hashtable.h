@@ -4,11 +4,11 @@
  *  @attribute associative, non-sortable
  *  @author    Young Sideways
  *  @date      15.04.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright Â© young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _HASHTABLE_H_
-#define _HASHTABLE_H_
+#ifndef HASHTABLE_H_
+#define HASHTABLE_H_
 
 #pragma once
 
@@ -16,7 +16,7 @@
 
 #include <stdbool.h>
 
-#include "../general.h"
+#include "collection/general.h"
 
 #pragma endregion
 
@@ -89,4 +89,4 @@ void* ht_lookup(const hashtable_t table, const void* key);
 
 #pragma endregion
 
-#endif // !_HASHTABLE_H_
+#endif // !HASHTABLE_H_

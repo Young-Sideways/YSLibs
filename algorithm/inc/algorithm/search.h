@@ -3,17 +3,17 @@
  *  @brief     search algorithms
  *  @author    Young Sideways
  *  @date      14.02.2024
- *  @copyright © Young Sideways, 2024. All right reserved.
+ *  @copyright Â© young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _SEARCH_H_
-#define _SEARCH_H_
+#ifndef SEARCH_H_
+#define SEARCH_H_
 
 #pragma once
 
 #pragma region --- INCLUDE ---
 
-#include "../core/core.h"
+#include "core.h"
 #include "comparator.h"
 
 #pragma endregion
@@ -45,4 +45,4 @@ search_t binary_search;
 
 #pragma endregion
 
-#endif // !_SEARCH_H_
+#endif // !SEARCH_H_

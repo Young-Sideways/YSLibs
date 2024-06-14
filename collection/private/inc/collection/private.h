@@ -4,11 +4,11 @@
  *  @note      only for internal use
  *  @author    Young Sideways
  *  @date      10.04.2024
- *  @copyright � Young Sideways, 2024. All right reserved.
+ *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _COLLECTION_PRIVATE_H_
-#define _COLLECTION_PRIVATE_H_
+#ifndef COLLECTION_PRIVATE_H_
+#define COLLECTION_PRIVATE_H_
 
 #pragma once
 
@@ -27,8 +27,8 @@
  *  @typedef u_acc_t
  *  @brief   function prototype typedef for unifying access to container memory
  *  @param[in]     collection - Pointer to main collection structure
- *  @param[in,out] block      - init/proccessed block
- *  @param[in,out] stage      - init/proccessed stage
+ *  @param[in,out] block      - init/processed block
+ *  @param[in,out] stage      - init/processed stage
  */
 typedef void (*u_acc_t)(struct collection_universal_header* collection, void** block, int* stage);
 
@@ -66,7 +66,7 @@ struct collection_iterator_adapter {
 
 /**
  *  @struct collection_manager_adapter
- *  @brief  collection maganer adapter
+ *  @brief  collection manager adapter
  *  default field policy:
  *      _copy: can NOT be NULL
  *      _dtor:
@@ -79,7 +79,7 @@ struct collection_manager_adapter {
 
 /**
  *  @struct collection_private_header
- *  @brief  private header, thats contain info about collection
+ *  @brief  private header, that's contain info about collection
  */
 struct collection_private_header {
     struct collection_algorithm_adapter caa;
@@ -140,4 +140,4 @@ struct collection_private_header alloc_cph(
 
 #pragma endregion
 
-#endif // !_COLLECTION_PRIVATE_H_
+#endif // !COLLECTION_PRIVATE_H_

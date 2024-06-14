@@ -3,10 +3,10 @@
  *  @brief     array - collection, with fixed memory allocation
  *  @author    Young Sideways
  *  @date      15.02.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright Â© young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#include "array.h"
+#include "collection/array.h"
 
 #pragma region --- INCLUDE ---
 
@@ -14,8 +14,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "../../algorithm/search.h"
-#include "../private.h"
+#include "algorithm/search.h"
+#include "collection/private.h"
 
 #pragma endregion
 

@@ -3,11 +3,11 @@
  *  @brief     universal algorithm lib
  *  @author    Young Sideways
  *  @date      14.02.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright Â© young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _ALGORITHM_H_
-#define _ALGORITHM_H_
+#ifndef ALGORITHM_H_
+#define ALGORITHM_H_
 
 #pragma once
 
@@ -28,4 +28,4 @@ static void reverse(void* block, const size_t capacity, const size_t element_siz
         swap(first, last, element_size);
 }
 
-#endif // !_ALGORITHM_H_
+#endif // !ALGORITHM_H_

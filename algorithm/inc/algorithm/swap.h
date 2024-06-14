@@ -3,17 +3,19 @@
  *  @brief     swap algorithms
  *  @author    Young Sideways
  *  @date      14.02.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright Â© young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _SWAP_H_
-#define _SWAP_H_
+#ifndef SWAP_H_
+#define SWAP_H_
 
 #pragma once
 
 #pragma region --- INCLUDE ---
 
-#include "../core/core.h"
+#include <stddef.h>
+
+#include "core.h"
 
 #pragma endregion
 
@@ -88,4 +90,4 @@ DECLARE_METRIC_TYPE(swap,
 #endif // !_ENABLE_GLOBAL_MERICS_
 #pragma endregion
 
-#endif // !_SWAP_H_
+#endif // !SWAP_H_

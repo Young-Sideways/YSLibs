@@ -3,49 +3,18 @@
  *  @brief     MACRO extension lib, that translates arguments to sequence
  *  @author    Young Sideways
  *  @date      2.04.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright Â© young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _M_SEQUENCE_H_
-#define _M_SEQUENCE_H_
+#ifndef M_SEQUENCE_H_
+#define M_SEQUENCE_H_
 
 #pragma once
 
-#pragma region --- MACRO GENERATOR ---
-#ifdef _SEQ_PRINTERS
-
-#include <math.h>
-#include <string.h>
- // ARG_REVERSE
-void _va_seq_semi_printer(int n) {
-    printf("#define M_SEQ_SEMI_0()\n");
-    printf("#define M_SEQ_SEMI_1(_1) _1;\n");
-    printf("#define M_SEQ_SEMI_2(_1, _2) _1; _2;\n");
-    for (int i = 3; i < n; ++i)
-        printf("#define M_SEQ_SEMI_%d(_1, ...) _1; M_SEQ_UNFOLD_%d(__VA_ARGS__)\n", i, i - 1);
-
-    printf("#define M_SEQ_UNFOLD_0()\n");
-    printf("#define M_SEQ_UNFOLD_1(_1) _1\n");
-    printf("#define M_SEQ_UNFOLD_2(_1, _2) _1 _2\n");
-    for (int i = 3; i < n; ++i)
-        printf("#define M_SEQ_UNFOLD_%d(_1, ...) _1 M_SEQ_UNFOLD_%d(__VA_ARGS__)\n", i, i - 1);
-
-    printf(
-        "\n#ifdef _VARIADIC_H_\n\n"
-        "#define VA_SEQ_SEMI(...) M_CONCAT_LATER(M_SEQ_SEMI_, VA_NARG(__VA_ARGS__))(__VA_ARGS__)\n"
-        "#define VA_SEQ_UNFOLD(...) M_CONCAT_LATER(M_SEQ_UNFOLD_, VA_NARG(__VA_ARGS__))(__VA_ARGS__)\n\n"
-        "#endif // !_VARIADIC_H_\n\n"
-        "#define VA_SEQ_COMMA(...) __VA_ARGS__\n"
-    );
-}
-
-#endif // !_SEQ_PRINTERS
-#pragma endregion
-
 #pragma region --- INCLUDE ---
 
-#include "macro.h"
-#include "variadic.h"
+#include "macro/macro.h"
+#include "macro/variadic.h"
 
 #pragma endregion
 
@@ -577,4 +546,4 @@ void _va_seq_semi_printer(int n) {
 
 #pragma endregion
 
-#endif // !_M_SEQUENCE_H_
+#endif // !M_SEQUENCE_H_

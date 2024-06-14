@@ -1,12 +1,12 @@
 /*******************************************************************************
  *  @file      task2.c
- *  @brief     Ответы на 2 задание
+ *  @brief     пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ 2 пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
  *  @author    Young Sideways
  *  @date      19.02.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright пїЅ young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-/// dev comment: Да, я знаю что имена пользователей вызывают memory leak
+/// dev comment: пїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ memory leak
 
 #include "task2.h"
 
@@ -16,7 +16,7 @@
 #include "../core/core.h"
 
 #include "../algorithm/algorithm.h"
-#include "../collection/collections.h"
+#include "../collection/inc/collection/collections.h"
 
 #include "../utils/timer.h"
 #include "../utils/console.h"
@@ -114,7 +114,7 @@ int task2() {
 
     puts("Starting \"task2\" module\n");
 
-    hashtable_t table = ht_init(0U, sizeof(char*), sizeof(float), &str_hash);  //!< Минимальное значение размера будет 7
+    hashtable_t table = ht_init(0U, sizeof(char*), sizeof(float), &str_hash);  //!< пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ 7
     set_comp(table, &str_comp);
 
     for (int i = 0; i < sizeof(customers) / sizeof(*customers); i++)

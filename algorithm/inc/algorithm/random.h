@@ -3,17 +3,20 @@
  *  @brief     random algorithm
  *  @author    Young Sideways
  *  @date      14.02.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright Â© young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _RANDOM_H_
-#define _RANDOM_H_
+#ifndef RANDOM_H_
+#define RANDOM_H_
 
 #pragma once
 
 #pragma region --- INCLUDE ---
 
-#include "../core/core.h"
+#include <stdint.h>
+#include <stddef.h>
+
+#include "core.h"
 
 #pragma endregion
 
@@ -34,10 +37,10 @@ typedef random_t* random_pt;
 
 #pragma region --- FUNCTION ---
 
-/// @brief Initilizes a RNG generator with current time stamp
+/// @brief Initializes a RNG generator with current time stamp
 void random_init();
 
-random_t random;
+random_t rnd;
 
 /**
  * @brief fill int array with \p generator
@@ -50,4 +53,4 @@ void random_fill(int* array, size_t size, random_pt generator, int min, int max)
 
 #pragma endregion
 
-#endif // !_RANDOM_H_
+#endif // !RANDOM_H_

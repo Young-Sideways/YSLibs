@@ -3,7 +3,7 @@
  *  @brief     Utility for collect logs of project
  *  @author    Young Sideways
  *  @date      13.06.2024
- *  @copyright � Young Sideways, 2024. All right reserved.
+ *  @copyright © Young Sideways, 2024. All right reserved.
  ******************************************************************************/
 
 #ifndef LOG_H_

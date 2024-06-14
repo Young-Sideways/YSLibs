@@ -3,16 +3,17 @@
  *  @brief     general structures and control functions for collections
  *  @author    Young Sideways
  *  @date      19.02.2024
- *  @copyright � young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#include "../prv/collection/general.h"
+#include "collection/general.h"
 
 #pragma region --- INCLUDE ---
 
-#include "../prv/collection/private.h"
 #include <stdlib.h>
 #include <stdarg.h>
+
+#include "collection/private.h"
 
 #pragma endregion
 
@@ -49,12 +50,12 @@ void delete(void** collection) {
 #define DECL_GET_SET(field)                                                                                                 \
     void* _collection_private_##field##_get(void* collection) {                                                             \
         assert(collection);                                                                                                 \
-        explain_assert(CPH_EXTRACT(collection)->caa.field, "collection error: container has no "#field" funtion");          \
+        explain_assert(CPH_EXTRACT(collection)->caa.field, "collection error: container has no "#field" function");         \
         return (CPH_EXTRACT(collection)->caa.field == &function_placeholder) ? NULL : CPH_EXTRACT(collection)->caa.field;   \
     }                                                                                                                       \
     void _collection_private_##field##_set(void* collection, void* value) {                                                 \
         assert(collection);                                                                                                 \
-        explain_assert(CPH_EXTRACT(collection)->caa.field, "collection error: container has no "#field" funtion");          \
+        explain_assert(CPH_EXTRACT(collection)->caa.field, "collection error: container has no "#field" function");         \
         if (CPH_EXTRACT(collection)->caa.field)                                                                             \
             CPH_EXTRACT(collection)->caa.field = value;                                                                     \
     }

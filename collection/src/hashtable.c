@@ -4,13 +4,13 @@
  *  @attribute associative, non-sortable
  *  @author    Young Sideways
  *  @date      20.05.2024
- *  @copyright © Young Sideways, 2024. All right reserved.
+ *  @copyright Â© young.sideways@mail.ru, 2024. All right reserved.
  *  @note      hashtable does not own data on a double reference (example: cstring (char*) etc.)
  *             1. main data pointer invalidation init UB
  *             2. object pointers are different &(char*) != &(char[]) != &("some str")
  *  @bug       stack arg != heap arg of double pointer
  ******************************************************************************/
-#include "hashtable.h"
+#include "collection/hashtable.h"
 
 #pragma region --- INCLUDE ---
 
@@ -18,11 +18,11 @@
 #include <string.h>
 #include <math.h>
 
-#include "../private.h"
-#include "../../core/debug.h"
-#include "../../core/macro/macro.h"
+#include "collection/private.h"
+#include "debug.h"
+#include "macro/macro.h"
 
-#include "../../algorithm/comparator.h"
+#include "algorithm/comparator.h"
 
 #pragma endregion
 
@@ -319,11 +319,5 @@ void* ht_lookup(const hashtable_t table, const void* key) {
         return HT_ENTRY_EXTRACT_VALUE(located, table->key_size);
     return NULL;
 }
-
-#pragma endregion
-
-#pragma region ---  ---
-
-
 
 #pragma endregion

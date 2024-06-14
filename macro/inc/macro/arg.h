@@ -1,21 +1,21 @@
 /*******************************************************************************
  *  @file      arg.h
- *  @brief     arg macro
+ *  @brief     arg manipulator macro
  *  @author    Young Sideways
  *  @date      21.05.2024
- *  @copyright � Young Sideways, 2024. All right reserved.
+ *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _M_ARG_H_
-#define _M_ARG_H_
+#ifndef M_ARG_H_
+#define M_ARG_H_
 
 #pragma region --- INCLUDE ---
 
-#include "reverse.h"
+#include "macro/reverse.h"
 
 #pragma endregion
 
-// FIX: ��������� ����, ��������� � ��������� 1 ��� 0 ��������� � �������...
+// FIX: issue with zero arguments
 #pragma region --- VARIADIC ---
 
 #define VA_ARG_FIRST(arg, ...) arg
@@ -30,4 +30,4 @@
 
 #pragma endregion
 
-#endif // !_M_ARG_H_
+#endif // !M_ARG_H_

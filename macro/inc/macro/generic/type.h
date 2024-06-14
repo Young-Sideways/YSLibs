@@ -3,11 +3,11 @@
  *  @brief     generic type macros
  *  @author    Young Sideways
  *  @date      18.04.2024
- *  @copyright © Young Sideways, 2024. All right reserved.
+ *  @copyright Â© young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _G_TYPE_H_
-#define _G_TYPE_H_
+#ifndef G_TYPE_H_
+#define G_TYPE_H_
 
 #pragma once
 
@@ -82,4 +82,4 @@
 
 #pragma endregion
 
-#endif // !_G_TYPE_H_
+#endif // !G_TYPE_H_

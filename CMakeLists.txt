@@ -11,6 +11,8 @@ set_property(TARGET ${PROJECT_NAME} PROPERTY C_STANDARD 23)
 add_subdirectory(core)
 add_subdirectory(macro)
 add_subdirectory(util)
+add_subdirectory(algorithm)
+add_subdirectory(collection)
 
 if (MSVC)
     target_compile_definitions(${PROJECT_NAME} PUBLIC ${CMAKE_C_FLAGS} -D_CRT_SECURE_NO_WARNINGS)
@@ -20,4 +22,6 @@ target_link_libraries(${PROJECT_NAME}
     PRIVATE ${PROJECT_NAME}::core
     PRIVATE ${PROJECT_NAME}::macro
     PRIVATE ${PROJECT_NAME}::util
+    PRIVATE ${PROJECT_NAME}::algorithm
+    PRIVATE ${PROJECT_NAME}::collection
 )

@@ -3,10 +3,10 @@
  *  @brief     C compatible dynamic string
  *  @author    Young Sideways
  *  @date      14.04.2024
- *  @copyright � Young Sideways, 2024. All right reserved.
+ *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#include "string.h"
+#include "collection/string.h"
 
 #pragma region --- INCLUDES ---
 
@@ -15,23 +15,23 @@
 
 #pragma endregion
 
-#pragma region --- MACROS ---
+#pragma region --- MACRO ---
 #pragma endregion
 
-#pragma region --- TYPEDEFS ---
+#pragma region --- TYPEDEF ---
 
 
 
 #pragma endregion
 
-#pragma region --- CONSTRUCTORS / DESTRUCTORS ---
+#pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 #pragma endregion
 
-#pragma region --- FUNCIONS ---
+#pragma region --- FUNCION ---
 #pragma endregion
 
 #pragma region --- ALGORITHM ADAPTER ---
-
+/*
 char* trim(char* string) {
     if (string && *string) {
         char* left = string, * right = string + strlen(string) - 1;
@@ -64,11 +64,6 @@ void str_reverse(char* string) {
         *string ^= *last;
     }
 }
+*/
 
-#pragma endregion
-
-#pragma region ---  ---
-#pragma endregion
-
-#pragma region --- GENERICS ---
 #pragma endregion

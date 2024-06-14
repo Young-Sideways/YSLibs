@@ -3,7 +3,7 @@
  *  @brief     general structures and control functions for collections
  *  @author    Young Sideways
  *  @date      15.02.2024
- *  @copyright � young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
 /*******************************************************************************
@@ -61,16 +61,19 @@
  * 
  ******************************************************************************/
 
-#ifndef _COLLECTION_GENERAL_H_
-#define _COLLECTION_GENERAL_H_
+#ifndef COLLECTION_GENERAL_H_
+#define COLLECTION_GENERAL_H_
 
 #pragma once
 
 #pragma region --- INCLUDE ---
 
-#include "core.h"
 #include <stdbool.h>
 #include <stdint.h>
+#include <stddef.h>
+
+#include "core.h"
+#include "debug.h"
 
 #pragma endregion
 
@@ -124,7 +127,7 @@ void delete(void** collection);
 
 #pragma region --- GETTER / SETTER ---
 
-#define _DECL_GET_SET(type, name, field)                                              \
+#define DECL_GET_SET__(type, name, field)                                             \
     static type get_##name(void* collection) {                                        \
         extern void* _collection_private_##field##_get(void*);                        \
         return (type)_collection_private_##field##_get(collection);                   \
@@ -134,31 +137,31 @@ void delete(void** collection);
         _collection_private_##field##_set(collection, (void*)value);                  \
     }
 
-#ifdef _SWAP_H_
+#ifdef SWAP_H_
 
-_DECL_GET_SET(swap_pt, swap, _swap)
+DECL_GET_SET__(swap_pt, swap, _swap)
 
-#endif // _SWAP_H_
+#endif // SWAP_H_
 
-#ifdef _COMPARATOR_H_
+#ifdef COMPARATOR_H_
 
-_DECL_GET_SET(comparator_pt, comp, _comp)
+DECL_GET_SET__(comparator_pt, comp, _comp)
 
-#endif // _COMPARATOR_H_
+#endif // COMPARATOR_H_
 
-#ifdef _SEARCH_H_
+#ifdef SEARCH_H_
 
-_DECL_GET_SET(search_pt, search, _srch)
+DECL_GET_SET__(search_pt, search, _srch)
 
-#endif // _SEARCH_H_
+#endif // SEARCH_H_
 
-#ifdef _SORT_H_
+#ifdef SORT_H_
 
-_DECL_GET_SET(sort_pt, sort, _sort)
+DECL_GET_SET__(sort_pt, sort, _sort)
 
-#endif // _SORT_H_
+#endif // SORT_H_
 
-#undef _DECL_GET_SET
+#undef DECL_GET_SET__
 
 #pragma endregion
 
@@ -195,4 +198,4 @@ static_assert(sizeof(int32_t) == sizeof(uint32_t), "Collection core error: fixed
 
 #pragma endregion
 
-#endif // !_COLLECTION_GENERAL_H_
+#endif // !COLLECTION_GENERAL_H_

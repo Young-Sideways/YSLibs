@@ -3,15 +3,16 @@
  *  @brief     universal collection iterators
  *  @author    Young Sideways
  *  @date      15.02.2024
- *  @copyright © Young Sideways, 2024. All right reserved.
+ *  @copyright Â© young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#include "iterator.h"
+#include "collection/iterator.h"
 
 #pragma region --- INCLUDE ---
 
 #include <stdbool.h>
-#include "../private.h"
+
+#include "collection/private.h"
 
 #pragma endregion
 
@@ -98,7 +99,7 @@ iterator_t it_last(void* collection) {
 
 #pragma endregion
 
-#pragma region --- FUNCIONS ---
+#pragma region --- FUNCION ---
 
 bool it_valid(iterator_t iterator) {
     if (!iterator.collection)

@@ -7,14 +7,14 @@
  *  @copyright � Young Sideways, 2024. All right reserved.
  ******************************************************************************/
 
-#include "../prv/collection/private.h"
+#include "collection/private.h"
 
 #pragma region --- INCLUDE ---
 
 #include <string.h>
 
-#include "../algorithm/swap.h"
-#include "../core/macro/macro.h"
+#include "algorithm/swap.h"
+#include "macro/macro.h"
 
 #pragma endregion
 

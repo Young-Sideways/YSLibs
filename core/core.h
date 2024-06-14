@@ -3,11 +3,11 @@
  *  @brief     General types, macros, functions etc.
  *  @author    Young Sideways
  *  @date      15.02.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright Â© young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _CORE_H_
-#define _CORE_H_
+#ifndef CORE_H_
+#define CORE_H_
 
 #pragma once
 
@@ -29,4 +29,4 @@ typedef unsigned char ubyte;
 
 #pragma endregion
 
-#endif // !_CORE_H_
+#endif // !CORE_H_

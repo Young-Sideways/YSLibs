@@ -27,13 +27,11 @@ int main(int argc, char** argv) {
     }
     log_system_init(path, "log");
 
-    warn("test warn    '%s'", "hi");
-    info("test info    '%d'", 346);
-    debug("test debug   '%c'", 'G');
+    warn("test warn '%s'", "hi");
+    info("test info '%d'", 346);
+    debug("test debug '%c'", 'G');
     critical("test critical '%f'", 6.23);
-    error("test error   '%%'");
+    error("test error '%%'");
 
-
-    //_getch();
     return 0;
 }

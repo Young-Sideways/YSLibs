@@ -3,15 +3,15 @@
  *  @brief     metrics module helps testing your code simply
  *  @author    Young Sideways
  *  @date      20.03.2024
- *  @copyright © Young Sideways, 2024. All right reserved.
+ *  @copyright Â© Young Sideways, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _METRICS_H_
-#define _METRICS_H_
+#ifndef METRICS_H_
+#define METRICS_H_
 
 #pragma once
 
-#pragma region --- INCLUDES --
+#pragma region --- INCLUDE --
 
 #include "macro/macro.h"
 #include "macro/variadic.h"
@@ -19,7 +19,7 @@
 
 #pragma endregion
 
-#pragma region --- MACROS ---
+#pragma region --- MACRO ---
 
 #define DECLARE_METRIC_TYPE(name, ...)      \
     struct M_CONCAT_LATER(metrics_struct_,name) { \
@@ -59,4 +59,4 @@ DECLARE_METRIC_TYPE(global,
         global.context = _context;                      \
     } while(0)
 
-#endif // !_METRICS_H_
+#endif // !METRICS_H_

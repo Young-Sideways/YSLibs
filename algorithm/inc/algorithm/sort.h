@@ -3,11 +3,11 @@
  *  @brief     sort algorithms
  *  @author    Young Sideways
  *  @date      14.02.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright Â© young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef _SORT_H_
-#define _SORT_H_
+#ifndef SORT_H_
+#define SORT_H_
 
 #pragma once
 
@@ -49,4 +49,4 @@ sort_t quick_sort;
 
 #pragma endregion
 
-#endif // !_SORT_H_
+#endif // !SORT_H_

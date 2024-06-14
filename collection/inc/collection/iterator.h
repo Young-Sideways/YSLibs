@@ -3,7 +3,7 @@
  *  @brief     universal collection iterators
  *  @author    Young Sideways
  *  @date      15.02.2024
- *  @copyright © Young Sideways, 2024. All right reserved.
+ *  @copyright Â© young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
 
@@ -77,8 +77,8 @@
  ***********************************************************************************************************************************************************************************/
 
 
-#ifndef _ITERATOR_H_
-#define _ITERATOR_H_
+#ifndef ITERATOR_H_
+#define ITERATOR_H_
 
 #pragma once
 
@@ -86,8 +86,8 @@
 
 #include <stdbool.h>
 
-#include "../general.h"
-#include "../../core/debug.h"
+#include "collection/general.h"
+#include "debug.h"
 
 #pragma endregion
 
@@ -133,7 +133,7 @@ typedef struct {
 /**
  *  @brief  forward iterator constructor
  *  @param[in] collection - collection, including valid base collection header
- *  @retval               - forward iterator to begining element
+ *  @retval               - forward iterator to begin element
  */
 iterator_t it_begin(void* collection);
 /**
@@ -209,7 +209,7 @@ void it_prev(iterator_t* iterator);
  */
 int it_comp(void* lhs, void* rhs, size_t size);
 
-#ifdef _SWAP_H_
+#ifdef SWAP_H_
 
 /**
  *  @brief      swaps @code lhs @endcode and @code rhs @endcode iterator values
@@ -232,9 +232,9 @@ static void it_swap(void* lhs, void* rhs, size_t size) {
     swap(((iterator_t*)lhs)->data, ((iterator_t*)rhs)->data, (((iterator_t*)lhs)->collection)->element_size);
 }
 
-#endif // !_SWAP_H_
+#endif // SWAP_H_
 
-#ifdef _SEARCH_H_
+#ifdef SEARCH_H_
 
 /**
  *  @brief      swaps @code lhs @endcode and @code rhs @endcode iterator values
@@ -254,9 +254,9 @@ static iterator_t it_find(iterator_t begin, iterator_t end, void* value) {
     return it_end(begin.collection);
 }
 
-#endif // !_SEARCH_H_
+#endif // SEARCH_H_
 
-#ifdef _SORT_H_
+#ifdef SORT_H_
 
 /**
  *  @brief      sorts container between @code begin @endcode and @code end @endcode iterators
@@ -279,8 +279,8 @@ IT_ERR_UNSORTABLE:
     explain_error("iterator error: collection can't be sorted");
 }
 
-#endif // !_SORT_H_
+#endif // SORT_H_
 
 #pragma endregion
 
-#endif // !_ITERATOR_H_
+#endif // !ITERATOR_H_
