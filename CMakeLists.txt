@@ -19,9 +19,9 @@ if (MSVC)
 endif()
 
 target_link_libraries(${PROJECT_NAME}
-    PRIVATE ${PROJECT_NAME}::core
-    PRIVATE ${PROJECT_NAME}::macro
-    PRIVATE ${PROJECT_NAME}::util
-    PRIVATE ${PROJECT_NAME}::algorithm
-    PRIVATE ${PROJECT_NAME}::collection
+    INTERFACE ${PROJECT_NAME}::core
+    INTERFACE ${PROJECT_NAME}::macro
+    PRIVATE   ${PROJECT_NAME}::util
+    PRIVATE   ${PROJECT_NAME}::algorithm
+    PRIVATE   ${PROJECT_NAME}::collection
 )

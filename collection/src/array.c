@@ -21,7 +21,7 @@
 
 #pragma region --- STATIC ---
 
-static inline void _init(struct collection_universal_header* collection, void** block, int* index) {
+static inline void init_(struct collection_universal_header* collection, void** block, int* index) {
     *block = NULL;
     if (*index == COLLECTION_INVALID_INDEX)
         return;
@@ -33,17 +33,17 @@ static inline void _init(struct collection_universal_header* collection, void** 
         *index = (int)collection->size;
         return;
     }
-    *block = ((byte*)CPH_EXTRACT(collection)->_data + collection->element_size * *index);
+    *block = ((byte*)CPH_EXTRACT(collection)->data_ + collection->element_size * *index);
 }
-static inline void _next(struct collection_universal_header* collection, void** block, int* index) {
+static inline void next_(struct collection_universal_header* collection, void** block, int* index) {
     *index += 1;
-    _init(collection, block, index);
+    init_(collection, block, index);
 }
-static inline void _prev(struct collection_universal_header* collection, void** block, int* index) {
+static inline void prev_(struct collection_universal_header* collection, void** block, int* index) {
     *index -= 1;
-    _init(collection, block, index);
+    init_(collection, block, index);
 }
-static inline void* _copy(void* collection) {
+static inline void* copy_(void* collection) {
     array_t from = (array_t)collection;
     CPH_CREF(collection, from_header);
 
@@ -59,7 +59,7 @@ static inline void* _copy(void* collection) {
 
 #pragma region --- PRIVATE ---
 
-static inline bool _array_private_is_valid(array_t array) {
+static inline bool array_private_is_valid_(array_t array) {
     return (array->size == array->capacity)
         && (array->size <= ARRAY_SIZE_MAX)
         && (array->element_size)
@@ -76,14 +76,14 @@ array_t arr_init(const size_t size, const size_t element_size) {
     if (block) {
         *block = alloc_cph(
             alloc_caa(NULL, NULL, &function_placeholder, &function_placeholder),
-            alloc_cia(&_init, &_next, &_prev),
-            alloc_cma(&_copy, NULL),
+            alloc_cia(&init_, &next_, &prev_),
+            alloc_cma(&copy_, NULL),
             NULL);
 
         result = (struct array_t*)(block + 1);
         *result = (struct array_t){ alloc_cuh(size, size, element_size), NULL };
 
-        block->_data = result->data = (void*)(result + 1);
+        block->data_ = result->data = (void*)(result + 1);
         memset(result->data, 0, size * element_size);
     }
     return (array_t)result;
@@ -94,7 +94,7 @@ array_t arr_init(const size_t size, const size_t element_size) {
 #pragma region --- ACCESSOR ---
 
 void* arr_at(array_t array, int index) {
-    assert(_array_private_is_valid(array));
+    assert(array_private_is_valid_(array));
     assert(index >= 0 && index < (int)array->size);
     return (byte*)array->data + index * array->element_size;
 }

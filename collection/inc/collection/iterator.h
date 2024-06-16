@@ -106,7 +106,7 @@ typedef enum {
  *  @struct iterator_t
  *  @brief  Defines iterator structure
  */
-typedef struct {
+typedef struct iterator_s {
     struct collection_universal_header* collection;
     byte*                               data      ;
     int                                 stage     ;

@@ -28,7 +28,7 @@
 
 #pragma region --- PRIVATE ---
 
-static inline size_t _private_hashtable_table_memory_align(size_t size) {
+static inline size_t private_hashtable_table_memory_align_(size_t size) {
     size = M_MIN(M_MAX(size, HASHTABLE_SIZE_MIN), HASHTABLE_SIZE_MAX); //!< select size between [ HASHTABLE_SIZE_MIN; HASHTABLE_SIZE_MAX ]
     // fast way to compute most-significant bit of number
     size_t aligned = size | 1;
@@ -36,12 +36,12 @@ static inline size_t _private_hashtable_table_memory_align(size_t size) {
     return  aligned; //!< return nearest (2^n - 1) > init_size (7, 15, 31, 63, 127 ...)
 }
 
-static inline double _private_hashtable_get_load_factor(hashtable_t table) {
+static inline double private_hashtable_get_load_factor_(hashtable_t table) {
     return (double)table->size / (double)table->capacity;
 }
 
-static inline double _private_hashtable_get_max_bucket_load_factor(hashtable_t table) {
-    ht_entry_t* entries = CPH_EXTRACT(table)->_data;
+static inline double private_hashtable_get_max_bucket_load_factor_(hashtable_t table) {
+    ht_entry_t* entries = CPH_EXTRACT(table)->data_;
     int max_entries = 0;
     for (int i = 0; i < (int)table->capacity; i++)
         if (entries[i]) {
@@ -49,7 +49,7 @@ static inline double _private_hashtable_get_max_bucket_load_factor(hashtable_t t
             int current_entries = 0;
             do {
                 current_entries++;
-            } while (entry = entry->next);
+            } while ((entry = entry->next));
             max_entries = M_MAX(current_entries, max_entries);
         }
     return (double)max_entries / (double)table->capacity;
@@ -58,12 +58,12 @@ static inline double _private_hashtable_get_max_bucket_load_factor(hashtable_t t
 #define HT_ENTRY_EXTRACT_KEY(entry) ((entry) + 1)
 #define HT_ENTRY_EXTRACT_VALUE(entry, key_size) (((byte*)HT_ENTRY_EXTRACT_KEY(entry)) + key_size)
 
-static inline ht_entry_t _private_hashtable_alloc_entry(
-    const void* key,
-    size_t           key_size,
-    const void* value,
-    size_t           value_size,
-    const ht_entry_t next)
+static inline ht_entry_t private_hashtable_alloc_entry_(
+    const void*       key       ,
+    size_t            key_size  ,
+    const void*       value     ,
+    size_t            value_size,
+    const ht_entry_t  next       )
 {
     ht_entry_t entry = malloc(sizeof(struct ht_entry_t) + key_size + value_size);
     if (entry) {
@@ -74,11 +74,11 @@ static inline ht_entry_t _private_hashtable_alloc_entry(
     return entry;
 }
 
-static inline bool _private_hashtable_valid(hashtable_t table) {
-
+static inline bool private_hashtable_valid_(hashtable_t table) {
+    return true;
 }
 
-void _private_hashtable_recursive_delete() {
+void private_hashtable_recursive_delete_() {
 
 }
 
@@ -86,7 +86,7 @@ void _private_hashtable_recursive_delete() {
 
 #pragma region --- STATIC ---
 
-static inline void _init(struct collection_universal_header* collection, void** block, int* index) {
+static inline void init_(struct collection_universal_header* collection, void** block, int* index) {
     // index -> iterate through
     // block -> hash value
 
@@ -103,7 +103,7 @@ static inline void _init(struct collection_universal_header* collection, void** 
     }
 
     CPH_REF(collection, header);
-    ht_entry_t* entries = header->_data;
+    ht_entry_t* entries = header->data_;
     
     int i = 0;
     for (int bucket = 0; bucket < collection->capacity; bucket++) {
@@ -119,21 +119,21 @@ static inline void _init(struct collection_universal_header* collection, void** 
     }
 }
 
-static inline void _next(struct collection_universal_header* collection, void** block, int* index) {
+static inline void next_(struct collection_universal_header* collection, void** block, int* index) {
     *index = (*index) + 1;
-    _init(collection, block, index);
+    init_(collection, block, index);
 }
 
-static inline void _prev(struct collection_universal_header* collection, void** block, int* index) {
+static inline void prev_(struct collection_universal_header* collection, void** block, int* index) {
     *index = (*index) - 1;
-    _init(collection, block, index);
+    init_(collection, block, index);
 }
 
-static inline void* _copy(void* collection) {
+static inline void* copy_(void* collection) {
     return NULL;
     hashtable_t this = collection;
     hashtable_t result = ht_init(this->size, this->key_size, this->element_size, this->hasher);
-    ht_entry_t* entries = CPH_EXTRACT(collection)->_data;
+    ht_entry_t* entries = CPH_EXTRACT(collection)->data_;
 
     for (int bucket = 0; bucket < this->capacity; bucket++) {
         ht_entry_t entry = entries[bucket];
@@ -142,13 +142,13 @@ static inline void* _copy(void* collection) {
             entry = entry->next;
         }
     }
-    return result;
+    return (void*)result;
 }
 
-static inline void* _dtor(void* collection) {
+static inline void* dtor_(void* collection) {
     return NULL;
     CPH_REF(collection, header);
-    ht_entry_t* entries = header->_data;
+    ht_entry_t* entries = header->data_;
     for (int i = 0; i < ((struct collection_universal_header*)collection)->size; i++) {
         ht_entry_t entry = entries[i];
         while (entry) {
@@ -190,14 +190,14 @@ hash_t str_hash(const void* key, size_t size) {
 
 hashtable_t ht_init(size_t size, size_t key_size, size_t value_size, hasher_pt hasher) {
     explain_assert(key_size, "collection error: key size can't be NULL");
-    size = _private_hashtable_table_memory_align(size);
+    size = private_hashtable_table_memory_align_(size);
     struct hashtable_t* result = NULL;
     struct collection_private_header* block = (struct collection_private_header*)malloc(sizeof(struct collection_private_header) + sizeof(struct hashtable_t));
     if (block) {
         *block = alloc_cph(
             alloc_caa(NULL, NULL, NULL, NULL),
-            alloc_cia(&_init, &_next, &_prev),
-            alloc_cma(&_copy, &_dtor),
+            alloc_cia(&init_, &next_, &prev_),
+            alloc_cma(&copy_, &dtor_),
             NULL);
 
         result = (struct hashtable_t*)(block + 1);
@@ -207,7 +207,7 @@ hashtable_t ht_init(size_t size, size_t key_size, size_t value_size, hasher_pt h
             .key_size = key_size
         };
 
-        if (!(block->_data = calloc(size, sizeof(ht_entry_t))))
+        if (!(block->data_ = calloc(size, sizeof(ht_entry_t))))
             goto HT_ERR_TABLE_ALLOC;
     }
     return (hashtable_t)result;
@@ -229,16 +229,16 @@ void set_hasher(hashtable_t table, const hasher_pt hasher) {
 
 void ht_insert(hashtable_t table, const void* key, const void* value) {
     if (table->size >= (size_t)((double)table->capacity * HASHTABLE_MAX_LOAD_FACTOR)) {
-        size_t new_capacity = _private_hashtable_table_memory_align(table->capacity + 1);
+        size_t new_capacity = private_hashtable_table_memory_align_(table->capacity + 1);
         if (new_capacity > HASHTABLE_SIZE_MAX)
             return;
         ht_entry_t* new_entries = calloc(new_capacity, sizeof(ht_entry_t));
         if (!new_entries)
             return;
-        ht_entry_t* old_entries = CPH_EXTRACT(table)->_data;
+        ht_entry_t* old_entries = CPH_EXTRACT(table)->data_;
         (((struct hashtable_t*)table)->size) = 0;
         (((struct hashtable_t*)table)->capacity) = new_capacity;
-        CPH_EXTRACT(table)->_data = new_entries;
+        CPH_EXTRACT(table)->data_ = new_entries;
         for (int i = 0; i < table->capacity; i++) {
             ht_entry_t entry = old_entries[i];
             if (entry) {
@@ -251,36 +251,36 @@ void ht_insert(hashtable_t table, const void* key, const void* value) {
         }
         free(old_entries);
     }
-    ht_entry_t* entries = (ht_entry_t*)CPH_EXTRACT(table)->_data;
+    ht_entry_t* entries = (ht_entry_t*)CPH_EXTRACT(table)->data_;
     hash_t calculated = table->hasher(key, table->key_size);
     ht_entry_t located = entries[(table->capacity - 1) & calculated];
     if (located) {
-        if (((comparator_pt)CPH_EXTRACT(table)->caa._comp)(HT_ENTRY_EXTRACT_KEY(located), key, table->key_size) == 0)
+        if (((comparator_pt)CPH_EXTRACT(table)->caa.comparator_)(HT_ENTRY_EXTRACT_KEY(located), key, table->key_size) == 0)
             return;
         while (located->next) {
             located = located->next;
-            if (((comparator_pt)CPH_EXTRACT(table)->caa._comp)(HT_ENTRY_EXTRACT_KEY(located), key, table->key_size) == 0)
+            if (((comparator_pt)CPH_EXTRACT(table)->caa.comparator_)(HT_ENTRY_EXTRACT_KEY(located), key, table->key_size) == 0)
                 return;
         }
-        located->next = _private_hashtable_alloc_entry(key, table->key_size, value, table->element_size, NULL);
+        located->next = private_hashtable_alloc_entry_(key, table->key_size, value, table->element_size, NULL);
     }
     else
-        entries[(table->capacity - 1) & calculated] = _private_hashtable_alloc_entry(key, table->key_size, value, table->element_size, NULL);
+        entries[(table->capacity - 1) & calculated] = private_hashtable_alloc_entry_(key, table->key_size, value, table->element_size, NULL);
     (((struct hashtable_t*)table)->size)++;
 }
 void ht_erase(hashtable_t table, const void* key) {
-    ht_entry_t* entries = (ht_entry_t*)CPH_EXTRACT(table)->_data;
+    ht_entry_t* entries = (ht_entry_t*)CPH_EXTRACT(table)->data_;
     hash_t calculated = table->hasher(key, table->key_size);
     ht_entry_t located = entries[(table->capacity - 1) & calculated];
     if (located) {
-        if (((comparator_pt)CPH_EXTRACT(table)->caa._comp)(HT_ENTRY_EXTRACT_KEY(located), key, table->key_size) == 0) {
+        if (((comparator_pt)CPH_EXTRACT(table)->caa.comparator_)(HT_ENTRY_EXTRACT_KEY(located), key, table->key_size) == 0) {
             entries[(table->capacity - 1) & calculated] = located->next;
             free(located);
             ((struct hashtable_t*)table)->size--;
             return;
         }
         while (located->next) {
-            if (((comparator_pt)CPH_EXTRACT(table)->caa._comp)(HT_ENTRY_EXTRACT_KEY(located->next), key, table->key_size) == 0) {
+            if (((comparator_pt)CPH_EXTRACT(table)->caa.comparator_)(HT_ENTRY_EXTRACT_KEY(located->next), key, table->key_size) == 0) {
                 ht_entry_t found = located->next;
                 located->next = found->next;
                 free(found);
@@ -293,12 +293,12 @@ void ht_erase(hashtable_t table, const void* key) {
 }
 
 bool ht_contains(const hashtable_t table, const void* key) {
-    ht_entry_t* entries = (ht_entry_t*)CPH_EXTRACT(table)->_data;
+    ht_entry_t* entries = (ht_entry_t*)CPH_EXTRACT(table)->data_;
     hash_t calculated = table->hasher(key, table->key_size);
     ht_entry_t located = entries[(table->capacity - 1) & calculated];
 
     while (located) {
-        if (((comparator_pt)CPH_EXTRACT(table)->caa._comp)(HT_ENTRY_EXTRACT_KEY(located), key, table->key_size) == 0)
+        if (((comparator_pt)CPH_EXTRACT(table)->caa.comparator_)(HT_ENTRY_EXTRACT_KEY(located), key, table->key_size) == 0)
             return true;
         located = located->next;
     }
@@ -306,12 +306,12 @@ bool ht_contains(const hashtable_t table, const void* key) {
 }
 
 void* ht_lookup(const hashtable_t table, const void* key) {
-    ht_entry_t* entries = (ht_entry_t*)CPH_EXTRACT(table)->_data;
+    ht_entry_t* entries = (ht_entry_t*)CPH_EXTRACT(table)->data_;
     hash_t calculated = table->hasher(key, table->key_size);
     ht_entry_t located = entries[(table->capacity - 1) & calculated];
 
     while (located) {
-        if (((comparator_pt)CPH_EXTRACT(table)->caa._comp)(HT_ENTRY_EXTRACT_KEY(located), key, table->key_size) == 0)
+        if (((comparator_pt)CPH_EXTRACT(table)->caa.comparator_)(HT_ENTRY_EXTRACT_KEY(located), key, table->key_size) == 0)
             break;
         located = located->next;
     }

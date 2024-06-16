@@ -37,42 +37,42 @@ struct collection_universal_header alloc_cuh(
 }
 
 struct collection_algorithm_adapter alloc_caa(
-    const void* _comp,
-    const void* _swap,
-    const void* _srch,
-    const void* _sort)
+    const void* comparator_,
+    const void* swap_      ,
+    const void* search_    ,
+    const void* sort_       )
 {
     return (struct collection_algorithm_adapter) {
-        ._comp = M_ISNULL((void*)_comp, memcmp),
-        ._swap = M_ISNULL((void*)_swap, swap),
-        ._srch = (void*)_srch,
-        ._sort = (void*)_sort
+        .comparator_ = (void*)M_ISNULL(comparator_, (const void*)memcmp),
+        .swap_       = (void*)M_ISNULL(swap_      , (const void*)swap  ),
+        .search_     = (void*)search_                                   ,
+        .sort_       = (void*)sort_
     };
 }
 
 struct collection_iterator_adapter alloc_cia(
-    const u_acc_t _init,
-    const u_acc_t _next,
-    const u_acc_t _prev)
+    const u_acc_t init_,
+    const u_acc_t next_,
+    const u_acc_t prev_)
 {
-    explain_assert(_init, "collection error: invalid arg");
-    explain_assert(_next, "collection error: invalid arg");
-    explain_assert(_prev, "collection error: invalid arg");
+    explain_assert(init_, "collection error: invalid arg");
+    explain_assert(next_, "collection error: invalid arg");
+    explain_assert(prev_, "collection error: invalid arg");
     return (struct collection_iterator_adapter) {
-        ._init = _init,
-        ._next = _next,
-        ._prev = _prev
+        .init_ = init_,
+        .next_ = next_,
+        .prev_ = prev_
     };
 }
 
 struct collection_manager_adapter alloc_cma(
-    const u_mgr_t _copy,
-    const u_mgr_t _dtor)
+    const u_mgr_t copy_,
+    const u_mgr_t dtor_)
 {
-    assert(_copy);
+    assert(copy_);
     return (struct collection_manager_adapter) {
-        ._copy = _copy,
-        ._dtor = _dtor
+        .copy_ = copy_,
+        .dtor_ = dtor_
     };
 }
 
@@ -80,13 +80,13 @@ struct collection_private_header alloc_cph(
     struct collection_algorithm_adapter caa,
     struct collection_iterator_adapter cia,
     struct collection_manager_adapter cma,
-    void* _data)
+    void* data_)
 {
     return (struct collection_private_header) {
-        .caa   = caa,
-        .cia   = cia,
-        .cma   = cma,
-        ._data = _data
+        .caa   = caa  ,
+        .cia   = cia  ,
+        .cma   = cma  ,
+        .data_ = data_
     };
 }
 

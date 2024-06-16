@@ -30,7 +30,7 @@ iterator_t it_begin(void* collection) {
             .stage      = 0,
             .direction  = IT_FORWARD
     };
-    CPH_EXTRACT(collection)->cia._init(collection, &(result.data), &(result.stage));
+    CPH_EXTRACT(collection)->cia.init_(collection, &(result.data), &(result.stage));
     return result;
 }
 iterator_t it_end(void* collection) {
@@ -59,7 +59,7 @@ iterator_t it_rbegin(void* collection) {
         .stage = (int)((struct collection_universal_header*)collection)->size - 1,
         .direction = IT_REVERSE
     };
-    CPH_EXTRACT(collection)->cia._init(collection, &(result.data), &(result.stage));
+    CPH_EXTRACT(collection)->cia.init_(collection, &(result.data), &(result.stage));
     return result;
 }
 iterator_t it_rend(void* collection) {
@@ -93,7 +93,7 @@ iterator_t it_last(void* collection) {
     };
     if (result.stage)
         result.stage--;
-    CPH_EXTRACT(collection)->cia._init(collection, &(result.data), &(result.stage));
+    CPH_EXTRACT(collection)->cia.init_(collection, &(result.data), &(result.stage));
     return it_valid(result) ? result : INVALID_ITERATOR;
 }
 
@@ -160,10 +160,10 @@ void it_next(iterator_t* iterator) {
         switch (iterator->direction)
         {
         case IT_REVERSE:
-            CPH_EXTRACT(iterator->collection)->cia._prev(iterator->collection, &(iterator->data), &(iterator->stage));
+            CPH_EXTRACT(iterator->collection)->cia.prev_(iterator->collection, &(iterator->data), &(iterator->stage));
             break;
         case IT_FORWARD:
-            CPH_EXTRACT(iterator->collection)->cia._next(iterator->collection, &(iterator->data), &(iterator->stage));
+            CPH_EXTRACT(iterator->collection)->cia.next_(iterator->collection, &(iterator->data), &(iterator->stage));
             break;
         default:
             break;
@@ -192,10 +192,10 @@ void it_prev(iterator_t* iterator) {
         switch (iterator->direction)
         {
         case IT_REVERSE:
-            CPH_EXTRACT(iterator->collection)->cia._next(iterator->collection, &(iterator->data), &(iterator->stage));
+            CPH_EXTRACT(iterator->collection)->cia.next_(iterator->collection, &(iterator->data), &(iterator->stage));
             break;
         case IT_FORWARD:
-            CPH_EXTRACT(iterator->collection)->cia._prev(iterator->collection, &(iterator->data), &(iterator->stage));
+            CPH_EXTRACT(iterator->collection)->cia.prev_(iterator->collection, &(iterator->data), &(iterator->stage));
             break;
         default:
             break;

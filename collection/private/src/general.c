@@ -21,7 +21,7 @@
 
 void* copy(const void* collection) {
     assert(collection);
-    return CPH_EXTRACT(collection)->cma._copy((void*)collection);
+    return CPH_EXTRACT(collection)->cma.copy_((void*)collection);
 }
 void* move(void** collection) {
     assert(collection);
@@ -37,8 +37,8 @@ void delete(void** collection) {
     assert(collection);
     assert(*collection);
     CPH_REF(*collection, header);
-    if (header->cma._dtor)
-        header->cma._dtor(collection);
+    if (header->cma.dtor_)
+        header->cma.dtor_(collection);
     free(header);
     *collection = NULL;
 }
@@ -60,10 +60,10 @@ void delete(void** collection) {
             CPH_EXTRACT(collection)->caa.field = value;                                                                     \
     }
 
-DECL_GET_SET(_comp)
-DECL_GET_SET(_swap)
-DECL_GET_SET(_srch)
-DECL_GET_SET(_sort)
+DECL_GET_SET(comparator_)
+DECL_GET_SET(swap_      )
+DECL_GET_SET(search_    )
+DECL_GET_SET(sort_      )
 
 #undef DECL_GET_SET
 

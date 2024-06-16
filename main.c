@@ -8,30 +8,18 @@
 
 //#include "main.h"
 
-#include <stdio.h>
-#include <string.h>
-#include "core.h"
-#include "util/console.h"
 
-
-
-//#define LOG_MODULE_NAME "general"
-#define LOG_MODULE_SEPARATE (true)
+#define LOG_MODULE_NAME "general"
 #include "util/log.h"
 
+#include "util/console.h"
 
 int main(int argc, char** argv) {
     char path[128] = { 0 };
     if (argc) {
         path_from_filepath(argv[0], path);
+        log_system_init(path, "log");
     }
-    log_system_init(path, "log");
-
-    warn("test warn '%s'", "hi");
-    info("test info '%d'", 346);
-    debug("test debug '%c'", 'G');
-    critical("test critical '%f'", 6.23);
-    error("test error '%%'");
 
     return 0;
 }

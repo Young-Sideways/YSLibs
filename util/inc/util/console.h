@@ -72,7 +72,7 @@ enum_to_str_t enum_to_roman;
 enum_to_str_t enum_to_alpha;
 enum_to_str_t enum_to_ALPHA;
 
-char* con_enum_translate(int number, const enum_to_str_pt translator, char* buffer, size_t buffer_size, size_t* ret_size);
+char* con_enum_translate(int number, enum_to_str_pt translator, char* buffer, size_t buffer_size, size_t* ret_size);
 
 void con_enum(const char* content, alignment_t align, enum_to_str_pt translator);
 

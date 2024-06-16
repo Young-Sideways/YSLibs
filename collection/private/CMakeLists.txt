@@ -12,7 +12,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/inc)
 set_property(TARGET ${PROJECT_NAME} PROPERTY C_STANDARD 23)
 
 target_link_libraries(${PROJECT_NAME}
-    INTERFACE yslibs::core
-    INTERFACE yslibs::macro
-    PUBLIC    yslibs::algorithm
+    PUBLIC yslibs::core
+    PUBLIC yslibs::macro
+    PUBLIC yslibs::algorithm
 )

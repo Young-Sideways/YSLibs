@@ -14,9 +14,6 @@
 
 #pragma region --- INCLUDES ---
 
-#include "core.h"
-#include "debug.h"
-
 #include "general.h"
 
 #pragma endregion
@@ -48,10 +45,10 @@ typedef void* (*u_mgr_t)(void* collection);
  *      POINTER: this algorithm can be applied to the container, and function pointer can be replaced to another function
  */
 struct collection_algorithm_adapter {
-    void* _comp;
-    void* _swap;
-    void* _srch;
-    void* _sort;
+    void* comparator_;
+    void* swap_      ;
+    void* search_    ;
+    void* sort_      ;
 };
 
 /**
@@ -59,9 +56,9 @@ struct collection_algorithm_adapter {
  *  @brief  iterator adapter header
  */
 struct collection_iterator_adapter {
-    u_acc_t _init;
-    u_acc_t _next;
-    u_acc_t _prev;
+    u_acc_t init_;
+    u_acc_t next_;
+    u_acc_t prev_;
 };
 
 /**
@@ -73,8 +70,8 @@ struct collection_iterator_adapter {
  *          NULL: data memory block places after universal header
  */
 struct collection_manager_adapter {
-    u_mgr_t _copy;
-    u_mgr_t _dtor;
+    u_mgr_t copy_;
+    u_mgr_t dtor_;
 };
 
 /**
@@ -82,10 +79,10 @@ struct collection_manager_adapter {
  *  @brief  private header, that's contain info about collection
  */
 struct collection_private_header {
-    struct collection_algorithm_adapter caa;
-    struct collection_iterator_adapter cia;
-    struct collection_manager_adapter cma;
-    void* _data;
+    struct collection_algorithm_adapter caa  ;
+    struct collection_iterator_adapter  cia  ;
+    struct collection_manager_adapter   cma  ;
+    void*                               data_;
 };
 
 #pragma endregion
@@ -108,34 +105,34 @@ static inline void function_placeholder() {};
 #pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 
 struct collection_universal_header alloc_cuh(
-    const size_t capacity, 
-    const size_t size, 
-    const size_t element_size
+    size_t capacity    ,
+    size_t size        ,
+    size_t element_size
 );
 
 struct collection_algorithm_adapter alloc_caa(
-    const void* _comp, 
-    const void* _swap, 
-    const void* _srch, 
-    const void* _sort
+    const void* comparator_,
+    const void* swap_      ,
+    const void* search_    ,
+    const void* sort_
 );
 
 struct collection_iterator_adapter alloc_cia(
-    const u_acc_t _init, 
-    const u_acc_t _next, 
-    const u_acc_t _prev
+    u_acc_t init_,
+    u_acc_t next_,
+    u_acc_t prev_
 );
 
 struct collection_manager_adapter alloc_cma(
-    const u_mgr_t _copy, 
-    const u_mgr_t _dtor
+    u_mgr_t copy_,
+    u_mgr_t dtor_
 );
 
 struct collection_private_header alloc_cph(
-    struct collection_algorithm_adapter caa,
-    struct collection_iterator_adapter cia,
-    struct collection_manager_adapter cma,
-    void* _data
+    struct collection_algorithm_adapter caa  ,
+    struct collection_iterator_adapter  cia  ,
+    struct collection_manager_adapter   cma  ,
+    void*                               data_
 );
 
 #pragma endregion
