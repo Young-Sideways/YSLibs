@@ -4,7 +4,7 @@
  *  @attribute associative, non-sortable
  *  @author    Young Sideways
  *  @date      15.04.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
 #ifndef HASHTABLE_H_
@@ -50,9 +50,7 @@
 typedef uint32_t hash_t;
 #define DEFAULT_HASH_VALUE ((hash_t)0U)
 
-typedef hash_t (hasher_t)(const void* key, size_t key_size);
-
-typedef hasher_t* hasher_pt;
+typedef hash_t (*hashfunc_t)(const void* key, size_t key_size);
 
 typedef struct ht_entry_t {
     struct ht_entry_t* next;
@@ -60,7 +58,7 @@ typedef struct ht_entry_t {
 
 typedef const struct hashtable_t {
     struct collection_universal_header;
-    hasher_pt hasher;
+    hashfunc_t hashfunc;
     size_t key_size;
 } *hashtable_t;
 
@@ -68,14 +66,14 @@ typedef const struct hashtable_t {
 
 #pragma region --- DEFAULT ---
 
-hasher_t hash;
-hasher_t str_hash;
+hash_t hash(const void* key, size_t key_size);
+hash_t str_hash(const void* key, size_t key_size);
 
 #pragma endregion
 
 #pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 
-hashtable_t ht_init(size_t size, size_t key_size, size_t value_size, hasher_pt hasher);
+hashtable_t ht_init(size_t size, size_t key_size, size_t value_size, hashfunc_t hashfunc);
 
 #pragma endregion
 
@@ -84,8 +82,8 @@ hashtable_t ht_init(size_t size, size_t key_size, size_t value_size, hasher_pt h
 void ht_insert(hashtable_t table, const void* key, const void* value);
 void ht_erase(hashtable_t table, const void* key);
 
-bool ht_contains(const hashtable_t table, const void* key);
-void* ht_lookup(const hashtable_t table, const void* key);
+bool ht_contains(hashtable_t table, const void* key);
+void* ht_lookup(hashtable_t table, const void* key);
 
 #pragma endregion
 

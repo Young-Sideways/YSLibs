@@ -1,22 +1,21 @@
 /*******************************************************************************
- *  @file      swap.h
- *  @brief     swap declarators
+ *  @file      comparator.h
+ *  @brief     comparator declarators
  *  @author    Young Sideways
- *  @date      14.02.2024
+ *  @date      17.06.2024
  *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef SWAP_DECLARATOR_H_
-#define SWAP_DECLARATOR_H_
+#ifndef COMPARATOR_DECLARATOR_H_
+#define COMPARATOR_DECLARATOR_H_
 
 #pragma once
 
-#ifdef SWAP_H_
+#ifdef COMPARATOR_H_
 
 #pragma region --- INCLUDE ---
 
 #include <stdint.h>
-#include <stdlib.h>
 
 #include "core.h"
 #include "debug.h"
@@ -25,29 +24,34 @@
 
 #pragma region --- DECLARATOR ---
 
-#define DECLARE_SWAP(prefix, type)                                                 \
-    static inline void prefix##_swap(void* lhs, void* rhs, size_t size) {          \
-        assert(lhs);                                                               \
-        assert(rhs);                                                               \
-        UNUSED(size);                                                              \
-        explain_assert(llabs((type*)lhs - (type*)rhs), "Memory regions overlaps"); \
-        type temp   = *(type*)lhs;                                                 \
-        *(type*)lhs = *(type*)rhs;                                                 \
-        *(type*)rhs = temp;                                                        \
+#define DECLARE_COMP(prefix, type)                                                     \
+    static inline int prefix##_fcomp(const void* lhs, const void* rhs, size_t size) {  \
+        explain_assert(lhs, "algorithm error: lhs value can't be NULL");               \
+        explain_assert(rhs, "algorithm error: rhs value can't be NULL");               \
+        UNUSED(size);                                                                  \
+        return ((*(type*)lhs > *(type*)rhs) - (*(type*)lhs < *(type*)rhs));            \
+    };                                                                                 \
+    static inline int prefix##_rcomp(const void* lhs, const void* rhs, size_t size) {  \
+        explain_assert(lhs, "algorithm error: lhs value can't be NULL");               \
+        explain_assert(rhs, "algorithm error: rhs value can't be NULL");               \
+        UNUSED(size);                                                                  \
+        return ((*(type*)lhs < *(type*)rhs) - (*(type*)lhs > *(type*)rhs));            \
     }
 
-DECLARE_SWAP(i8  , int8_t     );
-DECLARE_SWAP(i16 , int16_t    );
-DECLARE_SWAP(i32 , int32_t    );
-DECLARE_SWAP(i64 , int64_t    );
-DECLARE_SWAP(u8  , uint8_t    );
-DECLARE_SWAP(u16 , uint16_t   );
-DECLARE_SWAP(u32 , uint32_t   );
-DECLARE_SWAP(u64 , uint64_t   );
-DECLARE_SWAP(flt , float      );
-DECLARE_SWAP(dbl , double     );
-DECLARE_SWAP(ldbl, long double);
+DECLARE_COMP(i8  , int8_t     );
+DECLARE_COMP(i16 , int16_t    );
+DECLARE_COMP(i32 , int32_t    );
+DECLARE_COMP(i64 , int64_t    );
+DECLARE_COMP(u8  , uint8_t    );
+DECLARE_COMP(u16 , uint16_t   );
+DECLARE_COMP(u32 , uint32_t   );
+DECLARE_COMP(u64 , uint64_t   );
+DECLARE_COMP(flt , float      );
+DECLARE_COMP(dbl , double     );
+DECLARE_COMP(ldbl, long double);
 
-#endif // SWAP_H_
+#pragma endregion
 
-#endif // !SWAP_DECLARATOR_H_
+#endif // COMPARATOR_H_
+
+#endif // !COMPARATOR_DECLARATOR_H_

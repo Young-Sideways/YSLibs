@@ -3,7 +3,7 @@
  *  @brief     sort algorithms
  *  @author    Young Sideways
  *  @date      14.02.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
 #ifndef SORT_H_
@@ -26,26 +26,18 @@
  *  @param[in,out] array        - Pointer to memory block
  *  @param[in]     count        - Element count
  *  @param[in]     element_size - Size of each element
- *  @param[in]     _comparator  - Pointer to comparator function
- *  @param[in]     _swap        - Pointer to swap function
+ *  @param[in]     comparator_  - Pointer to comparator function
+ *  @param[in]     swap_        - Pointer to swap function
  */
-typedef void (sort_t)(void* array, const size_t count, const size_t element_size, comparator_pt _comparator, swap_pt _swap);
-
-/**
- *  @typedef sort_pt
- *  @brief   pointer type to \ref sort_t function
- */
-typedef sort_t* sort_pt;
+typedef void (*sort_t)(void* array, const size_t count, const size_t element_size, comparator_t comparator_, swap_t swap_);
 
 #pragma endregion
 
 #pragma region --- FUNCTION ---
 
-sort_t selection_sort;
-
-sort_t insertion_sort;
-
-sort_t quick_sort;
+void selection_sort(void* array, size_t count, size_t element_size, comparator_t comparator_, swap_t swap_);
+void insertion_sort(void* array, size_t count, size_t element_size, comparator_t comparator_, swap_t swap_);
+void quick_sort(void* array, size_t count, size_t element_size, comparator_t comparator_, swap_t swap_);
 
 #pragma endregion
 

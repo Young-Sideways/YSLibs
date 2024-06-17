@@ -11,8 +11,8 @@
 #pragma region --- INCLUDE ---
 
 #include <stdlib.h>
-#include <stdarg.h>
 
+#include "debug.h"
 #include "collection/private.h"
 
 #pragma endregion
@@ -50,12 +50,12 @@ void delete(void** collection) {
 #define DECL_GET_SET(field)                                                                                                 \
     void* _collection_private_##field##_get(void* collection) {                                                             \
         assert(collection);                                                                                                 \
-        explain_assert(CPH_EXTRACT(collection)->caa.field, "collection error: container has no "#field" function");         \
+        explain_assert(CPH_EXTRACT(collection)->caa.field, "collection error: container has no '"#field"' function");       \
         return (CPH_EXTRACT(collection)->caa.field == &function_placeholder) ? NULL : CPH_EXTRACT(collection)->caa.field;   \
     }                                                                                                                       \
     void _collection_private_##field##_set(void* collection, void* value) {                                                 \
         assert(collection);                                                                                                 \
-        explain_assert(CPH_EXTRACT(collection)->caa.field, "collection error: container has no "#field" function");         \
+        explain_assert(CPH_EXTRACT(collection)->caa.field, "collection error: container has no '"#field"' function");       \
         if (CPH_EXTRACT(collection)->caa.field)                                                                             \
             CPH_EXTRACT(collection)->caa.field = value;                                                                     \
     }
@@ -72,7 +72,7 @@ DECL_GET_SET(sort_      )
 #pragma region --- FUNCTION ---
 
 bool is_empty(const void* collection) {
-    explain_assert(collection, "collection error: NULL pointer arg");
+    explain_assert(collection, "collection error: invalid arg 'collection'");
     return !(((struct collection_universal_header*)collection)->size);
 }
 

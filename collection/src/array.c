@@ -3,7 +3,7 @@
  *  @brief     array - collection, with fixed memory allocation
  *  @author    Young Sideways
  *  @date      15.02.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
 #include "collection/array.h"
@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "core.h"
 #include "algorithm/search.h"
 #include "collection/private.h"
 

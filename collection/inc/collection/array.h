@@ -4,7 +4,7 @@
  *  @attribute linear, sortable
  *  @author    Young Sideways
  *  @date      15.02.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
 #ifndef ARRAY_H_

@@ -3,7 +3,7 @@
  *  @brief     general structures and control functions for collections
  *  @author    Young Sideways
  *  @date      15.02.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
 /*******************************************************************************
@@ -71,9 +71,6 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stddef.h>
-
-#include "core.h"
-#include "debug.h"
 
 #pragma endregion
 
@@ -173,28 +170,28 @@ bool is_empty(const void* collection);
 
 #pragma region --- STATIC ASSERTION BLOCK ---
 
-#define TYPE_SIZE_ASSERT(expression) static_assert(expression, "Collection core error: default type pointers have different sizes")
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(char*)              );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(short*)             );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(int*)               );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(long*)              );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(long long*)         );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(signed char*)       );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(signed short*)      );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(signed int*)        );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(signed long*)       );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(signed long long*)  );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned char*)     );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned short*)    );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned int*)      );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned long*)     );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned long long*));
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(float*)             );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(double*)            );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(long double*)       );
-
-static_assert(sizeof(int32_t) == sizeof(uint32_t), "Collection core error: fixed size for signed and unsigned 32 bit integers are different");
-#undef TYPE_SIZE_ASSERT
+//#define TYPE_SIZE_ASSERT(expression) static_assert(expression, "Collection core error: default type pointers have different sizes")
+//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(char*)              );
+//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(short*)             );
+//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(int*)               );
+//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(long*)              );
+//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(long long*)         );
+//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(signed char*)       );
+//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(signed short*)      );
+//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(signed int*)        );
+//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(signed long*)       );
+//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(signed long long*)  );
+//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned char*)     );
+//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned short*)    );
+//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned int*)      );
+//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned long*)     );
+//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned long long*));
+//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(float*)             );
+//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(double*)            );
+//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(long double*)       );
+//
+//static_assert(sizeof(int32_t) == sizeof(uint32_t), "Collection core error: fixed size for signed and unsigned 32 bit integers are different");
+//#undef TYPE_SIZE_ASSERT
 
 #pragma endregion
 

@@ -1,0 +1,46 @@
+/*******************************************************************************
+ * @file      file.h
+ * @author    Young Sideways
+ * @brief
+ * @date      dd.mm.yyyy
+ * @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
+ ******************************************************************************/
+
+#ifndef _H_
+#define _H_
+
+#pragma once
+
+#pragma region --- INCLUDE ---
+
+#pragma endregion
+
+#pragma region --- MACRO ---
+
+#pragma endregion
+
+#pragma region --- TYPEDEF ---
+
+#pragma endregion
+
+#pragma region --- CONSTRUCTOR/DESTRUCTOR ---
+
+#pragma endregion
+
+#pragma region --- FUNCTION ---
+
+#pragma endregion
+
+#pragma region ---  ---
+
+#pragma endregion
+
+#pragma region ---  ---
+
+#pragma endregion
+
+#pragma region ---  ---
+
+#pragma endregion
+
+#endif // !_H_

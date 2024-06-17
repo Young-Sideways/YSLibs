@@ -3,7 +3,7 @@
  *  @brief     C compatible dynamic string
  *  @author    Young Sideways
  *  @date      14.04.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
 #ifndef STRING_H_

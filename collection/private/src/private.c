@@ -13,6 +13,8 @@
 
 #include <string.h>
 
+#include "debug.h"
+
 #include "algorithm/swap.h"
 #include "macro/macro.h"
 
@@ -55,9 +57,9 @@ struct collection_iterator_adapter alloc_cia(
     const u_acc_t next_,
     const u_acc_t prev_)
 {
-    explain_assert(init_, "collection error: invalid arg");
-    explain_assert(next_, "collection error: invalid arg");
-    explain_assert(prev_, "collection error: invalid arg");
+    explain_assert(init_, "collection error: invalid arg 'init_'");
+    explain_assert(next_, "collection error: invalid arg 'next_'");
+    explain_assert(prev_, "collection error: invalid arg 'prev_'");
     return (struct collection_iterator_adapter) {
         .init_ = init_,
         .next_ = next_,
@@ -69,7 +71,7 @@ struct collection_manager_adapter alloc_cma(
     const u_mgr_t copy_,
     const u_mgr_t dtor_)
 {
-    assert(copy_);
+    explain_assert(copy_, "collection error: invalid arg 'copy_'");
     return (struct collection_manager_adapter) {
         .copy_ = copy_,
         .dtor_ = dtor_
