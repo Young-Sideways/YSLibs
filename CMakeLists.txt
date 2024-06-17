@@ -2,9 +2,10 @@ cmake_minimum_required (VERSION 3.19 FATAL_ERROR)
 
 project ("yslibs" LANGUAGES C)
 
+set(HEADERS "main.h")
 set(SOURCES "main.c")
 
-add_executable (${PROJECT_NAME} ${SOURCES})
+add_executable (${PROJECT_NAME} ${SOURCES} ${HEADERS})
 
 set_property(TARGET ${PROJECT_NAME} PROPERTY C_STANDARD 23)
 

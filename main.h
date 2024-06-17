@@ -3,7 +3,7 @@
  *  @brief     main file of project
  *  @author    Young Sideways
  *  @date      23.05.2024
- *  @copyright � Young Sideways, 2024. All right reserved.
+ *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
 /**
@@ -15,7 +15,7 @@
  *
  * Было реализовано множество вспомогательных элементов
  * Большинство элементов хорошо документированы
- * Приятного просмотра © Young Sideways (Басыров Дмитрий)
+ * Приятного просмотра (c) Young Sideways (Басыров Дмитрий)
  */
 
 #pragma region --- INCLUDE ---
@@ -26,7 +26,7 @@
 
 #include "core/core.h"
 
-//#include "utils/console.h"
+#include "util/console.h"
 
 #if defined(_TISBI_)
 #include "task1/task1.h"
@@ -50,15 +50,9 @@ int task_processor() {
         mode = menu_getc();
         switch (mode)
         {
-        case '1':
-            task1();
-            break;
-        case '2':
-            task2();
-            break;
-        case '3':
-            task3();
-            break;
+        case '1': task1(); break;
+        case '2': task2(); break;
+        case '3': task3(); break;
         case '4':
             puts("Exiting...");
             cycle = false;
@@ -69,6 +63,6 @@ int task_processor() {
         }
     }
 }
-#endif // !_TISBI_
+#endif // _TISBI_
 
 #pragma endregion

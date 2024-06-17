@@ -15,6 +15,7 @@
 #include <stdbool.h>
 
 #include "core.h"
+#include "debug.h"
 #include "algorithm/search.h"
 #include "collection/private.h"
 

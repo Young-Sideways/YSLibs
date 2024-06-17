@@ -12,6 +12,8 @@
 
 #include <stdbool.h>
 
+#include "core.h"
+#include "debug.h"
 #include "collection/private.h"
 
 #pragma endregion

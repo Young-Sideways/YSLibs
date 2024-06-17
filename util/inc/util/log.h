@@ -146,8 +146,8 @@ typedef void (*log_handler_t)(int type, log_exec_ctx_t ctx, const char* format, 
 extern void log_system_handler__(int type, log_exec_ctx_t ctx, const char* format, ...);
 extern void default_log_handler(int type, log_exec_ctx_t ctx, const char* format, va_list ap); //__attribute__ ((format (printf, 3, 4)));
 
-void log_system_init(const char* log_path, const char* log_filename);
-void log_set_handler(log_handler_t handler);
+int log_system_init(const char* log_path, const char* log_filename);
+int log_set_handler(log_handler_t handler);
 
 #pragma endregion
 

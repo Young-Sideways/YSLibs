@@ -20,6 +20,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
+#include <stdbool.h>
 
 #include "util/console.h"
 
@@ -72,7 +73,7 @@ void default_log_handler(int type, log_exec_ctx_t ctx, const char* format, va_li
             timespec_get(&ts, TIME_UTC);
             char time_buf[128] = {0};
             strftime(time_buf, sizeof(time_buf), "%d.%m.%Y %T", gmtime(&ts.tv_sec));
-            snprintf(date_buf, sizeof(date_buf), "[ %s.%3ld ] ", time_buf, ts.tv_nsec);
+            snprintf(date_buf, sizeof(date_buf), "[ %s.%ld ] ", time_buf, ts.tv_nsec / 1000000);
         }
         char module_buf[128] = { 0 };
         if (!ctx->separate) {
@@ -108,21 +109,21 @@ void default_log_handler(int type, log_exec_ctx_t ctx, const char* format, va_li
         fprintf(stderr, "[ log ] error: unable to open log file");
 }
 
-void log_system_init(const char* log_path, const char* log_filename) {
+int log_system_init(const char* log_path, const char* log_filename) {
     if (log_system_initialized) {
         warn("log system already started!");
-        return;
+        return 1;
     }
 
     // Validating path
     size_t path_size = 0U;
     if (!log_path || ((path_size = strlen(log_path)) == 0U)) {
         fprintf(stderr, "[ log ] error: path must be initialized\n");
-        return;
+        return 1;
     }
     if (path_size >= MAX_LOG_PATH_SIZE) {
         fprintf(stderr, "[ log ] error: path size > %d\n", MAX_LOG_PATH_SIZE);
-        return;
+        return 1;
     }
     memcpy(log_system_path, log_path, path_size + 1);
 
@@ -134,7 +135,7 @@ void log_system_init(const char* log_path, const char* log_filename) {
     }
     if (name_size + sizeof(DEFAULT_LOG_FILE_EXTENSION) > MAX_LOG_FILENAME_SIZE) {
         fprintf(stderr, "[ log ] error: path size > %d\n", MAX_LOG_FILENAME_SIZE);
-        return;
+        return 1;
     }
     memcpy(log_system_filename, log_filename, name_size + 1);
     for (char *ch = log_system_filename; *ch; ch++)
@@ -152,21 +153,20 @@ void log_system_init(const char* log_path, const char* log_filename) {
         log_system_handler = default_log_handler;
         log_system_initialized = true;
         fclose(tmp);
+        return 0;
     }
-    else
-        fprintf(stderr, "[ log ] error: log system can't be initialized\n");
-
+    
+    fprintf(stderr, "[ log ] error: log system can't be initialized\n");
+    return 1;
 }
 
-void log_set_handler(log_handler_t handler) {
+int log_set_handler(log_handler_t handler) {
     if (!log_system_initialized) {
         fprintf(stderr, "[ log ] error: log system must be initialized\n");
-        return;
+        return 1;
     }
-    if (handler)
-        log_system_handler = handler;
-    else
-        log_system_handler = default_log_handler;
+    log_system_handler = (handler ? handler : default_log_handler);
+    return 0;
 }
 
 #pragma endregion

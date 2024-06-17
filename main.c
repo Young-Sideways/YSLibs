@@ -3,23 +3,21 @@
  *  @brief     main file of project
  *  @author    Young Sideways
  *  @date      23.05.2024
- *  @copyright � Young Sideways, 2024. All right reserved.
+ *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
-
-//#include "main.h"
-
 
 #define LOG_MODULE_NAME "general"
 #include "util/log.h"
 
-#include "util/console.h"
+#include "main.h"
 
 int main(int argc, char** argv) {
-    char path[128] = { 0 };
     if (argc) {
+        char path[128] = { 0 };
         path_from_filepath(argv[0], path);
         log_system_init(path, "log");
+        info("Log system started successfuly");
     }
-
+    printf("Hello, world!\n");
     return 0;
 }
