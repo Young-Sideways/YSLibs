@@ -4,21 +4,22 @@
  *  @attribute associative, non-sortable
  *  @author    Young Sideways
  *  @date      20.05.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  *  @note      hashtable does not own data on a double reference (example: cstring (char*) etc.)
  *             1. main data pointer invalidation init UB
  *             2. object pointers are different &(char*) != &(char[]) != &("some str")
  *  @bug       stack arg != heap arg of double pointer
  ******************************************************************************/
+
 #include "collection/hashtable.h"
 
 #pragma region --- INCLUDE ---
 
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
 
 #include "collection/private.h"
+#include "core.h"
 #include "debug.h"
 #include "macro/macro.h"
 
@@ -36,24 +37,24 @@ static inline size_t private_hashtable_table_memory_align_(size_t size) {
     return  aligned; //!< return nearest (2^n - 1) > init_size (7, 15, 31, 63, 127 ...)
 }
 
-static inline double private_hashtable_get_load_factor_(hashtable_t table) {
-    return (double)table->size / (double)table->capacity;
-}
+//static inline double private_hashtable_get_load_factor_(hashtable_t table) {
+//    return (double)table->size / (double)table->capacity;
+//}
 
-static inline double private_hashtable_get_max_bucket_load_factor_(hashtable_t table) {
-    ht_entry_t* entries = CPH_EXTRACT(table)->data_;
-    int max_entries = 0;
-    for (int i = 0; i < (int)table->capacity; i++)
-        if (entries[i]) {
-            ht_entry_t entry = entries[i];
-            int current_entries = 0;
-            do {
-                current_entries++;
-            } while ((entry = entry->next));
-            max_entries = M_MAX(current_entries, max_entries);
-        }
-    return (double)max_entries / (double)table->capacity;
-}
+//static inline double private_hashtable_get_max_bucket_load_factor_(hashtable_t table) {
+//    ht_entry_t* entries = CPH_EXTRACT(table)->data_;
+//    int max_entries = 0;
+//    for (int i = 0; i < (int)table->capacity; i++)
+//        if (entries[i]) {
+//            ht_entry_t entry = entries[i];
+//            int current_entries = 0;
+//            do {
+//                current_entries++;
+//            } while ((entry = entry->next));
+//            max_entries = M_MAX(current_entries, max_entries);
+//        }
+//    return (double)max_entries / (double)table->capacity;
+//}
 
 #define HT_ENTRY_EXTRACT_KEY(entry) ((entry) + 1)
 #define HT_ENTRY_EXTRACT_VALUE(entry, key_size) (((byte*)HT_ENTRY_EXTRACT_KEY(entry)) + key_size)
@@ -132,7 +133,7 @@ static inline void prev_(struct collection_universal_header* collection, void** 
 static inline void* copy_(void* collection) {
     return NULL;
     hashtable_t this = collection;
-    hashtable_t result = ht_init(this->size, this->key_size, this->element_size, this->hasher);
+    hashtable_t result = ht_init(this->size, this->key_size, this->element_size, this->hashfunc);
     ht_entry_t* entries = CPH_EXTRACT(collection)->data_;
 
     for (int bucket = 0; bucket < this->capacity; bucket++) {
@@ -188,7 +189,7 @@ hash_t str_hash(const void* key, size_t size) {
 
 #pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 
-hashtable_t ht_init(size_t size, size_t key_size, size_t value_size, hasher_pt hasher) {
+hashtable_t ht_init(size_t size, size_t key_size, size_t value_size, hashfunc_t hashfunc) {
     explain_assert(key_size, "collection error: key size can't be NULL");
     size = private_hashtable_table_memory_align_(size);
     struct hashtable_t* result = NULL;
@@ -203,7 +204,7 @@ hashtable_t ht_init(size_t size, size_t key_size, size_t value_size, hasher_pt h
         result = (struct hashtable_t*)(block + 1);
         *result = (struct hashtable_t){
             alloc_cuh(size, 0U, value_size),
-            .hasher = M_ISNULL(hasher, &hash),
+            .hashfunc = M_ISNULL(hashfunc, &hash),
             .key_size = key_size
         };
 
@@ -221,10 +222,10 @@ HT_ERR_TABLE_ALLOC:
 
 #pragma region --- FUNCION ---
 
-void set_hasher(hashtable_t table, const hasher_pt hasher) {
-    explain_assert(hasher, "collection error: hash function can't be NULL");
+void set_hasher(hashtable_t table, const hashfunc_t hashfunc) {
+    explain_assert(hashfunc, "collection error: hash function can't be NULL");
     struct hashtable_t* _table = (struct hashtable_t*)table;
-    _table->hasher = M_ISNULL(hasher, &hash);
+    _table->hashfunc = M_ISNULL(hashfunc, &hash);
 }
 
 void ht_insert(hashtable_t table, const void* key, const void* value) {
@@ -252,14 +253,14 @@ void ht_insert(hashtable_t table, const void* key, const void* value) {
         free(old_entries);
     }
     ht_entry_t* entries = (ht_entry_t*)CPH_EXTRACT(table)->data_;
-    hash_t calculated = table->hasher(key, table->key_size);
+    hash_t calculated = table->hashfunc(key, table->key_size);
     ht_entry_t located = entries[(table->capacity - 1) & calculated];
     if (located) {
-        if (((comparator_pt)CPH_EXTRACT(table)->caa.comparator_)(HT_ENTRY_EXTRACT_KEY(located), key, table->key_size) == 0)
+        if (((comparator_t)CPH_EXTRACT(table)->caa.comparator_)(HT_ENTRY_EXTRACT_KEY(located), key, table->key_size) == 0)
             return;
         while (located->next) {
             located = located->next;
-            if (((comparator_pt)CPH_EXTRACT(table)->caa.comparator_)(HT_ENTRY_EXTRACT_KEY(located), key, table->key_size) == 0)
+            if (((comparator_t)CPH_EXTRACT(table)->caa.comparator_)(HT_ENTRY_EXTRACT_KEY(located), key, table->key_size) == 0)
                 return;
         }
         located->next = private_hashtable_alloc_entry_(key, table->key_size, value, table->element_size, NULL);
@@ -270,17 +271,17 @@ void ht_insert(hashtable_t table, const void* key, const void* value) {
 }
 void ht_erase(hashtable_t table, const void* key) {
     ht_entry_t* entries = (ht_entry_t*)CPH_EXTRACT(table)->data_;
-    hash_t calculated = table->hasher(key, table->key_size);
+    hash_t calculated = table->hashfunc(key, table->key_size);
     ht_entry_t located = entries[(table->capacity - 1) & calculated];
     if (located) {
-        if (((comparator_pt)CPH_EXTRACT(table)->caa.comparator_)(HT_ENTRY_EXTRACT_KEY(located), key, table->key_size) == 0) {
+        if (((comparator_t)CPH_EXTRACT(table)->caa.comparator_)(HT_ENTRY_EXTRACT_KEY(located), key, table->key_size) == 0) {
             entries[(table->capacity - 1) & calculated] = located->next;
             free(located);
             ((struct hashtable_t*)table)->size--;
             return;
         }
         while (located->next) {
-            if (((comparator_pt)CPH_EXTRACT(table)->caa.comparator_)(HT_ENTRY_EXTRACT_KEY(located->next), key, table->key_size) == 0) {
+            if (((comparator_t)CPH_EXTRACT(table)->caa.comparator_)(HT_ENTRY_EXTRACT_KEY(located->next), key, table->key_size) == 0) {
                 ht_entry_t found = located->next;
                 located->next = found->next;
                 free(found);
@@ -294,11 +295,11 @@ void ht_erase(hashtable_t table, const void* key) {
 
 bool ht_contains(const hashtable_t table, const void* key) {
     ht_entry_t* entries = (ht_entry_t*)CPH_EXTRACT(table)->data_;
-    hash_t calculated = table->hasher(key, table->key_size);
+    hash_t calculated = table->hashfunc(key, table->key_size);
     ht_entry_t located = entries[(table->capacity - 1) & calculated];
 
     while (located) {
-        if (((comparator_pt)CPH_EXTRACT(table)->caa.comparator_)(HT_ENTRY_EXTRACT_KEY(located), key, table->key_size) == 0)
+        if (((comparator_t)CPH_EXTRACT(table)->caa.comparator_)(HT_ENTRY_EXTRACT_KEY(located), key, table->key_size) == 0)
             return true;
         located = located->next;
     }
@@ -307,11 +308,11 @@ bool ht_contains(const hashtable_t table, const void* key) {
 
 void* ht_lookup(const hashtable_t table, const void* key) {
     ht_entry_t* entries = (ht_entry_t*)CPH_EXTRACT(table)->data_;
-    hash_t calculated = table->hasher(key, table->key_size);
+    hash_t calculated = table->hashfunc(key, table->key_size);
     ht_entry_t located = entries[(table->capacity - 1) & calculated];
 
     while (located) {
-        if (((comparator_pt)CPH_EXTRACT(table)->caa.comparator_)(HT_ENTRY_EXTRACT_KEY(located), key, table->key_size) == 0)
+        if (((comparator_t)CPH_EXTRACT(table)->caa.comparator_)(HT_ENTRY_EXTRACT_KEY(located), key, table->key_size) == 0)
             break;
         located = located->next;
     }

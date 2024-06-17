@@ -3,7 +3,7 @@
  *  @brief     universal collection iterators
  *  @author    Young Sideways
  *  @date      15.02.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
 
@@ -108,7 +108,7 @@ typedef enum {
  */
 typedef struct iterator_s {
     struct collection_universal_header* collection;
-    byte*                               data      ;
+    void*                               data      ;
     int                                 stage     ;
     it_direction_t                      direction ;
 } iterator_t;

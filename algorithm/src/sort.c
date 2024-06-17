@@ -3,7 +3,7 @@
  *  @brief     sort algorithms
  *  @author    Young Sideways
  *  @date      14.02.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
 #include "algorithm/sort.h"
@@ -12,84 +12,89 @@
 
 #include <string.h>
 
+#include "core.h"
 #include "debug.h"
 
 #pragma endregion
 
-#pragma region --- FUNCTION ---
+#pragma region --- STATIC ---
 
-void selection_sort(void* array, size_t count, size_t element_size, comparator_pt _comparator, swap_pt _swap) {
-    assert(array);
-    assert(count);
-    assert(element_size);
-
-    if (!_comparator)
-        _comparator = &memcmp;
-    if (!_swap)
-        _swap = &swap;
-
-    for (byte* sorted = array, *end = sorted + (count * element_size); sorted < end; sorted += element_size) {
-        byte* min = sorted;
-        for (byte* ptr = min + element_size; ptr < end; ptr += element_size)
-            if (_comparator(min, ptr, element_size) > 0)
-                min = ptr;
-        if (min != sorted)
-            _swap(min, sorted, element_size);
-    }
-}
-
-void insertion_sort(void* array, size_t count, size_t element_size, comparator_pt _comparator, swap_pt _swap) {
-    assert(array);
-    assert(count);
-    assert(element_size);
-
-    if (!_comparator)
-        _comparator = &memcmp;
-    if (!_swap)
-        _swap = &swap;
-
-    for (ubyte*sorted = array, *last = sorted + ((count - 1) * element_size); sorted < last; sorted += element_size)
-        for (ubyte* ptr = sorted + element_size; ptr > (ubyte*)array; ptr -= element_size)
-            if (_comparator(ptr, ptr - element_size, element_size) < 0)
-                _swap(ptr, ptr - element_size, element_size);
-}
-
-static void* partition(ubyte* first, ubyte* last, size_t element_size, comparator_pt _comparator, swap_pt _swap) {
+static void* private_partition_(ubyte* first, ubyte* last, size_t element_size, comparator_t comparator_, swap_t swap_) {
     ubyte* pivot = last;
     last -= element_size;
-LOOP:
-    while (_comparator(first, pivot, element_size) < 0) first += element_size;
-    while (_comparator(last, pivot, element_size) > 0) last -= element_size;
+    LOOP:
+    while (comparator_(first, pivot, element_size) < 0) first += element_size;
+    while (comparator_(last, pivot, element_size) > 0) last -= element_size;
     if (first < last) {
-        _swap(first, last, element_size);
+        swap_(first, last, element_size);
         first += element_size;
         last -= element_size;
         goto LOOP;
     }
     if (first < pivot)
-        _swap(first, pivot, element_size);
+        swap_(first, pivot, element_size);
     return first;
 }
 
-static void private_quick_sort__(ubyte* begin, ubyte* end, size_t element_size, comparator_pt _comparator, swap_pt _swap) {
+static void private_quick_sort_(ubyte* begin, ubyte* end, size_t element_size, comparator_t comparator_, swap_t swap_) {
     if (begin >= end)
         return;
-    ubyte* pivot = (ubyte*)partition(begin, end, element_size, _comparator, _swap);
-    private_quick_sort__(begin, pivot - element_size, element_size, _comparator, _swap);
-    private_quick_sort__(pivot + element_size, end, element_size, _comparator, _swap);
+    ubyte* pivot = (ubyte*)private_partition_(begin, end, element_size, comparator_, swap_);
+    private_quick_sort_(begin, pivot - element_size, element_size, comparator_, swap_);
+    private_quick_sort_(pivot + element_size, end, element_size, comparator_, swap_);
 }
 
-void quick_sort(void* array, size_t count, size_t element_size, comparator_pt _comparator, swap_pt _swap) {
+#pragma endregion
+
+#pragma region --- FUNCTION ---
+
+void selection_sort(void* array, const size_t count, const size_t element_size, comparator_t comparator_, swap_t swap_) {
     assert(array);
     assert(count);
     assert(element_size);
 
-    if (!_comparator)
-        _comparator = &memcmp;
-    if (!_swap)
-        _swap = &swap;
+    if (!comparator_)
+        comparator_ = &memcmp;
+    if (!swap_)
+        swap_ = &swap;
 
-    private_quick_sort__(array, (ubyte*)array + ((count - 1) * element_size), element_size, _comparator, _swap);
+    for (byte* sorted = array, *end = sorted + (count * element_size); sorted < end; sorted += element_size) {
+        byte* min = sorted;
+        for (byte* ptr = min + element_size; ptr < end; ptr += element_size)
+            if (comparator_(min, ptr, element_size) > 0)
+                min = ptr;
+        if (min != sorted)
+            swap_(min, sorted, element_size);
+    }
+}
+
+void insertion_sort(void* array, const size_t count, const size_t element_size, comparator_t comparator_, swap_t swap_) {
+    assert(array);
+    assert(count);
+    assert(element_size);
+
+    if (!comparator_)
+        comparator_ = &memcmp;
+    if (!swap_)
+        swap_ = &swap;
+
+    for (ubyte*sorted = array, *last = sorted + ((count - 1) * element_size); sorted < last; sorted += element_size)
+        for (ubyte* ptr = sorted + element_size; ptr > (ubyte*)array; ptr -= element_size)
+            if (comparator_(ptr, ptr - element_size, element_size) < 0)
+                swap_(ptr, ptr - element_size, element_size);
+}
+
+void quick_sort(void* array, const size_t count, const size_t element_size, comparator_t comparator_, swap_t swap_) {
+    assert(array);
+    assert(count);
+    assert(element_size);
+
+    if (!comparator_)
+        comparator_ = &memcmp;
+    if (!swap_)
+        swap_ = &swap;
+
+    private_quick_sort_(array, (ubyte*)array + ((count - 1) * element_size), element_size, comparator_, swap_);
 }
 
 #pragma endregion

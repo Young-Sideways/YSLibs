@@ -3,7 +3,7 @@
  *  @brief     General collections header to include all collections
  *  @author    Young Sideways
  *  @date      16.04.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
 #ifndef COLLECTIONS_H_

@@ -10,7 +10,6 @@
 
 #pragma region --- INCLUDE ---
 
-#include <stddef.h>
 #include <stdlib.h>
 
 #include "debug.h"

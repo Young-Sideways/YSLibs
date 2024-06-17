@@ -4,7 +4,7 @@
  *  @note      only for internal use
  *  @author    Young Sideways
  *  @date      10.04.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
 #ifndef COLLECTION_PRIVATE_H_

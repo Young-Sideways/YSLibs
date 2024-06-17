@@ -1,24 +1,46 @@
 /*******************************************************************************
- *  @file      ottable.c
- *  @brief     Object Tag Table
- *  @author    Young Sideways
- *  @date      30.05.2024
- *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
+ * @file      file.h
+ * @author    Young Sideways
+ * @brief
+ * @date      dd.mm.yyyy
+ * @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
-#include "collection/ottable.h"
+#ifndef _H_
+#define _H_
+
+#pragma once
 
 #pragma region --- INCLUDE ---
+
 #pragma endregion
+
 #pragma region --- MACRO ---
+
 #pragma endregion
+
 #pragma region --- TYPEDEF ---
+
 #pragma endregion
-#pragma region --- CONSTRUCTOR / DESTRUCTOR ---
+
+#pragma region --- CONSTRUCTOR/DESTRUCTOR ---
+
 #pragma endregion
-#pragma region --- FUNCION ---
+
+#pragma region --- FUNCTION ---
+
 #pragma endregion
+
 #pragma region ---  ---
+
 #pragma endregion
-#pragma region --- GENERIC ---
+
+#pragma region ---  ---
+
 #pragma endregion
+
+#pragma region ---  ---
+
+#pragma endregion
+
+#endif // !_H_
