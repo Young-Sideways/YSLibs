@@ -15,9 +15,11 @@ int main(int argc, char** argv) {
     if (argc) {
         char path[128] = { 0 };
         path_from_filepath(argv[0], path);
+        printf("Path: %s\n", path);
         log_system_init(path, "log");
         info("Log system started successfuly");
     }
     printf("Hello, world!\n");
+    getchar();
     return 0;
 }

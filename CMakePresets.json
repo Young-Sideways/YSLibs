@@ -147,6 +147,18 @@
             "description": "",
             "displayName": "Linux clang Debug",
             "configurePreset": "linux-clang-release"
+        },
+        {
+            "name": "windows-clang-debug",
+            "description": "",
+            "displayName": "windows x64 clang debug",
+            "configurePreset": "windows-clang-debug"
+        },
+        {
+            "name": "windows-clang-release",
+            "description": "",
+            "displayName": "windows x64 clang release",
+            "configurePreset": "windows-clang-release"
         }
     ]
 }

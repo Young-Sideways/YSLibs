@@ -73,7 +73,7 @@ void default_log_handler(int type, log_exec_ctx_t ctx, const char* format, va_li
             timespec_get(&ts, TIME_UTC);
             char time_buf[128] = {0};
             strftime(time_buf, sizeof(time_buf), "%d.%m.%Y %T", gmtime(&ts.tv_sec));
-            snprintf(date_buf, sizeof(date_buf), "[ %s.%ld ] ", time_buf, ts.tv_nsec / 1000000);
+            snprintf(date_buf, sizeof(date_buf), "[ %s.%0.3ld ] ", time_buf, ts.tv_nsec / 1000000);
         }
         char module_buf[128] = { 0 };
         if (!ctx->separate) {
