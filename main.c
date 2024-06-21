@@ -20,10 +20,11 @@ int main(int argc, char** argv) {
     if (argc) {
         char path[128] = { 0 };
         path_from_filepath(argv[0], path);
+        printf("Path: %s\n", path);
         log_system_init(path, "log");
         info("Log system started successfully");
     }
-
-    int a[] = { VA_ARG_FIRST(0,1,2,3,4,5,6,7,8,9,10) };
+    printf("Hello, world!\n");
+    getchar();
     return 0;
 }

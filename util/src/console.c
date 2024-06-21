@@ -203,7 +203,7 @@ int path_from_filepath(const char* filepath, char* buffer) {
 #elif defined(_WIN32)
     char* sep = strrchr(filepath, '\\');
     if (sep) {
-        strcpy(buffer, sep + 1); // copy FILE or FILE.EXTENSION or DIR
+         strncpy(buffer, filepath, sep - filepath + 1); // copy FILE or FILE.EXTENSION or DIR
         return (int)strlen(buffer);
     }
     else
