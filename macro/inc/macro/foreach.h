@@ -3,7 +3,7 @@
  *  @brief     MACRO Extension lib that add foreach loops
  *  @author    Young Sideways
  *  @date      12.04.2024
- *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
+ *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
 #ifndef M_FOREACH_H_
@@ -29,7 +29,7 @@
     for (iterator_t _##it = it_rbegin(collection), _##end = it_rend(collection); it_comp(&_##it, &_##end, 0U); it_next(&_##it)) \
         for (type* it = (type*)it_get(_##it); it; it = NULL)
 
-#else // !ITERATOR_H_
+#else // ITERATOR_H_
 
 #define for_each(type, it, array) \
     for (type* it = (type*)collection, *_iter_local_end = ((byte*)collection) + sizeof(array); it < _iter_local_end; it++)

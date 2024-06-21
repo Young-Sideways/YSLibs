@@ -13,33 +13,7 @@
 
 #pragma region --- INCLUDE ---
 
-#pragma endregion
-
-#pragma region --- MACRO ---
-
-#pragma endregion
-
-#pragma region --- TYPEDEF ---
-
-#pragma endregion
-
-#pragma region --- CONSTRUCTOR/DESTRUCTOR ---
-
-#pragma endregion
-
-#pragma region --- FUNCTION ---
-
-#pragma endregion
-
-#pragma region ---  ---
-
-#pragma endregion
-
-#pragma region ---  ---
-
-#pragma endregion
-
-#pragma region ---  ---
+#include "collection/btree.h"
 
 #pragma endregion
 

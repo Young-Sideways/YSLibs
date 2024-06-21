@@ -14,7 +14,6 @@
 #pragma region --- INCLUDE ---
 
 #include <stdlib.h>
-#include <stdint.h>
 #include <stdbool.h>
 
 #include "collection/general.h"
@@ -30,25 +29,26 @@
 
 #pragma region --- TYPEDEF ---
 
+typedef const struct btree_s {
+    struct collection_universal_header;
+} *btree_t;
+
 #pragma endregion
 
 #pragma region --- CONSTRUCTOR/DESTRUCTOR ---
+
+btree_t btree_init(size_t element_size);
 
 #pragma endregion
 
 #pragma region --- FUNCTION ---
 
-#pragma endregion
+bool btree_contains(btree_t btree, const void* value);
+int  btree_count(btree_t btree, const void* value);
+void btree_insert(btree_t btree, const void* value);
+void btree_erase(btree_t btree, const void* value);
 
-#pragma region ---  ---
-
-#pragma endregion
-
-#pragma region ---  ---
-
-#pragma endregion
-
-#pragma region ---  ---
+void btree_rebalance(btree_t btree);
 
 #pragma endregion
 

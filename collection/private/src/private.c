@@ -4,7 +4,7 @@
  *  @note      only for internal use
  *  @author    Young Sideways
  *  @date      19.04.2024
- *  @copyright � Young Sideways, 2024. All right reserved.
+ *  @copyright © young.sideways@mail.ru, 2024. All right reserved.
  ******************************************************************************/
 
 #include "collection/private.h"
@@ -17,6 +17,12 @@
 
 #include "algorithm/swap.h"
 #include "macro/macro.h"
+
+#pragma endregion
+
+#pragma region --- PLACEHOLDER ---
+
+void private_collection_function_placeholder_() {  };
 
 #pragma endregion
 

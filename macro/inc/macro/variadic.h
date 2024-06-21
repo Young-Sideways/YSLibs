@@ -3,7 +3,7 @@
  *  @brief     Variadic macro definition
  *  @author    Young Sideways
  *  @date      25.03.2024
- *  @copyright © Young Sideways, 2024. All right reserved.
+ *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
 #ifndef M_VARIADIC_H_
@@ -51,44 +51,7 @@
            31,  30,  29,  28,  27,  26,  25,  24,  23,  22,  21,  20,  19,  18,  17,  16, \
            15,  14,  13,  12,  11,  10,   9,   8,   7,   6,   5,   4,   3,   2,   1,   0
 
-#define VA_ARG_N_(...) VA_ARG_N(__VA_ARGS__)
-
-// @printer_settings : _va_commaseq_n_printer(256, "VA_COMMASEQ_N", 16);
-#define VA_COMMASEQ_N() \
-         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
-         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
-         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
-         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
-         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
-         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
-         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
-         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
-         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
-         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
-         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
-         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
-         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
-         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
-         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
-         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0
-
-#define VA_COMMA(...) ,
-
-#define VA_HASCOMMA(...) VA_ARG_N_(__VA_ARGS__, VA_COMMASEQ_N())
-
-#define VA_NARG_HELPER(a, b, N) VA_NARG_HELPER_(a, b, N)
-#define VA_NARG_HELPER_(a, b, N) VA_NARG_APPLY_ ## a ## b(N)
-
-#define VA_NARG_APPLY_01(N) 0
-#define VA_NARG_APPLY_00(N) 1
-#define VA_NARG_APPLY_11(N) N
-
-#define VA_NARG(...)                                \
-          VA_NARG_HELPER(                           \
-              VA_HASCOMMA(__VA_ARGS__),             \
-              VA_HASCOMMA(VA_COMMA __VA_ARGS__ ()), \
-              VA_ARG_N_(__VA_ARGS__, VA_RSEQ_N())   \
-        )
+#define VA_NARG(...) VA_ARG_N(__VA_ARGS__ __VA_OPT__(,) VA_RSEQ_N())
 
 #pragma endregion
 

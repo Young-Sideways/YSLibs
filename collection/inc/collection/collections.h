@@ -20,12 +20,14 @@
 
 #include "array.h"
 #include "hashtable.h"
+#include "tree.h"
 
 #pragma endregion
 
 
 #pragma region --- GENERICS ---
 
+#if (0)
 #define ARGS_SEQ_0
 #define ARGS_SEQ_1 char
 #define ARGS_SEQ_2 char, ARGS_SEQ_1
@@ -57,6 +59,8 @@
     hashtable_t : ht_init(VA_ARG_FIRST(ARG_LIST_UNROLL((__VA_ARGS__), 0)), ELEMENT_TYPE_HASHTABLE(element_type), ARG_LIST_UNROLL((VA_ARG_TAIL(__VA_ARGS__)), NULL)), \
     default     : ((void*)0)                                                                                          \
 )
+
+#endif
 
 #pragma endregion
 

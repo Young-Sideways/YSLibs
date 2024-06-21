@@ -67,7 +67,7 @@ struct collection_iterator_adapter {
  *  default field policy:
  *      _copy: can NOT be NULL
  *      _dtor:
- *          NULL: data memory block places after universal header
+ *          NULL: data memory block places after container specific header, and no need to deallocate separately
  */
 struct collection_manager_adapter {
     u_mgr_t copy_;
@@ -97,8 +97,12 @@ struct collection_private_header {
 #pragma endregion
 
 #pragma region --- PLACEHOLDER ---
-
-static inline void function_placeholder() {};
+/*
+ * this function works as placeholder for some use cases
+ * the function assigns to itself a certain publicly accessible address,
+ * but does not perform any role. The function can be used as a reserved value such as NULL
+ */
+extern void private_collection_function_placeholder_();
 
 #pragma endregion
 

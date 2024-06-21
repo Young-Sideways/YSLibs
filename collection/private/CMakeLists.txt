@@ -15,4 +15,5 @@ target_link_libraries(${PROJECT_NAME}
     PUBLIC yslibs::core
     PUBLIC yslibs::macro
     PUBLIC yslibs::algorithm
+    PUBLIC yslibs::util
 )

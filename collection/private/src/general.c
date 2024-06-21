@@ -47,17 +47,17 @@ void delete(void** collection) {
 
 #pragma region --- GETTER / SETTER ---
 
-#define DECL_GET_SET(field)                                                                                                 \
-    void* _collection_private_##field##_get(void* collection) {                                                             \
-        assert(collection);                                                                                                 \
-        explain_assert(CPH_EXTRACT(collection)->caa.field, "collection error: container has no '"#field"' function");       \
-        return (CPH_EXTRACT(collection)->caa.field == &function_placeholder) ? NULL : CPH_EXTRACT(collection)->caa.field;   \
-    }                                                                                                                       \
-    void _collection_private_##field##_set(void* collection, void* value) {                                                 \
-        assert(collection);                                                                                                 \
-        explain_assert(CPH_EXTRACT(collection)->caa.field, "collection error: container has no '"#field"' function");       \
-        if (CPH_EXTRACT(collection)->caa.field)                                                                             \
-            CPH_EXTRACT(collection)->caa.field = value;                                                                     \
+#define DECL_GET_SET(field)                                                                                                                   \
+    void* _collection_private_##field##_get(void* collection) {                                                                               \
+        explain_assert(collection, "collection error: invalid arg 'collection'");                                                             \
+        explain_assert(CPH_EXTRACT(collection)->caa.field, "collection error: container has no '"#field"' function");                         \
+        return (CPH_EXTRACT(collection)->caa.field == &private_collection_function_placeholder_) ? NULL : CPH_EXTRACT(collection)->caa.field; \
+    }                                                                                                                                         \
+    void _collection_private_##field##_set(void* collection, void* value) {                                                                   \
+        explain_assert(collection, "collection error: invalid arg 'collection'");                                                             \
+        explain_assert(CPH_EXTRACT(collection)->caa.field, "collection error: container has no '"#field"' function");                         \
+        if (CPH_EXTRACT(collection)->caa.field)                                                                                               \
+            CPH_EXTRACT(collection)->caa.field = (value ? value : &private_collection_function_placeholder_);                                 \
     }
 
 DECL_GET_SET(comparator_)

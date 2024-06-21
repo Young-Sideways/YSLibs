@@ -223,6 +223,7 @@ HT_ERR_TABLE_ALLOC:
 #pragma region --- FUNCION ---
 
 void set_hasher(hashtable_t table, const hashfunc_t hashfunc) {
+    explain_assert(table, "collection error: hash function can't be NULL");
     explain_assert(hashfunc, "collection error: hash function can't be NULL");
     struct hashtable_t* _table = (struct hashtable_t*)table;
     _table->hashfunc = M_ISNULL(hashfunc, &hash);

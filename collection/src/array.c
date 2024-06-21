@@ -77,7 +77,7 @@ array_t arr_init(const size_t size, const size_t element_size) {
     struct collection_private_header* block = (struct collection_private_header*)malloc(sizeof(struct collection_private_header) + sizeof(struct array_t) + (size * element_size));
     if (block) {
         *block = alloc_cph(
-            alloc_caa(NULL, NULL, &function_placeholder, &function_placeholder),
+            alloc_caa(NULL, NULL, &private_collection_function_placeholder_, &private_collection_function_placeholder_),
             alloc_cia(&init_, &next_, &prev_),
             alloc_cma(&copy_, NULL),
             NULL);
