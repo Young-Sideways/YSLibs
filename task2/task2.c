@@ -13,16 +13,16 @@
 #define _COMPARATOR_DECLARATOR_
 #define _SWAP_DECLARATOR_
 
-#include "../core/core.h"
+#include "core.h"
 
-#include "../algorithm/algorithm.h"
-#include "../collection/inc/collection/collections.h"
+#include "algorithm/algorithm.h"
+#include "collection/collections.h"
 
-#include "../utils/timer.h"
-#include "../utils/console.h"
+#include "util/timer.h"
+#include "util/console.h"
 
-#include "../core/macro/macro.h"
-#include "../core/macro/exec.h"
+#include "macro/macro.h"
+#include "macro/exec.h"
 
 #include <stdio.h>
 #include <stdlib.h>

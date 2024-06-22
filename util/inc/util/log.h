@@ -3,7 +3,7 @@
  *  @brief     Utility for collect logs of project
  *  @author    Young Sideways
  *  @date      13.06.2024
- *  @copyright © Young Sideways, 2024. All right reserved.
+ *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
 #ifndef LOG_H_
@@ -13,7 +13,6 @@
 
 #pragma region --- INCLUDE ---
 
-#include <stdbool.h>
 #include <stdarg.h>
 
 #pragma endregion
@@ -34,6 +33,7 @@
         (log_exec_ctx_t){                           \
             (struct log_exec_ctx_s){                \
                 .module    = LOG_MODULE_NAME,       \
+                .submodule = LOG_SUBMODULE_NAME,    \
                 .file      = __FILE__,              \
                 .func      = __func__,              \
                 .line      = __LINE__,              \
@@ -49,6 +49,7 @@
         (log_exec_ctx_t){                           \
             (struct log_exec_ctx_s){                \
                 .module    = LOG_MODULE_NAME,       \
+                .submodule = LOG_SUBMODULE_NAME,    \
                 .file      = __FILE__,              \
                 .func      = __func__,              \
                 .line      = __LINE__,              \
@@ -64,6 +65,7 @@
         (log_exec_ctx_t){                           \
             (struct log_exec_ctx_s){                \
                 .module    = LOG_MODULE_NAME,       \
+                .submodule = LOG_SUBMODULE_NAME,    \
                 .file      = __FILE__,              \
                 .func      = __func__,              \
                 .line      = __LINE__,              \
@@ -79,6 +81,7 @@
         (log_exec_ctx_t){                           \
             (struct log_exec_ctx_s){                \
                 .module    = LOG_MODULE_NAME,       \
+                .submodule = LOG_SUBMODULE_NAME,    \
                 .file      = __FILE__,              \
                 .func      = __func__,              \
                 .line      = __LINE__,              \
@@ -94,6 +97,7 @@
         (log_exec_ctx_t){                           \
             (struct log_exec_ctx_s){                \
                 .module    = LOG_MODULE_NAME,       \
+                .submodule = LOG_SUBMODULE_NAME,    \
                 .file      = __FILE__,              \
                 .func      = __func__,              \
                 .line      = __LINE__,              \
@@ -110,6 +114,7 @@
 
 typedef struct log_exec_ctx_s {
     const char* module;
+    const char* submodule;
     const char* file;
     const char* func;
     int line;
@@ -126,6 +131,10 @@ typedef void (*log_handler_t)(int type, log_exec_ctx_t ctx, const char* format, 
 #ifndef LOG_MODULE_NAME
 #define LOG_MODULE_NAME "undefined"
 #endif // !LOG_MODULE_NAME
+
+#ifndef LOG_SUBMODULE_NAME
+#define LOG_SUBMODULE_NAME ""
+#endif // !LOG_SUBMODULE_NAME
 
 #ifndef LOG_MODULE_POLICY
 #define LOG_MODULE_POLICY (LOG_ALL)
@@ -146,7 +155,23 @@ typedef void (*log_handler_t)(int type, log_exec_ctx_t ctx, const char* format, 
 extern void log_system_handler__(int type, log_exec_ctx_t ctx, const char* format, ...);
 extern void default_log_handler(int type, log_exec_ctx_t ctx, const char* format, va_list ap); //__attribute__ ((format (printf, 3, 4)));
 
+/**
+ * @brief   initialize log system
+ * @details registrate main log file, validate settings
+ * 
+ * @param log_path     - path to the log directory
+ * @param log_filename - default log filename (if 'NULL' then sets @ref DEFAULT_LOG_FILENAME "DEFAULT_LOG_FILENAME")
+ * @retval 0 - success
+ * @retval 1 - log system already initialized
+ * @retval 2 - @arg log_path passed with value 'NULL', or empty string
+ * @retval 3 - @arg log_path-passed with string size > @ref MAX_LOG_PATH_SIZE "MAX_LOG_PATH_SIZE"
+ * @retval 4 - @arg log_filename + extension string size greater than @ref MAX_LOG_FILENAME_SIZE "MAX_LOG_FILENAME_SIZE"
+ * @retval 5 - failed to open main log file
+ */
 int log_system_init(const char* log_path, const char* log_filename);
+
+int log_system_term();
+
 int log_set_handler(log_handler_t handler);
 
 #pragma endregion
