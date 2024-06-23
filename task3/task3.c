@@ -1,19 +1,19 @@
 /*******************************************************************************
  *  @file      task3.c
- *  @brief     Ответы на 3 задание
+ *  @brief     РџРѕРґРїСЂРѕРіСЂР°РјРјР° РІС‹РїРѕР»РЅРµРЅРёСЏ РґР»СЏ С‚РµРјС‹ 3
  *  @author    Young Sideways
  *  @date      14.02.2024
- *  @copyright © Young Sideways, 2024. All right reserved.
+ *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
 #include "task3.h"
 
 #define _COMPARATOR_DECLARATOR_
 #define _SWAP_DECLARATOR_
-#include "../algorithm/algorithm.h"
+#include "algorithm/algorithm.h"
 
-#include "../utils/timer.h"
-#include "../utils/console.h"
+#include "util/timer.h"
+#include "util/console.h"
 
 #include <stdbool.h>
 #include <stdlib.h>

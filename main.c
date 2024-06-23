@@ -11,22 +11,27 @@
 #include "util/log.h"
 
 #include "main.h"
-
+#include <stddef.h>
 
 #include "macro/macro.h"
-#include "macro/arg.h"
 
+#include "collection/variant.h"
 
 int main(int argc, char** argv) {
     if (argc) {
         char path[128] = { 0 };
         path_from_filepath(argv[0], path);
-        if (log_system_init(path, "log")) {
+        if (log_system_init(NULL, NULL, NULL, NULL)) {
             fprintf(stderr, "error: log system can't be initialized\nTerminating");
             return 1;
         }
         info("Log system started successfully");
     }
-    getchar();
+
+    variant_t var = var_init(5);
+    var_set(var, 5);
+
+    __auto_type fromvar = var_get(var, int);
+    free(var);
     return 0;
 }

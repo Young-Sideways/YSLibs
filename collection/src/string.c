@@ -8,7 +8,7 @@
 
 #include "collection/string.h"
 
-#pragma region --- INCLUDES ---
+#pragma region --- INCLUDE ---
 
 #include <string.h>
 #include <ctype.h>

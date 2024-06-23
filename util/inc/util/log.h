@@ -14,6 +14,7 @@
 #pragma region --- INCLUDE ---
 
 #include <stdarg.h>
+#include <stdbool.h>
 
 #pragma endregion
 
@@ -129,23 +130,23 @@ typedef void (*log_handler_t)(int type, log_exec_ctx_t ctx, const char* format, 
 #pragma region --- MODULE ---
 
 #ifndef LOG_MODULE_NAME
-#define LOG_MODULE_NAME "undefined"
+    #define LOG_MODULE_NAME         NULL
 #endif // !LOG_MODULE_NAME
 
 #ifndef LOG_SUBMODULE_NAME
-#define LOG_SUBMODULE_NAME ""
+    #define LOG_SUBMODULE_NAME      NULL
 #endif // !LOG_SUBMODULE_NAME
 
 #ifndef LOG_MODULE_POLICY
-#define LOG_MODULE_POLICY (LOG_ALL)
+    #define LOG_MODULE_POLICY       (LOG_ALL)
 #endif // !LOG_MODULE_POLICY
 
 #ifndef LOG_MODULE_TIMESTAMP
-#define LOG_MODULE_TIMESTAMP (true)
+    #define LOG_MODULE_TIMESTAMP    (true)
 #endif // !LOG_MODULE_TIMESTAMP
 
 #ifndef LOG_MODULE_SEPARATE
-#define LOG_MODULE_SEPARATE (false)
+    #define LOG_MODULE_SEPARATE     (false)
 #endif // !LOG_MODULE_SEPARATE
 
 #pragma endregion
@@ -153,26 +154,27 @@ typedef void (*log_handler_t)(int type, log_exec_ctx_t ctx, const char* format, 
 #pragma region --- FUNCION ---
 
 extern void log_system_handler__(int type, log_exec_ctx_t ctx, const char* format, ...);
-extern void default_log_handler(int type, log_exec_ctx_t ctx, const char* format, va_list ap); //__attribute__ ((format (printf, 3, 4)));
 
 /**
  * @brief   initialize log system
- * @details registrate main log file, validate settings
+ * @details registration main log file, validate settings
  * 
- * @param log_path     - path to the log directory
- * @param log_filename - default log filename (if 'NULL' then sets @ref DEFAULT_LOG_FILENAME "DEFAULT_LOG_FILENAME")
+ * @param log_path      - path to the log directory (if 'NULL' then sets local executable directory)
+ * @param log_filename  - default log filename (if 'NULL' then sets DEFAULT_LOG_FILENAME)
+ * @param log_extension - default extension for log files (if 'NULL' then sets DEFAULT_LOG_EXTENSION)
+ * @param handler       - custom message handler (if 'NULL' then sets default_log_handler)
  * @retval 0 - success
  * @retval 1 - log system already initialized
- * @retval 2 - @arg log_path passed with value 'NULL', or empty string
- * @retval 3 - @arg log_path-passed with string size > @ref MAX_LOG_PATH_SIZE "MAX_LOG_PATH_SIZE"
- * @retval 4 - @arg log_filename + extension string size greater than @ref MAX_LOG_FILENAME_SIZE "MAX_LOG_FILENAME_SIZE"
+ * @retval 2 - log_path passed with value 'NULL', or empty string
+ * @retval 3 - log_path-passed with string size > MAX_LOG_PATH_SIZE
+ * @retval 4 - log_filename + extension string size greater than MAX_LOG_FILENAME_SIZE
  * @retval 5 - failed to open main log file
  */
-int log_system_init(const char* log_path, const char* log_filename);
+int log_system_init(const char* log_path, const char* log_filename, const char* log_extension, log_handler_t handler);
 
 int log_system_term();
 
-int log_set_handler(log_handler_t handler);
+int log_system_set_handler(log_handler_t handler);
 
 #pragma endregion
 

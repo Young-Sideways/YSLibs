@@ -31,9 +31,18 @@ typedef struct variant_s {
 
 #pragma region --- FUNCION ---
 
-variant_t var_init(size_t size) {
-    
-}
+variant_t var_init(size_t size);
+#define var_init(type_expr) (var_init)(sizeof(type_expr))
+
+#pragma endregion
+
+#pragma region --- FUNCION ---
+
+void var_set(variant_t variant, size_t size, void* value);
+#define var_set(variant, value) (var_set)(variant, sizeof(value), (typeof(value)[1]){ value })
+
+void* var_get(variant_t variant, size_t size);
+#define var_get(variant, type)  *(type*)(var_get)(variant, sizeof(type))
 
 #pragma endregion
 
