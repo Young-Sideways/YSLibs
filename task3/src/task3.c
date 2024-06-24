@@ -8,8 +8,6 @@
 
 #include "task3.h"
 
-#define _COMPARATOR_DECLARATOR_
-#define _SWAP_DECLARATOR_
 #include "algorithm/algorithm.h"
 
 #include "util/timer.h"
@@ -24,8 +22,8 @@ int task3() {
     char mode = '\0';
     timer_t timer;
 
-    sort_pt sort = NULL;
-    comparator_pt comp = NULL;
+    sort_t* sort = NULL;
+    comparator_t* comp = NULL;
 
     puts("Starting \"task3\" module\n");
 
