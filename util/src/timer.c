@@ -43,7 +43,7 @@ tim_state_t tim_start(tim_t* timer) {
         .begin   = (struct timespec){ .tv_sec = 0, .tv_nsec = 0 },
         .elapsed = DEFAULT_TIME,
         .started = false,
-        .string  = { 0 }
+        .string  = { '\0' }
     };
 
     if (timespec_get(&(timer->begin), TIME_UTC) != TIME_UTC)

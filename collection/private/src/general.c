@@ -38,7 +38,7 @@ void delete(void** collection) {
     assert(*collection);
     CPH_REF(*collection, header);
     if (header->cma.dtor_)
-        header->cma.dtor_(collection);
+        header->cma.dtor_(*collection);
     free(header);
     *collection = NULL;
 }

@@ -125,36 +125,36 @@ void delete(void** collection);
 #pragma region --- GETTER / SETTER ---
 
 #define DECL_GET_SET__(type, name, field)                                             \
-    static type get_##name(void* collection) {                                        \
+    static inline type get_##name(void* collection) {                                 \
         extern void* _collection_private_##field##_get(void*);                        \
         return (type)_collection_private_##field##_get(collection);                   \
     }                                                                                 \
-    static void set_##name(void* collection, type value) {                            \
+    static inline void set_##name(void* collection, type value) {                     \
         extern void _collection_private_##field##_set(void* collection, void* value); \
         _collection_private_##field##_set(collection, (void*)value);                  \
     }
 
 #ifdef SWAP_H_
 
-DECL_GET_SET__(swap_pt, swap, _swap)
+DECL_GET_SET__(swap_t, swap, swap_)
 
 #endif // SWAP_H_
 
 #ifdef COMPARATOR_H_
 
-DECL_GET_SET__(comparator_pt, comp, _comp)
+DECL_GET_SET__(comparator_t, comp, comparator_)
 
 #endif // COMPARATOR_H_
 
 #ifdef SEARCH_H_
 
-DECL_GET_SET__(search_pt, search, _srch)
+DECL_GET_SET__(search_t, search, search_)
 
 #endif // SEARCH_H_
 
 #ifdef SORT_H_
 
-DECL_GET_SET__(sort_pt, sort, _sort)
+DECL_GET_SET__(sort_t, sort, sort_)
 
 #endif // SORT_H_
 

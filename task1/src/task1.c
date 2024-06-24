@@ -6,12 +6,15 @@
  *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
-#include "task1.h"
+#include "task1/task1.h"
 
 #include "util/timer.h"
 #include "util/console.h"
 
 #include "collection/btree.h"
+
+#include "collection/iterator.h"
+#include "macro/foreach.h"
 
 #include <stdio.h>
 
@@ -20,13 +23,23 @@ int task1() {
     char mode = '\0';
     timer_t timer;
 
+    btree_t tree = btree_init(sizeof(int));
+    if (!tree) {
+        fprintf(stderr, "error via allocating memory for tree");
+        return 1;
+    }
+
     puts("Starting \"task1\" module\n");
 
     while (cycle) {
+
+
         con_enum(
         "insert value" ENDL
         "erase value" ENDL
         "check value" ENDL
+        "count value" ENDL
+        "print all values" ENDL
         "back" ENDL,
         ALIGN_HLEFT, enum_to_arabic);
 
@@ -36,13 +49,61 @@ int task1() {
 
         switch (mode)
         {
-            case '1':
+            case '1': {
+                printf("enter value: ");
+                int value = 0;
+                if (!scanf("%d", &value)) {
+                    system("cls||clear");
+                    puts("Invalid input. Repeat");
+                    continue;
+                }
+                btree_insert(tree, &value);
+                printf("\nvalue '%d' inserted to tree\n", value);
                 break;
-            case '2':
+            }
+            case '2': {
+                printf("enter value: ");
+                int value = 0;
+                if (!scanf("%d", &value)) {
+                    system("cls||clear");
+                    puts("Invalid input. Repeat");
+                    continue;
+                }
+                btree_erase(tree, &value);
+                printf("\nvalue '%d' erased from tree\n", value);
                 break;
-            case '3':
+            }
+            case '3': {
+                printf("enter value: ");
+                int value = 0;
+                if (!scanf("%d", &value)) {
+                    system("cls||clear");
+                    puts("Invalid input. Repeat");
+                    continue;
+                }
+                printf("\nvalue '%d' %scontains in tree\n", value, btree_contains(tree, &value) ? "" : "does not " );
                 break;
-            case '4':
+            }
+            case '4': {
+                printf("enter value: ");
+                int value = 0;
+                if (!scanf("%d", &value)) {
+                    system("cls||clear");
+                    puts("Invalid input. Repeat");
+                    continue;
+                }
+                int count = btree_count(tree, &value);
+                printf("\ncount value '%d' in tree: %d\n", value, count);
+                break;
+            }
+            case '5': {
+                int counter = 0;
+                for_each(int, i, tree) {
+                    printf("value '%d' with index '%d'\n", *i, counter++);
+                }
+                break;
+            }
+            case '6':
                 puts("exit \"task3\" module");
                 cycle = false;
                 system("cls||clear");
@@ -52,24 +113,8 @@ int task1() {
                 puts("Incorrect mode. Please repeat input");
                 continue;
         }
-
-
-
-        puts("Filling array with random numbers...");
-        tim_start(&timer);
-        random_fill(array, count, NULL, INT_MIN, INT_MAX);
-        tim_stop(&timer);
-        printf("Generated for: %s\n\n", tim_str(&timer, TIM_PRECISION_AUTO));
-
-        puts("Sorting array...");
-        tim_start(&timer);
-        sort(array, count, sizeof(int), comp, &i32_swap);
-        tim_stop(&timer);
-        printf("Sorting done! Sorted for: %s\n", tim_str(&timer, TIM_PRECISION_AUTO));
-
         puts("\n------------------------------------------------------------------------\n");
-        free(array);
-        array = NULL;
     }
+    delete(&tree);
     return 0;
 }

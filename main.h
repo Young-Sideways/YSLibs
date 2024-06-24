@@ -24,9 +24,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "core/core.h"
+#include "core.h"
 
 #include "util/console.h"
+
+#pragma endregion
 
 #if defined(_TISBI_)
 #include "task1/task1.h"
@@ -64,5 +66,3 @@ int task_processor() {
     }
 }
 #endif // _TISBI_
-
-#pragma endregion

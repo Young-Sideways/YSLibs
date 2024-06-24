@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.19 FATAL_ERROR)
 
-project ("task1" LANGUAGES C)
+project ("task2" LANGUAGES C)
 
 file(GLOB_RECURSE HEADERS ${PROJECT_SOURCE_DIR}/inc/task1/*.h)
 file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.c)

@@ -29,7 +29,7 @@
  *  @param[in]     comparator_  - Pointer to comparator function
  *  @param[in]     swap_        - Pointer to swap function
  */
-typedef void (*sort_t)(void* array, const size_t count, const size_t element_size, comparator_t comparator_, swap_t swap_);
+typedef void (*sort_t)(void* array, size_t count, size_t element_size, comparator_t comparator_, swap_t swap_);
 
 #pragma endregion
 

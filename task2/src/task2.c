@@ -6,10 +6,7 @@
  *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
-#include "task2.h"
-
-#define _COMPARATOR_DECLARATOR_
-#define _SWAP_DECLARATOR_
+#include "task2/task2.h"
 
 #include "core.h"
 
@@ -25,7 +22,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <limits.h>
 #include <math.h>
 
 #define MAX_NAME 64
@@ -47,18 +43,18 @@ static const customer_t customers[] = {
     { "Mary"     , -26735  }
 };
 
-void print_customer(customer_t customer) {
+static inline void print_customer(customer_t customer) {
     printf("name : %s\nmoney: %f\n", customer.name, customer.money);
 }
 
-customer_t enter_customer() {
+static customer_t enter_customer() {
     char buf[MAX_NAME] = { 0 };
     float money = 0.0f;
     int retval = EOF;
 
     printf("enter name: ");
 
-    retval = scanf(" %" M_EXEC(M_STRINGIFY, MAX_NAME) "[^\n]s ", buf);
+    retval = scanf(" %" VA_EXEC(M_STRINGIFY, MAX_NAME) "[^\n]s ", buf);
     if (retval < 1 || retval == EOF) {
         puts("Invalid customer name. Repeat");
         return INVALID_CUSTOMER;
@@ -80,7 +76,7 @@ customer_t enter_customer() {
     return (customer_t) { .name = name, .money = money };
 }
 
-int str_comp(const void* lhs, const void* rhs, size_t size) {
+static int str_comp(const void* lhs, const void* rhs, size_t size) {
     UNUSED(size);
     char* str_lhs = *(char**)lhs;
     char* str_rhs = *(char**)rhs;
@@ -90,7 +86,7 @@ const char* const enter_name() {
     static char buf[MAX_NAME] = { 0 };
 
     printf("enter name: ");
-    int retval = scanf(" %" M_EXEC(M_STRINGIFY, MAX_NAME) "[^\n]s ", buf);
+    int retval = scanf(" %" VA_EXEC(M_STRINGIFY, MAX_NAME) "[^\n]s ", buf);
     if (retval < 1 || retval == EOF) {
         puts("Invalid customer name. Repeat");
         return NULL;

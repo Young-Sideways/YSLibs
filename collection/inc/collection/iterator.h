@@ -226,7 +226,7 @@ static void it_swap(void* lhs, void* rhs, size_t size) {
 
     if (!it_comparable(*(iterator_t*)lhs, *(iterator_t*)rhs)) {
         explain_error("iterator error: invalid comparison between two iterators");
-        return INVALID_STAGE;
+        return;
     }
 
     swap(((iterator_t*)lhs)->data, ((iterator_t*)rhs)->data, (((iterator_t*)lhs)->collection)->element_size);
@@ -246,7 +246,7 @@ static void it_swap(void* lhs, void* rhs, size_t size) {
 static iterator_t it_find(iterator_t begin, iterator_t end, void* value) {
     if (it_comp(&begin, &end, 0) == INVALID_STAGE)
         return it_end(begin.collection);
-    comparator_pt comp = get_comp(begin.collection);
+    comparator_t comp = get_comp(begin.collection);
     if (comp)
         for (iterator_t it = begin; it_comp(&begin, &end, 0U) <= 0; it_next(&it))
             if (comp(it.data, value, begin.collection->element_size) == 0)
@@ -268,7 +268,7 @@ static void it_sort(iterator_t begin, iterator_t end) {
         goto IT_ERR_UNSORTABLE;
 
     // simple buble sort
-    comparator_pt comp = get_comp(begin.collection);
+    comparator_t comp = get_comp(begin.collection);
     for (iterator_t i = begin, i_end = end; it_comp(&i, &i_end, 0U); it_next(&i))
         for (iterator_t j = i, j_end = end; it_comp(&j, &j_end, 0U); it_next(&j))
             if (comp(i.data, j.data, i.collection->element_size) > 0)

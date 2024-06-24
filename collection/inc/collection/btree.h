@@ -48,8 +48,6 @@ int  btree_count(btree_t btree, const void* value);
 void btree_insert(btree_t btree, const void* value);
 void btree_erase(btree_t btree, const void* value);
 
-void btree_rebalance(btree_t btree);
-
 #pragma endregion
 
 #endif // !BTREE_H_
