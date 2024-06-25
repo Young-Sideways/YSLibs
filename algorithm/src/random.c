@@ -12,7 +12,15 @@
 
 #include <time.h>
 #include <stdlib.h>
-#include <assert.h>
+#include <limits.h>
+
+#pragma endregion
+
+#pragma region --- STATIC ---
+
+static inline ubyte rnd_() {
+    return rand() >> (rand() % ((ubyte)log2((double)RAND_MAX) - CHAR_BIT));
+}
 
 #pragma endregion
 
@@ -20,18 +28,12 @@
 
 void random_init() { srand((unsigned int)time(NULL)); }
 
-static inline int rnd__() { return (int)(((unsigned)rand() << 30) | ((unsigned)rand() << 15) | (unsigned)rand()); }
-
-int rnd(int min, int max) {
-    assert(min <= max);
-    return (int)((long long)rnd__() % ((long long)min - (long long)max) + (long long)min);
-}
-
-void random_fill(int* array, size_t size, random_pt generator, int min, int max) {
+void random_fill(void* block, size_t size, rng_t generator) {
     if (!generator)
-        generator = &rnd;
-    for (int i = 0; i < (int)size; ++i)
-        array[i] = generator(min, max);
+        generator = &rnd_;
+    ubyte* array = (ubyte*)block; 
+    while(size)
+        array[--size] = generator();
 }
 
 #pragma endregion

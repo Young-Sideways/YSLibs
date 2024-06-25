@@ -23,15 +23,12 @@
 #pragma region --- TYPEDEF ---
 
 /**
- *  @typedef random_t
+ *  @typedef rng_t
+ *  @brief random number generator
  *  @param[in] min,max - Generated values range
+ *  @return range beetwen 0 and UCHAR_MAX
  */
-typedef int (random_t)(int min, int max);
-/**
- *  @typedef random_pt
- *  @brief   pointer type to \ref random_t function
- */
-typedef random_t* random_pt;
+typedef ubyte (*rng_t)();
 
 #pragma endregion
 
@@ -40,16 +37,13 @@ typedef random_t* random_pt;
 /// @brief Initializes a RNG generator with current time stamp
 void random_init();
 
-random_t rnd;
-
 /**
  * @brief fill int array with \p generator
- * @param[in,out] array     - Pointer to int array
- * @param[in]     size      - Size of \p array
- * @param[in]     generator - Pointer to RNG generator
- * @param[in]     min,max   - Generated values range
+ * @param[in,out] block     - Pointer to int array
+ * @param[in]     size      - Size of \p block
+ * @param[in]     generator - Pointer to RNG generator (can be NULL)
  */
-void random_fill(int* array, size_t size, random_pt generator, int min, int max);
+void random_fill(void* block, size_t size, rng_t generator);
 
 #pragma endregion
 

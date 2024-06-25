@@ -140,7 +140,7 @@ int task3() {
 
         puts("Filling array with random numbers...");
         tim_start(&timer);
-        random_fill(array, count, NULL, INT32_MIN, INT32_MAX);
+        random_fill(array, count * sizeof(int), NULL);
         tim_stop(&timer);
         printf("Generated for: %s\n\n", tim_str(&timer, TIM_PRECISION_AUTO));
 
