@@ -6,12 +6,15 @@
  *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
-#define _TISBI_
-
 #include "main.h"
+#include <stdlib.h>
 
+void yslog_exit(void) {
+    printf("terminating all tasks...\n");
+    printf("all tasks terminated...\n");
+}
 
 int main(int argc, char** argv) {
-    task_processor();
+    atexit(yslog_exit);
     return 0;
 }

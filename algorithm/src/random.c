@@ -13,6 +13,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <math.h>
 
 #pragma endregion
 

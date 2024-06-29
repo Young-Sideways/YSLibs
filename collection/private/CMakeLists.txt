@@ -11,6 +11,13 @@ add_library(yslibs::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/inc)
 set_property(TARGET ${PROJECT_NAME} PROPERTY C_STANDARD 23)
 
+target_compile_options(${PROJECT_NAME}
+    PUBLIC  "-fms-extensions"
+    PUBLIC  "-Wno-microsoft-anon-tag"
+    PRIVATE "-Wno-incompatible-pointer-types"
+    PUBLIC  "-Wno-pointer-type-mismatch"
+)
+
 target_link_libraries(${PROJECT_NAME}
     PUBLIC yslibs::core
     PUBLIC yslibs::macro

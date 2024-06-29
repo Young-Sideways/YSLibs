@@ -3,7 +3,7 @@
  *  @brief     Console utils
  *  @author    Young Sideways
  *  @date      11.05.2024
- *  @copyright � Young Sideways, 2024. All right reserved.
+ *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
 #include "util/console.h"
@@ -188,6 +188,7 @@ int file_from_filepath(const char* filepath, char* buffer) {
 #else
 #error "Your OS does not supported"
 #endif
+
 }
 int path_from_filepath(const char* filepath, char* buffer) {
     if (!path_is_valid(filepath) || !buffer)
