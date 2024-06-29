@@ -16,13 +16,13 @@ if (WIN32)
     target_compile_options(${PROJECT_NAME} PUBLIC "-Wno-deprecated-declarations")
 endif()
 
-target_include_directories(${PROJECT_NAME} INTERFACE ${PROJECT_SOURCE_DIR}/inc)
 if (LINUX)
     find_library(MATH_LIBRARY m)
     if(MATH_LIBRARY)
         target_link_libraries(${PROJECT_NAME} PRIVATE ${MATH_LIBRARY})
     endif()
 endif()
+target_include_directories(${PROJECT_NAME} INTERFACE ${PROJECT_SOURCE_DIR}/inc)
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE yslibs::core
