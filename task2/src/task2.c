@@ -103,7 +103,6 @@ typedef struct kv_pair {
 int task2() {
     bool cycle = true;
     char mode = '\0';
-    timer_t timer;
     char* name;
 
     puts("Starting \"task2\" module\n");

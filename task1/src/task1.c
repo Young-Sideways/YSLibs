@@ -21,7 +21,6 @@
 int task1() {
     bool cycle = true;
     char mode = '\0';
-    timer_t timer;
 
     btree_t tree = btree_init(sizeof(int));
     if (!tree) {

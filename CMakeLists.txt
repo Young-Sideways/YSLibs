@@ -21,7 +21,9 @@ add_subdirectory(task3)
 
 if (WIN32)
     target_compile_definitions(${PROJECT_NAME} PUBLIC ${CMAKE_C_FLAGS} -D_CRT_SECURE_NO_WARNINGS)
-    target_compile_options(${PROJECT_NAME} PUBLIC "-Wno-deprecated-declarations")
+    target_compile_options(${PROJECT_NAME}
+        PUBLIC "-Wno-deprecated-declarations"
+        PUBLIC "-w")
 endif()
 
 target_link_libraries(${PROJECT_NAME}
