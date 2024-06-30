@@ -7,14 +7,13 @@
  ******************************************************************************/
 
 #include "main.h"
-#include <stdlib.h>
+#include "core.h"
 
-void yslog_exit(void) {
-    printf("terminating all tasks...\n");
-    printf("all tasks terminated...\n");
-}
+
 
 int main(int argc, char** argv) {
-    atexit(yslog_exit);
+    UNUSED(argc);
+    UNUSED(argv);
+
     return 0;
 }

@@ -22,6 +22,14 @@ if (WIN32)
     target_compile_definitions(${PROJECT_NAME} PUBLIC ${CMAKE_C_FLAGS} -D_CRT_SECURE_NO_WARNINGS)
 endif()
 
+# most aggressive warning settings
+target_compile_options(${PROJECT_NAME}
+    PUBLIC "-Wall"
+    PUBLIC "-Wextra"
+    PUBLIC "-Werror"
+    PUBLIC "-pedantic"
+)
+
 target_link_libraries(${PROJECT_NAME}
     INTERFACE ${PROJECT_NAME}::core
     INTERFACE ${PROJECT_NAME}::macro

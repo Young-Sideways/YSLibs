@@ -10,16 +10,17 @@
 
 #pragma region --- INCLUDE ---
 
-#include <string.h>
-
 #include "core.h"
 #include "debug.h"
 
+// for memcmp
+#include <string.h>
+
 #pragma endregion
 
-#pragma region --- STATIC ---
+#pragma region --- PRIVATE ---
 
-static void* private_partition_(ubyte* first, ubyte* last, size_t element_size, comparator_t comparator_, swap_t swap_) {
+static void* private_sort_partition__(ubyte* first, ubyte* last, size_t element_size, comparator_t comparator_, swap_t swap_) {
     ubyte* pivot = last;
     last -= element_size;
     LOOP:
@@ -36,12 +37,12 @@ static void* private_partition_(ubyte* first, ubyte* last, size_t element_size, 
     return first;
 }
 
-static void private_quick_sort_(ubyte* begin, ubyte* end, size_t element_size, comparator_t comparator_, swap_t swap_) {
+static void private_sort_quick_sort__(ubyte* begin, ubyte* end, size_t element_size, comparator_t comparator_, swap_t swap_) {
     if (begin >= end)
         return;
-    ubyte* pivot = (ubyte*)private_partition_(begin, end, element_size, comparator_, swap_);
-    private_quick_sort_(begin, pivot - element_size, element_size, comparator_, swap_);
-    private_quick_sort_(pivot + element_size, end, element_size, comparator_, swap_);
+    ubyte* pivot = (ubyte*)private_sort_partition__(begin, end, element_size, comparator_, swap_);
+    private_sort_quick_sort__(begin, pivot - element_size, element_size, comparator_, swap_);
+    private_sort_quick_sort__(pivot + element_size, end, element_size, comparator_, swap_);
 }
 
 #pragma endregion
@@ -49,18 +50,18 @@ static void private_quick_sort_(ubyte* begin, ubyte* end, size_t element_size, c
 #pragma region --- FUNCTION ---
 
 void selection_sort(void* array, const size_t count, const size_t element_size, comparator_t comparator_, swap_t swap_) {
-    assert(array);
-    assert(count);
-    assert(element_size);
+    explain_assert(array       , "algorithm/sort: invalid arg - 'array' == NULL"     );
+    explain_assert(count       , "algorithm/sort: invalid arg - 'count' == 0u"       );
+    explain_assert(element_size, "algorithm/sort: invalid arg - 'element_size' == 0u");
 
     if (!comparator_)
         comparator_ = &memcmp;
     if (!swap_)
         swap_ = &swap;
 
-    for (byte* sorted = array, *end = sorted + (count * element_size); sorted < end; sorted += element_size) {
-        byte* min = sorted;
-        for (byte* ptr = min + element_size; ptr < end; ptr += element_size)
+    for (ubyte* sorted = array, *end = sorted + (count * element_size); sorted < end; sorted += element_size) {
+        ubyte* min = sorted;
+        for (ubyte* ptr = min + element_size; ptr < end; ptr += element_size)
             if (comparator_(min, ptr, element_size) > 0)
                 min = ptr;
         if (min != sorted)
@@ -69,9 +70,9 @@ void selection_sort(void* array, const size_t count, const size_t element_size, 
 }
 
 void insertion_sort(void* array, const size_t count, const size_t element_size, comparator_t comparator_, swap_t swap_) {
-    assert(array);
-    assert(count);
-    assert(element_size);
+    explain_assert(array       , "algorithm/sort: invalid arg - 'array' == NULL"     );
+    explain_assert(count       , "algorithm/sort: invalid arg - 'count' == 0u"       );
+    explain_assert(element_size, "algorithm/sort: invalid arg - 'element_size' == 0u");
 
     if (!comparator_)
         comparator_ = &memcmp;
@@ -85,16 +86,16 @@ void insertion_sort(void* array, const size_t count, const size_t element_size, 
 }
 
 void quick_sort(void* array, const size_t count, const size_t element_size, comparator_t comparator_, swap_t swap_) {
-    assert(array);
-    assert(count);
-    assert(element_size);
+    explain_assert(array       , "algorithm/sort: invalid arg - 'array' == NULL"     );
+    explain_assert(count       , "algorithm/sort: invalid arg - 'count' == 0u"       );
+    explain_assert(element_size, "algorithm/sort: invalid arg - 'element_size' == 0u");
 
     if (!comparator_)
         comparator_ = &memcmp;
     if (!swap_)
         swap_ = &swap;
 
-    private_quick_sort_(array, (ubyte*)array + ((count - 1) * element_size), element_size, comparator_, swap_);
+    private_sort_quick_sort__(array, (ubyte*)array + ((count - 1) * element_size), element_size, comparator_, swap_);
 }
 
 #pragma endregion

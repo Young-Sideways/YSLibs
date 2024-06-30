@@ -15,25 +15,26 @@
 
 #pragma region --- INCLUDE ---
 
-#include <stdint.h>
-#include <stdlib.h>
-
 #include "core.h"
 #include "debug.h"
+
+// for fixed width int types
+#include <stdint.h>
+// for llabs
+#include <stdlib.h>
 
 #pragma endregion
 
 #pragma region --- DECLARATOR ---
 
-#define DECLARE_SWAP(prefix, type)                                                 \
-    static inline void prefix##_swap(void* lhs, void* rhs, size_t size) {          \
-        assert(lhs);                                                               \
-        assert(rhs);                                                               \
-        UNUSED(size);                                                              \
-        explain_assert(llabs((type*)lhs - (type*)rhs), "Memory regions overlaps"); \
-        type temp   = *(type*)lhs;                                                 \
-        *(type*)lhs = *(type*)rhs;                                                 \
-        *(type*)rhs = temp;                                                        \
+#define DECLARE_SWAP(prefix, type)                                          \
+    static inline void prefix##_swap(void* lhs, void* rhs, size_t size) {   \
+        explain_assert(lhs, "algorithm/swap: invalid arg - 'lhs' == NULL"); \
+        explain_assert(rhs, "algorithm/swap: invalid arg - 'rhs' == NULL"); \
+        UNUSED(size);                                                       \
+        type temp   = *(type*)lhs;                                          \
+        *(type*)lhs = *(type*)rhs;                                          \
+        *(type*)rhs = temp;                                                 \
     }
 
 DECLARE_SWAP(i8  , int8_t     );

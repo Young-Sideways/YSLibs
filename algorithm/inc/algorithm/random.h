@@ -13,10 +13,7 @@
 
 #pragma region --- INCLUDE ---
 
-#include <stdint.h>
 #include <stddef.h>
-
-#include "core.h"
 
 #pragma endregion
 
@@ -24,26 +21,24 @@
 
 /**
  *  @typedef rng_t
- *  @brief random number generator
- *  @param[in] min,max - Generated values range
- *  @return range beetwen 0 and UCHAR_MAX
+ *  @brief   random number generator function pointer
+ *  @param[in,out] dst  - Pointer to destination memory
+ *  @param[in]     size - Size in bytes of \p dst
  */
-typedef ubyte (*rng_t)();
+typedef void (*rng_t)(void* dst, size_t size);
 
 #pragma endregion
 
 #pragma region --- FUNCTION ---
 
-/// @brief Initializes a RNG generator with current time stamp
-void random_init();
-
 /**
- * @brief fill int array with \p generator
- * @param[in,out] block     - Pointer to int array
- * @param[in]     size      - Size of \p block
- * @param[in]     generator - Pointer to RNG generator (can be NULL)
+ * @brief fill array with \p generator
+ * @param[in,out] ptr          - Pointer memory block
+ * @param[in]     capacity     - Size in bytes of \p ptr
+ * @param[in]     element_size - Size in bytes of each element
+ * @param[in]     generator    - Pointer to RNG generator (can be NULL)
  */
-void random_fill(void* block, size_t size, rng_t generator);
+void rng_fill(void* ptr, size_t capacity, size_t element_size, rng_t generator);
 
 #pragma endregion
 

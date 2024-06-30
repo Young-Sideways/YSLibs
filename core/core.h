@@ -13,8 +13,6 @@
 
 #pragma region --- INCLUDE ---
 
-#include <stdlib.h>
-
 #pragma endregion
 
 #pragma region --- MACRO ---
@@ -32,19 +30,6 @@
 
 typedef signed char   byte;
 typedef unsigned char ubyte;
-
-#pragma endregion
-
-#pragma region --- FUNCTION ---
-
-//static inline void* memdup(const void* src, size_t size) {
-//    if (!src || !size)
-//        return NULL;
-//    void* dst = malloc(size);
-//    if (dst)
-//        memcpy(dst, src, size);
-//    return dst;
-//}
 
 #pragma endregion
 
