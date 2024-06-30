@@ -1,0 +1,19 @@
+container;type_name;size policy;memory layout;different types;depend;enumerable;iteratorable;constructor;__VA_ARGS__;type require;size require
+Tuple;tuple_t;static;linear;+;-;+;+;new(tuple_t, …);>0;-;-
+Pair;pair_t;static;linear;+;tuple_t;+;+;new(pair_t, key, value);0;+-;-
+Variant;variant_t;static;linear;+;-;+;+;new(variant_t, value);0;+-;-
+Array;array_t;static;linear;-;-;+;+;"new(array_t, type, size)
+new(array_t, type, …)";>=0;+;+-
+Vector;vector_t;dynamic;linear;-;-;+;+;new(vector_t, type, size);>=0;+;
+List;list_t;dynamic;reference;-;-;+;+;new(list_t, type, size);>=0;+;
+Matrix;matrix_t;static;linear;-;-;+;+;new(matrix_t, type, rows, cols);>=0;+;
+Deque;deque_t;dynamic;reference;-;list_t;-;+;new(deque_t, type);>=0;+;
+Queue;queue_t;dynamic;reference;-;deque_t;-;-;new(queue_t, type);>=0;+;
+Stack;stack_t;dynamic;reference;-;deque_t;-;-;new(stack_t, type);>=0;+;
+Set;set_t;dynamic;associative;-;-;-;forward;new(set_t, type, size);>=0;+;
+Map;map_t;dynamic;associative;-;pair_t;-;forward;new(map_t, type, size);>=0;+;
+Multi set;multiset_t;dynamic;associative;-;-;-;forward;new(multiset_t, type, size);>=0;+;
+Multi map;multimap_t;dynamic;associative;-;pair_t;-;forward;new(multimap_t, type, size);>=0;+;
+AVL tree;avltree_t;dynamic;reference;-;-;-;forward;new(avltree_t, type);>=0;+;
+Red-Black tree;rbtree_t;dynamic;reference;-;-;-;forward;new(rbtree_t, type);>=0;+;
+B-Tree;btree_t;dynamic;reference;-;-;-;forward;new(btree_t, type);>=0;+;
