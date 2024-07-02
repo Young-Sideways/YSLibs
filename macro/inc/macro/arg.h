@@ -29,4 +29,9 @@
 
 #pragma endregion
 
+#define VA_EXEC_HELPER(_f, _1, ...)                 _f(_1) __VA_OPT__(, M_DEFER(VA_EXEC_HELPER1)()(_f, ##__VA_ARGS__))
+
+#define VA_ARG_TAKE_HELPER(n, _1, ...) _1 __VA_OPT__(, M_DEFER)
+#define VA_ARG_TAKE(n, ...) __VA_OPT__(VA_ARG_TAKE_HELPER(n, ##__VA_ARGS__))
+
 #endif // !M_ARG_H_

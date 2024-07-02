@@ -27,7 +27,8 @@
                 "CMAKE_BUILD_TYPE": "Debug",
                 "USE_DEBUG_OUTPUT": "ON",
                 "USE_LOG": "ON",
-                "USE_LOG_SEVERITY": "0"
+                "USE_LOG_SEVERITY": "0",
+                "CMAKE_C_FLAGS" : "$env{C_FLAGS} -O0"
             }
         },
         {
@@ -36,7 +37,8 @@
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
                 "USE_DEBUG_OUTPUT": "OFF",
-                "USE_LOG": "OFF"
+                "USE_LOG": "OFF",
+                "CMAKE_C_FLAGS" : "$env{C_FLAGS} -Wall -Wextra -Werror -pedantic -O3"
             }
         },
         {
@@ -48,7 +50,8 @@
             ],
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "clang",
-                "CMAKE_CXX_COMPILER": "clang++"
+                "CMAKE_CXX_COMPILER": "clang++",
+                "CMAKE_C_STANDARD" : "23"
             }
         },
         {
@@ -60,7 +63,8 @@
             ],
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "clang.exe",
-                "CMAKE_CXX_COMPILER": "clang++.exe"
+                "CMAKE_CXX_COMPILER": "clang++.exe",
+                "CMAKE_C_STANDARD" : "23"
             }
         },
         {
@@ -140,25 +144,29 @@
             "name": "linux-clang-debug",
             "description": "",
             "displayName": "Linux clang Debug",
-            "configurePreset": "linux-clang-debug"
+            "configurePreset": "linux-clang-debug",
+            "cleanFirst": true
         },
         {
             "name": "linux-clang-release",
             "description": "",
-            "displayName": "Linux clang Debug",
-            "configurePreset": "linux-clang-release"
+            "displayName": "Linux clang Release",
+            "configurePreset": "linux-clang-release",
+            "cleanFirst": true
         },
         {
             "name": "windows-clang-debug",
             "description": "",
             "displayName": "windows x64 clang debug",
-            "configurePreset": "windows-clang-debug"
+            "configurePreset": "windows-clang-debug",
+            "cleanFirst": true
         },
         {
             "name": "windows-clang-release",
             "description": "",
             "displayName": "windows x64 clang release",
-            "configurePreset": "windows-clang-release"
+            "configurePreset": "windows-clang-release",
+            "cleanFirst": true
         }
     ]
 }

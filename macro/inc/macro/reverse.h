@@ -21,7 +21,7 @@
 
 #define VA_REVERSE_HELPER1() VA_REVERSE_HELPER
 #define VA_REVERSE_HELPER(_1, ...) __VA_OPT__(M_DEFER(VA_REVERSE_HELPER1)()(__VA_ARGS__) ,) _1
-#define VA_REVERSE(_1, ...) M_EVAL2(VA_REVERSE_HELPER(_1, ##__VA_ARGS__))
+#define VA_REVERSE(...) __VA_OPT__(M_EVAL2(VA_REVERSE_HELPER(__VA_ARGS__)))
 
 #pragma endregion
 

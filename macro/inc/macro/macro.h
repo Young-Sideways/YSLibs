@@ -29,9 +29,9 @@
 #define M_EVAL3(...) M_EXPAND(M_EXPAND(M_EXPAND(__VA_ARGS__)))
 
 #define M_EMPTY(...)
-#define M_DEFER(...) __VA_ARGS__ M_EMPTY()
-#define M_OBSTRUCT(...) __VA_ARGS__ M_DEFER(EMPTY)()
-#define M_EXPAND(...) __VA_ARGS__
+#define M_DEFER(...)    __VA_ARGS__ M_EMPTY()
+#define M_OBSTRUCT(...) __VA_ARGS__ M_DEFER(M_EMPTY)()
+#define M_EXPAND(...)   __VA_ARGS__
 
 #define M_MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define M_MIN(x, y) (((x) < (y)) ? (x) : (y))

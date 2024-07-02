@@ -24,6 +24,15 @@
 
 #define VA_SEQ(sep, ...) M_EVAL(VA_SEQ_HELPER((sep), ##__VA_ARGS__))
 
+#define M_SEQ_GEN_0(sep, val)
+#define M_SEQ_GEN_1(sep, val) val
+#define M_SEQ_GEN_2(sep, val) val M_CONCAT(M_EXPAND,sep) M_SEQ_GEN_1((sep), val)
+#define M_SEQ_GEN_3(sep, val) val M_CONCAT(M_EXPAND,sep) M_SEQ_GEN_2((sep), val)
+#define M_SEQ_GEN_4(sep, val) val M_CONCAT(M_EXPAND,sep) M_SEQ_GEN_3((sep), val)
+#define M_SEQ_GEN_5(sep, val) val M_CONCAT(M_EXPAND,sep) M_SEQ_GEN_4((sep), val)
+
+#define M_SEQ_GEN(n, sep, val) M_CONCAT(M_SEQ_GEN_, n)((sep), val)
+
 #pragma endregion
 
 #endif // !M_SEQUENCE_H_

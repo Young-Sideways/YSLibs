@@ -16,15 +16,15 @@
  * +-----------+-------------------------+------------------------+-----------------------------+-------------------------+-------------------------+-----------------------------+
  * |  elements | BEGIN                   | END                    | RBEGIN                      | REND                    | FIRST                   | LAST                        |
  * +-----------+-------------------------+------------------------+-----------------------------+-------------------------+-------------------------+-----------------------------+
- * |         0 | data  = NULL  stage = 0 | data  = NULL stage = 0 | data  = NULL  stage = -1    | data  = NULL stage = -1 | data  = NULL  stage = 0 | data  = NULL  stage = 0     |
+ * |         0 | data  = NULL  stage = 0 | data  = NULL stage = 0 | data  = NULL  stage = -1    | data  = NULL stage = -1 | BEGIN                   | data  = NULL  stage = 0     |
  * +-----------+-------------------------+------------------------+-----------------------------+-------------------------+-------------------------+-----------------------------+
- * |         1 | data  = (ptr) stage = 0 | data  = NULL stage = 1 | data  = (ptr) stage = 0     | data  = NULL stage = -1 | data  = (ptr) stage = 0 | data  = (ptr) stage = 0     |
+ * |         1 | data  = (ptr) stage = 0 | data  = NULL stage = 1 | data  = (ptr) stage = 0     | data  = NULL stage = -1 | BEGIN                   | data  = (ptr) stage = 0     |
  * +-----------+-------------------------+------------------------+-----------------------------+-------------------------+-------------------------+-----------------------------+
- * |         2 | data  = (ptr) stage = 0 | data  = NULL stage = 2 | data  = (ptr) stage = 1     | data  = NULL stage = -1 | data  = (ptr) stage = 0 | data  = (ptr) stage = 1     |
+ * |         2 | data  = (ptr) stage = 0 | data  = NULL stage = 2 | data  = (ptr) stage = 1     | data  = NULL stage = -1 | BEGIN                   | data  = (ptr) stage = 1     |
  * +-----------+-------------------------+------------------------+-----------------------------+-------------------------+-------------------------+-----------------------------+
- * |         3 | data  = (ptr) stage = 0 | data  = NULL stage = 3 | data  = (ptr) stage = 2     | data  = NULL stage = -1 | data  = (ptr) stage = 0 | data  = (ptr) stage = 2     |
+ * |         3 | data  = (ptr) stage = 0 | data  = NULL stage = 3 | data  = (ptr) stage = 2     | data  = NULL stage = -1 | BEGIN                   | data  = (ptr) stage = 2     |
  * +-----------+-------------------------+------------------------+-----------------------------+-------------------------+-------------------------+-----------------------------+
- * |         N | data  = (ptr) stage = 0 | data  = NULL stage = N | data  = (ptr) stage = N - 1 | data  = NULL stage = -1 | data  = (ptr) stage = 0 | data  = (ptr) stage = N - 1 |
+ * |         N | data  = (ptr) stage = 0 | data  = NULL stage = N | data  = (ptr) stage = N - 1 | data  = NULL stage = -1 | BEGIN                   | data  = (ptr) stage = N - 1 |
  * +-----------+-------------------------+------------------------+-----------------------------+-------------------------+-------------------------+-----------------------------+
  * | direction | FORWARD                 | FORWARD                | REVERSE                     | REVERSE                 | FORWARD                 | FORWARD                     |
  * +-----------+-------------------------+------------------------+-----------------------------+-------------------------+-------------------------+-----------------------------+
@@ -195,91 +195,6 @@ void it_next(iterator_t* iterator);
  *  @param[in] iterator - valid iterator pointer
  */
 void it_prev(iterator_t* iterator);
-
-#pragma endregion
-
-#pragma region --- ALGORITHM ADAPTER ---
-
-/**
- *  @brief      compares @code lhs @endcode and @code rhs @endcode iterators
- *  @param[in]  lhs  - valid left iterator pointer
- *  @param[in]  rhs  - valid right iterator pointer
- *  @param[in]  size - unused
- *  @retval     offset between lhs and rhs
- */
-int it_comp(void* lhs, void* rhs, size_t size);
-
-#ifdef SWAP_H_
-
-/**
- *  @brief      swaps @code lhs @endcode and @code rhs @endcode iterator values
- *  @param[in]  lhs  - valid left iterator pointer
- *  @param[in]  rhs  - valid right iterator pointer
- *  @param[in]  size - unused
- *  @retval     offset between lhs and rhs, othewise @code CONTAINER_INVALID_INDEX @endcode
- */
-static void it_swap(void* lhs, void* rhs, size_t size) {
-    UNUSED(size);
-
-    explain_assert(lhs, "iterator error: invalid left iterator");
-    explain_assert(rhs, "iterator error: invalid right iterator");
-
-    if (!it_comparable(*(iterator_t*)lhs, *(iterator_t*)rhs)) {
-        explain_error("iterator error: invalid comparison between two iterators");
-        return;
-    }
-
-    swap(((iterator_t*)lhs)->data, ((iterator_t*)rhs)->data, (((iterator_t*)lhs)->collection)->element_size);
-}
-
-#endif // SWAP_H_
-
-#ifdef SEARCH_H_
-
-/**
- *  @brief      swaps @code lhs @endcode and @code rhs @endcode iterator values
- *  @param[in]  lhs  - valid left iterator pointer
- *  @param[in]  rhs  - valid right iterator pointer
- *  @param[in]  size - unused
- *  @retval     offset between lhs and rhs, othewise @code CONTAINER_INVALID_INDEX @endcode
- */
-static iterator_t it_find(iterator_t begin, iterator_t end, void* value) {
-    if (it_comp(&begin, &end, 0) == INVALID_STAGE)
-        return it_end(begin.collection);
-    comparator_t comp = get_comp(begin.collection);
-    if (comp)
-        for (iterator_t it = begin; it_comp(&begin, &end, 0U) <= 0; it_next(&it))
-            if (comp(it.data, value, begin.collection->element_size) == 0)
-                return it;
-    return it_end(begin.collection);
-}
-
-#endif // SEARCH_H_
-
-#ifdef SORT_H_
-
-/**
- *  @brief      sorts container between @code begin @endcode and @code end @endcode iterators
- *  @param[in]  begin - valid left begin iterator
- *  @param[in]  end   - valid right end iterator
- */
-static void it_sort(iterator_t begin, iterator_t end) {
-    if (!it_comparable(begin, end) || !get_comp(begin.collection))
-        goto IT_ERR_UNSORTABLE;
-
-    // simple buble sort
-    comparator_t comp = get_comp(begin.collection);
-    for (iterator_t i = begin, i_end = end; it_comp(&i, &i_end, 0U); it_next(&i))
-        for (iterator_t j = i, j_end = end; it_comp(&j, &j_end, 0U); it_next(&j))
-            if (comp(i.data, j.data, i.collection->element_size) > 0)
-                it_swap(&i, &j, 0U);
-    return;
-
-IT_ERR_UNSORTABLE:
-    explain_error("iterator error: collection can't be sorted");
-}
-
-#endif // SORT_H_
 
 #pragma endregion
 

@@ -68,9 +68,8 @@
 
 #pragma region --- INCLUDE ---
 
-#include <stdbool.h>
-#include <stdint.h>
 #include <stddef.h>
+#include <stdint.h>
 
 #pragma endregion
 
@@ -81,13 +80,13 @@
  *  @brief memory consumption growth factor for collections ( new size = x2 )
  *  @param n - current size
  */
-#define GROWTH_FACTOR(n) (n ? (n << 1) : 1U)
+#define GROWTH_FACTOR(n) (n ? (n << 1) : 1u)
 
 /**
 *  @def   COLLECTION_SIZE_MIN
 *  @brief Minimum size for all containers
 */
-#define COLLECTION_SIZE_MIN (0x0U)
+#define COLLECTION_SIZE_MIN (0x0u)
 
 /**
 *  @def   COLLECTION_SIZE_MAX
@@ -106,92 +105,8 @@
 #pragma region --- TYPEDEF ---
 
 struct collection_universal_header {
-    size_t capacity;
     size_t size;
-    size_t element_size;
 };
-
-#pragma endregion
-
-#pragma region --- UNIVERSAL CONSTRUCTOR / DESTRUCTOR ---
-
-void* copy(const void* collection);
-void* move(void** collection);
-
-void delete(void** collection);
-
-#pragma endregion
-
-#pragma region --- GETTER / SETTER ---
-
-#define DECL_GET_SET__(type, name, field)                                             \
-    static inline type get_##name(void* collection) {                                 \
-        extern void* _collection_private_##field##_get(void*);                        \
-        return (type)_collection_private_##field##_get(collection);                   \
-    }                                                                                 \
-    static inline void set_##name(void* collection, type value) {                     \
-        extern void _collection_private_##field##_set(void* collection, void* value); \
-        _collection_private_##field##_set(collection, (void*)value);                  \
-    }
-
-#ifdef SWAP_H_
-
-DECL_GET_SET__(swap_t, swap, swap_)
-
-#endif // SWAP_H_
-
-#ifdef COMPARATOR_H_
-
-DECL_GET_SET__(comparator_t, comp, comparator_)
-
-#endif // COMPARATOR_H_
-
-#ifdef SEARCH_H_
-
-DECL_GET_SET__(search_t, search, search_)
-
-#endif // SEARCH_H_
-
-#ifdef SORT_H_
-
-DECL_GET_SET__(sort_t, sort, sort_)
-
-#endif // SORT_H_
-
-#undef DECL_GET_SET__
-
-#pragma endregion
-
-#pragma region --- FUNCTION ---
-
-bool is_empty(const void* collection);
-
-#pragma endregion
-
-#pragma region --- STATIC ASSERTION BLOCK ---
-
-//#define TYPE_SIZE_ASSERT(expression) static_assert(expression, "Collection core error: default type pointers have different sizes")
-//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(char*)              );
-//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(short*)             );
-//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(int*)               );
-//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(long*)              );
-//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(long long*)         );
-//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(signed char*)       );
-//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(signed short*)      );
-//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(signed int*)        );
-//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(signed long*)       );
-//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(signed long long*)  );
-//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned char*)     );
-//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned short*)    );
-//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned int*)      );
-//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned long*)     );
-//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned long long*));
-//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(float*)             );
-//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(double*)            );
-//TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(long double*)       );
-//
-//static_assert(sizeof(int32_t) == sizeof(uint32_t), "Collection core error: fixed size for signed and unsigned 32 bit integers are different");
-//#undef TYPE_SIZE_ASSERT
 
 #pragma endregion
 

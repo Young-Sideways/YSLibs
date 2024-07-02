@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void _m_inc_printer(int count) {
+static void m_inc_printer__(int count) {
     FILE* file = fopen("inc.h", "w");
     if (file) {
         fprintf(file,"#include \"macro/macro.h\"\n\n");
@@ -10,7 +10,7 @@ void _m_inc_printer(int count) {
         fclose(file);
     }
 }
-void _m_dec_printer(int count) {
+static void m_dec_printer__(int count) {
     FILE* file = fopen("dec.h", "w");
     if (file) {
         fprintf(file,"#include \"macro/macro.h\"\n\n");

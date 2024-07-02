@@ -141,4 +141,48 @@ struct collection_private_header alloc_cph(
 
 #pragma endregion
 
+typedef struct private_collection_type_info {
+    uint32_t size ;
+    uint32_t align;
+} private_collection_type_info;
+
+typedef struct {
+
+} collection_private_header;
+
+typedef struct {
+
+} collection_private_iterator_adapter_header;
+
+typedef struct {
+
+} collection_private_algorithm_adapter_header;
+
+#pragma region --- STATIC ASSERTION BLOCK ---
+
+#define TYPE_SIZE_ASSERT(expression) static_assert(expression, "Collection core error: default type pointers have different sizes")
+TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(char*)              );
+TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(short*)             );
+TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(int*)               );
+TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(long*)              );
+TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(long long*)         );
+TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(signed char*)       );
+TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(signed short*)      );
+TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(signed int*)        );
+TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(signed long*)       );
+TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(signed long long*)  );
+TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned char*)     );
+TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned short*)    );
+TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned int*)      );
+TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned long*)     );
+TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned long long*));
+TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(float*)             );
+TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(double*)            );
+TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(long double*)       );
+
+static_assert(sizeof(int32_t) == sizeof(uint32_t), "Collection core error: fixed size for signed and unsigned 32 bit integers are different");
+#undef TYPE_SIZE_ASSERT
+
+#pragma endregion
+
 #endif // !COLLECTION_PRIVATE_H_
