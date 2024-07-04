@@ -102,7 +102,7 @@
                 "rhs": "Windows"
             },
             "cacheVariables": {
-                "CMAKE_MAKE_PROGRAM": "C:/Program Files/Ninja/ninja.exe"
+                "CMAKE_MAKE_PROGRAM": "ninja.exe"
             },
             "architecture": {
                 "value": "x64",
