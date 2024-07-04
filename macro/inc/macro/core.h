@@ -24,17 +24,17 @@
 #define M_COLON() :
 #define M_DOT()   .
 
-#define M_LPAREN()    (
-#define M_RPAREN()    )
+#define M_LPAREN()   (
+#define M_RPAREN()   )
 #define M_PAREN(...) (__VA_ARGS__)
 
 #define M_LBRACK()   [
 #define M_RBRACK()   ]
 #define M_BRACK(...) [__VA_ARGS__]
 
-#define M_LBRACE()    {
-#define M_RBRACE()    }
-#define M_BRACE(...)  {__VA_ARGS__}
+#define M_LBRACE()   {
+#define M_RBRACE()   }
+#define M_BRACE(...) {__VA_ARGS__}
 
 #define M_EVAL(...)  M_EVAL1(M_EVAL1(M_EVAL1(M_EVAL1(__VA_ARGS__))))
 #define M_EVAL1(...) M_EVAL2(M_EVAL2(M_EVAL2(M_EVAL2(__VA_ARGS__))))

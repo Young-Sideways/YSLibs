@@ -11,12 +11,6 @@
 
 #pragma once
 
-#pragma region --- INCLUDE ---
-
-#include "macro/core.h"
-
-#pragma endregion
-
 #pragma region --- MACRO ---
 
 #define M_MAX(x, y) (((x) > (y)) ? (x) : (y))

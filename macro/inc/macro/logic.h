@@ -1,7 +1,7 @@
 /*******************************************************************************
  * @file      logic.h
  * @author    Young Sideways
- * @brief     Implements logic macro operations 
+ * @brief     MACRO logic lib implements boolean operations 
  * @date      04.07.2024
  * @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
@@ -13,15 +13,35 @@
 
 #pragma region --- INCLUDE ---
 
-#include "macro/macro.h"
+#include "macro/core.h"
+
+#pragma endregion
+
+#pragma region --- DETECT ---
+
+#define M_CHECK_PROBE(x, probe, ...) probe
+#define M_CHECK(...) M_CHECK_PROBE(__VA_ARGS__, 0)
+#define M_PROBE(var) var, 1
+
+#define M_COMPL(x) M_CAT(M_COMPL_, x)
+#define M_COMPL_0 1
+#define M_COMPL_1 0
+
+#define M_IF_CND(cnd) M_CAT(M_IF_CND_, cnd)
+#define M_IF_CND_0(t, ...) __VA_ARGS__
+#define M_IF_CND_1(t, ...) t
+#define M_IF(c) M_IF_CND(M_BOOL(c))
+
+#define M_WHEN(cnd) M_IF(cnd)(VA_EXPAND, M_EMPTY)
 
 #pragma endregion
 
 #pragma region --- MACRO ---
 
-#define M_NOT_0() 1 
-#define M_NOT_1() 0
-#define M_NOT(x) M_CAT(M_NOT_, x)()
+#define M_BOOL(x) M_COMPL(M_NOT(x))
+
+#define M_NOT(x) M_CHECK(M_CAT(M_NOT_, x))
+#define M_NOT_0 M_PROBE(~)
 
 #define M_AND_0(x) 0
 #define M_AND_1(x) x
