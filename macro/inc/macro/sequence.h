@@ -20,18 +20,25 @@
 #pragma region --- MACRO ---
 
 #define VA_SEQ_HELPER1() VA_SEQ_HELPER
-#define VA_SEQ_HELPER(sep, _1, ...) _1 __VA_OPT__(M_CONCAT(M_EXPAND,sep) M_DEFER(VA_SEQ_HELPER1)()(sep, ##__VA_ARGS__))
+#define VA_SEQ_HELPER(sep, _1, ...) _1 __VA_OPT__(M_CAT(M_EXPAND,sep) M_DEFER(VA_SEQ_HELPER1)()(sep, ##__VA_ARGS__))
 
 #define VA_SEQ(sep, ...) M_EVAL(VA_SEQ_HELPER((sep), ##__VA_ARGS__))
 
-#define M_SEQ_GEN_0(sep, val)
-#define M_SEQ_GEN_1(sep, val) val
-#define M_SEQ_GEN_2(sep, val) val M_CONCAT(M_EXPAND,sep) M_SEQ_GEN_1((sep), val)
-#define M_SEQ_GEN_3(sep, val) val M_CONCAT(M_EXPAND,sep) M_SEQ_GEN_2((sep), val)
-#define M_SEQ_GEN_4(sep, val) val M_CONCAT(M_EXPAND,sep) M_SEQ_GEN_3((sep), val)
-#define M_SEQ_GEN_5(sep, val) val M_CONCAT(M_EXPAND,sep) M_SEQ_GEN_4((sep), val)
+#define M_SEQ_GEN_0(val)
+#define M_SEQ_GEN_1(val) val
+#define M_SEQ_GEN_2(val) val, val
+#define M_SEQ_GEN_3(val) val, val, val
+#define M_SEQ_GEN_4(val) val, val, val, val
+#define M_SEQ_GEN_5(val) val, val, val, val, val
+#define M_SEQ_GEN_6(val) val, val, val, val, val, val
+#define M_SEQ_GEN_7(val) val, val, val, val, val, val, val
+#define M_SEQ_GEN_8(val) val, val, val, val, val, val, val, val
+#define M_SEQ_GEN_9(val) M_SEQ_GEN_5(M_CAT(M_EXPAND,sep), val) M_CAT(M_EXPAND,sep) M_SEQ_GEN_4(M_CAT(M_EXPAND,sep), val)
+#define M_SEQ_GEN_10(val) M_SEQ_GEN_5(M_CAT(M_EXPAND,sep), val) M_CAT(M_EXPAND,sep) M_SEQ_GEN_5(M_CAT(M_EXPAND,sep), val)
+#define M_SEQ_GEN_11(val) M_SEQ_GEN_6(M_CAT(M_EXPAND,sep), val) M_CAT(M_EXPAND,sep) M_SEQ_GEN_5(M_CAT(M_EXPAND,sep), val)
+#define M_SEQ_GEN_12(val) M_SEQ_GEN_6(M_CAT(M_EXPAND,sep), val) M_CAT(M_EXPAND,sep) M_SEQ_GEN_6(M_CAT(M_EXPAND,sep), val)
 
-#define M_SEQ_GEN(n, sep, val) M_CONCAT(M_SEQ_GEN_, n)((sep), val)
+#define M_SEQ_GEN(n, sep, val) M_CAT(M_SEQ_GEN_, n)(M_CAT(M_EXPAND,sep), val)
 
 #pragma endregion
 

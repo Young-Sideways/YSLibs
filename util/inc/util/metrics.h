@@ -22,7 +22,7 @@
 #pragma region --- MACRO ---
 
 #define DECLARE_METRIC_TYPE(name, ...)      \
-    struct M_CONCAT_LATER(metrics_struct_,name) { \
+    struct M_CAT_LATER(metrics_struct_,name) { \
         VA_SEQ_SEMI(__VA_ARGS__)            \
     }
 

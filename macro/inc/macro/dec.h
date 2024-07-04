@@ -276,7 +276,7 @@
 #define M_DEC_254 253
 #define M_DEC_255 254
 
-#define M_DEC(i) M_CONCAT(M_DEC_, i)
+#define M_DEC(i) M_CAT(M_DEC_, i)
 
 #pragma endregion
 

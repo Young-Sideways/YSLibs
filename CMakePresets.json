@@ -27,8 +27,7 @@
                 "CMAKE_BUILD_TYPE": "Debug",
                 "USE_DEBUG_OUTPUT": "ON",
                 "USE_LOG": "ON",
-                "USE_LOG_SEVERITY": "0",
-                "CMAKE_C_FLAGS" : "$env{C_FLAGS} -O0"
+                "USE_LOG_SEVERITY": "0"
             }
         },
         {
@@ -158,15 +157,13 @@
             "name": "windows-clang-debug",
             "description": "",
             "displayName": "windows x64 clang debug",
-            "configurePreset": "windows-clang-debug",
-            "cleanFirst": true
+            "configurePreset": "windows-clang-debug"
         },
         {
             "name": "windows-clang-release",
             "description": "",
             "displayName": "windows x64 clang release",
-            "configurePreset": "windows-clang-release",
-            "cleanFirst": true
+            "configurePreset": "windows-clang-release"
         }
     ]
 }

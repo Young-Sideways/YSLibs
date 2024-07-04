@@ -275,7 +275,7 @@
 #define M_INC_253 254
 #define M_INC_254 255
 
-#define M_INC(i) M_CONCAT(M_INC_, i)
+#define M_INC(i) M_CAT(M_INC_, i)
 
 #pragma endregion
 

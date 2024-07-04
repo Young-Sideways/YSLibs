@@ -74,14 +74,14 @@ typedef struct { intptr_t offset; size_t size; } field_spec_t;
 
 #define FOLD_ADD_PARAM__(container_type, type, name) { (intptr_t)M_OFFSETOF(container_type, name), sizeof(type) }
 #define FOLD_ADD_PARAM_(container_type, ...) FOLD_ADD_PARAM__(container_type, __VA_ARGS__)
-#define FOLD_ADD_PARAM(container_type, field) FOLD_ADD_PARAM_(container_type, M_CONCAT(SPEC_,field))
+#define FOLD_ADD_PARAM(container_type, field) FOLD_ADD_PARAM_(container_type, M_CAT(SPEC_,field))
 
 #define FIELD_ADD_PARAM(type, name) type name
 #define SPEC_ADD_PARAM(type, name) type, name
 
 #define SETTINGS_TYPEDEF(name, ...)                                                         \
 typedef struct {                                                                            \
-    VA_SEQ_SEMI(VA_EXEC1(M_CONCAT, FIELD_, __VA_ARGS__))                                    \
+    VA_SEQ_SEMI(VA_EXEC1(M_CAT, FIELD_, __VA_ARGS__))                                    \
 } name;                                                                                     \
                                                                                             \
 const field_spec_t name##_field_specs[] = {                                                 \
