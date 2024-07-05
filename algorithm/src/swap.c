@@ -40,6 +40,6 @@ void swap(void* lhs, void* rhs, size_t size) {
         lhs = (void*)((size_t*)lhs + 1);
         lhs = (void*)((size_t*)rhs + 1);
     }
-};
+}
 
 #pragma endregion
