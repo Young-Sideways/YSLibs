@@ -9,10 +9,14 @@
 #include "core.h"
 
 #include "macro/arg.h"
+#include "macro/sequence.h"
+
 
 int main(int argc, char** argv) {
     UNUSED(argc);
     UNUSED(argv);
+
+    MS_EXPAND(M_DEFER(VA_SEQ)(;, M_SEQ_GEN(12, int b), int b));
 
     return 0;
 }

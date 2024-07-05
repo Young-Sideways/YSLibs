@@ -46,5 +46,6 @@
 #define M_DEFER(...)    __VA_ARGS__ M_EMPTY()
 #define M_OBSTRUCT(...) __VA_ARGS__ M_DEFER(M_EMPTY)()
 #define M_EXPAND(...)   __VA_ARGS__
+#define MS_EXPAND(var)  var
 
 #endif // !M_CORE_H_
