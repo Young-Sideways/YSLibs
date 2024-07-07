@@ -6,7 +6,9 @@ add_library(${PROJECT_NAME} INTERFACE)
 add_library(yslibs::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 #target_compile_options(${PROJECT_NAME} INTERFACE "-Wno-invalid-token-paste")
-target_compile_options(${PROJECT_NAME} INTERFACE "-Wno-gnu-zero-variadic-macro-arguments")
+target_compile_options(${PROJECT_NAME}
+    INTERFACE "-Wno-gnu-zero-variadic-macro-arguments"
+    INTERFACE "-Wno-invalid-token-paste")
 
 target_include_directories(${PROJECT_NAME} INTERFACE ${PROJECT_SOURCE_DIR}/inc)
 

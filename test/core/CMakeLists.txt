@@ -1,13 +1,15 @@
 cmake_minimum_required (VERSION 3.19 FATAL_ERROR)
 
-project ("core_test" LANGUAGES C)
+project ("core" LANGUAGES C)
+set(PROJECT_BINARY_DIR ${CTEST_BINARY_DIRECTORY}/${PROJECT_NAME})
 
-set(SOURCES "main.c")
+file(GLOB_RECURSE SOURCES *.c)
 
-set_property(TARGET ${PROJECT_NAME} PROPERTY C_STANDARD 23)
-
-add_executable(${PROJECT_NAME} ${SOURCES})
-
-target_link_libraries(${PROJECT_NAME}
-    INTERFACE yslibs::core
-)
+foreach(test_file ${SOURCES})
+    set(test_name ${test_file}_ctest)
+    add_executable(${test_name} ${test_file})
+    target_link_libraries(${test_name} PRIVATE yslibs::core)
+    add_test(
+        NAME ${test_name}
+        WORKING_DIRECTORY ${PROJECT_BINARY_DIR})
+endforeach(test_file)

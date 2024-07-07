@@ -1,0 +1,78 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 19,
+        "patch": 0
+    },
+    "buildPresets": [
+        {
+            "name": "debug-build",
+            "hidden": true,
+            "configuration": "Debug"
+        },
+        {
+            "name": "release-build",
+            "hidden": true,
+            "configuration": "Release"
+        },
+        {
+            "name" : "linux-build-base",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            }
+        },
+        {
+            "name" : "windows-build-base",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name" : "macos-build-base",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Darwin"
+            }
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "linux-clang-test",
+            "configurePreset": "linux-clang-debug",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            },
+            "execution": {
+                "stopOnFailure": true
+            },
+            "environment": {
+                "CTEST_SOURCE_DIRECTORY": "${sourceDir}/test",
+                "CTEST_BINARY_DIRECTORY": "${sourceDir}/out/test"
+            }
+        },
+        {
+            "name": "windows-clang-test",
+            "configurePreset": "windows-clang-debug",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            },
+            "execution": {
+                "stopOnFailure": true
+            },
+            "environment": {
+                "CTEST_SOURCE_DIRECTORY": "${sourceDir}/test",
+                "CTEST_BINARY_DIRECTORY": "${sourceDir}/out/test"
+            }
+        }
+    ]
+}

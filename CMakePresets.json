@@ -1,169 +1,136 @@
 {
-    "version": 3,
+    "version": 6,
     "cmakeMinimumRequired": {
         "major": 3,
         "minor": 19,
         "patch": 0
     },
+    "include": [
+        "./.cmake/CMakePresets-configure.json",
+        "./.cmake/CMakePresets-build.json"
+    ],
     "configurePresets": [
         {
-            "name": "use-ninja",
-            "hidden": true,
-            "generator": "Ninja",
-            "cacheVariables": {
-                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
-            }
-        },
-        {
-            "name": "default-dirs",
-            "hidden": true,
-            "binaryDir": "${sourceDir}/out/build/${presetName}",
-            "installDir": "${sourceDir}/out/install/${presetName}"
-        },
-        {
-            "name": "debug-build",
-            "hidden": true,
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug",
-                "USE_DEBUG_OUTPUT": "ON",
-                "USE_LOG": "ON",
-                "USE_LOG_SEVERITY": "0"
-            }
-        },
-        {
-            "name": "release-build",
-            "hidden": true,
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
-                "USE_DEBUG_OUTPUT": "OFF",
-                "USE_LOG": "OFF",
-                "CMAKE_C_FLAGS" : "$env{C_FLAGS} -Wall -Wextra -Werror -pedantic -O3"
-            }
-        },
-        {
-            "name": "use-clang",
-            "hidden": true,
-            "inherits": [
-                "default-dirs",
-                "use-ninja"
-            ],
-            "cacheVariables": {
-                "CMAKE_C_COMPILER": "clang",
-                "CMAKE_CXX_COMPILER": "clang++",
-                "CMAKE_C_STANDARD" : "23"
-            }
-        },
-        {
-            "name": "use-clang-cl",
-            "hidden": true,
-            "inherits": [
-                "default-dirs",
-                "use-ninja"
-            ],
-            "cacheVariables": {
-                "CMAKE_C_COMPILER": "clang.exe",
-                "CMAKE_CXX_COMPILER": "clang++.exe",
-                "CMAKE_C_STANDARD" : "23"
-            }
-        },
-        {
-            "name": "linux-base",
-            "hidden": true,
-            "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Linux"
-            }
-        },
-        {
-            "name": "linux-clang-debug",
+            "name": "linux-x64-ninja-clang-debug",
             "displayName": "Linux clang debug",
             "inherits": [
-                "linux-base",
+                "use-ninja",
+                "use-default-dirs",
+                "use-debug",
                 "use-clang",
-                "debug-build"
+                "linux-base"
             ]
         },
         {
-            "name": "linux-clang-release",
+            "name": "linux-x64-ninja-clang-release",
             "displayName": "Linux clang release",
             "inherits": [
-                "linux-base",
+                "use-ninja",
+                "use-default-dirs",
+                "use-release",
                 "use-clang",
-                "release-build"
+                "linux-base"
             ]
         },
         {
-            "name": "windows-base",
-            "hidden": true,
-            "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Windows"
-            },
-            "cacheVariables": {
-                "CMAKE_MAKE_PROGRAM": "ninja.exe"
-            },
-            "architecture": {
-                "value": "x64",
-                "strategy": "external"
-            },
-            "toolset": {
-                "value": "v143,host=x64",
-                "strategy": "external"
-            },
-            "vendor": {
-                "microsoft.com/VisualStudioSettings/CMake/1.0": {
-                    "hostOS": "Windows",
-                    "intelliSenseMode": "windows-clang-x64"
-                }
-            }
-        },
-        {
-            "name": "windows-clang-debug",
-            "displayName": "Windows x64 clang Debug",
+            "name": "windows-x64-ninja-clang-debug",
+            "displayName": "Windows clang Debug",
             "inherits": [
-                "windows-base",
+                "use-ninja",
+                "use-default-dirs",
+                "use-debug",
                 "use-clang-cl",
-                "debug-build"
+                "windows-base"
             ]
         },
         {
-            "name": "windows-clang-release",
-            "displayName": "Windows x64 clang Release",
+            "name": "windows-x64-ninja-clang-release",
+            "displayName": "Windows clang Release",
             "inherits": [
-                "windows-base",
+                "use-ninja",
+                "use-default-dirs",
+                "use-release",
                 "use-clang-cl",
-                "release-build"
+                "windows-base"
+            ]
+        },
+        {
+            "name": "macos-x64-ninja-clang-debug",
+            "displayName": "MacOS clang Debug",
+            "inherits": [
+                "use-ninja",
+                "use-default-dirs",
+                "use-debug",
+                "use-clang-cl",
+                "macos-base"
+            ]
+        },
+        {
+            "name": "macos-x64-ninja-clang-release",
+            "displayName": "MacOS clang Release",
+            "inherits": [
+                "use-ninja",
+                "use-default-dirs",
+                "use-release",
+                "use-clang-cl",
+                "macos-base"
             ]
         }
     ],
     "buildPresets": [
         {
-            "name": "linux-clang-debug",
-            "description": "",
-            "displayName": "Linux clang Debug",
-            "configurePreset": "linux-clang-debug",
-            "cleanFirst": true
+            "name": "linux-debug-build",
+            "displayName": "Linux Debug",
+            "inherits": [
+                "debug-build",
+                "linux-build-base"
+            ],
+            "configurePreset": "linux-x64-ninja-clang-debug"
         },
         {
-            "name": "linux-clang-release",
-            "description": "",
-            "displayName": "Linux clang Release",
-            "configurePreset": "linux-clang-release",
-            "cleanFirst": true
+            "name": "linux-release-build",
+            "displayName": "Linux Release",
+            "inherits": [
+                "release-build",
+                "linux-build-base"
+            ],
+            "configurePreset": "linux-x64-ninja-clang-release"
         },
         {
-            "name": "windows-clang-debug",
-            "description": "",
-            "displayName": "windows x64 clang debug",
-            "configurePreset": "windows-clang-debug"
+            "name": "windows-debug-build",
+            "displayName": "Win Debug",
+            "inherits": [
+                "debug-build",
+                "windows-build-base"
+            ],
+            "configurePreset": "windows-x64-ninja-clang-debug"
         },
         {
-            "name": "windows-clang-release",
-            "description": "",
-            "displayName": "windows x64 clang release",
-            "configurePreset": "windows-clang-release"
+            "name": "windows-release-build",
+            "displayName": "Win Release",
+            "inherits": [
+                "release-build",
+                "windows-build-base"
+            ],
+            "configurePreset": "windows-x64-ninja-clang-release"
+        },
+        {
+            "name": "macos-debug-build",
+            "displayName": "MacOS Debug",
+            "inherits": [
+                "debug-build",
+                "macos-build-base"
+            ],
+            "configurePreset": "macos-x64-ninja-clang-debug"
+        },
+        {
+            "name": "macos-release-build",
+            "displayName": "MacOS Release",
+            "inherits": [
+                "release-build",
+                "macos-build-base"
+            ],
+            "configurePreset": "macos-x64-ninja-clang-release"
         }
     ]
 }
