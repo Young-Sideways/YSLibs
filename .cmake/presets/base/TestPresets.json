@@ -1,0 +1,82 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 25,
+        "patch": 0
+    },
+    "testPresets": [
+        {   "name": "test-base",
+            "hidden": true,
+            "output": {
+                "shortProgress": true,
+                "outputOnFailure": true
+            },
+            "environment": {
+                "CTEST_SOURCE_DIRECTORY": "${sourceDir}/test",
+                "CTEST_BINARY_DIRECTORY": "${sourceDir}/out/test"
+            }
+        },
+
+
+        {   "name": "debug",
+            "hidden": true,
+            "inherits": [ "test-base" ],
+            "filter": {
+                "include": {
+                    "label": "unit"
+                }
+            },
+            "configuration": "Debug"
+        },
+        {   "name": "release",
+            "hidden": true,
+            "inherits": [ "test-base" ],
+            "filter": {
+                "include": {
+                    "label": "unit"
+                }
+            },
+            "configuration": "Release"
+        },
+        {   "name": "benchmark",
+            "hidden": true,
+            "inherits": [ "test-base" ],
+            "output": {
+                "verbosity": "verbose"
+            },
+            "filter": {
+                "include": {
+                    "label": "benchmark"
+                }
+            },
+            "configuration": "Release"
+        },
+
+        
+        {   "name": "linux-base",
+            "hidden": true,
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            }
+        },
+        {   "name": "windows-base",
+            "hidden": true,
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {   "name": "macos-base",
+            "hidden": true,
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Darwin"
+            }
+        }
+    ]
+}

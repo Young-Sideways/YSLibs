@@ -1,0 +1,202 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 25,
+        "patch": 0
+    },
+    "include": [
+        "../base/ConfigurePresets.json",
+        "../base/BuildPresets.json",
+        "../base/TestPresets.json"
+    ],
+    "configurePresets": [
+        {   "name": "linux-debug",
+            "displayName": "Debug",
+            "description": "Linux x64 ninja clang debug",
+            "inherits": [
+                "ninja",
+                "default-dirs",
+                "debug",
+                "clang",
+                "linux-base"
+            ],
+            "cacheVariables": {
+                "BUILD_TESTING": "OFF"
+            }
+        },
+        {   "name": "linux-release",
+            "displayName": "Release",
+            "description": "Linux x64 ninja clang release",
+            "inherits": [
+                "ninja",
+                "default-dirs",
+                "release",
+                "clang",
+                "linux-base"
+            ],
+            "cacheVariables": {
+                "BUILD_TESTING": "OFF"
+            }
+        },
+        {   "name": "linux-debug-test",
+            "hidden": true,
+            "inherits": [
+                "ninja",
+                "default-dirs",
+                "debug",
+                "clang",
+                "linux-base"
+            ],
+            "cacheVariables": {
+                "BUILD_TESTING": "ON"
+            }
+        },
+        {   "name": "linux-release-test",
+            "hidden": true,
+            "inherits": [
+                "ninja",
+                "default-dirs",
+                "release",
+                "clang",
+                "linux-base"
+            ],
+            "cacheVariables": {
+                "BUILD_TESTING": "ON"
+            }
+        }
+    ],
+    "buildPresets": [
+        {   "name": "linux-debug",
+            "displayName": "Debug",
+            "description": "Linux debug",
+            "inherits": [
+                "debug",
+                "linux-base"
+            ],
+            "configurePreset": "linux-debug"
+        },
+        {   "name": "linux-release",
+            "displayName": "Release",
+            "description": "Linux release",
+            "inherits": [
+                "release",
+                "linux-base"
+            ],
+            "configurePreset": "linux-release"
+        }
+    ],
+    "testPresets": [
+        {   "name": "linux-debug",
+            "displayName": "Debug",
+            "description": "Linux debug test",
+            "inherits": [
+                "debug",
+                "linux-base"
+            ],
+            "configurePreset": "linux-debug-test"
+        },
+        {   "name": "linux-release",
+            "displayName": "Release",
+            "description": "Linux release test",
+            "inherits": [
+                "release",
+                "linux-base"
+            ],
+            "configurePreset": "linux-release-test"
+        },
+        {   "name": "linux-bench",
+            "displayName": "Benchmark",
+            "description": "Linux benchmark test [ -v ]",
+            "inherits": [
+                "benchmark",
+                "linux-base"
+            ],
+            "configurePreset": "linux-release-test"
+        }
+    ],
+    "workflowPresets": [
+        {   "name": "linux-debug",
+            "displayName": "Debug build",
+            "description": "Linux debug: configure, build",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "linux-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "linux-debug"
+                }
+            ]
+        },
+        {   "name": "linux-release",
+            "displayName": "Release build",
+            "description": "Linux release: configure, build",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "linux-release"
+                },
+                {
+                    "type": "build",
+                    "name": "linux-release"
+                }
+            ]
+        },
+        {   "name": "linux-debug-test",
+            "displayName": "Debug test",
+            "description": "Linux debug: configure, build, test",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "linux-debug-test"
+                },
+                {
+                    "type": "build",
+                    "name": "linux-debug"
+                },
+                {
+                    "type": "test",
+                    "name": "linux-debug"
+                }
+            ]
+        },
+        {   "name": "linux-release-test",
+            "displayName": "Release test",
+            "description": "Linux release: configure, build, test",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "linux-release-test"
+                },
+                {
+                    "type": "build",
+                    "name": "linux-release"
+                },
+                {
+                    "type": "test",
+                    "name": "linux-release"
+                }
+            ]
+        },
+        {   "name": "linux-bench-test",
+            "displayName": "Benchmark test",
+            "description": "Linux benchmark: configure, build, test",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "linux-release-test"
+                },
+                {
+                    "type": "build",
+                    "name": "linux-release"
+                },
+                {
+                    "type": "test",
+                    "name": "linux-bench"
+                }
+            ]
+        }
+    ]
+}

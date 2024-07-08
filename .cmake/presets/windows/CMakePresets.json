@@ -1,0 +1,200 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 25,
+        "patch": 0
+    },
+    "include": [
+        "../base/ConfigurePresets.json",
+        "../base/BuildPresets.json",
+        "../base/TestPresets.json"
+    ],
+    "configurePresets": [
+        {   "name": "windows-debug",
+            "displayName": "Debug",
+            "description": "Windows x64 ninja clang-cl debug",
+            "inherits": [
+                "ninja",
+                "default-dirs",
+                "debug",
+                "clang-cl",
+                "windows-base"
+            ],
+            "cacheVariables": {
+                "BUILD_TESTING": "OFF"
+            }
+        },
+        {   "name": "windows-release",
+            "displayName": "Release",
+            "description": "Windows x64 ninja clang-cl release",
+            "inherits": [
+                "ninja",
+                "default-dirs",
+                "release",
+                "clang-cl",
+                "windows-base"
+            ],
+            "cacheVariables": {
+                "BUILD_TESTING": "OFF"
+            }
+        },
+        {   "name": "windows-debug-test",
+            "inherits": [
+                "ninja",
+                "default-dirs",
+                "debug",
+                "clang-cl",
+                "windows-base"
+            ],
+            "cacheVariables": {
+                "BUILD_TESTING": "ON"
+            }
+        },
+        {   "name": "windows-release-test",
+            "inherits": [
+                "ninja",
+                "default-dirs",
+                "release",
+                "clang-cl",
+                "windows-base"
+            ],
+            "cacheVariables": {
+                "BUILD_TESTING": "ON"
+            }
+        }
+    ],
+    "buildPresets": [
+        {   "name": "windows-debug",
+            "displayName": "Debug",
+            "description": "Windows debug",
+            "inherits": [
+                "debug",
+                "windows-base"
+            ],
+            "configurePreset": "windows-debug"
+        },
+        {   "name": "windows-release",
+            "displayName": "Release",
+            "description": "Windows release",
+            "inherits": [
+                "release",
+                "windows-base"
+            ],
+            "configurePreset": "windows-release"
+        }
+    ],
+    "testPresets": [
+        {   "name": "windows-debug",
+            "displayName": "Debug",
+            "description": "Windows debug test",
+            "inherits": [
+                "debug",
+                "windows-base"
+            ],
+            "configurePreset": "windows-debug-test"
+        },
+        {   "name": "windows-release",
+            "displayName": "Release",
+            "description": "Windows release test",
+            "inherits": [
+                "release",
+                "windows-base"
+            ],
+            "configurePreset": "windows-release-test"
+        },
+        {   "name": "windows-bench",
+            "displayName": "Benchmark",
+            "description": "Windows benchmark test [ -v ]",
+            "inherits": [
+                "benchmark",
+                "windows-base"
+            ],
+            "configurePreset": "windows-release-test"
+        }
+    ],
+    "workflowPresets": [
+        {   "name": "windows-debug",
+            "displayName": "Debug build",
+            "description": "Windows debug: configure, build",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "windows-debug"
+                }
+            ]
+        },
+        {   "name": "windows-release",
+            "displayName": "Release build",
+            "description": "Windows release: configure, build",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-release"
+                },
+                {
+                    "type": "build",
+                    "name": "windows-release"
+                }
+            ]
+        },
+        {   "name": "windows-debug-test",
+            "displayName": "Debug test",
+            "description": "Windows debug: configure, build, test",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-debug-test"
+                },
+                {
+                    "type": "build",
+                    "name": "windows-debug"
+                },
+                {
+                    "type": "test",
+                    "name": "windows-debug"
+                }
+            ]
+        },
+        {   "name": "windows-release-test",
+            "displayName": "Release test",
+            "description": "Windows release: configure, build, test",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-release-test"
+                },
+                {
+                    "type": "build",
+                    "name": "windows-release"
+                },
+                {
+                    "type": "test",
+                    "name": "windows-release"
+                }
+            ]
+        },
+        {   "name": "windows-bench-test",
+            "displayName": "Benchmark test",
+            "description": "Windows benchmark: configure, build, test",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "windows-release-test"
+                },
+                {
+                    "type": "build",
+                    "name": "windows-release"
+                },
+                {
+                    "type": "test",
+                    "name": "windows-bench"
+                }
+            ]
+        }
+    ]
+}

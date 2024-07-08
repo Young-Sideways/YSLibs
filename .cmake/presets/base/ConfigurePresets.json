@@ -2,11 +2,11 @@
     "version": 6,
     "cmakeMinimumRequired": {
         "major": 3,
-        "minor": 19,
+        "minor": 25,
         "patch": 0
     },
     "configurePresets": [
-        {   "name": "use-ninja",
+        {   "name": "ninja",
             "hidden": true,
             "generator": "Ninja",
             "cacheVariables": {
@@ -20,16 +20,14 @@
         },
 
 
-
-        {   "name": "use-default-dirs",
+        {   "name": "default-dirs",
             "hidden": true,
             "binaryDir": "${sourceDir}/out/build/${presetName}",
             "installDir": "${sourceDir}/out/install/${presetName}"
         },
 
 
-
-        {   "name": "use-debug",
+        {   "name": "debug",
             "hidden": true,
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
@@ -38,7 +36,7 @@
                 "USE_LOG_SEVERITY": "0"
             }
         },
-        {   "name": "use-release",
+        {   "name": "release",
             "hidden": true,
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
@@ -47,9 +45,7 @@
             }
         },
 
-
-        
-        {   "name": "use-clang",
+        {   "name": "clang",
             "hidden": true,
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "clang",
@@ -58,7 +54,7 @@
                 "CMAKE_CXX_STANDARD": "17"
             }
         },
-        {   "name": "use-clang-cl",
+        {   "name": "clang-cl",
             "hidden": true,
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "clang.exe",
@@ -67,7 +63,6 @@
                 "CMAKE_CXX_STANDARD": "17"
             }
         },
-
 
 
         {   "name": "linux-base",

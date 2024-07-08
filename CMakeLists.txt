@@ -10,14 +10,12 @@ set(SOURCES "main.c")
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 add_subdirectory(core)
-add_subdirectory(macro)
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE yslibs::core
-    PRIVATE yslibs::macro
 )
 
-#if(BUILD_TESTING)
-#    enable_testing()
-#    add_subdirectory(test)
-#endif(BUILD_TESTING)
+if(BUILD_TESTING)
+    enable_testing()
+    add_subdirectory(test)
+endif(BUILD_TESTING)

@@ -1,0 +1,202 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 25,
+        "patch": 0
+    },
+    "include": [
+        "../base/ConfigurePresets.json",
+        "../base/BuildPresets.json",
+        "../base/TestPresets.json"
+    ],
+    "configurePresets": [
+        {   "name": "macos-debug",
+            "displayName": "Debug",
+            "description": "MacOS x64 ninja clang debug",
+            "inherits": [
+                "ninja",
+                "default-dirs",
+                "debug",
+                "clang",
+                "macos-base"
+            ],
+            "cacheVariables": {
+                "BUILD_TESTING": "OFF"
+            }
+        },
+        {   "name": "macos-release",
+            "displayName": "Release",
+            "description": "MacOS x64 ninja clang release",
+            "inherits": [
+                "ninja",
+                "default-dirs",
+                "release",
+                "clang",
+                "macos-base"
+            ],
+            "cacheVariables": {
+                "BUILD_TESTING": "OFF"
+            }
+        },
+        {   "name": "macos-debug-test",
+            "hidden": true,
+            "inherits": [
+                "ninja",
+                "default-dirs",
+                "debug",
+                "clang",
+                "macos-base"
+            ],
+            "cacheVariables": {
+                "BUILD_TESTING": "ON"
+            }
+        },
+        {   "name": "macos-release-test",
+            "hidden": true,
+            "inherits": [
+                "ninja",
+                "default-dirs",
+                "release",
+                "clang",
+                "macos-base"
+            ],
+            "cacheVariables": {
+                "BUILD_TESTING": "ON"
+            }
+        }
+    ],
+    "buildPresets": [
+        {   "name": "macos-debug",
+            "displayName": "Debug",
+            "description": "MacOS debug",
+            "inherits": [
+                "debug",
+                "macos-base"
+            ],
+            "configurePreset": "macos-debug"
+        },
+        {   "name": "macos-release",
+            "displayName": "Release",
+            "description": "MacOS release",
+            "inherits": [
+                "release",
+                "macos-base"
+            ],
+            "configurePreset": "macos-release"
+        }
+    ],
+    "testPresets": [
+        {   "name": "macos-debug",
+            "displayName": "Debug",
+            "description": "MacOS debug test",
+            "inherits": [
+                "debug",
+                "macos-base"
+            ],
+            "configurePreset": "macos-debug-test"
+        },
+        {   "name": "macos-release",
+            "displayName": "Release",
+            "description": "MacOS release test",
+            "inherits": [
+                "release",
+                "macos-base"
+            ],
+            "configurePreset": "macos-release-test"
+        },
+        {   "name": "macos-bench",
+            "displayName": "Benchmark",
+            "description": "MacOS benchmark test [ -v ]",
+            "inherits": [
+                "benchmark",
+                "macos-base"
+            ],
+            "configurePreset": "macos-release-test"
+        }
+    ],
+    "workflowPresets": [
+        {   "name": "macos-debug",
+            "displayName": "Debug build",
+            "description": "MacOS debug: configure, build",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "macos-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "macos-debug"
+                }
+            ]
+        },
+        {   "name": "macos-release",
+            "displayName": "Release build",
+            "description": "MacOS release: configure, build",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "macos-release"
+                },
+                {
+                    "type": "build",
+                    "name": "macos-release"
+                }
+            ]
+        },
+        {   "name": "macos-debug-test",
+            "displayName": "Debug test",
+            "description": "MacOS debug: configure, build, test",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "macos-debug-test"
+                },
+                {
+                    "type": "build",
+                    "name": "macos-debug"
+                },
+                {
+                    "type": "test",
+                    "name": "macos-debug"
+                }
+            ]
+        },
+        {   "name": "macos-release-test",
+            "displayName": "Release test",
+            "description": "MacOS release: configure, build, test",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "macos-release-test"
+                },
+                {
+                    "type": "build",
+                    "name": "macos-release"
+                },
+                {
+                    "type": "test",
+                    "name": "macos-release"
+                }
+            ]
+        },
+        {   "name": "macos-bench-test",
+            "displayName": "Benchmark test",
+            "description": "MacOS benchmark: configure, build, test",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "macos-release-test"
+                },
+                {
+                    "type": "build",
+                    "name": "macos-release"
+                },
+                {
+                    "type": "test",
+                    "name": "macos-bench"
+                }
+            ]
+        }
+    ]
+}

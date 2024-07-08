@@ -1,8 +1,9 @@
-cmake_minimum_required (VERSION 3.19 FATAL_ERROR)
+cmake_minimum_required (VERSION 3.25 FATAL_ERROR)
 
+message("ctest bin dir: ${CTEST_BINARY_DIRECTORY}")
 project ("test" LANGUAGES C)
-set(PROJECT_BINARY_DIR ${CTEST_BINARY_DIRECTORY} CACHE PATH "Path to tests binary dir")
 
-include(${PROJECT_SOURCE_DIR}/inc/test.h)
+message("include dir: ${PROJECT_SOURCE_DIR}/inc")
+include_directories(${PROJECT_SOURCE_DIR}/inc)
 
 add_subdirectory(core)
