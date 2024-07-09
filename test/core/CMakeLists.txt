@@ -8,9 +8,7 @@ foreach(test_file ${SOURCES})
     get_filename_component(test_filename test_file NAME_WLE)
     set(test_name "${test_filename}_ctest")
     add_executable(${test_name} ${test_file})
-    set_target_properties(${test_name} PROPERTIES BINARY_DIR "${CTEST_BINARY_DIRECTORY}")
-    target_link_libraries(${test_name} PRIVATE YSLIBS_CORE)
-    message("projec bin dir: ${PROJECT_BINARY_DIR}")
+    target_link_libraries(${test_name} PRIVATE yslibs::core)
     add_test(
         NAME ${test_name}
         WORKING_DIRECTORY ${PROJECT_BINARY_DIR}

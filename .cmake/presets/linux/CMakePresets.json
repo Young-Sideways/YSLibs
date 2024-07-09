@@ -40,10 +40,9 @@
             }
         },
         {   "name": "linux-debug-test",
-            "hidden": true,
             "inherits": [
                 "ninja",
-                "default-dirs",
+                "test-dirs",
                 "debug",
                 "clang",
                 "linux-base"
@@ -53,10 +52,9 @@
             }
         },
         {   "name": "linux-release-test",
-            "hidden": true,
             "inherits": [
                 "ninja",
-                "default-dirs",
+                "test-dirs",
                 "release",
                 "clang",
                 "linux-base"
@@ -84,6 +82,24 @@
                 "linux-base"
             ],
             "configurePreset": "linux-release"
+        },
+        {   "name": "linux-debug-test",
+            "displayName": "Debug test",
+            "description": "Linux debug with tests",
+            "inherits": [
+                "debug",
+                "linux-base"
+            ],
+            "configurePreset": "linux-debug-test"
+        },
+        {   "name": "linux-release-test",
+            "displayName": "Release test",
+            "description": "Linux release with tests",
+            "inherits": [
+                "release",
+                "linux-base"
+            ],
+            "configurePreset": "linux-release-test"
         }
     ],
     "testPresets": [
@@ -154,7 +170,7 @@
                 },
                 {
                     "type": "build",
-                    "name": "linux-debug"
+                    "name": "linux-debug-test"
                 },
                 {
                     "type": "test",
@@ -172,7 +188,7 @@
                 },
                 {
                     "type": "build",
-                    "name": "linux-release"
+                    "name": "linux-release-test"
                 },
                 {
                     "type": "test",
@@ -190,7 +206,7 @@
                 },
                 {
                     "type": "build",
-                    "name": "linux-release"
+                    "name": "linux-release-test"
                 },
                 {
                     "type": "test",

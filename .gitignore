@@ -31,8 +31,5 @@ Generated\ Files/
 __pycache__/
 *.pyc
 
-# Tabs Studio
-*.tss
-
 # Doxygen
 html/

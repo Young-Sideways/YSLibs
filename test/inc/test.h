@@ -33,7 +33,7 @@
 #define LOG_WARN(wmsg, ...) fprintf(stderr, wmsg " .line: %d\n", __VA_ARGS__, __LINE__)
 
 #define SSINT_EQ_HELPER(lhs, rhs)                                                               \
-    {                                                                                           \
+    if(true){                                                                                   \
         if (sizeof(lhs) != sizeof(rhs))                                                         \
             LOG_WARN("signed ints have different sizes %d <-> %d", sizeof(lhs), sizeof(rhs));   \
         if ((long long)lhs != (long long)rhs) {                                                 \
@@ -43,7 +43,7 @@
     }
 
 #define SUINT_EQ_HELPER(lhs, rhs)                                                               \
-    {                                                                                           \
+    if(true){                                                                                   \
         LOG_WARN("ints have different signs 'signed' <-> 'unsigned'");                          \
         if (sizeof(lhs) != sizeof(rhs))                                                         \
             LOG_WARN("ints have different sizes %d <-> %d", sizeof(lhs), sizeof(rhs));          \
@@ -54,7 +54,7 @@
     }
 
 #define UUINT_EQ_HELPER(lhs, rhs)                                                               \
-    {                                                                                           \
+    if(true){                                                                                   \
         if (sizeof(lhs) != sizeof(rhs))                                                         \
             LOG_WARN("unsigned ints have different sizes %d <-> %d", sizeof(lhs), sizeof(rhs)); \
         if ((unsigned long long)lhs != (unsigned long long)rhs) {                               \
