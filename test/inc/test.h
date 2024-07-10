@@ -32,80 +32,11 @@
 #define LOG_ERR(emsg) fprintf(stderr, emsg " failed at line %d in file '%s'\n", __LINE__, __FILE__)
 #define LOG_WARN(wmsg, ...) fprintf(stderr, wmsg " .line: %d\n", __VA_ARGS__, __LINE__)
 
-#define SSINT_EQ_HELPER(lhs, rhs)                                                               \
-    if(true){                                                                                   \
-        if (sizeof(lhs) != sizeof(rhs))                                                         \
-            LOG_WARN("signed ints have different sizes %d <-> %d", sizeof(lhs), sizeof(rhs));   \
-        if ((long long)lhs != (long long)rhs) {                                                 \
-            LOG_ERR("INT_EQ");                                                                  \
-            exit(EXIT_FAILURE);                                                                 \
-        } \
+#define INT_EQ(lhs, rhs)   \
+    if(lhs != rhs) {       \
+        LOG_ERR("INT_EQ"); \
+        exit(1);           \
     }
-
-#define SUINT_EQ_HELPER(lhs, rhs)                                                               \
-    if(true){                                                                                   \
-        LOG_WARN("ints have different signs 'signed' <-> 'unsigned'");                          \
-        if (sizeof(lhs) != sizeof(rhs))                                                         \
-            LOG_WARN("ints have different sizes %d <-> %d", sizeof(lhs), sizeof(rhs));          \
-        if ((long long)lhs != (unsigned long long)rhs) {                                        \
-            LOG_ERR("INT_EQ");                                                                  \
-            exit(EXIT_FAILURE);                                                                 \
-        } \
-    }
-
-#define UUINT_EQ_HELPER(lhs, rhs)                                                               \
-    if(true){                                                                                   \
-        if (sizeof(lhs) != sizeof(rhs))                                                         \
-            LOG_WARN("unsigned ints have different sizes %d <-> %d", sizeof(lhs), sizeof(rhs)); \
-        if ((unsigned long long)lhs != (unsigned long long)rhs) {                               \
-            LOG_ERR("INT_EQ");                                                                  \
-            exit(EXIT_FAILURE);                                                                 \
-        } \
-    }
-
-#define SINT_EQ_HELPER(lhs, rhs)                                        \
-    _Generic ( (rhs) ,                                                  \
-        signed char        : SSINT_EQ_HELPER(lhs, rhs),                 \
-        signed short       : SSINT_EQ_HELPER(lhs, rhs),                 \
-        signed int         : SSINT_EQ_HELPER(lhs, rhs),                 \
-        signed long        : SSINT_EQ_HELPER(lhs, rhs),                 \
-        signed long long   : SSINT_EQ_HELPER(lhs, rhs),                 \
-        unsigned char      : SUINT_EQ_HELPER(lhs, rhs),                 \
-        unsigned short     : SUINT_EQ_HELPER(lhs, rhs),                 \
-        unsigned int       : SUINT_EQ_HELPER(lhs, rhs),                 \
-        unsigned long      : SUINT_EQ_HELPER(lhs, rhs),                 \
-        unsigned long long : SUINT_EQ_HELPER(lhs, rhs),                 \
-        default            : LOG_ERR("trying to compare non int types") \
-    )
-#define UINT_EQ_HELPER(lhs, rhs)                                        \
-    _Generic ( (rhs) ,                                                  \
-        signed char        : SUINT_EQ_HELPER(rhs, lhs),                 \
-        signed short       : SUINT_EQ_HELPER(rhs, lhs),                 \
-        signed int         : SUINT_EQ_HELPER(rhs, lhs),                 \
-        signed long        : SUINT_EQ_HELPER(rhs, lhs),                 \
-        signed long long   : SUINT_EQ_HELPER(rhs, lhs),                 \
-        unsigned char      : UUINT_EQ_HELPER(lhs, rhs),                 \
-        unsigned short     : UUINT_EQ_HELPER(lhs, rhs),                 \
-        unsigned int       : UUINT_EQ_HELPER(lhs, rhs),                 \
-        unsigned long      : UUINT_EQ_HELPER(lhs, rhs),                 \
-        unsigned long long : UUINT_EQ_HELPER(lhs, rhs),                 \
-        default            : LOG_ERR("trying to compare non int types") \
-    )
-
-#define INT_EQ(lhs, rhs)                                               \
-    _Generic( (lhs),                                                   \
-        signed char       : SINT_EQ_HELPER(lhs, rhs),                  \
-        signed short      : SINT_EQ_HELPER(lhs, rhs),                  \
-        signed int        : SINT_EQ_HELPER(lhs, rhs),                  \
-        signed long       : SINT_EQ_HELPER(lhs, rhs),                  \
-        signed long long  : SINT_EQ_HELPER(lhs, rhs),                  \
-        unsigned char     : UINT_EQ_HELPER(lhs, rhs),                  \
-        unsigned short    : UINT_EQ_HELPER(lhs, rhs),                  \
-        unsigned int      : UINT_EQ_HELPER(lhs, rhs),                  \
-        unsigned long     : UINT_EQ_HELPER(lhs, rhs),                  \
-        unsigned long long: UINT_EQ_HELPER(lhs, rhs),                  \
-        default           : LOG_ERR("trying to compare non int types") \
-    )
 
 
 #define MAX(lhs, rhs) \
@@ -188,6 +119,8 @@
     )
 
 #pragma endregion
+
+#define EXPAND(...) __VA_ARGS__
 
 #pragma region --- FUNCTION ---
 

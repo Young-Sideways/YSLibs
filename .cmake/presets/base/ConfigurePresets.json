@@ -25,12 +25,6 @@
             "binaryDir": "${sourceDir}/out/build/${presetName}",
             "installDir": "${sourceDir}/out/install/${presetName}"
         },
-        {   "name": "test-dirs",
-            "hidden": true,
-            "binaryDir": "${sourceDir}/out/test/${presetName}",
-            "installDir": "${sourceDir}/out/test/${presetName}"
-
-        },
 
 
         {   "name": "debug",

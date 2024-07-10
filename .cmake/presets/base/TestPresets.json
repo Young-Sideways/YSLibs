@@ -11,10 +11,6 @@
             "output": {
                 "shortProgress": true,
                 "outputOnFailure": true
-            },
-            "environment": {
-                "CTEST_SOURCE_DIRECTORY": "${sourceDir}/test",
-                "CTEST_BINARY_DIRECTORY": "${sourceDir}/out/test"
             }
         },
 
@@ -22,21 +18,11 @@
         {   "name": "debug",
             "hidden": true,
             "inherits": [ "test-base" ],
-            "filter": {
-                "include": {
-                    "label": "unit"
-                }
-            },
             "configuration": "Debug"
         },
         {   "name": "release",
             "hidden": true,
             "inherits": [ "test-base" ],
-            "filter": {
-                "include": {
-                    "label": "unit"
-                }
-            },
             "configuration": "Release"
         },
         {   "name": "benchmark",
@@ -44,11 +30,6 @@
             "inherits": [ "test-base" ],
             "output": {
                 "verbosity": "verbose"
-            },
-            "filter": {
-                "include": {
-                    "label": "benchmark"
-                }
             },
             "configuration": "Release"
         },
