@@ -1,11 +1,16 @@
+## REQUIREMENTS
+
+YSLibs build system supports multiple AMD64 platform, such as `windows` `linux` and `mac` and depends olny `cmake >= 3.25` and `clang >= 17`, because it uses last, at this point, C Language standard - 23.\
+In my future plans rewrite part of lib, to make it more ANSI style and add support for other architectures, such as `x86`, `arm` and `aarch64`
+
 ## BUILDING
 
-To get started, enter\
+To get started, choose any \<build preset\>
 `cmake --list-presets all`\
-choose \<build preset\> and paste to this template\
+and paste to this template\
 `cmake --build --preset <build preset>`
 
-For example you can choose release build type\
+For example you can take release build type\
 `cmake --build --preset <os>-release`\
 Or debug build with test's and run it\
 `cmake --build --preset <os>-debug`\
