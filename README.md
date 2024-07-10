@@ -10,3 +10,6 @@ For example you can choose release build type\
 Or debug build with test's and run it\
 `cmake --build --preset <os>-debug`\
 `ctest --preset linux-debug`
+
+### Building shared or static
+Select a build template from the ones above and add `-DYSLIBS_BUILD_SHARED=ON`, by default yslibs is built statically
