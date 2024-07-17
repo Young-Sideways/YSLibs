@@ -77,7 +77,7 @@
 
 /**
  *  @def   GROWTH_FACTOR
- *  @brief memory consumption growth factor for collections ( new size = x2 )
+ *  @brief memory consumption growth factor for collections ( 'new size' = 2 * 'old size' )
  *  @param n - current size
  */
 #define GROWTH_FACTOR(n) (n ? (n << 1) : 1u)
@@ -99,14 +99,6 @@
 *  @brief Value of invalid index for all containers
 */
 #define COLLECTION_INVALID_INDEX (INT32_MIN)
-
-#pragma endregion
-
-#pragma region --- TYPEDEF ---
-
-struct collection_universal_header {
-    size_t size;
-};
 
 #pragma endregion
 

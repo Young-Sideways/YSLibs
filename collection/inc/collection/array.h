@@ -32,7 +32,8 @@
  *  @brief   static array
  */
 typedef const struct array_t {
-    struct collection_universal_header;
+    size_t size;
+    size_t element_size;
     void* data;
 } *array_t;
 
@@ -45,7 +46,8 @@ typedef const struct array_t {
  *  @param[in] size         - Number of elements
  *  @param[in] element_size - Size of each element
  */
-array_t arr_init(size_t size, size_t element_size);
+array_t arr_ctor(size_t size, size_t element_size);
+void arr_dtor(array_t array);
 
 #pragma endregion
 
@@ -57,6 +59,31 @@ array_t arr_init(size_t size, size_t element_size);
  *  @param[in] index - Index of element
  */
 void* arr_at(array_t array, int index);
+
+/**
+ *  @brief   Find index of element
+ *  @param[in] array - Container
+ *  @param[in] value - Pointer to value
+ *  @returns index of element
+ *  @returns -1 if no element in array
+ */
+int arr_index(array_t array, const void* value);
+
+/**
+ *  @brief   Checks if \p array has \p value
+ *  @param[in] array - Container
+ *  @param[in] value - Pointer to value
+ *  @returns true, if array has value
+ *  @returns false, if no value in array
+ */
+bool arr_contains(array_t array, const void* value);
+
+/**
+ *  @brief   Sorts elements in \p array with given \p comparator
+ *  @param[in,out] array  - Container
+ *  @param[in] comparator - Given comparator 
+ */
+void arr_sort(array_t array, comparator_t comparator);
 
 #pragma endregion
 

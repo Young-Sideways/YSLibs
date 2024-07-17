@@ -23,7 +23,7 @@
 static void* private_sort_partition__(ubyte* first, ubyte* last, size_t element_size, comparator_t comparator_, swap_t swap_) {
     ubyte* pivot = last;
     last -= element_size;
-    LOOP:
+LOOP:
     while (comparator_(first, pivot, element_size) < 0) first += element_size;
     while (comparator_(last, pivot, element_size) > 0) last -= element_size;
     if (first < last) {

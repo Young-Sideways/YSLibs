@@ -72,7 +72,7 @@ static inline bool array_private_is_valid_(array_t array) {
 
 #pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 
-array_t arr_init(const size_t size, const size_t element_size) {
+array_t arr_ctor(const size_t size, const size_t element_size) {
     struct array_t* result = NULL;
     struct collection_private_header* block = (struct collection_private_header*)malloc(sizeof(struct collection_private_header) + sizeof(struct array_t) + (size * element_size));
     if (block) {
