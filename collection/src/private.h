@@ -36,19 +36,9 @@ typedef void (*u_acc_t)(struct collection_universal_header* collection, void** b
  */
 typedef void* (*u_mgr_t)(void* collection);
 
-/**
- *  @struct collection_algorithm_adapter
- *  @brief  algorithm adapter header
- * 
- *  default field policy:
- *      NULL   : this algorithm can NOT be applied
- *      POINTER: this algorithm can be applied to the container, and function pointer can be replaced to another function
- */
-struct collection_algorithm_adapter {
-    void* comparator_;
-    void* swap_      ;
-    void* search_    ;
-    void* sort_      ;
+struct collection_universal_header {
+    uint32_t size;
+    uint32_t element_size;
 };
 
 /**

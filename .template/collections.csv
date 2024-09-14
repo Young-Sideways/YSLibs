@@ -2,8 +2,7 @@ container;type_name;size policy;memory layout;different types;depend;enumerable;
 Tuple;tuple_t;static;linear;+;-;+;+;new(tuple_t, …);>0;-;-
 Pair;pair_t;static;linear;+;tuple_t;+;+;new(pair_t, key, value);0;+-;-
 Variant;variant_t;static;linear;+;-;+;+;new(variant_t, value);0;+-;-
-Array;array_t;static;linear;-;-;+;+;"new(array_t, type, size)
-new(array_t, type, …)";>=0;+;+-
+Array;array_t;static;linear;-;-;+;+;new(array_t, type, size) new(array_t, type, …);>=0;+;+-
 Vector;vector_t;dynamic;linear;-;-;+;+;new(vector_t, type, size);>=0;+;
 List;list_t;dynamic;reference;-;-;+;+;new(list_t, type, size);>=0;+;
 Matrix;matrix_t;static;linear;-;-;+;+;new(matrix_t, type, rows, cols);>=0;+;

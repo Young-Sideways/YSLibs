@@ -102,4 +102,11 @@
 
 #pragma endregion
 
+#pragma region --- FUNCTIONS ---
+
+size_t size(void* collection);
+size_t element_size(void* collection);
+
+#pragma endregion
+
 #endif // !COLLECTION_GENERAL_H_

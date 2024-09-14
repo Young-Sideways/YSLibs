@@ -1,7 +1,6 @@
 /*******************************************************************************
  *  @file      array.h
  *  @brief     array - collection, with fixed memory allocation
- *  @attribute linear, sortable
  *  @author    Young Sideways
  *  @date      15.02.2024
  *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
@@ -15,6 +14,7 @@
 #pragma region --- INCLUDE ---
 
 #include "collection/general.h"
+#include "algorithm/comparator.h"
 
 #pragma endregion
 
@@ -46,8 +46,8 @@ typedef const struct array_t {
  *  @param[in] size         - Number of elements
  *  @param[in] element_size - Size of each element
  */
-array_t arr_ctor(size_t size, size_t element_size);
-void arr_dtor(array_t array);
+array_t array_ctor(size_t size, size_t element_size);
+void array_dtor(array_t array);
 
 #pragma endregion
 
@@ -58,7 +58,7 @@ void arr_dtor(array_t array);
  *  @param[in] array - Container
  *  @param[in] index - Index of element
  */
-void* arr_at(array_t array, int index);
+void* array_at(array_t array, int index);
 
 /**
  *  @brief   Find index of element
@@ -67,7 +67,7 @@ void* arr_at(array_t array, int index);
  *  @returns index of element
  *  @returns -1 if no element in array
  */
-int arr_index(array_t array, const void* value);
+int array_find(array_t array, const void* value);
 
 /**
  *  @brief   Checks if \p array has \p value
@@ -76,14 +76,14 @@ int arr_index(array_t array, const void* value);
  *  @returns true, if array has value
  *  @returns false, if no value in array
  */
-bool arr_contains(array_t array, const void* value);
+bool array_contains(array_t array, const void* value);
 
 /**
  *  @brief   Sorts elements in \p array with given \p comparator
  *  @param[in,out] array  - Container
  *  @param[in] comparator - Given comparator 
  */
-void arr_sort(array_t array, comparator_t comparator);
+void array_sort(array_t array, comparator_t comparator);
 
 #pragma endregion
 

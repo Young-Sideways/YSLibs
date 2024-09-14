@@ -17,7 +17,7 @@
 #include "core.h"
 #include "debug.h"
 #include "algorithm/search.h"
-#include "collection/private.h"
+#include "./printf.h"
 
 #pragma endregion
 
