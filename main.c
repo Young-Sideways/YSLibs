@@ -63,7 +63,7 @@ static const char* build_type_names[] = {
 };
 
 // 1.2.5-rc3-273645 04:32:17 16.04.2024 
-typedef struct {
+typedef struct {    
     union {
         uint8_t version[3];
         struct { uint8_t major, minor, patch; };
