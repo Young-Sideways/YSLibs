@@ -88,3 +88,27 @@ void* ht_lookup(hashtable_t table, const void* key);
 #pragma endregion
 
 #endif // !HASHTABLE_H_
+
+
+typedef struct pair_t {
+    size_t key_size;
+    size_t value_size;
+    void* key;
+    void* value;
+} *pair_t;
+
+typedef struct ht_entry_t {
+    pair_t pair;
+    ht_entry_t next;
+    ht_entry_t prev;
+} *ht_entry_t;
+
+typedef struct ht_bucket_t {
+    hashtable_t parent;
+    size_t bucket_size;
+    struct ht_entry_t* entries;
+} *ht_bucket_t;
+
+typedef struct hashtable_t {
+
+} hashtable_t;

@@ -22,10 +22,10 @@
 /**
  *  @brief  reverses blocks of size \p element_size in memory \p src size \p capacity 
  *  @param[in,out] ptr          - Pointer to memory block
- *  @param[in]     capacity     - Number of bytes
+ *  @param[in]     count        - Number of elements
  *  @param[in]     element_size - Size in bytes of each element
  */
-void reverse(void* ptr, size_t capacity, size_t element_size);
+void* reverse(void* ptr, const size_t count, const size_t element_size);
 
 /**
  * @brief duplicates memory from \p src

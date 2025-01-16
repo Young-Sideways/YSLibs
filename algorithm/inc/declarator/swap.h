@@ -31,7 +31,7 @@
     static inline void prefix##_swap(void* lhs, void* rhs, size_t size) {   \
         explain_assert(lhs, "algorithm/swap: invalid arg - 'lhs' == NULL"); \
         explain_assert(rhs, "algorithm/swap: invalid arg - 'rhs' == NULL"); \
-        UNUSED(size);                                                       \
+        YSL_UNUSED(size);                                                   \
         type temp   = *(type*)lhs;                                          \
         *(type*)lhs = *(type*)rhs;                                          \
         *(type*)rhs = temp;                                                 \

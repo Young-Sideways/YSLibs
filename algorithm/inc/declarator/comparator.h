@@ -29,13 +29,13 @@
     static inline int prefix##_fcomp(const void* lhs, const void* rhs, size_t size) { \
         explain_assert(lhs, "algorithm error: lhs value can't be NULL");              \
         explain_assert(rhs, "algorithm error: rhs value can't be NULL");              \
-        UNUSED(size);                                                                 \
+        YSL_UNUSED(size);                                                             \
         return ((*(type*)lhs > *(type*)rhs) - (*(type*)lhs < *(type*)rhs));           \
     };                                                                                \
     static inline int prefix##_rcomp(const void* lhs, const void* rhs, size_t size) { \
         explain_assert(lhs, "algorithm error: lhs value can't be NULL");              \
         explain_assert(rhs, "algorithm error: rhs value can't be NULL");              \
-        UNUSED(size);                                                                 \
+        YSL_UNUSED(size);                                                             \
         return ((*(type*)lhs < *(type*)rhs) - (*(type*)lhs > *(type*)rhs));           \
     }
 

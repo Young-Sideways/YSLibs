@@ -6,61 +6,6 @@
  *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
-/*******************************************************************************
- * 
- * adaptors - private headers
- * CUH      - universal collection header
- * SCH      - specific collection header
- * DAT      - data segment
- * 
- * 
- * - inplace container type with specific header
- *     +---------------+---------------+---------------+---------------+
- *     |   adaptors    |      CUH      |      SCH      |      DAT      |
- *     +---------------+---------------+---------------+---------------+
- * -size(adaptors)     0            size(CUH)      size(SCH)       size(DAT)
- *     +---------------+---------------+---------------+---------------+
- * 
- * - inplace container type without specific header
- *     +---------------+---------------+---------------+
- *     |   adaptors    |      CUH      |      DAT      |
- *     +---------------+---------------+---------------+
- * -size(adaptors)     0           size(CUH)       size(DAT)
- *     +---------------+---------------+---------------+
- * 
- * 
- * - reference container type with specific header
- *     +---------------+---------------+---------------+
- *     |   adaptors    |      CUH      |      SCH      |
- *     +---------------+---------------+---------------+
- * -size(adaptors)     0           size(CUH)       size(SCH)
- *     +---------------+-----------+---+-----------+---+
- *                                 |               *
- *                                 |               *
- *                                 |       * maybe pointer *
- *                                 |               *
- *                                 |               v
- *                              pointer     +---------------+
- *                                 |        |      DAT      |
- *                                 +------> +---------------+
- *                                          0           size(DAT)
- *                                          +---------------+
- * 
- * - reference container type
- *     +---------------+---------------+
- *     |   adaptors    |      CUH      |
- *     +---------------+---------------+
- * -size(adaptors)     0           size(CUH)
- *     +---------------+-----------+---+
- *                                 |
- *                              pointer     +---------------+
- *                                 |        |      DAT      |
- *                                 +------> +---------------+
- *                                          0           size(DAT)
- *                                          +---------------+
- * 
- ******************************************************************************/
-
 #ifndef COLLECTION_GENERAL_H_
 #define COLLECTION_GENERAL_H_
 
@@ -99,13 +44,6 @@
 *  @brief Value of invalid index for all containers
 */
 #define COLLECTION_INVALID_INDEX (INT32_MIN)
-
-#pragma endregion
-
-#pragma region --- FUNCTIONS ---
-
-size_t size(void* collection);
-size_t element_size(void* collection);
 
 #pragma endregion
 

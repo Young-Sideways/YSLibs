@@ -12,8 +12,15 @@ if (WIN32)
 endif()
 
 add_subdirectory(core)
+add_subdirectory(macro)
+add_subdirectory(algorithm)
+add_subdirectory(collection)
+
 target_link_libraries(${PROJECT_NAME}
-    PRIVATE yslibs::core
+    INTERFACE yslibs::core
+    INTERFACE yslibs::macro
+    PRIVATE   yslibs::algorithm
+    PRIVATE   yslibs::collection
 )
 
 if(BUILD_TESTING)

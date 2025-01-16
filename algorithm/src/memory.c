@@ -22,17 +22,16 @@
 
 #pragma region --- FUNCTION ---
 
-void reverse(void* src, size_t capacity, size_t element_size) {
-    explain_assert(src                           , "algorithm/memory: invalid arg - 'src' == NULL"                     );
-    explain_assert(capacity                      , "algorithm/memory: invalid arg - 'capacity' == 0u"                  );
-    explain_assert(element_size                  , "algorithm/memory: invalid arg - 'element_size' == 0u"              );
-    explain_assert(element_size <= capacity      , "algorithm/memory: invalid arg - 'element_size' > 'capacity'"       );
-    explain_assert((capacity % element_size) == 0, "algorithm/memory: invalid arg - ('capacity' % 'element_size') != 0");
+void* reverse(void* src, const size_t count, const size_t element_size) {
+    explain_assert(src                           , "algorithm/memory: invalid arg - 'src' == NULL"       );
+    explain_assert(count                         , "algorithm/memory: invalid arg - 'count' == 0u"       );
+    explain_assert(element_size                  , "algorithm/memory: invalid arg - 'element_size' == 0u");
 
     ubyte* first = (ubyte*)src;
-    ubyte* last  = (ubyte*)(first + capacity - element_size);
+    ubyte* last  = (ubyte*)(first + ((count - 1) * element_size));
     for (; first < last; first += element_size, last -= element_size)
         swap((void*)first, (void*)last, element_size);
+    return src;
 }
 
 void* memdup(const void* src, size_t size) {

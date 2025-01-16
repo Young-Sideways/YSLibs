@@ -31,14 +31,14 @@ void swap(void* lhs, void* rhs, size_t size) {
         *(ubyte*)rhs ^= *(ubyte*)lhs;
         *(ubyte*)lhs ^= *(ubyte*)rhs;
         lhs = (void*)((ubyte*)lhs + 1);
-        lhs = (void*)((ubyte*)rhs + 1);
+        rhs = (void*)((ubyte*)rhs + 1);
     }
     for (size /= sizeof(size_t); size; --size) {
         *(size_t*)lhs ^= *(size_t*)rhs;
         *(size_t*)rhs ^= *(size_t*)lhs;
         *(size_t*)lhs ^= *(size_t*)rhs;
         lhs = (void*)((size_t*)lhs + 1);
-        lhs = (void*)((size_t*)rhs + 1);
+        rhs = (void*)((size_t*)rhs + 1);
     }
 }
 

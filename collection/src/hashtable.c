@@ -175,7 +175,7 @@ hash_t hash(const void* key, size_t size) {
     return hash;
 }
 hash_t str_hash(const void* key, size_t size) {
-    UNUSED(size);
+    YSL_UNUSED(size);
     if (!key)
         return (hash_t)0;
     const char* str = (char*)*(void**)key;

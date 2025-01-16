@@ -222,7 +222,7 @@ void it_prev(iterator_t* iterator) {
 #pragma region --- ALGORITHM ADAPTER ---
 
 int it_comp(void* lhs, void* rhs, size_t size) {
-    UNUSED(size);
+    YSL_UNUSED(size);
 
     explain_assert(lhs, "iterator error: invalid left iterator");
     explain_assert(rhs, "iterator error: invalid right iterator");
