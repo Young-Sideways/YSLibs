@@ -34,7 +34,7 @@ void* reverse(void* src, const size_t count, const size_t element_size) {
     return src;
 }
 
-void* memdup(const void* src, size_t size) {
+void* memdup(const void* src, const size_t size) {
     explain_assert(src , "algorithm/memory: invalid arg 'src' == NULL");
     explain_assert(size, "algorithm/memory: invalid arg 'size' == 0u" );
 

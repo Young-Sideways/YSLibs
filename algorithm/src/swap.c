@@ -20,11 +20,11 @@
 
 #pragma region --- FUNCTION ---
 
-void swap(void* lhs, void* rhs, size_t size) {
+void swap_s(void* lhs, void* rhs, size_t size) {
     explain_assert(lhs , "algorithm/swap: invalid arg - 'lhs' == NULL");
     explain_assert(rhs , "algorithm/swap: invalid arg - 'rhs' == NULL");
     explain_assert(size, "algorithm/swap: invalid arg - 'size' == 0u" );
-    explain_assert(llabs((ubyte*)lhs - (ubyte*)rhs) >= (long long)size, "algorithm/swap: Memory regions overlaps");
+    explain_assert(llabs((byte*)lhs - (byte*)rhs) >= (long long)size, "algorithm/swap: Memory regions overlaps");
 
     for (; size % sizeof(size_t); --size) {
         *(ubyte*)lhs ^= *(ubyte*)rhs;

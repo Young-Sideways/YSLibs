@@ -14,139 +14,78 @@
 
 #pragma region --- INCLUDES ---
 
+#include <stdarg.h>
+
 #include "general.h"
+
+#include "algorithm/search.h"
+#include "algorithm/sort.h"
 
 #pragma endregion
 
 #pragma region --- TYPEDEFS ---
 
-/**
- *  @typedef u_acc_t
- *  @brief   function prototype typedef for unifying access to container memory
- *  @param[in]     collection - Pointer to main collection structure
- *  @param[in,out] block      - init/processed block
- *  @param[in,out] stage      - init/processed stage
- */
-typedef void (*u_acc_t)(struct collection_universal_header* collection, void** block, int* stage);
-
-/**
- *  @typedef u_mgr_t
- *  @brief   function prototype typedef for unifying collection managing
- *  @param[in]     collection - Pointer to main collection structure
- */
-typedef void* (*u_mgr_t)(void* collection);
-
-struct collection_universal_header {
-    uint32_t size;
-    uint32_t element_size;
+enum c_memory_tag_e {
+    CM_TAG_HEADER_DETACHED = 1 << 49,
+    CM_TAG_CUSTOM_VTABLE   = 1 << 50,
 };
 
-/**
- *  @struct collection_iterator_adapter
- *  @brief  iterator adapter header
- */
-struct collection_iterator_adapter {
-    u_acc_t init_;
-    u_acc_t next_;
-    u_acc_t prev_;
-};
+#define YSL_TAGGED_POINTERS
+#ifdef YSL_TAGGED_POINTERS
 
-/**
- *  @struct collection_manager_adapter
- *  @brief  collection manager adapter
- *  default field policy:
- *      _copy: can NOT be NULL
- *      _dtor:
- *          NULL: data memory block places after container specific header, and no need to deallocate separately
- */
-struct collection_manager_adapter {
-    u_mgr_t copy_;
-    u_mgr_t dtor_;
-};
+#endif
 
-/**
- *  @struct collection_private_header
- *  @brief  private header, that's contain info about collection
- */
-struct collection_private_header {
-    struct collection_algorithm_adapter caa  ;
-    struct collection_iterator_adapter  cia  ;
-    struct collection_manager_adapter   cma  ;
-    void*                               data_;
+typedef void* (*c_mem_mngr_t)(void** collection, int n, va_list list);
+
+struct collection_vtable_s {
+  // ctor/dtor
+    const c_mem_mngr_t _copy        ; // copy(*)
+    const c_mem_mngr_t _dtor        ; // delete(*)
+    // also 'shadow', 'slice'
+  // info
+    const c_mem_mngr_t _element_size; // element_size(*), element_size(*, 0/1), element_size(*, index)
+    const c_mem_mngr_t _size        ; // size(*)        , size(*, 0/1)        , size(*, dimension)
+    const c_mem_mngr_t _capacity    ; // capacity(*)
+//   const c_info_mngr_t _count       ; // count(*, value)
+//   //          *--->   _contains    ; // contains(*, value) -> count(*, value) ? true : false
+  // data
+//    const c_data_mngr_t _data        ; // data(*)
+//    const c_data_mngr_t _at          ; // at(*, index)   , at(*, key)          , at(*, dimension1, dimension2, ...)
+//    const c_data_mngr_t _find        ; // data(*, value)
+  // enumeration
+    const c_mem_mngr_t _init        ; // iterate through collection
+    const c_mem_mngr_t _next        ; // iterate through collection
+    const c_mem_mngr_t _prev        ; // iterate through collection
+  // internal
+    comparator_t       _comparator  ; // only internal use
+    search_t           _search      ; // only internal use
+    sort_t             _sort        ; // only internal use
 };
 
 #pragma endregion
 
 #pragma region --- MACRO ---
 
-#define CPH_EXTRACT(collection) (((struct collection_private_header*)(collection)) - 1)
 
-#define CPH_REF(collection, name) struct collection_private_header* name = CPH_EXTRACT(collection)
-#define CPH_CREF(collection, name) const struct collection_private_header* const name = CPH_EXTRACT(collection)
 
 #pragma endregion
 
 #pragma region --- PLACEHOLDER ---
+
 /*
  * this function works as placeholder for some use cases
  * the function assigns to itself a certain publicly accessible address,
  * but does not perform any role. The function can be used as a reserved value such as NULL
  */
-extern void private_collection_function_placeholder_();
+extern void function_placeholder__();
 
 #pragma endregion
 
 #pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 
-struct collection_universal_header alloc_cuh(
-    size_t capacity    ,
-    size_t size        ,
-    size_t element_size
-);
-
-struct collection_algorithm_adapter alloc_caa(
-    const void* comparator_,
-    const void* swap_      ,
-    const void* search_    ,
-    const void* sort_
-);
-
-struct collection_iterator_adapter alloc_cia(
-    u_acc_t init_,
-    u_acc_t next_,
-    u_acc_t prev_
-);
-
-struct collection_manager_adapter alloc_cma(
-    u_mgr_t copy_,
-    u_mgr_t dtor_
-);
-
-struct collection_private_header alloc_cph(
-    struct collection_algorithm_adapter caa  ,
-    struct collection_iterator_adapter  cia  ,
-    struct collection_manager_adapter   cma  ,
-    void*                               data_
-);
+bool is_custom_vtable(void* ptr);
 
 #pragma endregion
-
-typedef struct private_collection_type_info {
-    uint32_t size ;
-    uint32_t align;
-} private_collection_type_info;
-
-typedef struct {
-
-} collection_private_header;
-
-typedef struct {
-
-} collection_private_iterator_adapter_header;
-
-typedef struct {
-
-} collection_private_algorithm_adapter_header;
 
 #pragma region --- STATIC ASSERTION BLOCK ---
 

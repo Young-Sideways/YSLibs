@@ -9,6 +9,7 @@
 #ifndef ARRAY_H_
 #define ARRAY_H_
 
+#include "general.h"
 #pragma once
 
 #pragma region --- INCLUDE ---
@@ -34,10 +35,10 @@ YSL_BEGIN_DECLS
  *  @typedef array_t
  *  @brief   static array
  */
-typedef const struct array_t {
-    size_t size;
-    size_t element_size;
-    void*    data;
+typedef const struct array_s {
+    void* data;
+    collection_size_t size;
+    collection_size_t element_size;
 } *array_t;
 
 #pragma endregion
@@ -49,7 +50,7 @@ typedef const struct array_t {
  * @param[in] size         - Number of elements
  * @param[in] element_size - Size of each element
  */
-YSL_EXPORT(array_t) arr_ctor(const size_t size, const size_t element_size);
+YSL_EXPORT(array_t) arr_ctor(const collection_size_t size, const collection_size_t element_size);
 
 /**
  * @brief   Array copy constructor
@@ -58,7 +59,7 @@ YSL_EXPORT(array_t) arr_ctor(const size_t size, const size_t element_size);
 YSL_EXPORT(array_t) arr_copy(const array_t array);
 
 /**
- * @brief   Array copy constructor
+ * @brief   Array slice constructor
  * @param[in] array - Array pointer
  * @param[in] from  - index of first element in slice [0;size)
  * @param[in] count - number of elements in slice (-size;size]
@@ -80,13 +81,13 @@ YSL_EXPORT(void) arr_dtor(array_t* array);
  * @brief Array size
  * @param[in] array - Array pointer
  */
-YSL_EXPORT(size_t) arr_size(const array_t array);
+YSL_EXPORT(collection_size_t) arr_size(const array_t array);
 
 /**
  * @brief Array element size
  * @param[in] array - Array pointer
  */
-YSL_EXPORT(size_t) arr_element_size(const array_t array);
+YSL_EXPORT(collection_size_t) arr_element_size(const array_t array);
 
 /**
  * @brief Array data
@@ -104,28 +105,29 @@ YSL_EXPORT(void*) arr_at(array_t array, int index);
 
 /**
  *  @brief   Find index of element
- *  @param[in] array - Container
- *  @param[in] value - Pointer to value
- *  @returns index of element
- *  @returns -1 if no element in array
+ *  @param[in] array      - Container
+ *  @param[in] value      - Pointer to value
+ *  @param[in] comparator - Pointer to comparator function
+ *  @retval 0 <= index < array size - on success
+ *  @retval #COLLECTION_INVALID_INDEX  if no element in array
  */
-YSL_EXPORT(int) arr_find(array_t array, const void* value);
+YSL_EXPORT(collection_index_t) arr_find(const array_t array, const void* value, const comparator_t comparator);
 
 /**
  *  @brief   Checks if \p array has \p value
  *  @param[in] array - Container
  *  @param[in] value - Pointer to value
- *  @returns true, if array has value
- *  @returns false, if no value in array
+ *  @retval - true , if array has value
+ *  @retval - false, if no value in array
  */
-YSL_EXPORT(bool) arr_contains(array_t array, const void* value);
+YSL_EXPORT(bool) arr_contains(const array_t array, const void* value, const comparator_t comparator);
 
 /**
  *  @brief   Sorts elements in \p array with given \p comparator
  *  @param[in,out] array  - Container
  *  @param[in] comparator - Given comparator 
  */
-YSL_EXPORT(void) arr_sort(array_t array, comparator_t comparator);
+YSL_EXPORT(void) arr_sort(array_t array, const comparator_t comparator);
 
 #pragma endregion
 

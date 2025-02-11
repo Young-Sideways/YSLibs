@@ -13,7 +13,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "stdio.h"
 
 #include "core.h"
 #include "debug.h"
@@ -21,44 +20,59 @@
 #include "algorithm/sort.h"
 #include "algorithm/memory.h"
 
+#include "private.h"
+
 #pragma endregion
 
 #pragma region --- STATIC ---
-/**
-static inline void init_(struct collection_universal_header* collection, void** block, int* index) {
-    *block = NULL;
-    if (*index == COLLECTION_INVALID_INDEX)
-        return;
-    if (*index < 0) {
-        *index = -1;
-        return;
-    }
-    if (*index >= (int)collection->size) {
-        *index = (int)collection->size;
-        return;
-    }
-    *block = ((byte*)CPH_EXTRACT(collection)->data_ + collection->element_size * *index);
-}
-static inline void next_(struct collection_universal_header* collection, void** block, int* index) {
-    *index += 1;
-    init_(collection, block, index);
-}
-static inline void prev_(struct collection_universal_header* collection, void** block, int* index) {
-    *index -= 1;
-    init_(collection, block, index);
-}
-static inline void* copy_(void* collection) {
-    array_t from = (array_t)collection;
-    CPH_CREF(collection, from_header);
 
-    byte* result = (byte*)malloc(sizeof(struct collection_private_header) + sizeof(struct array_t) + (from->size + from->element_size));
-    if (result) {
-        memcpy(result, from_header, sizeof(struct collection_private_header) + sizeof(struct array_t) + (from->size + from->element_size));
-        result += sizeof(struct collection_private_header);
-    }
-    return (void*)result;
+static void* copy__(void* collection, int n, va_list list) {
+    YSL_UNUSED(n);
+    YSL_UNUSED(list);
+
+    
 }
-*/
+
+static inline void init__(void* collection, void** block, collection_index_t* index) {
+    collection_size_t size         = arr_size((array_t)collection);
+    collection_size_t element_size = arr_element_size((array_t)collection);
+    byte*             data         = arr_data((array_t)collection);
+
+    *block = NULL;
+
+    if (*index < -1 || *index > size || *index == COLLECTION_INVALID_INDEX) {
+        *index = COLLECTION_INVALID_INDEX;
+        return;
+    }
+    if (*index == -1 || *index == size)
+        return;
+
+    *block = ((byte*)arr_data((array_t)collection) + element_size * *index);
+}
+static inline void next__(void* collection, void** block, collection_index_t* index) {
+    *index += 1;
+    init__(collection, block, index);
+}
+static inline void prev__(void* collection, void** block, collection_index_t* index) {
+    *index -= 1;
+    init__(collection, block, index);
+}
+
+static struct collection_vtable_s array_t_vtable__ = {
+    ._copy          = NULL,
+    ._dtor          = NULL,
+    ._element_size  = NULL,
+    ._size          = NULL,
+    ._capacity      = NULL,
+    ._allocated     = NULL,
+    ._init          = init__,
+    ._next          = next__,
+    ._prev          = prev__,
+    ._comparator    = NULL, // uses 'memcmp'
+    ._search        = &linear_search,
+    ._sort          = &quick_sort
+};
+
 #pragma endregion
 
 #pragma region --- PRIVATE ---
@@ -74,17 +88,20 @@ static inline bool array_private_is_valid_(array_t array) {
 
 #pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 
-array_t arr_ctor(const size_t size, const size_t element_size) {
+array_t arr_ctor(const collection_size_t size, const collection_size_t element_size) {
     explain_assert(size >= ARRAY_SIZE_MIN && size <= ARRAY_SIZE_MAX, "collection/array: invalid arg - 'size' out of range [ARRAY_SIZE_MIN; ARRAY_SIZE_MAX]");
     explain_assert(element_size, "collection/array: invalid arg - 'element_size' == 0");
-    struct array_t* result = malloc(sizeof(struct array_t));
-    if (!result)
+
+    struct array_s* result = malloc(sizeof(struct array_s));
+    if (result == NULL)
         return NULL;
+
     result->data = malloc(size * element_size);
-    if (!result->data) {
+    if (result->data == NULL) {
         free(result);
         return NULL;
     }
+
     result->size = size;
     result->element_size = element_size;
     return result;
@@ -93,10 +110,11 @@ array_t arr_ctor(const size_t size, const size_t element_size) {
 array_t arr_copy(const array_t array) {
     size_t size = arr_size(array);
     size_t element_size = arr_element_size(array);
+
     array_t result = arr_ctor(size, element_size);
-    if(result)
-        if (!memcpy(arr_data(result), arr_data(array), size * element_size))
-            arr_dtor(&result);
+    if(result != NULL)
+        memcpy(arr_data(result), arr_data(array), size * element_size);
+
     return result;
 }
 
@@ -112,16 +130,13 @@ array_t arr_slice(const array_t array, const int from, const int count) {
     explain_assert(from_ >= 0LL && from_ < size && last_ >= 0LL && last_ <= size, "collection/array: slice out of range");
     explain_assert(count != 0, "collection/array: invalid arg - 'count' == 0");
     
-    printf("[%lld, %lld]: %lld\n", from_, last_, count_);
     array_t result = arr_ctor(count_, element_size);
-    if (result) {
-        if(!memcpy((byte*)arr_data(result), arr_data(array) + from_ * element_size, count_ * element_size)){
-            arr_dtor(&result);
-            return result;
-        }
+    if (result != NULL) {
+        memcpy((byte*)arr_data(result), arr_data(array) + from_ * element_size, count_ * element_size);
         if (count < 0)
             reverse(arr_data(result), count_, element_size);
     }
+
     return result;
 }
 
@@ -152,24 +167,24 @@ void* arr_data(array_t array) {
 }
 
 void* arr_at(array_t array, int index) {
-    explain_assert(index >= 0 && index < ARRAY_SIZE_MAX, "collection/array: invalid arg - 'index' out of range [0..ARRAY_SIZE_MAX)");
+    explain_assert(index >= 0 && index < arr_size(array), "collection/array: invalid arg - 'index' out of range [0..arr_size)");
     return ((byte*)arr_data(array)) + (index * arr_element_size(array));
 }
 
-int arr_find(array_t array, const void* value) {
+collection_index_t arr_find(const array_t array, const void* value, const comparator_t comparator) {
     size_t element_size = arr_element_size(array);
     byte* data = (byte*)arr_data(array);
-    byte* pos = (byte*)linear_search(data, arr_size(array), element_size, value, NULL);
+    byte* pos = (byte*)linear_search(data, arr_size(array), element_size, value, comparator);
     if (pos)
         return (pos - data) / element_size;
     return COLLECTION_INVALID_INDEX;
 }
 
-bool arr_contains(array_t array, const void* value) {
-    return linear_search(arr_data(array), arr_size(array), arr_element_size(array), value, NULL) != NULL;
+bool arr_contains(const array_t array, const void* value, const comparator_t comparator) {
+    return linear_search(arr_data(array), arr_size(array), arr_element_size(array), value, comparator) != NULL;
 }
 
-void arr_sort(array_t array, comparator_t comparator) {
+void arr_sort(array_t array, const comparator_t comparator) {
     quick_sort(arr_data(array), arr_size(array), arr_element_size(array), comparator, NULL);
 }
 

@@ -25,18 +25,16 @@
 
 #pragma region --- DECLARATOR ---
 
-#define DECLARE_COMP(prefix, type)                                                    \
-    static inline int prefix##_fcomp(const void* lhs, const void* rhs, size_t size) { \
-        explain_assert(lhs, "algorithm error: lhs value can't be NULL");              \
-        explain_assert(rhs, "algorithm error: rhs value can't be NULL");              \
-        YSL_UNUSED(size);                                                             \
-        return ((*(type*)lhs > *(type*)rhs) - (*(type*)lhs < *(type*)rhs));           \
-    };                                                                                \
-    static inline int prefix##_rcomp(const void* lhs, const void* rhs, size_t size) { \
-        explain_assert(lhs, "algorithm error: lhs value can't be NULL");              \
-        explain_assert(rhs, "algorithm error: rhs value can't be NULL");              \
-        YSL_UNUSED(size);                                                             \
-        return ((*(type*)lhs < *(type*)rhs) - (*(type*)lhs > *(type*)rhs));           \
+#define DECLARE_COMP(prefix, type)                                          \
+    static inline int prefix##_fcomp(const void* lhs, const void* rhs) {    \
+        explain_assert(lhs, "algorithm error: lhs value can't be NULL");    \
+        explain_assert(rhs, "algorithm error: rhs value can't be NULL");    \
+        return ((*(type*)lhs > *(type*)rhs) - (*(type*)lhs < *(type*)rhs)); \
+    };                                                                      \
+    static inline int prefix##_rcomp(const void* lhs, const void* rhs) {    \
+        explain_assert(lhs, "algorithm error: lhs value can't be NULL");    \
+        explain_assert(rhs, "algorithm error: rhs value can't be NULL");    \
+        return ((*(type*)lhs < *(type*)rhs) - (*(type*)lhs > *(type*)rhs)); \
     }
 
 DECLARE_COMP(i8  , int8_t     );

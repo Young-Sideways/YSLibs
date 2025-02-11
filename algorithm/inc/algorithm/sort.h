@@ -13,7 +13,6 @@
 
 #pragma region --- INCLUDE ---
 
-#include "swap.h"
 #include "comparator.h"
 
 #pragma endregion
@@ -26,18 +25,17 @@
  *  @param[in,out] array        - Pointer to memory block
  *  @param[in]     count        - Element count
  *  @param[in]     element_size - Size of each element
- *  @param[in]     comparator_  - Pointer to comparator function
- *  @param[in]     swap_        - Pointer to swap function
+ *  @param[in]     comparator   - Pointer to comparator function
  */
-typedef void (*sort_t)(void* array, size_t count, size_t element_size, comparator_t comparator_, swap_t swap_);
+typedef void (*sort_t)(void* array, size_t count, size_t element_size, comparator_t comparator);
 
 #pragma endregion
 
 #pragma region --- FUNCTION ---
 
-void selection_sort(void* array, size_t count, size_t element_size, comparator_t comparator_, swap_t swap_);
-void insertion_sort(void* array, size_t count, size_t element_size, comparator_t comparator_, swap_t swap_);
-void quick_sort(void* array, size_t count, size_t element_size, comparator_t comparator_, swap_t swap_);
+void selection_sort(void* array, size_t count, size_t element_size, comparator_t comparator);
+void insertion_sort(void* array, size_t count, size_t element_size, comparator_t comparator);
+void quick_sort(void* array, size_t count, size_t element_size, comparator_t comparator);
 
 #pragma endregion
 

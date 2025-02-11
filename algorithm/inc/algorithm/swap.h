@@ -21,11 +21,18 @@
 
 /**
  *  @typedef swap_t
- *  @brief   defines type of swap function pointer
+ *  @brief   defines type of swap function
+ *  @param[in,out] lhs,rhs - Pointers to values
+ */
+typedef void (*swap_t)(void* lhs, void* rhs);
+
+/**
+ *  @typedef swap_s_t
+ *  @brief   defines type of swap function with size
  *  @param[in,out] lhs,rhs - Pointers to values
  *  @param[in]     size    - Memory size to swap
  */
-typedef void (*swap_t)(void* lhs, void* rhs, size_t size);
+typedef void (*swap_s_t)(void* lhs, void* rhs, size_t size);
 
 #pragma endregion
 
@@ -36,7 +43,7 @@ typedef void (*swap_t)(void* lhs, void* rhs, size_t size);
  * @param[in,out] lhs,rhs  - Pointers to values
  * @param[in]     size     - Memory size to swap
  */
-void swap(void* lhs, void* rhs, size_t size);
+void swap_s(void* lhs, void* rhs, size_t size);
 
 #pragma endregion
 

@@ -26,16 +26,16 @@
  *  @param[in]     count        - Number of elements
  *  @param[in]     element_size - Size of each element
  *  @param[in]     value        - Pointer to reference value
- *  @param[in]     comparator_  - Pointer to comparator function
+ *  @param[in]     comparator   - Pointer to comparator function
  */
-typedef void* (*search_t)(const void* array, const size_t count, const size_t element_size, const void* value, comparator_t comparator_);
+typedef void* (*search_t)(const void* array, const size_t count, const size_t element_size, const void* value, const comparator_t comparator);
 
 #pragma endregion
 
 #pragma region --- FUNCTION ---
 
-void* linear_search(const void* array, size_t count, size_t element_size, const void* value, comparator_t comparator_);
-void* binary_search(const void* array, size_t count, size_t element_size, const void* value, comparator_t comparator_);
+void* linear_search(const void* array, const size_t count, const size_t element_size, const void* value, const comparator_t comparator);
+void* binary_search(const void* array, const size_t count, const size_t element_size, const void* value, const comparator_t comparator);
 
 #pragma endregion
 

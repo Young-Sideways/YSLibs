@@ -13,6 +13,7 @@
 
 #pragma region --- INCLUDE ---
 
+#include "core.h"
 #include "collection/general.h"
 
 #pragma endregion
@@ -26,16 +27,29 @@
 
 #pragma region --- TYPEDEF ---
 
-typedef const struct string_t {
-    struct collection_universal_header;
+typedef const struct string_s {
+    size_t size;
+    size_t capacity;
+    size_t elment_size;
     void* data;
-}* string_t;
+    void* cstr;
+} *string_t;
 #pragma endregion
+
+YSL_BEGIN_DECLS
 
 #pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 
-string_t str_init(const char* str);
-string_t str_winit(const wchar_t* wstr);
+string_t str_cinit(const char* str);
+string_t str_winit(const wchar_t* str);
+
+void str_delete(string_t* str);
+
+#define str_init(str) _Generic( str    , \
+    char*   : str_cinit((char*)str)    , \
+    wchar_t*: str_winit((wchar_t*)str) , \
+)((__typeof__(str))str)
+#define str_delete(str) (str_delete)(&(str))
 
 #pragma endregion
 
@@ -57,5 +71,7 @@ size_t str_count(string_t string, int c);
 string_t str_join(const string_t* strings, const void* delimiter);
 
 #pragma endregion
+
+YSL_END_DECLS
 
 #endif // !STRING_H_

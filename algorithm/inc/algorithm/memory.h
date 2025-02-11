@@ -33,7 +33,7 @@ void* reverse(void* ptr, const size_t count, const size_t element_size);
  * @param[in] size - Number of bytes
  * @return allocated memory of \p size bytes
  */
-void* memdup(const void* src, size_t size);
+void* memdup(const void* src, const size_t size);
 
 #pragma endregion
 

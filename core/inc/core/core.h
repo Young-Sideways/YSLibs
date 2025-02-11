@@ -47,10 +47,10 @@ typedef unsigned char ubyte;
 #   define __FILENAME__ (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
 #else
 #   define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
-#endif /* defined(_WIN32) || defined(_WIN64) */
+#endif
 
 #if defined(_MSC_VER)
-#define __FUNC__ __FUNCTION__
+#define __FUNC__ __FUNCSIG__
 #else
 #define __FUNC__ __func__
 #endif
@@ -94,9 +94,11 @@ typedef unsigned char ubyte;
 #endif
 
 #ifdef _MSC_VER
-#   define YSL_TYPEOF decltype
+#   define YSL_TYPEOF(x) __typeof__(x)
+#   define YSL_TYPEOF_UNQUAL(x) decltype
 #else
-#   define YSL_TYPEOF typeof
+#   define YSL_TYPEOF(x) typeof(x)
+#   define YSL_TYPEOF_UNQUAL(x) typeof_unqual(x)
 #endif
 
 #if defined(__GNUC__)
