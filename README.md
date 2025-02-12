@@ -1,7 +1,7 @@
 ## REQUIREMENTS
 
 YSLibs build system supports multiple AMD64 platform, such as `windows` `linux` and `mac` and depends olny `cmake >= 3.25` and `clang >= 17`, because it uses last, at this point, C Language standard - 23.\
-In my future plans rewrite part of lib, to make it more ANSI style and add support for other architectures, such as `x86`, `arm` and `aarch64`
+In my future plans rewrite part of lib, to make it more portable and add support for other architectures, such as `RISC`, `arm` and `aarch64`
 
 ## BUILDING
 
@@ -28,7 +28,7 @@ list of all sublibraries and main project tasks
 | algorithm | ![](https://geps.dev/progress/100?dangerColor=800000&warningColor=ff9900&successColor=006600) |
 | collection | ![](https://geps.dev/progress/35?dangerColor=800000&warningColor=ff9900&successColor=006600) |
 | util | ![](https://geps.dev/progress/70?dangerColor=800000&warningColor=ff9900&successColor=006600) |
-| filesystem | ![](https://geps.dev/progress/0?dangerColor=800000&warningColor=ff9900&successColor=006600) |
+| filesystem | moved to `util` due 0.0.5 |
 | | |
 | build system | ![](https://geps.dev/progress/100?dangerColor=800000&warningColor=ff9900&successColor=006600) |
 | tests | ![](https://geps.dev/progress/20?dangerColor=800000&warningColor=ff9900&successColor=006600) |
@@ -52,4 +52,28 @@ list of all sublibraries and main project tasks
 | logic | boolean operations with macro | ![](https://geps.dev/progress/100?dangerColor=800000&warningColor=ff9900&successColor=006600) |
 | reverse | reverse arg list | ![](https://geps.dev/progress/100?dangerColor=800000&warningColor=ff9900&successColor=006600) |
 | runtime | some runtime macro, such as min, max, offsetof, etc. | ![](https://geps.dev/progress/90?dangerColor=800000&warningColor=ff9900&successColor=006600) |
+| expect | static expectation maxro | ![](https://geps.dev/progress/30?dangerColor=800000&warningColor=ff9900&successColor=006600) |
 | foreach | deprecated [moved to collections] | ![](https://geps.dev/progress/0?dangerColor=800000&warningColor=ff9900&successColor=006600) |
+
+### ***collection*** module feature list
+| submodule | description | progress |
+| --- | --- | --- |
+| tuple | struct like serializable enumerable set of values | ![](https://geps.dev/progress/30?dangerColor=800000&warningColor=ff9900&successColor=006600) |
+| pair | key-value pair | ![](https://geps.dev/progress/29?dangerColor=800000&warningColor=ff9900&successColor=006600) |
+| variant | safer union like object representation | ![](https://geps.dev/progress/50?dangerColor=800000&warningColor=ff9900&successColor=006600) |
+| array | C-array compatible representation of static array, supports alhorithms and enumerations | ![](https://geps.dev/progress/80?dangerColor=800000&warningColor=ff9900&successColor=006600) |
+| matrix | multidimensional array | ![](https://geps.dev/progress/0?dangerColor=800000&warningColor=ff9900&successColor=006600) |
+| vector | C-array compatible representation of dynamic array | ![](https://geps.dev/progress/0?dangerColor=800000&warningColor=ff9900&successColor=006600) |
+| deque | dynamic double-ended FIFO implementation | ![](https://geps.dev/progress/0?dangerColor=800000&warningColor=ff9900&successColor=006600) |
+| queue | dynamic FIFO implementation | ![](https://geps.dev/progress/0?dangerColor=800000&warningColor=ff9900&successColor=006600) |
+| stack | dynamic LIFO implementation | ![](https://geps.dev/progress/0?dangerColor=800000&warningColor=ff9900&successColor=006600) |
+| string | C-string compatible representation of dynamic strings | ![](https://geps.dev/progress/10?dangerColor=800000&warningColor=ff9900&successColor=006600) |
+| set | associative container of unique values | ![](https://geps.dev/progress/0?dangerColor=800000&warningColor=ff9900&successColor=006600) |
+| map | associative container of unique key-value pairs | ![](https://geps.dev/progress/0?dangerColor=800000&warningColor=ff9900&successColor=006600) |
+| count set | associative container of non-unique values | ![](https://geps.dev/progress/0?dangerColor=800000&warningColor=ff9900&successColor=006600) |
+| count map | associative container of non-unique key-value pairs | ![](https://geps.dev/progress/0?dangerColor=800000&warningColor=ff9900&successColor=006600) |
+| binary tree | linked sh*t! | ![](https://geps.dev/progress/0?dangerColor=800000&warningColor=ff9900&successColor=006600) |
+| red-black tree | another linked sh*t! | ![](https://geps.dev/progress/0?dangerColor=800000&warningColor=ff9900&successColor=006600) |
+| | |
+| iterator | object for unifying access to enumerable containers | ![](https://geps.dev/progress/70?dangerColor=800000&warningColor=ff9900&successColor=006600) |
+| foreach | set of macro's to orchestrate iterators | ![](https://geps.dev/progress/20?dangerColor=800000&warningColor=ff9900&successColor=006600) |
