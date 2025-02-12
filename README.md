@@ -53,7 +53,6 @@ list of all sublibraries and main project tasks
 | reverse | reverse arg list | ![](https://geps.dev/progress/100?dangerColor=800000&warningColor=ff9900&successColor=006600) |
 | runtime | some runtime macro, such as min, max, offsetof, etc. | ![](https://geps.dev/progress/90?dangerColor=800000&warningColor=ff9900&successColor=006600) |
 | expect | static expectation maxro | ![](https://geps.dev/progress/30?dangerColor=800000&warningColor=ff9900&successColor=006600) |
-| foreach | deprecated [moved to collections] | ![](https://geps.dev/progress/0?dangerColor=800000&warningColor=ff9900&successColor=006600) |
 
 ### ***collection*** module feature list
 | submodule | description | progress |
