@@ -176,6 +176,43 @@ int log_system_term();
 
 int log_system_set_handler(log_handler_t handler);
 
+////////////////////////////
+#include <stddef.h>
+#include <threads.h>
+typedef struct {
+
+} log_ctx_t;
+typedef struct {
+    const char* name;
+    const char* value;
+} log_tag_t;
+
+typedef void (*log_formatter_t)(log_tag_t* tags, size_t tags_size, const char* fmt, ...);
+
+typedef struct {
+    void* open;
+    void* close;
+    void* write;
+    mtx_t 
+    log_formatter_t formatter;
+} *log_handler_t;
+
+typedef struct {
+    // ctx_t
+    log_handler_t
+} logger_t;
+////////////////////////////
 #pragma endregion
+
+
+// info("Hello, %s!", "pidor")  ---> log(handler, [time, file, strno, ...USER_TAGS], 3 + count_USER_ARGS, level, "Hello, %s", "pidor")
+
+
+#define LOG_LEVEL_EXCEPTION (signed char)(SCHAR_MIN)
+#define LOG_LEVEL_DEBUG     (signed char)(-1)
+#define LOG_LEVEL_INFO      (signed char)(0)
+#define LOG_LEVEL_WARN      (signed char)(20)
+#define LOG_LEVEL_ERROR     (signed char)(40)
+#define LOG_LEVEL_FATAL     (signed char)(100)
 
 #endif // !LOG_H_

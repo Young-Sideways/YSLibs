@@ -16,7 +16,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "macro/expec.h"
+#include "macro/expect.h"
 
 #pragma endregion
 

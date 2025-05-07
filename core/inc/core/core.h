@@ -22,7 +22,7 @@
  *  @brief mark parameter as unused
  *  @param variable - parameter
  */
-#define UNUSED(variable) ((void)variable)
+#define YSL_UNUSED(variable) ((void)variable)
 
 #pragma endregion
 
@@ -36,11 +36,11 @@ typedef unsigned char ubyte;
 #pragma region --- MACRO ---
 
 #ifdef __cplusplus
-#define YSL_BEGIN_DECLS extern "C" {
-#define YSL_END_DECLS }
+#   define YSL_BEGIN_DECLS extern "C" {
+#   define YSL_END_DECLS }
 #else
-#define YSL_BEGIN_DECLS
-#define YSL_END_DECLS
+#   define YSL_BEGIN_DECLS
+#   define YSL_END_DECLS
 #endif
 
 #if defined(_WIN32) || defined(_WIN64)
@@ -50,9 +50,9 @@ typedef unsigned char ubyte;
 #endif
 
 #if defined(_MSC_VER)
-#define __FUNC__ __FUNCSIG__
+#   define __FUNC__ __FUNCSIG__
 #else
-#define __FUNC__ __func__
+#   define __FUNC__ __func__
 #endif
 
 #if defined(__GNUC__)

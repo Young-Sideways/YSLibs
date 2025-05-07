@@ -3,7 +3,6 @@ cmake_minimum_required (VERSION 3.25 FATAL_ERROR)
 project ("yslibs" LANGUAGES C)
 
 
-
 set(SOURCES "main.c")
 add_executable(${PROJECT_NAME} ${SOURCES})
 
@@ -13,14 +12,14 @@ endif()
 
 add_subdirectory(core)
 add_subdirectory(macro)
-add_subdirectory(algorithm)
-add_subdirectory(collection)
+#add_subdirectory(algorithm)
+#add_subdirectory(collection)
 
 target_link_libraries(${PROJECT_NAME}
-    INTERFACE yslibs::core
-    INTERFACE yslibs::macro
-    PRIVATE   yslibs::algorithm
-    PRIVATE   yslibs::collection
+    PRIVATE yslibs::core
+    PRIVATE yslibs::macro
+    #PRIVATE   yslibs::algorithm
+    #PRIVATE   yslibs::collection
 )
 
 if(BUILD_TESTING)

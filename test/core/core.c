@@ -1,6 +1,6 @@
 #include "test.h"
 
-#include "core.h"
+#include "core/core.h"
 
 int main(int argc, char** argv) {
     INT_EQ(sizeof(byte), sizeof(signed char));

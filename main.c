@@ -15,27 +15,70 @@
  *********************************************************/
 
 
-//#include "core.h"
+#include <core/core.h>
 
 #include <stdio.h>
+#include <assert.h>
+#include <inttypes.h>
 
-#include <stdint.h>
+int memthex(char* buf, const void* src, const size_t size) {
+    assert(buf  != NULL);
+    assert(src  != NULL);
+    assert(size != 0u);
 
+    int ret = 0;
+    int i = 0;
+
+    // minimize 'snprintf' syscalls
+
+    for (; ((size - i) / sizeof(uintmax_t)) != 0u; i += sizeof(uintmax_t))
+        ret += snprintf(&(buf[i * 2]), sizeof(uintmax_t) * 2 + 1, "%" PRIXMAX, *(uintmax_t*)&(((uint8_t*)src)[size - i - sizeof(uintmax_t)]));
+    for (; i < size; i++)
+        ret += snprintf(&(buf[i * 2]), sizeof(uint8_t) * 2 + 1, "%" PRIX8, ((uint8_t*)src)[size - i - sizeof(uint8_t)]);
+    
+    return ret;
+}
+
+#define decl_test(type, init) \
+void type##_test() { \
+    type value = init; \
+    const size_t size = sizeof(type); \
+    char buf[size * 2 + 1]; \
+    int ret = memthex(buf, (const void*)&value, size); \
+    printf("size: %zu, value[%d]\t: '%s'\n", size, ret, buf); \
+}
+#define run_test(type) \
+    type##_test()
+
+typedef long double ldouble;
+
+decl_test(int8_t  ,   INT8_C(0x12              ));
+decl_test(int16_t ,  INT16_C(0x1234            ));
+decl_test(int32_t ,  INT32_C(0x12345678        ));
+decl_test(int64_t ,  INT64_C(0x1234567890ABCDEF));
+decl_test(uint8_t ,  UINT8_C(0x12              ));
+decl_test(uint16_t, UINT16_C(0x1234            ));
+decl_test(uint32_t, UINT32_C(0x12345678        ));
+decl_test(uint64_t, UINT64_C(0x1234567890ABCDEF));
+decl_test(float   , 1.4563456f);
+decl_test(double  , 56.321345 );
+decl_test(ldouble , 18374567235468.0000000200345L);
 
 int main(int argc, char** argv) {
-    //UNUSED(argc);
-    //UNUSED(argv);
+    YSL_UNUSED(argc);
+    YSL_UNUSED(argv);
 
-    //M_EXPAND(M_DEFER(VA_SEQ)(;, M_SEQ_GEN(12, int b), int b));
+    run_test(int8_t  );
+    run_test(int16_t );
+    run_test(int32_t );
+    run_test(int64_t );
+    run_test(uint8_t );
+    run_test(uint16_t);
+    run_test(uint32_t);
+    run_test(uint64_t);
+    run_test(float   );
+    run_test(double  );
+    run_test(ldouble );
 
-    printf("sizeof(version_t): %zu\n", sizeof(version_t));
-    version_t version = (version_t){
-        .major     = 0u              ,
-        .minor     = 12u             ,
-        .patch     = 71u             ,
-        .type      = BUILD_TYPE_ALPHA,
-        .build     = __BUILD_NUMBER__,
-        .timestamp = __TIMESTAMP__
-    };
     return 0;
 }

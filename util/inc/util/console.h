@@ -13,7 +13,7 @@
 
 #pragma region --- INCLUDE ---
 
-#include "core.h"
+#include <core.h>
 #include <stddef.h>
 #include <stdbool.h>
 

@@ -58,7 +58,7 @@ void selection_sort(void* array, const size_t count, const size_t element_size, 
     for (byte* sorted = array, *end = sorted + (count * element_size); sorted < end; sorted += element_size) {
         byte* min = sorted;
         for (byte* ptr = min + element_size; ptr < end; ptr += element_size)
-            if (((comparator == NULL) ? memcmp(min, ptr, element_size) : comparator_(min, ptr)) > 0)
+            if (((comparator == NULL) ? memcmp(min, ptr, element_size) : comparator(min, ptr)) > 0)
                 min = ptr;
         if (min != sorted)
             swap_s(min, sorted, element_size);

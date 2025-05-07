@@ -1,6 +1,6 @@
 #include "test.h"
 
-#include "debug.h"
+#include "core/debug.h"
 
 int main(int argc, char** argv) {
     explain_assert(1, "+int failed");
