@@ -13,7 +13,7 @@
 
 #pragma region --- INCLUDE ---
 
-#include "macro/core.h"
+#include "core.h"
 
 #pragma endregion
 
@@ -21,6 +21,7 @@
 
 #define VA_REVERSE_HELPER1() VA_REVERSE_HELPER
 #define VA_REVERSE_HELPER(_1, ...) __VA_OPT__(M_DEFER(VA_REVERSE_HELPER1)()(__VA_ARGS__) ,) _1
+// BUG: M_EVAL (not M_EVAL2) goes huge RAM consumption when prepocessing
 #define VA_REVERSE(...) __VA_OPT__(M_EVAL2(VA_REVERSE_HELPER(__VA_ARGS__)))
 
 #pragma endregion

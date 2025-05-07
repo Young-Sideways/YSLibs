@@ -39,7 +39,7 @@ void* binary_search(const void* array, const size_t count, const size_t element_
     explain_assert(element_size , "algorithm/search: invalid arg - 'element_size' == 0u");
     explain_assert(value != NULL, "algorithm/search: invalid arg - 'value' == NULL"     );
 
-    byte* mid = (ubyte*)array;
+    byte* mid = (byte*)array;
     for (byte* begin = mid, *end = mid + (count * element_size); begin < end;) {
         mid = begin + (((size_t)(end - begin) / element_size) / 2) * element_size;
         int compared = ((comparator == NULL) ? memcmp(value, mid, element_size) : comparator(value, mid));

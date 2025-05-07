@@ -13,8 +13,8 @@
 
 #pragma region --- INCLUDE ---
 
-#include "macro/core.h"
-#include "macro/logic.h"
+#include "core.h"
+#include "logic.h"
 
 #pragma endregion
 

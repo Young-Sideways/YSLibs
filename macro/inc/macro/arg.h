@@ -11,9 +11,9 @@
 
 #pragma region --- INCLUDE ---
 
-#include "macro/reverse.h"
-#include "macro/logic.h"
-#include "macro/dec.h"
+#include "reverse.h"
+#include "logic.h"
+#include "dec.h"
 
 #pragma endregion
 
