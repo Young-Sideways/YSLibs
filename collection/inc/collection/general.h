@@ -32,38 +32,30 @@
 #endif
 
 /**
-*  @def   collection_size_t
-*  @brief collection size type 
+*  @typedef collection_size_t
+*  @brief   collection size type 
 */
-#ifndef collection_size_t
-    #define collection_size_t uint32_t
-#endif
-
+typedef uint32_t c_size_t;
 /**
-*  @def   collection_size_t
-*  @brief collection size type 
+*  @typedef collection_size_t
+*  @brief   collection size type 
 */
-#ifndef collection_index_t
-    #define collection_index_t int32_t
-#endif
+typedef int32_t c_index_t;
 
-static_assert(sizeof(collection_size_t) == sizeof(collection_index_t), "Collection error: basic 'index' and 'size' types has unequal sizes");
+static_assert(sizeof(c_size_t) == sizeof(c_index_t), "Collection error: basic 'index' and 'size' types has unequal sizes");
 
 /**
 *  @def   COLLECTION_SIZE_MIN
 *  @brief Default minimum size for all containers
 */
-#ifndef COLLECTION_SIZE_MIN
-    #define COLLECTION_SIZE_MIN (collection_size_t)(0)
-#endif
+#define COLLECTION_SIZE_MIN (collection_size_t)(0u)
 
 /**
 *  @def   COLLECTION_SIZE_MAX
 *  @brief Default maximum size for all containers
 */
-#ifndef COLLECTION_SIZE_MAX
-    #define COLLECTION_SIZE_MAX (collection_size_t)(INT32_MAX - 1)
-#endif
+#define COLLECTION_SIZE_MAX (collection_size_t)(INT32_MAX)
+
 /**
 *  @def   COLLECTION_INVALID_INDEX
 *  @brief Value of invalid index for all containers
@@ -79,7 +71,6 @@ static_assert(sizeof(collection_size_t) == sizeof(collection_index_t), "Collecti
     #define COLLECTION_GROWTH_FACTOR(n) (n != 0 ? (n << 1) : 1u)
 #endif
 
-
 #define COLLLECTION_KEY   (0)
 #define COLLLECTION_VALUE (1)
 
@@ -93,7 +84,7 @@ void* c_copy(void* container);
 void* c_shadow(void* container);
 #define c_shadow(container) (typeof_unqual(container))(c_shadow)((void*)container)
 
-void* c_slice(void* container, collection_index_t index, collection_size_t size);
+void* c_slice(void* container, c_index_t index, c_size_t size);
 #define c_slice(container, index, size) (typeof_unqual(container))(c_slice)((void*)container, index, size)
 
 

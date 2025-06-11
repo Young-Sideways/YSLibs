@@ -29,7 +29,7 @@ int memthex(char* buf, const void* src, const size_t size) {
     int ret = 0;
     int i = 0;
 
-    // minimize 'snprintf' syscalls
+    // minimize 'snprintf' calls
 
     for (; ((size - i) / sizeof(uintmax_t)) != 0u; i += sizeof(uintmax_t))
         ret += snprintf(&(buf[i * 2]), sizeof(uintmax_t) * 2 + 1, "%" PRIXMAX, *(uintmax_t*)&(((uint8_t*)src)[size - i - sizeof(uintmax_t)]));
@@ -64,9 +64,33 @@ decl_test(float   , 1.4563456f);
 decl_test(double  , 56.321345 );
 decl_test(ldouble , 18374567235468.0000000200345L);
 
+#define array_t(type, n)  \
+    type [n]
+
+#define arr_ctor(type, n) \
+    (array_t(type, n)) {0}
+
+#define arr_size(arr) (sizeof(arr)/sizeof(*arr))
+
+#define YSL_AUTO __auto_type
+
+
 int main(int argc, char** argv) {
     YSL_UNUSED(argc);
     YSL_UNUSED(argv);
+
+
+    YSL_AUTO my_arr = arr_ctor(int, 10);
+
+    for (int i = 0; i < arr_size(my_arr); i++)
+        my_arr[i] = i+1;
+    for (int i = 0; i < arr_size(my_arr); i++)
+        printf("%i ", my_arr[i]);
+    putc('\n', stdout);
+    
+
+    int a[10];
+    int b = sizeof(a);
 
     run_test(int8_t  );
     run_test(int16_t );

@@ -9,7 +9,7 @@
 #ifndef RPC_CORE_H_
 #define RPC_CORE_H_
 
-#include <cstddef>
+#include <ctime>
 #pragma once
 
 #pragma region --- INCLUDE ---
@@ -17,6 +17,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include <time.h>
 
 #pragma endregion
 
@@ -26,33 +27,32 @@
 
 #pragma region --- TYPEDEF ---
 
-typedef signed char        RPC_schar_t    ;
-typedef signed short       RPC_sshort_t   ;
-typedef signed int         RPC_sint_t     ;
-typedef signed long        RPC_slong_t    ;
-typedef signed long long   RPC_sllong_t   ;
-typedef unsigned char      RPC_uchar_t    ;
-typedef unsigned short     RPC_ushort_t   ;
-typedef unsigned int       RPC_uint_t     ;
-typedef unsigned long      RPC_ulong_t    ;
-typedef unsigned long long RPC_ullong_t   ;
+struct str_t {  };
+struct txt_t {  };
 
-typedef int8_t             RPC_int8_t     ;
-typedef int16_t            RPC_int16_t    ;
-typedef int32_t            RPC_int32_t    ;
-typedef int64_t            RPC_int64_t    ;
-typedef uint8_t            RPC_uint8_t    ;
-typedef uint16_t           RPC_uint16_t   ;
-typedef uint32_t           RPC_uint32_t   ;
-typedef uint64_t           RPC_uint64_t   ;
+typedef int8_t             RPC_i8_t  ;
+typedef int16_t            RPC_i16_t ;
+typedef int32_t            RPC_i32_t ;
+typedef int64_t            RPC_i64_t ;
+typedef uint8_t            RPC_u8_t  ;
+typedef uint16_t           RPC_u16_t ;
+typedef uint32_t           RPC_u32_t ;
+typedef uint64_t           RPC_u64_t ;
+typedef float              RPC_flt_t ;
+typedef double             RPC_dbl_t ;
+typedef long double        RPC_ldbl_t;
 
-typedef float              RPC_float_t    ;
-typedef double             RPC_double_t   ;
-typedef long double        RPC_ldouble_t  ;
+typedef bool               RPC_bool_t;
+typedef size_t             RPC_size_t;
 
-typedef bool               RPC_bool_t     ;
-typedef size_t             RPC_size_t     ;
-typedef max_align_t        RPC_max_align_t;
+typedef str_t             *RPC_str_t ;
+typedef txt_t             *RPC_txt_t ;
+
+typedef time_t             RPC_time_t;
+typedef struct tm          RPC_tm_t  ;
+typedef struct timespec    RPC_tmsp_t;
+typedef void               RPC_void_t;
+typedef void               RPC_bin_t ;
 
 #define __RPC_TRANSFORM_ARG_unified__(type, value) (RPC_method_arg_t) { \
     .type  = ##type,                                                    \

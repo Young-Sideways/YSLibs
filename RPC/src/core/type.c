@@ -6,9 +6,6 @@
  * @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
-#include <cstring>
-#include <sys/types.h>
-#include <threads.h>
 #pragma region --- INCLUDE ---
 
 #include <assert.h>
@@ -22,33 +19,23 @@
 
 #pragma region --- MACRO ---
 
-#define RPC_BS_IS_VALID(bs) (                         \
-        (bs            != NULL                      ) \
-     && (bs->data      != NULL                      ) \
-     && (bs->start     != NULL                      ) \
-     && (bs->end       != NULL                      ) \
-     && (bs->allocated != 0u                        ) \
-     && (bs->end       <= (bs->data + bs->allocated)) \
-     && (bs->start     <= bs->end                   ) \
-    )
-#define RPC_BS_GET_START_OFFSET(bs) (bs->start - bs->data)
-#define RPC_BS_GET_END_OFFSET(bs) (bs->end - bs->data)
-#define RPC_BS_AVAILABLE_SPACE(bs) (bs->end - bs->start)
-#define RPC_BS_GET_DATA(bs) (((uint8_t*)bs) + sizeof(struct RPC_bs_t) + (size_t)(bs->offset))
+#define RPC_BS_IS_VALID(bs) (((bs) != NULL) && ((bs)->allocated) && ((bs)->offset <= (bs)->allocated))
+
+#define RPC_BS_AVAILABLE_SPACE(bs) ((bs)->allocated - (bs)->offset)
+#define RPC_BS_GET_DATA(bs) (((uint8_t*)(bs)) + sizeof(struct RPC_bs))
 
 #pragma endregion
 
 #pragma region --- CONSTRUCTOR/DESTRUCTOR ---
 
 RPC_bs_t RPC_bs_ctor(size_t size) {
-    assert(size != 0u);
+    assert(size);
     assert(size <= RPC_BS_MAX_SIZE);
 
-    RPC_bs_t bs = (RPC_bs_t)malloc(sizeof(struct RPC_bs_t) + size);
+    RPC_bs_t bs = (RPC_bs_t)malloc(sizeof(struct RPC_bs) + size);
     if (YSL_LIKELY( bs != NULL )) {
-        bs->data = (uint8_t*)malloc()
-        bs->size      = size;
-        bs->offset    = 0   ;
+        bs->allocated  = size;
+        bs->offset     = 0u  ;
     }
 
     return bs;
@@ -56,8 +43,7 @@ RPC_bs_t RPC_bs_ctor(size_t size) {
 
 void RPC_bs_dtor(RPC_bs_t* stream) {
     assert(stream != NULL);
-    assert(*stream != NULL);
-    assert((*stream)->size != 0);
+    assert(RPC_BS_IS_VALID(*stream));
 
     free(*stream);
     *stream = NULL;
@@ -70,13 +56,12 @@ void RPC_bs_dtor(RPC_bs_t* stream) {
 size_t RPC_bs_write(RPC_bs_t bs, const void* data, size_t n) {
     assert(RPC_BS_IS_VALID(bs));
     assert(data != NULL);
-    assert(n != 0);
+    assert(n);
 
-    if (n > (bs->size - bs->offset))
-        n = (size_t)(bs->size - bs->offset);
+    if ((n + bs->offset) > bs->allocated)
+        n = RPC_BS_AVAILABLE_SPACE(bs);
 
-    uint8_t* memory = RPC_BS_GET_DATA(bs);
-    memcpy(memory, data, n);
+    memcpy(RPC_BS_GET_DATA(bs) + bs->offset, data, n);
     bs->offset += n;
 
     return n;
@@ -85,28 +70,51 @@ size_t RPC_bs_write(RPC_bs_t bs, const void* data, size_t n) {
 size_t RPC_bs_read(RPC_bs_t bs, void* data, size_t n) {
     assert(RPC_BS_IS_VALID(bs));
     assert(data != NULL);
-    assert(n != 0);
+    assert(n);
 
+    if (!bs->offset)
+        return 0u;
 
+    if (n > bs->offset)
+        n = bs->offset;
+
+    memcpy(data, RPC_BS_GET_DATA(bs) + bs->offset - n, n);
+    bs->offset -= n;
+    
+    return n;
 }
 
-size_t RPC_bs_flush(RPC_bs_t bs) {
-    assert(bs != NULL);
-    assert(bs->size > 0);
+void RPC_bs_flush(RPC_bs_t bs) {
+    assert(RPC_BS_IS_VALID(bs));
 
+    bs->offset = 0u;
 }
 
 
 size_t RPC_bs_merge(RPC_bs_t lhs, RPC_bs_t rhs) {
+    assert(RPC_BS_IS_VALID(lhs));
+    assert(RPC_BS_IS_VALID(rhs));
+
+    size_t n = rhs->offset;
+
+    if ((n + lhs->offset) > lhs->allocated)
+        n = lhs->allocated - lhs->offset;
+
+    void* memory = (void*)(RPC_BS_GET_DATA(lhs) + lhs->offset);
+    RPC_bs_read(rhs, memory, n);
+    lhs->offset += n;
     
+    return n;
 }
 
 size_t RPC_bs_size(const RPC_bs_t bs) {
-
+    assert(RPC_BS_IS_VALID(bs));
+    return bs->offset;
 }
 
 size_t RPC_bs_allocated(const RPC_bs_t bs) {
-
+    assert(RPC_BS_IS_VALID(bs));
+    return bs->allocated;
 }
 
 #pragma endregion

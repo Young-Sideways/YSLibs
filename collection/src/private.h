@@ -25,9 +25,9 @@
 
 #pragma region --- TYPEDEFS ---
 
-enum c_memory_tag_e {
-    CM_TAG_HEADER_DETACHED = 1 << 49,
-    CM_TAG_CUSTOM_VTABLE   = 1 << 50,
+enum c_memory_tag_e : intmax_t {
+    CMT_HEADER_DETACHED = 1 << 49,
+    CMT_CUSTOM_VTABLE   = 1 << 50,
 };
 
 #define YSL_TAGGED_POINTERS
@@ -66,7 +66,7 @@ struct collection_vtable_s {
 
 #pragma region --- MACRO ---
 
-
+#define __C_PRIVATE_GET_HEADER(var, type) (((type)var) - 1)
 
 #pragma endregion
 

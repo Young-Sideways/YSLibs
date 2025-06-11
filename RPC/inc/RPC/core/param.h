@@ -45,12 +45,12 @@ typedef const struct RPC_param {
     .data  = NULL                        \
 }
 #define RPC_PARAM_IS_VALID(param) ( \
-    (param.type  != NULL)           \
- && (param.name  != NULL)           \
- && (param.size  != 0   )           \
- && (param.align != 0   )           \
- && (param.data  != NULL)           \
-)
+        (param.type != NULL)        \
+     && (param.name != NULL)        \
+     && (param.data != NULL)        \
+     && (param.size        )        \
+     && (param.align       )        \
+    )
 
 #pragma endregion
 

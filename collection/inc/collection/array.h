@@ -9,12 +9,13 @@
 #ifndef ARRAY_H_
 #define ARRAY_H_
 
-#include "general.h"
 #pragma once
 
 #pragma region --- INCLUDE ---
 
-#include "core.h"
+#include "general.h"
+
+#include "core/core.h"
 #include "collection/general.h"
 #include "algorithm/comparator.h"
 
@@ -35,11 +36,7 @@ YSL_BEGIN_DECLS
  *  @typedef array_t
  *  @brief   static array
  */
-typedef const struct array_s {
-    void* data;
-    collection_size_t size;
-    collection_size_t element_size;
-} *array_t;
+typedef struct array_s {} *array_t;
 
 #pragma endregion
 
@@ -50,7 +47,7 @@ typedef const struct array_s {
  * @param[in] size         - Number of elements
  * @param[in] element_size - Size of each element
  */
-YSL_EXPORT(array_t) arr_ctor(const collection_size_t size, const collection_size_t element_size);
+YSL_EXPORT(array_t) arr_ctor(const c_size_t size, const c_size_t element_size);
 
 /**
  * @brief   Array copy constructor
@@ -72,6 +69,7 @@ YSL_EXPORT(array_t) arr_slice(const array_t array, const int from, const int cou
  * @param[in] array - Pointer to array pointer
  */
 YSL_EXPORT(void) arr_dtor(array_t* array);
+#define arr_dtor(array) (arr_dtor)(&array)
 
 #pragma endregion
 

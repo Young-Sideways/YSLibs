@@ -38,9 +38,11 @@ typedef unsigned char ubyte;
 #ifdef __cplusplus
 #   define YSL_BEGIN_DECLS extern "C" {
 #   define YSL_END_DECLS }
+#   define YSL_AUTO auto
 #else
 #   define YSL_BEGIN_DECLS
 #   define YSL_END_DECLS
+#   define YSL_AUTO __auto_type
 #endif
 
 #if defined(_WIN32) || defined(_WIN64)
