@@ -10,11 +10,9 @@
 
 #pragma region --- INCLUDE ---
 
-#include "core.h"
-#include "debug.h"
-
 #include "algorithm/swap.h"
 
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -23,20 +21,21 @@
 #pragma region --- FUNCTION ---
 
 void* reverse(void* src, const size_t count, const size_t element_size) {
-    explain_assert(src                           , "algorithm/memory: invalid arg - 'src' == NULL"       );
-    explain_assert(count                         , "algorithm/memory: invalid arg - 'count' == 0u"       );
-    explain_assert(element_size                  , "algorithm/memory: invalid arg - 'element_size' == 0u");
+    assert(src != NULL ); // algorithm/memory: invalid arg - 'src' == NULL
+    assert(count       ); // algorithm/memory: invalid arg - 'count' == 0u
+    assert(element_size); // algorithm/memory: invalid arg - 'element_size' == 0u
 
-    ubyte* first = (ubyte*)src;
-    ubyte* last  = (ubyte*)(first + ((count - 1) * element_size));
-    for (; first < last; first += element_size, last -= element_size)
-        swap((void*)first, (void*)last, element_size);
+    // ubyte* first = (ubyte*)src;
+    // ubyte* last  = (ubyte*)(first + ((count - 1) * element_size));
+
+    for (ubyte *first = (ubyte*)src, *last  = (ubyte*)(first + ((count - 1) * element_size)); first < last; first += element_size, last -= element_size)
+        swap_s((void*)first, (void*)last, element_size);
     return src;
 }
 
 void* memdup(const void* src, const size_t size) {
-    explain_assert(src , "algorithm/memory: invalid arg 'src' == NULL");
-    explain_assert(size, "algorithm/memory: invalid arg 'size' == 0u" );
+    assert(src != NULL); // algorithm/memory: invalid arg 'src' == NULL
+    assert(size       ); // algorithm/memory: invalid arg 'size' == 0u
 
     void* dst = malloc(size);
     if (dst)

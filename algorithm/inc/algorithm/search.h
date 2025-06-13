@@ -13,9 +13,13 @@
 
 #pragma region --- INCLUDE ---
 
+#include "core/core.h"
+
 #include "comparator.h"
 
 #pragma endregion
+
+YSL_BEGIN_DECLS
 
 #pragma region --- TYPEDEF ---
 
@@ -28,15 +32,17 @@
  *  @param[in]     value        - Pointer to reference value
  *  @param[in]     comparator   - Pointer to comparator function
  */
-typedef void* (*search_t)(const void* array, const size_t count, const size_t element_size, const void* value, const comparator_t comparator);
+YSL_API typedef void* (*search_t)(const void* array, const size_t count, const size_t element_size, const void* value, comparator_s_t comparator);
 
 #pragma endregion
 
 #pragma region --- FUNCTION ---
 
-void* linear_search(const void* array, const size_t count, const size_t element_size, const void* value, const comparator_t comparator);
-void* binary_search(const void* array, const size_t count, const size_t element_size, const void* value, const comparator_t comparator);
+YSL_API void* linear_search(const void* array, const size_t count, const size_t element_size, const void* value, comparator_s_t comparator);
+YSL_API void* binary_search(const void* array, const size_t count, const size_t element_size, const void* value, comparator_s_t comparator);
 
 #pragma endregion
+
+YSL_END_DECLS
 
 #endif // !SEARCH_H_

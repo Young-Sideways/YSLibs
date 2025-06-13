@@ -12,13 +12,13 @@ endif()
 
 add_subdirectory(core)
 add_subdirectory(macro)
-#add_subdirectory(algorithm)
+add_subdirectory(algorithm)
 #add_subdirectory(collection)
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE yslibs::core
     PRIVATE yslibs::macro
-    #PRIVATE   yslibs::algorithm
+    PRIVATE yslibs::algorithm
     #PRIVATE   yslibs::collection
 )
 

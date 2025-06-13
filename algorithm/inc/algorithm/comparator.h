@@ -13,9 +13,13 @@
 
 #pragma region --- INCLUDE ---
 
+#include "core/core.h"
+
 #include <stddef.h>
 
 #pragma endregion
+
+YSL_BEGIN_DECLS
 
 #pragma region --- TYPEDEF ---
 
@@ -27,19 +31,21 @@
  *          Zero if lhs and rhs compare equal, or if count is zero. \n 
  *          Positive value if lhs appears after rhs in lexicographical order. 
  */
-typedef int (*comparator_t)(const void* lhs, const void* rhs);
+YSL_API typedef int (*comparator_t)(const void* lhs, const void* rhs);
 
 /**
  *  @typedef comparator_s_t
- *  @brief   defines function pointer type, that's compares memory between \p lhs and \p rhs with size \p size
+ *  @brief   defines function pointer type, that's compares memory between \p lhs and \p rhs with \p size
  *  @param[in,out] lhs,rhs  - Value pointers
  *  @param[in]     size     - Size of memory blocks
  *  @return Negative value if lhs appears before rhs in lexicographical order. \n 
  *          Zero if lhs and rhs compare equal, or if count is zero. \n 
  *          Positive value if lhs appears after rhs in lexicographical order. 
  */
-typedef int (*comparator_s_t)(const void* lhs, const void* rhs, size_t size);
+YSL_API typedef int (*comparator_s_t)(const void* lhs, const void* rhs, size_t size);
 
 #pragma endregion
+
+YSL_END_DECLS
 
 #endif // !COMPARATOR_H_

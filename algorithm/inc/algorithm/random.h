@@ -13,6 +13,8 @@
 
 #pragma region --- INCLUDE ---
 
+#include "core/core.h"
+
 #include <stddef.h>
 
 #pragma endregion
@@ -25,7 +27,7 @@
  *  @param[in,out] dst  - Pointer to destination memory
  *  @param[in]     size - Size in bytes of \p dst
  */
-typedef void (*rng_t)(void* dst, size_t size);
+YSL_API typedef void (*rng_t)(void* dst, const size_t size);
 
 #pragma endregion
 
@@ -38,7 +40,7 @@ typedef void (*rng_t)(void* dst, size_t size);
  * @param[in]     element_size - Size in bytes of each element
  * @param[in]     generator    - Pointer to RNG generator (can be NULL)
  */
-void rng_fill(void* ptr, size_t capacity, size_t element_size, rng_t generator);
+YSL_API void rng_fill(void* ptr, const size_t capacity, const size_t element_size, rng_t generator);
 
 #pragma endregion
 

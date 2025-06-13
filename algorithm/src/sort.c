@@ -10,18 +10,16 @@
 
 #pragma region --- INCLUDE ---
 
-#include "core.h"
-#include "debug.h"
 #include "algorithm/swap.h"
 
-// for memcmp
+#include <assert.h>
 #include <string.h>
 
 #pragma endregion
 
 #pragma region --- PRIVATE ---
 
-static byte* private_sort_partition__(byte* first, byte* last, size_t element_size, comparator_t comparator) {
+static byte* private_sort_partition__(byte* first, byte* last, size_t element_size, comparator_t comparator) { // NOLINT(CppParameterMayBeConst)
     byte* pivot = last;
     last -= element_size;
 LOOP:
@@ -38,7 +36,7 @@ LOOP:
     return first;
 }
 
-static void private_sort_quick_sort__(byte* begin, byte* last, size_t element_size, comparator_t comparator) {
+static void private_sort_quick_sort__(byte* begin, byte* last, size_t element_size, comparator_t comparator) { //  NOLINT(CppParameterMayBeConst,misc-no-recursion)
     if (begin >= last)
         return;
     byte* pivot = private_sort_partition__(begin, last, element_size, comparator);
@@ -50,10 +48,10 @@ static void private_sort_quick_sort__(byte* begin, byte* last, size_t element_si
 
 #pragma region --- FUNCTION ---
 
-void selection_sort(void* array, const size_t count, const size_t element_size, const comparator_t comparator) {
-    explain_assert(array != NULL, "algorithm/sort: invalid arg - 'array' == NULL"     );
-    explain_assert(count        , "algorithm/sort: invalid arg - 'count' == 0u"       );
-    explain_assert(element_size , "algorithm/sort: invalid arg - 'element_size' == 0u");
+void selection_sort(void* array, const size_t count, const size_t element_size, comparator_t comparator) { // NOLINT(CppParameterMayBeConst)
+    assert(array != NULL); // algorithm/sort: invalid arg - 'array' == NULL
+    assert(count        ); // algorithm/sort: invalid arg - 'count' == 0u
+    assert(element_size ); // algorithm/sort: invalid arg - 'element_size' == 0u
 
     for (byte* sorted = array, *end = sorted + (count * element_size); sorted < end; sorted += element_size) {
         byte* min = sorted;
@@ -65,10 +63,10 @@ void selection_sort(void* array, const size_t count, const size_t element_size, 
     }
 }
 
-void insertion_sort(void* array, const size_t count, const size_t element_size, const comparator_t comparator) {
-    explain_assert(array != NULL, "algorithm/sort: invalid arg - 'array' == NULL"     );
-    explain_assert(count        , "algorithm/sort: invalid arg - 'count' == 0u"       );
-    explain_assert(element_size , "algorithm/sort: invalid arg - 'element_size' == 0u");
+void insertion_sort(void* array, const size_t count, const size_t element_size, comparator_t comparator) { // NOLINT(CppParameterMayBeConst)
+    assert(array != NULL); // algorithm/sort: invalid arg - 'array' == NULL
+    assert(count        ); // algorithm/sort: invalid arg - 'count' == 0u
+    assert(element_size ); // algorithm/sort: invalid arg - 'element_size' == 0u
 
     for (byte *sorted = array, *last = sorted + ((count - 1) * element_size); sorted < last; sorted += element_size)
         for (byte* ptr = sorted + element_size; ptr > (byte*)array; ptr -= element_size)
@@ -76,10 +74,10 @@ void insertion_sort(void* array, const size_t count, const size_t element_size, 
                 swap_s(ptr, ptr - element_size, element_size);
 }
 
-void quick_sort(void* array, const size_t count, const size_t element_size, const comparator_t comparator) {
-    explain_assert(array != NULL, "algorithm/sort: invalid arg - 'array' == NULL"     );
-    explain_assert(count        , "algorithm/sort: invalid arg - 'count' == 0u"       );
-    explain_assert(element_size , "algorithm/sort: invalid arg - 'element_size' == 0u");
+void quick_sort(void* array, const size_t count, const size_t element_size, comparator_t comparator) { // NOLINT(CppParameterMayBeConst)
+    assert(array != NULL); // algorithm/sort: invalid arg - 'array' == NULL
+    assert(count        ); // algorithm/sort: invalid arg - 'count' == 0u
+    assert(element_size ); // algorithm/sort: invalid arg - 'element_size' == 0u
 
     private_sort_quick_sort__(array, (byte*)array + ((count - 1) * element_size), element_size, comparator);
 }

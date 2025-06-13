@@ -1,0 +1,22 @@
+EXPORT
+# comparator
+
+# memory
+    reverse
+    memdup
+# random
+    rng_t
+    rng_fill
+# search
+    search_t
+    linear_search
+    binary_search
+# sort
+    sort_t
+    selection_sort
+    insertion_sort
+    quick_sort
+# swap
+    swap_t
+    swap_s_t
+    swap_s

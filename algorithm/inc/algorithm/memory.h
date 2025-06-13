@@ -13,19 +13,23 @@
 
 #pragma region --- INCLUDE ---
 
+#include "core/core.h"
+
 #include <stddef.h>
 
 #pragma endregion
+
+YSL_BEGIN_DECLS
 
 #pragma region --- FUNCTION ---
 
 /**
  *  @brief  reverses blocks of size \p element_size in memory \p src size \p capacity 
- *  @param[in,out] ptr          - Pointer to memory block
+ *  @param[in,out] src          - Pointer to memory block
  *  @param[in]     count        - Number of elements
  *  @param[in]     element_size - Size in bytes of each element
  */
-void* reverse(void* ptr, const size_t count, const size_t element_size);
+YSL_API void* reverse(void* src, const size_t count, const size_t element_size);
 
 /**
  * @brief duplicates memory from \p src
@@ -33,8 +37,10 @@ void* reverse(void* ptr, const size_t count, const size_t element_size);
  * @param[in] size - Number of bytes
  * @return allocated memory of \p size bytes
  */
-void* memdup(const void* src, const size_t size);
+YSL_API void* memdup(const void* src, const size_t size);
 
 #pragma endregion
+
+YSL_END_DECLS
 
 #endif // !MEMORY_H_

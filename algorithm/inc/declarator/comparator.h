@@ -15,10 +15,8 @@
 
 #pragma region --- INCLUDE ---
 
-#include "core.h"
-#include "debug.h"
-
-// for fixed width int types
+#include <assert.h>
+#include <stddef.h>
 #include <stdint.h>
 
 #pragma endregion
@@ -27,13 +25,13 @@
 
 #define DECLARE_COMP(prefix, type)                                          \
     static inline int prefix##_fcomp(const void* lhs, const void* rhs) {    \
-        explain_assert(lhs, "algorithm error: lhs value can't be NULL");    \
-        explain_assert(rhs, "algorithm error: rhs value can't be NULL");    \
+        assert(lhs != NULL);                                                \
+        assert(rhs != NULL);                                                \
         return ((*(type*)lhs > *(type*)rhs) - (*(type*)lhs < *(type*)rhs)); \
     };                                                                      \
     static inline int prefix##_rcomp(const void* lhs, const void* rhs) {    \
-        explain_assert(lhs, "algorithm error: lhs value can't be NULL");    \
-        explain_assert(rhs, "algorithm error: rhs value can't be NULL");    \
+        assert(lhs != NULL);                                                \
+        assert(rhs != NULL);                                                \
         return ((*(type*)lhs < *(type*)rhs) - (*(type*)lhs > *(type*)rhs)); \
     }
 
@@ -45,6 +43,9 @@ DECLARE_COMP(u8  , uint8_t    );
 DECLARE_COMP(u16 , uint16_t   );
 DECLARE_COMP(u32 , uint32_t   );
 DECLARE_COMP(u64 , uint64_t   );
+DECLARE_COMP(iptr, intptr_t   );
+DECLARE_COMP(imax, intmax_t   );
+DECLARE_COMP(size, size_t     );
 DECLARE_COMP(flt , float      );
 DECLARE_COMP(dbl , double     );
 DECLARE_COMP(ldbl, long double);

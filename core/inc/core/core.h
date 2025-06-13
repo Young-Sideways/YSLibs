@@ -18,7 +18,7 @@
 #pragma region --- MACRO ---
 
 /**
- *  @def   UNUSED
+ *  @def   YSL_UNUSED
  *  @brief mark parameter as unused
  *  @param variable - parameter
  */
@@ -29,7 +29,12 @@
 #pragma region --- TYPEDEF ---
 
 typedef signed char   byte;
+#define BYTE_MIN ((byte)CHAR_MIN)
+#define BYTE_MAX ((byte)CHAR_MAX)
+
 typedef unsigned char ubyte;
+#define UBYTE_MIN ((ubyte)0)
+#define UBYTE_MAX ((ubyte)UCHAR_MAX)
 
 #pragma endregion
 

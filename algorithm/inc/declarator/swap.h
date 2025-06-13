@@ -15,25 +15,21 @@
 
 #pragma region --- INCLUDE ---
 
-#include "core.h"
-#include "debug.h"
-
-// for fixed width int types
+#include <assert.h>
 #include <stdint.h>
-// for llabs
 #include <stdlib.h>
 
 #pragma endregion
 
 #pragma region --- DECLARATOR ---
 
-#define DECLARE_SWAP(prefix, type)                                          \
-    static inline void prefix##_swap(void* lhs, void* rhs) {                \
-        explain_assert(lhs, "algorithm/swap: invalid arg - 'lhs' == NULL"); \
-        explain_assert(rhs, "algorithm/swap: invalid arg - 'rhs' == NULL"); \
-        type temp   = *(type*)lhs;                                          \
-        *(type*)lhs = *(type*)rhs;                                          \
-        *(type*)rhs = temp;                                                 \
+#define DECLARE_SWAP(prefix, type)                           \
+    static inline void prefix##_swap(void* lhs, void* rhs) { \
+        assert(lhs != NULL);                                 \
+        assert(rhs != NULL);                                 \
+        type temp   = *(type*)lhs;                           \
+        *(type*)lhs = *(type*)rhs;                           \
+        *(type*)rhs = temp;                                  \
     }
 
 DECLARE_SWAP(i8  , int8_t     );
@@ -44,9 +40,14 @@ DECLARE_SWAP(u8  , uint8_t    );
 DECLARE_SWAP(u16 , uint16_t   );
 DECLARE_SWAP(u32 , uint32_t   );
 DECLARE_SWAP(u64 , uint64_t   );
+DECLARE_SWAP(iptr, intptr_t   );
+DECLARE_SWAP(imax, intmax_t   );
+DECLARE_SWAP(size, size_t     );
 DECLARE_SWAP(flt , float      );
 DECLARE_SWAP(dbl , double     );
 DECLARE_SWAP(ldbl, long double);
+
+#pragma endregion
 
 #endif // SWAP_H_
 
