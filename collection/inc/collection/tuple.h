@@ -6,18 +6,20 @@
  * @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef TUPLE_H_
-#define TUPLE_H_
+#ifndef C_TUPLE_H_
+#define C_TUPLE_H_
 
-#pragma once
 
-#pragma region --- INCLUDE ---
+#ifdef C_GENERIC_H_
+#   error Container library headers must be placed before <collection/generic.h> header
+#endif
 
-#include "macro/exec.h"
-#include "macro/sequence.h"
-#include "collection/general.h"
 
-#pragma endregion
+#include "general.h"
+
+#include <macro/exec.h>
+#include <macro/sequence.h>
+
 
 #pragma region --- MACRO ---
 
@@ -25,8 +27,8 @@
 
 #define make_tuple(...) tpl_init(                                               \
     VA_NARG(__VA_ARGS__),                                                       \
-    (size_t[VA_NARG(__VA_ARGS__)]){ VA_EXEC0(sizeof, __VA_ARGS__), (size_t)0 }, \
-    VA_EXEC0((void*)M_ARR_WRAP, __VA_ARGS__)               \
+    (size_t[VA_NARG(__VA_ARGS__)]){ VA_EXEC(sizeof, __VA_ARGS__), (size_t)0 }, \
+    VA_EXEC((void*)M_ARR_WRAP, __VA_ARGS__)               \
 )
 
 #pragma endregion
@@ -66,7 +68,7 @@ void* tpl_pack(tuple_t tuple, void* dst);
 
 #pragma endregion
 
-#endif // !TUPLE_H_
+#endif // !C_TUPLE_H_
 
 #if (0) // tuple pre implementation tuple
 

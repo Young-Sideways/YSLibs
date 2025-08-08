@@ -9,13 +9,9 @@
 #ifndef M_LOGIC_H_
 #define M_LOGIC_H_
 
-#pragma once
-
-#pragma region --- INCLUDE ---
 
 #include "core.h"
 
-#pragma endregion
 
 #pragma region --- DETECT ---
 

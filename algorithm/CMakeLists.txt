@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 project("algorithm" LANGUAGES C)
 
 file(GLOB_RECURSE HEADERS ${PROJECT_SOURCE_DIR}/inc/${PROJECT_NAME}/*.h)

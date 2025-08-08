@@ -96,7 +96,7 @@ timediff_t tim_elapsed(const tim_t* timer) {
     return timer->started ? INVALID_TIME : timer->elapsed;
 }
 
-const char* const tim_str(tim_t* timer, tim_precision_t precision) {
+const char* tim_str(tim_t* timer, tim_precision_t precision) {
     timediff_t diff = tim_elapsed(timer);
     if (diff == INVALID_TIME)
         return "";

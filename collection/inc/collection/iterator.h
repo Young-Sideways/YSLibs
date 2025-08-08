@@ -80,18 +80,12 @@
 #ifndef ITERATOR_H_
 #define ITERATOR_H_
 
-#pragma once
 
-#pragma region --- INCLUDE ---
+#include "general.h"
 
-#include <stdbool.h>
-
-#include "collection/general.h"
-#include "debug.h"
-
-#pragma endregion
 
 #pragma region --- TYPEDEF ---
+
  /**
   *  @enum  it_direction_t
   *  @brief Defines iterator bypass type
@@ -117,7 +111,7 @@ typedef struct iterator_s {
 
 #pragma region --- MACRO ---
 
-#define INVALID_STAGE COLLECTION_INVALID_INDEX
+#define INVALID_STAGE C_INVALID_INDEX
 
 #define INVALID_ITERATOR (iterator_t) { \
     .collection = NULL,                 \
@@ -182,7 +176,7 @@ bool it_equal(iterator_t lhs, iterator_t rhs);
 /**
  *  @brief     pointer to data block
  *  @param[in] iterator - valid iterator pointer
- *  @retval             - returns valid data pointer, otherwise @code{.c} NULL @endcode
+ *  @retval             - returns valid data pointer, otherwise 'NULL'
  */
 void* it_get(iterator_t iterator);
 /**

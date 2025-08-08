@@ -177,30 +177,30 @@ int log_system_term();
 int log_system_set_handler(log_handler_t handler);
 
 ////////////////////////////
-#include <stddef.h>
-#include <threads.h>
-typedef struct {
-
-} log_ctx_t;
-typedef struct {
-    const char* name;
-    const char* value;
-} log_tag_t;
-
-typedef void (*log_formatter_t)(log_tag_t* tags, size_t tags_size, const char* fmt, ...);
-
-typedef struct {
-    void* open;
-    void* close;
-    void* write;
-    mtx_t 
-    log_formatter_t formatter;
-} *log_handler_t;
-
-typedef struct {
-    // ctx_t
-    log_handler_t
-} logger_t;
+//#include <stddef.h>
+//#include <threads.h>
+//typedef struct {
+//
+//} log_ctx_t;
+//
+//typedef struct {
+//    const char* name;
+//    const char* value;
+//} log_tag_t;
+//
+//typedef void (*log_formatter_t)(log_tag_t* tags, size_t tags_size, const char* fmt, ...);
+//
+//typedef struct {
+//    void* open;
+//    void* close;
+//    void* write;
+//    log_formatter_t formatter;
+//} *log_handler_t;
+//
+//typedef struct {
+//    // ctx_t
+//    log_handler_t
+//} logger_t;
 ////////////////////////////
 #pragma endregion
 

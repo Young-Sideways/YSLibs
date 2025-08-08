@@ -7,3 +7,4 @@ include_directories(${PROJECT_SOURCE_DIR}/inc)
 message("--- BUILDING TESTS ---")
 
 add_subdirectory(core)
+add_subdirectory(macro)

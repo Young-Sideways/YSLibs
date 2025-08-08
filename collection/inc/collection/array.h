@@ -6,20 +6,20 @@
  *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef ARRAY_H_
-#define ARRAY_H_
+#ifndef C_ARRAY_H_
+#define C_ARRAY_H_
 
-#pragma once
 
-#pragma region --- INCLUDE ---
+#ifdef C_GENERIC_H_
+#   error Container library headers must be placed before <collection/generic.h> header
+#endif
+
 
 #include "general.h"
 
-#include "core/core.h"
-#include "collection/general.h"
-#include "algorithm/comparator.h"
+#include <core/core.h>
+#include <algorithm/comparator.h>
 
-#pragma endregion
 
 #pragma region --- MACRO ---
 
@@ -36,7 +36,7 @@ YSL_BEGIN_DECLS
  *  @typedef array_t
  *  @brief   static array
  */
-typedef struct array_s {} *array_t;
+typedef struct {  } *array_t;
 
 #pragma endregion
 
@@ -47,13 +47,13 @@ typedef struct array_s {} *array_t;
  * @param[in] size         - Number of elements
  * @param[in] element_size - Size of each element
  */
-YSL_EXPORT(array_t) arr_ctor(const c_size_t size, const c_size_t element_size);
+YSL_API array_t arr_ctor(const c_size_t size, const c_size_t element_size);
 
 /**
  * @brief   Array copy constructor
  * @param[in] array - Array pointer
  */
-YSL_EXPORT(array_t) arr_copy(const array_t array);
+YSL_API array_t arr_copy(const array_t array);
 
 /**
  * @brief   Array slice constructor
@@ -62,14 +62,13 @@ YSL_EXPORT(array_t) arr_copy(const array_t array);
  * @param[in] count - number of elements in slice (-size;size]
  * @details if count set as negative value - array slice are reversed
  */
-YSL_EXPORT(array_t) arr_slice(const array_t array, const int from, const int count);
+YSL_API array_t arr_slice(const array_t array, const int from, const int count);
 
 /**
  * @brief Array destructor
  * @param[in] array - Pointer to array pointer
  */
-YSL_EXPORT(void) arr_dtor(array_t* array);
-#define arr_dtor(array) (arr_dtor)(&array)
+YSL_API void (arr_dtor)(array_t* array);
 
 #pragma endregion
 
@@ -79,27 +78,27 @@ YSL_EXPORT(void) arr_dtor(array_t* array);
  * @brief Array size
  * @param[in] array - Array pointer
  */
-YSL_EXPORT(collection_size_t) arr_size(const array_t array);
+YSL_API c_size_t arr_size(const array_t array);
 
 /**
  * @brief Array element size
  * @param[in] array - Array pointer
  */
-YSL_EXPORT(collection_size_t) arr_element_size(const array_t array);
+YSL_API c_size_t arr_element_size(const array_t array);
 
 /**
  * @brief Array data
  * @param[in] array - Array pointer
  * @returns pointer to memory contains data
  */
-YSL_EXPORT(void*) arr_data(array_t array);
+YSL_API void* arr_data(array_t array);
 
 /**
  *  @brief   Array element accessor
  *  @param[in] array - Container
  *  @param[in] index - Index of element
  */
-YSL_EXPORT(void*) arr_at(array_t array, int index);
+YSL_API void* arr_at(array_t array, int index);
 
 /**
  *  @brief   Find index of element
@@ -109,7 +108,7 @@ YSL_EXPORT(void*) arr_at(array_t array, int index);
  *  @retval 0 <= index < array size - on success
  *  @retval #COLLECTION_INVALID_INDEX  if no element in array
  */
-YSL_EXPORT(collection_index_t) arr_find(const array_t array, const void* value, const comparator_t comparator);
+YSL_API c_index_t arr_find(const array_t array, const void* value, const comparator_t comparator);
 
 /**
  *  @brief   Checks if \p array has \p value
@@ -118,17 +117,17 @@ YSL_EXPORT(collection_index_t) arr_find(const array_t array, const void* value, 
  *  @retval - true , if array has value
  *  @retval - false, if no value in array
  */
-YSL_EXPORT(bool) arr_contains(const array_t array, const void* value, const comparator_t comparator);
+YSL_API bool arr_contains(const array_t array, const void* value, const comparator_t comparator);
 
 /**
  *  @brief   Sorts elements in \p array with given \p comparator
  *  @param[in,out] array  - Container
  *  @param[in] comparator - Given comparator 
  */
-YSL_EXPORT(void) arr_sort(array_t array, const comparator_t comparator);
+YSL_API void arr_sort(array_t array, const comparator_t comparator);
 
 #pragma endregion
 
 YSL_END_DECLS
 
-#endif // !ARRAY_H_
+#endif // !C_ARRAY_H_

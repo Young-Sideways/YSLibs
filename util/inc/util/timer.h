@@ -10,21 +10,14 @@
 #ifndef TIMER_H_
 #define TIMER_H_
 
-#pragma once
-
-#pragma region --- INCLUDES ---
 
 #include <time.h>
 #include <stdint.h>
 #include <stdbool.h>
 
-#pragma endregion
-
-#pragma region --- MACROS ---
 
 #define INVALID_TIME ((timediff_t)-1)
 
-#pragma endregion
 
 #pragma region --- TYPEDEFS ---
 
@@ -55,11 +48,11 @@ typedef enum tim_precision_t{
 
 #pragma region --- FUNCIONS ---
 
-tim_state_t       tim_start(tim_t* timer);
-tim_state_t       tim_stop(tim_t* timer);
-tim_state_t       tim_continue(tim_t* timer);
-timediff_t        tim_elapsed(const tim_t* timer);
-const char* const tim_str(tim_t* timer, tim_precision_t precision);
+tim_state_t tim_start(tim_t* timer);
+tim_state_t tim_stop(tim_t* timer);
+tim_state_t tim_continue(tim_t* timer);
+timediff_t  tim_elapsed(const tim_t* timer);
+const char* tim_str(tim_t* timer, tim_precision_t precision);
 
 #pragma endregion
 

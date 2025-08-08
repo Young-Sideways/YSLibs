@@ -7,22 +7,21 @@
  *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef HASHTABLE_H_
-#define HASHTABLE_H_
+#ifndef C_HASHTABLE_H_
+#define C_HASHTABLE_H_
 
-#pragma once
 
-#pragma region --- INCLUDE ---
+#ifdef C_GENERIC_H_
+#   error Container library headers must be placed before <collection/generic.h> header
+#endif
 
-#include <stdbool.h>
 
-#include "collection/general.h"
+#include "general.h"
 
-#pragma endregion
 
 #pragma region --- MACRO ---
 
-#if (COLLECTION_SIZE_MIN < 8U)
+#if (C_SIZE_MIN < 8U)
     #define HASHTABLE_SIZE_MIN (8U)
 #else
     #define HASHTABLE_SIZE_MIN COLLECTION_SIZE_MIN
@@ -87,28 +86,28 @@ void* ht_lookup(hashtable_t table, const void* key);
 
 #pragma endregion
 
-#endif // !HASHTABLE_H_
+#endif // !C_HASHTABLE_H_
 
 
-typedef struct pair_t {
-    size_t key_size;
-    size_t value_size;
-    void* key;
-    void* value;
-} *pair_t;
-
-typedef struct ht_entry_t {
-    pair_t pair;
-    ht_entry_t next;
-    ht_entry_t prev;
-} *ht_entry_t;
-
-typedef struct ht_bucket_t {
-    hashtable_t parent;
-    size_t bucket_size;
-    struct ht_entry_t* entries;
-} *ht_bucket_t;
-
-typedef struct hashtable_t {
-
-} hashtable_t;
+//typedef struct pair_t {
+//    size_t key_size;
+//    size_t value_size;
+//    void* key;
+//    void* value;
+//} *pair_t;
+//
+//typedef struct ht_entry_t {
+//    pair_t pair;
+//    ht_entry_t next;
+//    ht_entry_t prev;
+//} *ht_entry_t;
+//
+//typedef struct ht_bucket_t {
+//    hashtable_t parent;
+//    size_t bucket_size;
+//    struct ht_entry_t* entries;
+//} *ht_bucket_t;
+//
+//typedef struct hashtable_t {
+//
+//} hashtable_t;

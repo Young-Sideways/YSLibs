@@ -9,39 +9,37 @@
 #ifndef RANDOM_H_
 #define RANDOM_H_
 
-#pragma once
-
-#pragma region --- INCLUDE ---
-
-#include "core/core.h"
 
 #include <stddef.h>
 
-#pragma endregion
+#include <core/core.h>
+
 
 #pragma region --- TYPEDEF ---
 
 /**
  *  @typedef rng_t
  *  @brief   random number generator function pointer
- *  @param[in,out] dst  - Pointer to destination memory
- *  @param[in]     size - Size in bytes of \p dst
+ *  @note    compatible with 
  */
-YSL_API typedef void (*rng_t)(void* dst, const size_t size);
+typedef int (*rng_t)(void);
 
 #pragma endregion
+
+YSL_BEGIN_DECLS
 
 #pragma region --- FUNCTION ---
 
 /**
  * @brief fill array with \p generator
- * @param[in,out] ptr          - Pointer memory block
- * @param[in]     capacity     - Size in bytes of \p ptr
- * @param[in]     element_size - Size in bytes of each element
- * @param[in]     generator    - Pointer to RNG generator (can be NULL)
+ * @param[in,out] ptr       - pointer memory block
+ * @param[in]     size      - size in bytes of \p ptr
+ * @param[in]     generator - pointer to RNG generator (can be NULL)
  */
-YSL_API void rng_fill(void* ptr, const size_t capacity, const size_t element_size, rng_t generator);
+YSL_API void rng_fill(void* ptr, const size_t size, rng_t generator);
 
 #pragma endregion
+
+YSL_END_DECLS
 
 #endif // !RANDOM_H_

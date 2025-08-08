@@ -9,9 +9,6 @@
 #ifndef M_CORE_H_
 #define M_CORE_H_
 
-#pragma once
-
-#pragma region --- MACRO ---
 
 #define M_STR(var)       #var
 #define VA_STR(...)      #__VA_ARGS__
@@ -55,5 +52,8 @@
 
 #define M_EXPAND(var)    var
 #define VA_EXPAND(...)   __VA_ARGS__
+
+#define M_APPLY(_f, var) _f var
+#define VA_APPLY(_f, ...) __VA_OPT__(_f __VA_ARGS__)
 
 #endif // !M_CORE_H_

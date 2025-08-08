@@ -6,17 +6,17 @@
  *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef STRING_H_
-#define STRING_H_
+#ifndef C_STRING_H_
+#define C_STRING_H_
 
-#pragma once
 
-#pragma region --- INCLUDE ---
+#ifdef C_GENERIC_H_
+#   error Container library headers must be placed before <collection/generic.h> header
+#endif
+
 
 #include "core/core.h"
 #include "collection/general.h"
-
-#pragma endregion
 
 #pragma region --- MACRO ---
 
@@ -74,4 +74,4 @@ string_t str_join(const string_t* strings, const void* delimiter);
 
 YSL_END_DECLS
 
-#endif // !STRING_H_
+#endif // !C_STRING_H_

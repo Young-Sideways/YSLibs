@@ -15,6 +15,7 @@
 
 #define M_MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define M_MIN(x, y) (((x) < (y)) ? (x) : (y))
+#define M_MINMAX(x, min, max) ((x) < (lhs)) ? (lhs) : ( ((x) > (rhs)) ? rhs : (x) )
 
 #define M_OFFSETOF(struct_type, field) &(((struct_type*)NULL)->field)
 

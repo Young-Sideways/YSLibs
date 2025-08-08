@@ -9,15 +9,9 @@
 #ifndef DEBUG_H_
 #define DEBUG_H_
 
-#pragma once
-
-#pragma region --- INCLUDE ---
 
 #include <assert.h>
 
-#pragma endregion
-
-#pragma region --- MACRO ---
 
 #ifdef NDEBUG
     #define explain_assert(expression, msg) ((void)0)
@@ -27,6 +21,5 @@
     #define explain_error(msg) explain_assert(0, msg)
 #endif 
 
-#pragma endregion
 
 #endif // !DEBUG_H_

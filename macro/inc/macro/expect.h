@@ -9,16 +9,14 @@
 #ifndef M_EXPECT_H_
 #define M_EXPECT_H_
 
-#pragma once
 
-#pragma region --- MACRO ---
+#include <assert.h>
+
+#include "generic/type.h"
 
 #define M_EXPECT_T_EQUAL(lhs, rhs)                        \
     static_assert(                                        \
-        _Generic( ( (typeof_unqual(lhs))0 ) ,             \
-            typeof_unqual(rhs) : 1,                       \
-            default            : 0                        \
-        ),                                                \
+        G_TCOMPATIBLE(lhs, rhs),                          \
         "Expected type are unequal '"#lhs"' <-> '"#rhs"'" \
     )
 
@@ -28,7 +26,5 @@
         "Expected type sizes are unequal sizeof("#lhs") <-> sizeof("#rhs")" \
     )
 
-
-#pragma endregion
 
 #endif //!M_EXPECT_H_

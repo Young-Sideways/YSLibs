@@ -13,7 +13,7 @@
 
 #pragma region --- INCLUDE ---
 
-#include <core.h>
+#include <core/core.h>
 #include <stddef.h>
 #include <stdbool.h>
 
@@ -65,7 +65,7 @@ typedef enum_to_str_t *enum_to_str_pt;
 
 #pragma endregion
 
-#pragma region --- FUNCION ---
+#pragma region --- FUNCTION ---
 
 enum_to_str_t enum_to_arabic;
 enum_to_str_t enum_to_roman;
@@ -82,7 +82,7 @@ void con_box(char* content, alignment_t align, padding_t padding);
 
 #pragma region --- FORMAT ---
 
-#include "macro/exec.h"
+#include <macro/exec.h>
 
 #define M_FORMAT_OF(var) _Generic( (var)  , \
     signed char        : "%hhd"           , \

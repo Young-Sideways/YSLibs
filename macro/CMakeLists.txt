@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 project("macro" LANGUAGES C)
 
 add_library(${PROJECT_NAME} INTERFACE)
 add_library(yslibs::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
-#target_compile_options(${PROJECT_NAME} INTERFACE "-Wno-invalid-token-paste")
 target_compile_options(${PROJECT_NAME}
     INTERFACE "-Wno-gnu-zero-variadic-macro-arguments"
     INTERFACE "-Wno-invalid-token-paste")

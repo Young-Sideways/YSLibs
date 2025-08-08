@@ -6,11 +6,12 @@
  *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
-#include "algorithm/search.h"
+#include "../inc/algorithm/search.h"
 
 #pragma region --- INCLUDE ---
 
 #include <assert.h>
+#include <stdint.h>
 #include <string.h>
 
 #pragma endregion
@@ -26,7 +27,7 @@ void* linear_search(const void* array, const size_t count, const size_t element_
     if ( YSL_UNLIKELY(comparator == NULL) )
         comparator = &memcmp;
 
-    for (byte* begin = (void*)array, *end = begin + (count * element_size); begin < end; begin += element_size)
+    for (uint8_t* begin = (void*)array, *end = begin + (count * element_size); begin < end; begin += element_size)
         if (comparator(begin, value, element_size) == 0)
             return (void*)begin;
     
@@ -42,8 +43,8 @@ void* binary_search(const void* array, const size_t count, const size_t element_
     if ( YSL_UNLIKELY(comparator == NULL) )
         comparator = &memcmp;
 
-    byte* mid = (byte*)array;
-    for (byte* begin = mid, *end = mid + (count * element_size); begin < end;) {
+    uint8_t* mid = (uint8_t*)array;
+    for (uint8_t* begin = mid, *end = mid + (count * element_size); begin < end;) {
         mid = begin + (((size_t)(end - begin) / element_size) / 2) * element_size;
         const int compared = comparator(value, mid, element_size);
         if (compared == 0)

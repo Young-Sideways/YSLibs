@@ -1,0 +1,17 @@
+{
+  "CompileFlags": {
+    "Add": [
+      "-xc",
+      "-std=c23",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic"
+    ]
+  },
+  "Index": {
+    "Background": "Build"
+  },
+  "Completion": {
+    "AllScopes": true
+  }
+}

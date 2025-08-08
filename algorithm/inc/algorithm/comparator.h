@@ -9,17 +9,9 @@
 #ifndef COMPARATOR_H_
 #define COMPARATOR_H_
 
-#pragma once
-
-#pragma region --- INCLUDE ---
-
-#include "core/core.h"
 
 #include <stddef.h>
 
-#pragma endregion
-
-YSL_BEGIN_DECLS
 
 #pragma region --- TYPEDEF ---
 
@@ -31,7 +23,7 @@ YSL_BEGIN_DECLS
  *          Zero if lhs and rhs compare equal, or if count is zero. \n 
  *          Positive value if lhs appears after rhs in lexicographical order. 
  */
-YSL_API typedef int (*comparator_t)(const void* lhs, const void* rhs);
+typedef int (*comparator_t)(const void* lhs, const void* rhs);
 
 /**
  *  @typedef comparator_s_t
@@ -42,10 +34,8 @@ YSL_API typedef int (*comparator_t)(const void* lhs, const void* rhs);
  *          Zero if lhs and rhs compare equal, or if count is zero. \n 
  *          Positive value if lhs appears after rhs in lexicographical order. 
  */
-YSL_API typedef int (*comparator_s_t)(const void* lhs, const void* rhs, size_t size);
+typedef int (*comparator_s_t)(const void* lhs, const void* rhs, size_t size);
 
 #pragma endregion
-
-YSL_END_DECLS
 
 #endif // !COMPARATOR_H_

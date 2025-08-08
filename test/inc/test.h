@@ -120,8 +120,6 @@
 
 #pragma endregion
 
-#define EXPAND(...) __VA_ARGS__
-
 #pragma region --- FUNCTION ---
 
 #pragma endregion

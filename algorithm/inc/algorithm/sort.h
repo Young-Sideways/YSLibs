@@ -9,15 +9,11 @@
 #ifndef SORT_H_
 #define SORT_H_
 
-#pragma once
-
-#pragma region --- INCLUDE ---
-
-#include "core/core.h"
 
 #include "comparator.h"
 
-#pragma endregion
+#include <core/core.h>
+
 
 YSL_BEGIN_DECLS
 
@@ -31,7 +27,7 @@ YSL_BEGIN_DECLS
  *  @param[in]     element_size - Size of each element
  *  @param[in]     comparator   - Pointer to comparator function
  */
-YSL_API typedef void (*sort_t)(void* array, size_t count, size_t element_size, comparator_t comparator);
+typedef void (*sort_t)(void* array, size_t count, size_t element_size, comparator_t comparator);
 
 #pragma endregion
 

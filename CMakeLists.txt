@@ -1,5 +1,7 @@
 cmake_minimum_required (VERSION 3.25 FATAL_ERROR)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 project ("yslibs" LANGUAGES C)
 
 
@@ -14,12 +16,14 @@ add_subdirectory(core)
 add_subdirectory(macro)
 add_subdirectory(algorithm)
 #add_subdirectory(collection)
+add_subdirectory(util)
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE yslibs::core
     PRIVATE yslibs::macro
     PRIVATE yslibs::algorithm
-    #PRIVATE   yslibs::collection
+    #PRIVATE yslibs::collection
+    PRIVATE yslibs::util
 )
 
 if(BUILD_TESTING)

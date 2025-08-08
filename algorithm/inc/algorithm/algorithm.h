@@ -9,9 +9,6 @@
 #ifndef ALGORITHM_H_
 #define ALGORITHM_H_
 
-#pragma once
-
-#pragma region --- INCLUDE ---
 
 #include "comparator.h"
 #include "swap.h"
@@ -20,6 +17,5 @@
 #include "random.h"
 #include "memory.h"
 
-#pragma endregion
 
 #endif // !ALGORITHM_H_

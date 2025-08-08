@@ -9,15 +9,11 @@
 #ifndef SWAP_H_
 #define SWAP_H_
 
-#pragma once
-
-#pragma region --- INCLUDE ---
-
-#include "core/core.h"
 
 #include <stddef.h>
 
-#pragma endregion
+#include <core/core.h>
+
 
 YSL_BEGIN_DECLS
 
@@ -28,7 +24,7 @@ YSL_BEGIN_DECLS
  *  @brief   defines type of swap function
  *  @param[in,out] lhs,rhs - Pointers to values
  */
-YSL_API typedef void (*swap_t)(void* lhs, void* rhs);
+typedef void (*swap_t)(void* lhs, void* rhs);
 
 /**
  *  @typedef swap_s_t
@@ -36,7 +32,7 @@ YSL_API typedef void (*swap_t)(void* lhs, void* rhs);
  *  @param[in,out] lhs,rhs - Pointers to values
  *  @param[in]     size    - Memory size to swap
  */
-YSL_API typedef void (*swap_s_t)(void* lhs, void* rhs, size_t size);
+typedef void (*swap_s_t)(void* lhs, void* rhs, size_t size);
 
 #pragma endregion
 
