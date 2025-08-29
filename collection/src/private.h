@@ -1,117 +1,89 @@
 /*******************************************************************************
- *  @file      private.h
- *  @brief     private collection members definition
+ *  @file      manager.h
+ *  @brief     manager collection members definition
  *  @note      only for internal use
  *  @author    Young Sideways
  *  @date      10.04.2024
  *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
-#ifndef COLLECTION_PRIVATE_H_
-#define COLLECTION_PRIVATE_H_
+#ifndef C_MANAGER_H_
+#define C_MANAGER_H_
 
-#pragma once
 
-#pragma region --- INCLUDES ---
+#include "../inc/collection/general.h"
 
-#include <stdarg.h>
 
-#include "general.h"
+enum : uint32_t {
+    C_MNGR_CTX_STATE_NONE          = 0b00 << 0,
+    C_MNGR_CTX_STATE_NEW           = 0b01 << 0,
+    C_MNGR_CTX_STATE_CONSTRUCTED   = 0b10 << 0,
+    C_MNGR_CTX_STATE_INVALID       = 0b11 << 0,
+    C_MNGR_CTX_STATE_MASK          = C_MNGR_CTX_STATE_NEW         |
+                                     C_MNGR_CTX_STATE_CONSTRUCTED |
+                                     C_MNGR_CTX_STATE_INVALID         ,
 
-#include "algorithm/search.h"
-#include "algorithm/sort.h"
+    C_MNGR_CTX_SITE_NONE           = 0b00 << 2                        ,
+    C_MNGR_CTX_SITE_BEGIN          = 0b01 << 2                        ,
+    C_MNGR_CTX_SITE_END            = 0b10 << 2                        ,
+    C_MNGR_CTX_SITE_FIRST          = C_MNGR_CTX_SITE_BEGIN            ,
+    C_MNGR_CTX_SITE_LAST           = 0b11 << 2                        ,
+    C_MNGR_CTX_SITE_MASK           = C_MNGR_CTX_SITE_BEGIN |
+                                     C_MNGR_CTX_SITE_END   |
+                                     C_MNGR_CTX_SITE_FIRST |
+                                     C_MNGR_CTX_SITE_LAST             ,
 
-#pragma endregion
+    C_MNGR_CTX_DIRECTION_NONE      = 0b00 << 4                        ,
+    C_MNGR_CTX_DIRECTION_FORWARD   = 0b01 << 4                        ,
+    C_MNGR_CTX_DIRECTION_REVERSE   = 0b10 << 4                        ,
+    C_MNGR_CTX_DIRECTION_ASSOCIATE = 0b11 << 4                        ,
+    C_MNGR_CTX_DIRECTION_MASK      = C_MNGR_CTX_DIRECTION_FORWARD   |
+                                     C_MNGR_CTX_DIRECTION_REVERSE   |
+                                     C_MNGR_CTX_DIRECTION_ASSOCIATE   ,
 
-#pragma region --- TYPEDEFS ---
+    C_MNGR_CTX_NONE                = C_MNGR_CTX_STATE_NONE     |
+                                     C_MNGR_CTX_SITE_NONE      |
+                                     C_MNGR_CTX_DIRECTION_NONE        ,
 
-enum c_memory_tag_e : intmax_t {
-    CMT_HEADER_DETACHED = 1 << 49,
-    CMT_CUSTOM_VTABLE   = 1 << 50,
+    C_MNGR_CTX_MASK                = C_MNGR_CTX_STATE_MASK     |
+                                     C_MNGR_CTX_SITE_MASK      |
+                                     C_MNGR_CTX_DIRECTION_MASK        ,
+
+    C_MNGR_CTX_INVALID = -1
 };
 
-#define YSL_TAGGED_POINTERS
-#ifdef YSL_TAGGED_POINTERS
+#define c_mngr_ctx_state(ctx)     ((ctx) & C_MNGR_CTX_STATE_MASK    )
+#define c_mngr_ctx_site(ctx)      ((ctx) & C_MNGR_CTX_SITE_MASK     )
+#define c_mngr_ctx_direction(ctx) ((ctx) & C_MNGR_CTX_DIRECTION_MASK)
 
-#endif
+#define c_mngr_ctx_set_state(ctx, state)         (((ctx) & ((~C_MNGR_CTX_STATE_MASK    ) & C_MNGR_CTX_MASK)) | state    )
+#define c_mngr_ctx_set_site(ctx, site)           (((ctx) & ((~C_MNGR_CTX_SITE_MASK     ) & C_MNGR_CTX_MASK)) | site     )
+#define c_mngr_ctx_set_direction(ctx, direction) (((ctx) & ((~C_MNGR_CTX_DIRECTION_MASK) & C_MNGR_CTX_MASK)) | direction)
 
-typedef void* (*c_mem_mngr_t)(void** collection, int n, va_list list);
+static inline bool c_mngr_ctx_is_valid(uint32_t context) {
+    if (context == C_MNGR_CTX_INVALID)
+}
 
-struct collection_vtable_s {
-  // ctor/dtor
-    const c_mem_mngr_t _copy        ; // copy(*)
-    const c_mem_mngr_t _dtor        ; // delete(*)
-    // also 'shadow', 'slice'
-  // info
-    const c_mem_mngr_t _element_size; // element_size(*), element_size(*, 0/1), element_size(*, index)
-    const c_mem_mngr_t _size        ; // size(*)        , size(*, 0/1)        , size(*, dimension)
-    const c_mem_mngr_t _capacity    ; // capacity(*)
-//   const c_info_mngr_t _count       ; // count(*, value)
-//   //          *--->   _contains    ; // contains(*, value) -> count(*, value) ? true : false
-  // data
-//    const c_data_mngr_t _data        ; // data(*)
-//    const c_data_mngr_t _at          ; // at(*, index)   , at(*, key)          , at(*, dimension1, dimension2, ...)
-//    const c_data_mngr_t _find        ; // data(*, value)
-  // enumeration
-    const c_mem_mngr_t _init        ; // iterate through collection
-    const c_mem_mngr_t _next        ; // iterate through collection
-    const c_mem_mngr_t _prev        ; // iterate through collection
-  // internal
-    comparator_t       _comparator  ; // only internal use
-    search_t           _search      ; // only internal use
-    sort_t             _sort        ; // only internal use
-};
-
-#pragma endregion
-
-#pragma region --- MACRO ---
-
-#define __C_PRIVATE_GET_HEADER(var, type) (((type)var) - 1)
-
-#pragma endregion
-
-#pragma region --- PLACEHOLDER ---
-
-/*
- * this function works as placeholder for some use cases
- * the function assigns to itself a certain publicly accessible address,
- * but does not perform any role. The function can be used as a reserved value such as NULL
+/**
+ * @typedef   c_mngr_t
+ * @brief     declares a function prototype for universal access to any presented collections
+ * @param[in]      collection pointer to collection
+ * @param[in]      context    given context to construct/modify iterator structure
+ * @param[in,out]  data       saved internal data
+ * @param[in, out] index      saved internal index
+ * @param[out]     value      return value for this accessor
  */
-extern void function_placeholder__();
+typedef void* (*c_mngr_t)(void* collection, int context, void** data, c_index_t* index);
 
-#pragma endregion
+struct c_mngr_hdlr_t {
+    c_mngr_t mngr;
+};
 
-#pragma region --- CONSTRUCTOR / DESTRUCTOR ---
+#define C_MNGR_SIZE       (sizeof(struct c_mngr_hdlr_t))
+#define C_MNGR_DEFAULT    NULL
+#define C_MNGR_GET(c_ptr) (((struct c_mngr_hdlr_t*)c_ptr) - 1)
 
-bool is_custom_vtable(void* ptr);
+#define C_MNGR_HDLR_PTR(name, c_ptr) const struct c_mngr_hdlr_t* const name = C_MNGR_GET(c_ptr)
 
-#pragma endregion
 
-#pragma region --- STATIC ASSERTION BLOCK ---
-
-#define TYPE_SIZE_ASSERT(expression) static_assert(expression, "Collection core error: default type pointers have different sizes")
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(char*)              );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(short*)             );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(int*)               );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(long*)              );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(long long*)         );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(signed char*)       );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(signed short*)      );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(signed int*)        );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(signed long*)       );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(signed long long*)  );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned char*)     );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned short*)    );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned int*)      );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned long*)     );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(unsigned long long*));
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(float*)             );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(double*)            );
-TYPE_SIZE_ASSERT(sizeof(void*) == sizeof(long double*)       );
-
-static_assert(sizeof(int32_t) == sizeof(uint32_t), "Collection core error: fixed size for signed and unsigned 32 bit integers are different");
-#undef TYPE_SIZE_ASSERT
-
-#pragma endregion
-
-#endif // !COLLECTION_PRIVATE_H_
+#endif // !C_MANAGER_H_

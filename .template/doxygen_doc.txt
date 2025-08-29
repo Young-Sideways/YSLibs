@@ -9,11 +9,7 @@
 #ifndef _H_
 #define _H_
 
-#pragma once
 
-#pragma region --- INCLUDE ---
-
-#pragma endregion
 
 #pragma region --- MACRO ---
 

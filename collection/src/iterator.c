@@ -6,151 +6,25 @@
  *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
-#include "collection/iterator.h"
+#define YSL_API
+#define YSL_BEGIN_DECLS
+#define YSL_END_DECLS
+#define YSL_LIKELY(...)
 
-#pragma region --- INCLUDE ---
 
-#include <stdbool.h>
+#include "../inc/collection/iterator.h"
 
-#include "core.h"
-#include "debug.h"
-#include "collection/private.h"
+#include <assert.h>
 
-#pragma endregion
+#include "private.h"
 
-#pragma region --- CONSTRUCTOR / DESTRUCTOR ---
-
-iterator_t it_begin(void* collection) {
-    if (!collection) {
-        explain_error("iterator error: bad pointer to container");
-        return INVALID_ITERATOR;
-    }
-
-    iterator_t result = (iterator_t){
-            .collection = collection,
-            .data       = NULL,
-            .stage      = 0,
-            .direction  = IT_FORWARD
-    };
-    CPH_EXTRACT(collection)->cia.init_(collection, &(result.data), &(result.stage));
-    return result;
-}
-iterator_t it_end(void* collection) {
-    if (!collection) {
-        explain_error("iterator error: bad pointer to container");
-        return INVALID_ITERATOR;
-    }
-
-    return (iterator_t) {
-        .collection = collection,
-        .data = NULL,
-        .stage = (int)((struct collection_universal_header*)collection)->size,
-        .direction = IT_FORWARD
-    };
-}
-
-iterator_t it_rbegin(void* collection) {
-    if (!collection) {
-        explain_error("iterator error: bad pointer to container");
-        return INVALID_ITERATOR;
-    }
-
-    iterator_t result = (iterator_t){
-        .collection = collection,
-        .data = NULL,
-        .stage = (int)((struct collection_universal_header*)collection)->size - 1,
-        .direction = IT_REVERSE
-    };
-    CPH_EXTRACT(collection)->cia.init_(collection, &(result.data), &(result.stage));
-    return result;
-}
-iterator_t it_rend(void* collection) {
-    if (!collection) {
-        explain_error("iterator error: bad pointer to container");
-        return INVALID_ITERATOR;
-    }
-
-    return (iterator_t) {
-        .collection = collection,
-        .data = NULL,
-        .stage = -1,
-        .direction = IT_REVERSE
-    };
-}
-
-iterator_t it_first(void* collection) {
-    return it_begin(collection);
-}
-iterator_t it_last(void* collection) {
-    if (!collection) {
-        explain_error("iterator error: bad pointer to container");
-        return INVALID_ITERATOR;
-    }
-
-    iterator_t result = (iterator_t){
-        .collection = collection,
-        .data = NULL,
-        .stage = (int)((struct collection_universal_header*)collection)->size,
-        .direction = IT_FORWARD
-    };
-    if (result.stage)
-        result.stage--;
-    CPH_EXTRACT(collection)->cia.init_(collection, &(result.data), &(result.stage));
-    return it_valid(result) ? result : INVALID_ITERATOR;
-}
-
-#pragma endregion
 
 #pragma region --- FUNCION ---
 
-bool it_valid(iterator_t iterator) {
-    if (!iterator.collection)
-        goto IT_ERR_COLLECTION;
-    bool is_bound = false;
-    switch (iterator.direction)
-    {
-    case IT_REVERSE:
-        is_bound = !((iterator.stage < -1) || (iterator.stage >= (int)iterator.collection->size)); // [-1 ... N)  --->  true, otherwise false
-        break;
-    case IT_FORWARD:
-        is_bound = !((iterator.stage < 0) || (iterator.stage > (int)iterator.collection->size));   // (-1 ... N]  --->  true, otherwise false
-        break;
-    default:
-        goto IT_ERR_DIRECTION;
-    }
-    if (!is_bound)
-        goto IT_ERR_STAGE;
-    if ((iterator.stage >= 0 && iterator.stage < (int)iterator.collection->size) ^ (!!iterator.data))
-        goto IT_ERR_DATA;
-
-    return true;
-
-IT_ERR_COLLECTION:
-    explain_error("iterator error: collection points to NULL");
-IT_ERR_DIRECTION:
-    explain_error("iterator error: undefined direction");
-IT_ERR_STAGE:
-    explain_error("iterator error: invalid stage");
-IT_ERR_DATA:
-    explain_error("iterator error: invalid data pointer");
-    return false;
-}
-
-static inline bool _private_iterator_in_bound(iterator_t* iterator) {
+/*static inline bool _private_iterator_in_bound(iterator_t* iterator) {
     return (iterator->stage >= 0) && (iterator->stage < (int)iterator->collection->size);
 }
 
-bool it_comparable(iterator_t lhs, iterator_t rhs) {
-    return it_valid(lhs) && it_valid(rhs) && (lhs.collection == rhs.collection) && (lhs.direction == rhs.direction);
-}
-
-bool it_equal(iterator_t lhs, iterator_t rhs) {
-    return it_valid(lhs) && it_valid(rhs) && (lhs.collection == rhs.collection) && (lhs.direction == rhs.direction) && (lhs.stage == rhs.stage) && (lhs.data == rhs.data);
-}
-
-void* it_get(iterator_t iterator) {
-    return it_valid(iterator) ? iterator.data : NULL;
-}
 
 void it_next(iterator_t* iterator) {
     if (!iterator || !it_valid(*iterator)) {
@@ -215,7 +89,7 @@ void it_prev(iterator_t* iterator) {
             *iterator = INVALID_ITERATOR;
             break;
         }
-}
+} */
 
 #pragma endregion
 
@@ -224,13 +98,143 @@ void it_prev(iterator_t* iterator) {
 int it_comp(void* lhs, void* rhs, size_t size) {
     YSL_UNUSED(size);
 
-    explain_assert(lhs, "iterator error: invalid left iterator");
-    explain_assert(rhs, "iterator error: invalid right iterator");
+    assert(lhs != NULL); // collection/iterator invalid arg 'lhs' == NULL
+    assert(rhs != NULL); // collection/iterator invalid arg 'rhs' == NULL
+    assert(it_comparable(*(iterator_t*)lhs, *(iterator_t*)rhs)); // collection/iterator incomparable iterator rypes
 
-    if (!lhs || !rhs || !it_comparable(*(iterator_t*)lhs, *(iterator_t*)rhs))
-        return INVALID_STAGE;
+    return ((iterator_t*)lhs)->index - ((iterator_t*)rhs)->index;
+}
 
-    return ((iterator_t*)lhs)->stage - ((iterator_t*)rhs)->stage;
+#pragma endregion
+
+#pragma region --- CONSTRUCTOR / DESTRUCTOR ---
+
+iterator_t it_begin (void* collection) {
+    assert(collection != NULL); // collection/iterator invalid arg 'collection' == NULL
+
+    C_MNGR_HDLR_PTR(hdlr, collection);
+
+    iterator_t ret = IT_INVALID;
+
+    if (hdlr->mngr != NULL) {
+        ret.context = C_MNGR_CTX_STATE_NEW | C_MNGR_CTX_SITE_BEGIN | C_MNGR_CTX_DIRECTION_FORWARD;
+        ret.value = hdlr->mngr(collection, ret.context, &(ret.data), &(ret.index));
+    }
+
+    return ret;
+}
+iterator_t it_end   (void* collection) {
+    assert(collection != NULL); // collection/iterator invalid arg 'collection' == NULL
+
+    C_MNGR_HDLR_PTR(hdlr, collection);
+
+    iterator_t ret = IT_INVALID;
+
+    if (hdlr->mngr != NULL) {
+        ret.context = C_MNGR_CTX_STATE_NEW | C_MNGR_CTX_SITE_END | C_MNGR_CTX_DIRECTION_FORWARD;
+        ret.value = hdlr->mngr(collection, ret.context, &(ret.data), &(ret.index));
+    }
+    
+    return ret;
+}
+iterator_t it_rbegin(void* collection) {
+    assert(collection != NULL); // collection/iterator invalid arg 'collection' == NULL
+
+    C_MNGR_HDLR_PTR(hdlr, collection);
+
+    iterator_t ret = IT_INVALID;
+
+    if (hdlr->mngr != NULL) {
+        ret.context = C_MNGR_CTX_STATE_NEW | C_MNGR_CTX_SITE_BEGIN | C_MNGR_CTX_DIRECTION_REVERSE;
+        ret.value = hdlr->mngr(collection, ret.context, &(ret.data), &(ret.index));
+    }
+    
+    return ret;
+}
+iterator_t it_rend  (void* collection) {
+    assert(collection != NULL); // collection/iterator invalid arg 'collection' == NULL
+
+    C_MNGR_HDLR_PTR(hdlr, collection);
+
+    iterator_t ret = IT_INVALID;
+
+    if (hdlr->mngr != NULL) {
+        ret.context = C_MNGR_CTX_STATE_NEW | C_MNGR_CTX_SITE_END | C_MNGR_CTX_DIRECTION_REVERSE;
+        ret.value = hdlr->mngr(collection, ret.context, &(ret.data), &(ret.index));
+    }
+    
+    return ret;
+}
+iterator_t it_first (void* collection) {
+    assert(collection != NULL); // collection/iterator invalid arg 'collection' == NULL
+
+    C_MNGR_HDLR_PTR(hdlr, collection);
+
+    iterator_t ret = IT_INVALID;
+
+    if (hdlr->mngr != NULL) {
+        ret.context = C_MNGR_CTX_STATE_NEW | C_MNGR_CTX_SITE_FIRST | C_MNGR_CTX_DIRECTION_FORWARD;
+        ret.value = hdlr->mngr(collection, ret.context, &(ret.data), &(ret.index));
+    }
+    
+    return ret;
+}
+iterator_t it_last  (void* collection) {
+    assert(collection != NULL); // collection/iterator invalid arg 'collection' == NULL
+
+    C_MNGR_HDLR_PTR(hdlr, collection);
+
+    iterator_t ret = IT_INVALID;
+
+    if (hdlr->mngr != NULL) {
+        ret.context = C_MNGR_CTX_STATE_NEW | C_MNGR_CTX_SITE_LAST | C_MNGR_CTX_DIRECTION_FORWARD;
+        ret.value = hdlr->mngr(collection, ret.context, &(ret.data), &(ret.index));
+    }
+    
+    return ret;
+}
+
+#pragma endregion
+
+#pragma region --- FUNCIONS ---
+
+bool it_valid     (iterator_t iterator) {
+    if (iterator.collection == NULL           )
+        return false;
+    if (iterator.index      == C_INDEX_INVALID)
+        return false;
+
+    return true;
+}
+bool it_is_forward (iterator_t iterator) {
+    return iterator.context & C_MNGR_CTX_DIRECTION_FORWARD;
+}
+bool it_is_reverse (iterator_t iterator) {
+    return c_mngr_ctx_direction(iterator.context) == C_MNGR_CTX_DIRECTION_REVERSE;
+}
+bool it_comparable(iterator_t lhs, iterator_t rhs) {
+    return 
+        (it_valid(lhs)  && it_valid(rhs) ) &&
+        (lhs.collection == rhs.collection) &&
+        (lhs.direction  == rhs.direction );
+}
+bool it_equal     (iterator_t lhs, iterator_t rhs) {
+    return 
+        it_comparable(lhs, rhs)  &&
+        (lhs.index == rhs.index) &&
+        (lhs.value == rhs.value);
+}
+
+void*  it_get  (iterator_t iterator) {
+    return is_valid(iterator) ? iterator.value : NULL;
+}
+void  (it_next)(iterator_t* iterator) {
+    assert(iterator != NULL); // collection/iterator invalid arg 'iterator' == NULL
+
+}
+void  (it_prev)(iterator_t* iterator) {
+    assert(iterator != NULL); // collection/iterator invalid arg 'iterator' == NULL
+
 }
 
 #pragma endregion

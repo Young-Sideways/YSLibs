@@ -24,7 +24,7 @@ void* linear_search(const void* array, const size_t count, const size_t element_
     assert(element_size ); // algorithm/search: invalid arg - 'element_size' == 0u
     assert(value != NULL); // algorithm/search: invalid arg - 'value' == NULL
 
-    if ( YSL_UNLIKELY(comparator == NULL) )
+    if (comparator == NULL)
         comparator = &memcmp;
 
     for (uint8_t* begin = (void*)array, *end = begin + (count * element_size); begin < end; begin += element_size)
@@ -40,7 +40,7 @@ void* binary_search(const void* array, const size_t count, const size_t element_
     assert(element_size ); // algorithm/search: invalid arg - 'element_size' == 0u
     assert(value != NULL); // algorithm/search: invalid arg - 'value' == NULL
 
-    if ( YSL_UNLIKELY(comparator == NULL) )
+    if (comparator == NULL)
         comparator = &memcmp;
 
     uint8_t* mid = (uint8_t*)array;

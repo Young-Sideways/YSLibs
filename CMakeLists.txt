@@ -15,15 +15,21 @@ endif()
 add_subdirectory(core)
 add_subdirectory(macro)
 add_subdirectory(algorithm)
-#add_subdirectory(collection)
+add_subdirectory(collection)
 add_subdirectory(util)
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE yslibs::core
     PRIVATE yslibs::macro
     PRIVATE yslibs::algorithm
-    #PRIVATE yslibs::collection
+    PRIVATE yslibs::collection
     PRIVATE yslibs::util
+)
+
+target_compile_options(${PROJECT_NAME}
+    PUBLIC  "-fms-extensions"
+    PUBLIC  "-Wno-incompatible-pointer-types"
+    PUBLIC  "-Wno-microsoft-anon-tag"
 )
 
 if(BUILD_TESTING)

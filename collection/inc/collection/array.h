@@ -18,113 +18,71 @@
 #include "general.h"
 
 #include <core/core.h>
+#include <macro/arg.h>
 #include <algorithm/comparator.h>
 
 
-#pragma region --- MACRO ---
+#define ARRAY_SIZE_MIN C_SIZE_MIN
+#define ARRAY_SIZE_MAX C_SIZE_MAX
 
-#define ARRAY_SIZE_MIN COLLECTION_SIZE_MIN
-#define ARRAY_SIZE_MAX COLLECTION_SIZE_MAX
-
-#pragma endregion
 
 YSL_BEGIN_DECLS
 
-#pragma region --- TYPEDEF ---
 
-/**
- *  @typedef array_t
- *  @brief   static array
- */
-typedef struct {  } *array_t;
+typedef struct {}* array_t;
 
-#pragma endregion
 
 #pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 
-/**
- * @brief   Array constructor
- * @param[in] size         - Number of elements
- * @param[in] element_size - Size of each element
- */
-YSL_API array_t arr_ctor(const c_size_t size, const c_size_t element_size);
+YSL_API array_t (arr_ctor)  (const c_size_t element_size, const c_size_t size);
+#define          arr_ctor(type, ...) (arr_ctor)(sizeof(type), VA_MERGE((__VA_ARGS__), 0))
 
-/**
- * @brief   Array copy constructor
- * @param[in] array - Array pointer
- */
-YSL_API array_t arr_copy(const array_t array);
+YSL_API array_t arr_copy    (const array_t array);
+YSL_API array_t arr_shadow  (const array_t array);
+YSL_API array_t arr_slice   (const array_t array, c_index_t from, c_index_t count);
 
-/**
- * @brief   Array slice constructor
- * @param[in] array - Array pointer
- * @param[in] from  - index of first element in slice [0;size)
- * @param[in] count - number of elements in slice (-size;size]
- * @details if count set as negative value - array slice are reversed
- */
-YSL_API array_t arr_slice(const array_t array, const int from, const int count);
+YSL_API array_t (arr_move)  (array_t *array);
+#define          arr_move(array)  (arr_move)(&array)
 
-/**
- * @brief Array destructor
- * @param[in] array - Pointer to array pointer
- */
-YSL_API void (arr_dtor)(array_t* array);
+YSL_API void    (arr_dtor)  (array_t *array);
+#define          arr_dtor(array)     (arr_dtor)((array_t*)&array)
+
 
 #pragma endregion
 
+
 #pragma region --- ACCESSOR ---
 
-/**
- * @brief Array size
- * @param[in] array - Array pointer
- */
-YSL_API c_size_t arr_size(const array_t array);
+YSL_API c_size_t  arr_element_size(const array_t array);
+YSL_API c_size_t  arr_size        (const array_t array);
 
-/**
- * @brief Array element size
- * @param[in] array - Array pointer
- */
-YSL_API c_size_t arr_element_size(const array_t array);
+YSL_API bool      (arr_contains)  (const array_t array, const void* value, comparator_s_t comparator);
+YSL_API c_index_t (arr_find)      (const array_t array, const void* value, comparator_s_t comparator);
 
-/**
- * @brief Array data
- * @param[in] array - Array pointer
- * @returns pointer to memory contains data
- */
-YSL_API void* arr_data(array_t array);
+YSL_API void*     arr_at          (const array_t array, c_index_t index);
+YSL_API void*     arr_front       (const array_t array);
+YSL_API void*     arr_back        (const array_t array);
 
-/**
- *  @brief   Array element accessor
- *  @param[in] array - Container
- *  @param[in] index - Index of element
- */
-YSL_API void* arr_at(array_t array, int index);
+#define arr_contains(array, value, ...) (arr_contains)(array, (const void*)(YSL_TYPEOF_UNQUAL(value)[1]){ value }, VA_MERGE((__VA_ARGS__), NULL))
+#define arr_find(array, value, ...)     (arr_find)    (array, (const void*)(YSL_TYPEOF_UNQUAL(value)[1]){ value }, VA_MERGE((__VA_ARGS__), NULL))
 
-/**
- *  @brief   Find index of element
- *  @param[in] array      - Container
- *  @param[in] value      - Pointer to value
- *  @param[in] comparator - Pointer to comparator function
- *  @retval 0 <= index < array size - on success
- *  @retval #COLLECTION_INVALID_INDEX  if no element in array
- */
-YSL_API c_index_t arr_find(const array_t array, const void* value, const comparator_t comparator);
+#pragma endregion
 
-/**
- *  @brief   Checks if \p array has \p value
- *  @param[in] array - Container
- *  @param[in] value - Pointer to value
- *  @retval - true , if array has value
- *  @retval - false, if no value in array
- */
-YSL_API bool arr_contains(const array_t array, const void* value, const comparator_t comparator);
 
-/**
- *  @brief   Sorts elements in \p array with given \p comparator
- *  @param[in,out] array  - Container
- *  @param[in] comparator - Given comparator 
- */
-YSL_API void arr_sort(array_t array, const comparator_t comparator);
+#pragma region --- MODIFIERS ---
+
+YSL_API void* (arr_emplace)(array_t array, c_index_t index, const void* value);
+
+#define arr_emplace(array, index, value) (arr_emplace)(array, index, (void*)((YSL_TYPEOF_UNQUAL(value)[1]){ value }))
+
+#pragma endregion
+
+
+#pragma region --- FUNCTIONS ---
+
+YSL_API void  (arr_sort)   (array_t array, const comparator_s_t comparator);
+
+#define arr_sort(array, ...) (arr_sort)(array, VA_MERGE((__VA_ARGS__), NULL))
 
 #pragma endregion
 

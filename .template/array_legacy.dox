@@ -1,0 +1,84 @@
+/**
+ *  @typedef array_t
+ *  @brief   static array
+ */
+
+/**
+ * @brief   Array constructor
+ * @param[in] size         - Number of elements
+ * @param[in] element_size - Size of each element
+ */
+
+/**
+ * @brief   Array copy constructor
+ * @param[in] array - Array pointer
+ */
+
+/**
+ * @brief   Array shadow copy constructor
+ * @param[in] array - Array pointer
+ */
+
+/**
+ * @brief   Array slice constructor
+ * @param[in] array - Array pointer
+ * @param[in] from  - index of first element in slice [0;size)
+ * @param[in] count - number of elements in slice (-size;size]
+ * @details if count set as negative value - array slice are reversed
+ */
+
+/**
+ * @brief   Array move constructor
+ * @param[in] array - Array pointer
+ */
+
+/**
+ * @brief Array destructor
+ * @param[in] array - Pointer to array pointer
+ */
+
+/**
+ * @brief Array size
+ * @param[in] array - Array pointer
+ */
+
+/**
+ * @brief Array element size
+ * @param[in] array - Array pointer
+ */
+
+/**
+ * @brief Array data
+ * @param[in] array - Array pointer
+ * @returns pointer to memory contains data
+ */
+
+/**
+ *  @brief   Array element accessor
+ *  @param[in] array - Container
+ *  @param[in] index - Index of element
+ */
+
+/**
+ * @name    c_index_t arr_find(const array_t array, const void* value, const comparator_t comparator)
+ * @brief   Find index of element
+ * @param[in] array      - Container
+ * @param[in] value      - Pointer to value
+ * @param[in] comparator - Pointer to comparator function
+ * @retval 0 <= index < array size - on success
+ * @retval #COLLECTION_INVALID_INDEX  if no element in array
+ */
+
+/**
+ *  @brief   Checks if \p array has \p value
+ *  @param[in] array - Container
+ *  @param[in] value - Pointer to value
+ *  @retval - true , if array has value
+ *  @retval - false, if no value in array
+ */
+
+/**
+ *  @brief   Sorts elements in \p array with given \p comparator
+ *  @param[in,out] array  - Container
+ *  @param[in] comparator - Given comparator
+ */

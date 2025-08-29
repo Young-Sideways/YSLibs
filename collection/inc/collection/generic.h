@@ -29,7 +29,6 @@
  * variant_t  : c_ctor(variant_t, value)                  -> tuple_ctor((size_t*){ sizeof(value), 0U }, (void*){ value })
  * array_t    : c_ctor(array_t, type, size)               -> array_ctor(sizeof(type), size)
  * vector_t   : c_ctor(vector_t, type, size)              -> vector_ctor(sizeof(type), size)
- * list_t     : c_ctor(list_t, type, size)                -> list_ctor(sizeof(type), size)
  * matrix_t   : c_ctor(matrix_t, type, rows, cols)        -> matrix_ctor( sizeof(type), rows, cols)
  * deque_t    : c_ctor(deque_t, type)                     -> deque_ctor(sizeof(type))
  * queue_t    : c_ctor(queue_t, type)                     -> queue_ctor(sizeof(type))
@@ -55,7 +54,6 @@
  * variant_t  : c_dtor(variant_t)  -> tuple_dtor(container)
  * array_t    : c_dtor(array_t)    -> array_dtor(container)
  * vector_t   : c_dtor(vector_t)   -> vector_dtor(container)
- * list_t     : c_dtor(list_t)     -> list_dtor(container)
  * matrix_t   : c_dtor(matrix_t)   -> matrix_dtor(container)
  * deque_t    : c_dtor(deque_t)    -> deque_dtor(container)
  * queue_t    : c_dtor(queue_t)    -> queue_dtor(container)
@@ -81,7 +79,6 @@
  * variant_t  : copy(variant_t)  -> tuple_copy(container)
  * array_t    : copy(array_t)    -> array_copy(container)
  * vector_t   : copy(vector_t)   -> vector_copy(container)
- * list_t     : copy(list_t)     -> list_copy(container)
  * matrix_t   : copy(matrix_t)   -> matrix_copy(container)
  * deque_t    : copy(deque_t)    -> deque_copy(container)
  * queue_t    : copy(queue_t)    -> queue_copy(container)
@@ -107,12 +104,11 @@
  * pair_t     : at(pair_t, index)     -> tuple_copy(container)
  * array_t    : at(array_t, index)    -> array_copy(container)
  * vector_t   : at(vector_t, index)   -> vector_copy(container)
- * list_t     : at(list_t, index)     -> list_copy(container)
  * matrix_t   : at(matrix_t, row, col)-> matrix_copy(container)
  * set_t      : at(set_t, value)      -> set_copy(container)
  * map_t      : at(map_t, key)        -> map_copy(container)
- * multiset_t : at(multiset_t, value) -> multiset_copy(container)
- * multimap_t : at(multimap_t, key)   -> multimap_copy(container)
+ * multiset_t : at(cset_t, value)     -> cset_copy(container)
+ * multimap_t : at(cmap_t, key)       -> cmap_copy(container)
  * @endcode
  */
 #define at(collection, ...)
@@ -151,10 +147,28 @@ void  (c_delete)(void** conatiner);
 #   define __C_GENERIC_USE_TUPLE(impl)
 #endif
 
+#ifdef C_PAIR_H_
+#   define __C_GENERIC_USE_PAIR(impl) pair_t : impl,
+#else
+#   define __C_GENERIC_USE_PAIR(impl)
+#endif
+
+#ifdef C_VARIANT_H_
+#   define __C_GENERIC_USE_VARIANT(impl) variant_t : impl,
+#else
+#   define __C_GENERIC_USE_VARIANT(impl)
+#endif
+
 #ifdef C_ARRAY_H_
 #   define __C_GENERIC_USE_ARRAY(impl) array_t : impl,
 #else
 #   define __C_GENERIC_USE_ARRAY(impl)
+#endif
+
+#ifdef C_MARIX_H_
+#   define __C_GENERIC_USE_MATRIX(impl) matrix_t : impl,
+#else
+#   define __C_GENERIC_USE_MATRIX(impl)
 #endif
 
 #ifdef C_VECTOR_H_
@@ -163,10 +177,22 @@ void  (c_delete)(void** conatiner);
 #   define __C_GENERIC_USE_VECTOR(impl)
 #endif
 
-#ifdef C_LIST_H_
-#   define __C_GENERIC_USE_LIST(impl) list_t : impl,
+#ifdef C_DEQUE_H_
+#   define __C_GENERIC_USE_DEQUE(impl) deque_t : impl,
 #else
-#   define __C_GENERIC_USE_LIST(impl)
+#   define __C_GENERIC_USE_DEQUE(impl)
+#endif
+
+#ifdef C_QUEUE_H_
+#   define __C_GENERIC_USE_QUEUE(impl) queue_t : impl,
+#else
+#   define __C_GENERIC_USE_QUEUE(impl)
+#endif
+
+#ifdef C_STACK_H_
+#   define __C_GENERIC_USE_STACK(impl) stack_t : impl,
+#else
+#   define __C_GENERIC_USE_STACK(impl)
 #endif
 
 #ifdef C_STRING_H_
@@ -175,16 +201,40 @@ void  (c_delete)(void** conatiner);
 #   define __C_GENERIC_USE_STRING(impl)
 #endif
 
-#ifdef C_HASHTABLE_H_
-#   define __C_GENERIC_USE_HASHTABLE(impl) hashtable_t : impl,
+#ifdef C_SET_H_
+#   define __C_GENERIC_USE_SET(impl) set_t : impl,
 #else
-#   define __C_GENERIC_USE_HASHTABLE(impl)
+#   define __C_GENERIC_USE_SET(impl)
 #endif
 
-#ifdef C__H_
-#   define __C_GENERIC_USE_(impl) _t : impl,
+#ifdef C_MAP_H_
+#   define __C_GENERIC_USE_MAP(impl) map_t : impl,
 #else
-#   define __C_GENERIC_USE_(impl)
+#   define __C_GENERIC_USE_MAP(impl)
+#endif
+
+#ifdef C_COUNT_SET_H_
+#   define __C_GENERIC_USE_CSET(impl) cset_t : impl,
+#else
+#   define __C_GENERIC_USE_CSET(impl)
+#endif
+
+#ifdef C_COUNT_MAP_H_
+#   define __C_GENERIC_USE_CMAP(impl) cmap_t : impl,
+#else
+#   define __C_GENERIC_USE_CMAP(impl)
+#endif
+
+#ifdef C_BTREE_H_
+#   define __C_GENERIC_USE_BTREE(impl) btree_t : impl,
+#else
+#   define __C_GENERIC_USE_BTREE(impl)
+#endif
+
+#ifdef C_RBTREE_H_
+#   define __C_GENERIC_USE_RBTREE(impl) rbtree_t : impl,
+#else
+#   define __C_GENERIC_USE_RBTREE(impl)
 #endif
 
 #pragma endregion

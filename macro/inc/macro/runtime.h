@@ -9,9 +9,6 @@
 #ifndef M_RUNTIME_H_
 #define M_RUNTIME_H_
 
-#pragma once
-
-#pragma region --- MACRO ---
 
 #define M_MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define M_MIN(x, y) (((x) < (y)) ? (x) : (y))
@@ -21,8 +18,5 @@
 
 #define M_TERNAR(predicate, if_true, if_false) ((predicate) ? (if_true) : (if_false))
 #define M_ISNULL(value, other) ((value) ? (value) : (other))
-#define M_BOUND(value, min, max) M_MIN(M_MAX(value, min), max)
-
-#pragma endregion
 
 #endif // !M_RUNTIME_H_

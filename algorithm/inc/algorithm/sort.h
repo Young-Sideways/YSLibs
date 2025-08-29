@@ -27,15 +27,15 @@ YSL_BEGIN_DECLS
  *  @param[in]     element_size - Size of each element
  *  @param[in]     comparator   - Pointer to comparator function
  */
-typedef void (*sort_t)(void* array, size_t count, size_t element_size, comparator_t comparator);
+typedef void (*sort_t)(void* array, size_t count, size_t element_size, comparator_s_t comparator);
 
 #pragma endregion
 
 #pragma region --- FUNCTION ---
 
-YSL_API void selection_sort(void* array, size_t count, size_t element_size, comparator_t comparator);
-YSL_API void insertion_sort(void* array, size_t count, size_t element_size, comparator_t comparator);
-YSL_API void quick_sort(void* array, size_t count, size_t element_size, comparator_t comparator);
+YSL_API void selection_sort(void* array, size_t count, size_t element_size, comparator_s_t comparator);
+YSL_API void insertion_sort(void* array, size_t count, size_t element_size, comparator_s_t comparator);
+YSL_API void quick_sort    (void* array, size_t count, size_t element_size, comparator_s_t comparator);
 
 #pragma endregion
 

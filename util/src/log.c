@@ -6,15 +6,10 @@
  *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
-#pragma region --- PREDEFINITION ---
 
 #define LOG_MODULE_NAME "log"
+#include "../inc/util/log.h"
 
-#pragma endregion
-
-#include "util/log.h"
-
-#pragma region --- INCLUDE ---
 
 #include <stdio.h>
 #include <string.h>
@@ -22,7 +17,6 @@
 #include <time.h>
 #include <stdint.h>
 
-#pragma endregion
 
 #pragma region --- DEFAULT ---
 
@@ -279,7 +273,7 @@ int log_system_init(const char* log_path, const char* log_filename, const char* 
 }
 
 int log_system_term() {
-
+    return 1;
 }
 
 int log_system_set_handler(log_handler_t handler) {

@@ -12,12 +12,16 @@
 #include "iterator.h"
 
 #define c_for(it, collection) \
-    for (iterator_t _##it = it_begin(collection), _iter_local_end = it_end(collection); it_comp(&_##it, &_iter_local_end, 0U) != 0; it_next(&_##it)) \
-        for (it = (typeof(it)*)it_get(_##it); it != NULL; it = NULL)
+    for (iterator_t __iter = it_begin(collection), __end = it_end(collection); !it_equal(&__iter, &__end); it_next(&__iter)) \
+        for (it##_temp, *__temp = it_get(__##it##_iter); __temp != NULL;) \
+            for (it = *__temp; __temp != NULL; __temp = NULL)
+
+
+
+#endif // !C_FOR_H_
+
+
 
 #define c_rfor(type, it, collection) \
     for (iterator_t _##it = it_rbegin(collection), _##end = it_rend(collection); it_comp(&_##it, &_##end, 0U); it_next(&_##it)) \
         for (type* it = (type*)it_get(_##it); it; it = NULL)
-
-
-#endif // !C_FOR_H_

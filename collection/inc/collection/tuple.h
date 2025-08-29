@@ -18,41 +18,40 @@
 #include "general.h"
 
 #include <macro/exec.h>
-#include <macro/sequence.h>
 
 
 #pragma region --- MACRO ---
 
-#define M_ARR_WRAP(arg) (typeof(arg)[1]){arg}
 
-#define make_tuple(...) tpl_init(                                               \
-    VA_NARG(__VA_ARGS__),                                                       \
-    (size_t[VA_NARG(__VA_ARGS__)]){ VA_EXEC(sizeof, __VA_ARGS__), (size_t)0 }, \
-    VA_EXEC((void*)M_ARR_WRAP, __VA_ARGS__)               \
-)
+#define tpl_ctor(...)                                         \
+    (tpl_ctor)(                                               \
+        VA_COUNT(__VA_ARGS__),                                \
+        (__tpl_args){                                         \
+            VA_EXEC(0, __TPL_CTOR_TRANSFORM_ARG, __VA_ARGS__) \
+        }                                                     \
+    )
 
-#pragma endregion
 
-#pragma region --- TYPEDEF ---
-
-typedef struct tuple_s {
-    struct collection_universal_header;
-}* tuple_t;
+#define __TPL_CTOR_TRANSFORM_ARG(arg) { (void*)(YSL_TYPEOF_UNQUAL(arg)[1]){ arg } , sizeof(arg) }
 
 #pragma endregion
+
+
+typedef struct __tpl_arg { void* arg; size_t size; } __tpl_args[];
+typedef struct {}* tuple_t;
+
 
 #pragma region --- CONSTRUCTOR/DESTRUCTOR ---
 
-tuple_t tpl_init(size_t arg_count, size_t total_mem_size, size_t* sizes, void** values) {
-    return NULL;
-}
+tuple_t (tpl_ctor)(size_t count, __tpl_args values);
+tuple_t (tpl_dtor)(tuple_t* tuple);
 
 #pragma endregion
 
 #pragma region --- FUNCTION ---
 
-void* tpl_at(int index);
-void* tpl_pack(tuple_t tuple, void* dst);
+YSL_API void*    (tpl_at)  (c_index_t index);
+YSL_API c_size_t (tpl_size)(tuple_t tuple);
 
 #pragma endregion
 

@@ -8,9 +8,9 @@
 
 
 /***********************************************************************************************************************************************************************************
- * 
- * 
- * 
+ *
+ *
+ *
  *                                                                     ITERATOR IMPLEMENTATION LAYER TABLE
  * 
  * +-----------+-------------------------+------------------------+-----------------------------+-------------------------+-------------------------+-----------------------------+
@@ -33,12 +33,12 @@
  * 
  *                                                                  ITERATOR INIT RULES for linear containers
  * 
- * +-----------+------------------------+------------------------+------------------------+------------------------+------------------------+------------------------+
- * |  elements | BEGIN                  | END                    | RBEGIN                 | REND                   | FIRST                  | LAST                   |
- * +-----------+------------------------+------------------------+------------------------+------------------------+------------------------+------------------------+
- * |      INIT | data  = NULL           | data  = NULL           | data  = NULL           | data  = NULL           | data  = NULL           | data  = NULL           |
- * |           | stage = 0              | stage = size           | stage = size - 1       | stage = -1             | stage = 0              | stage = size - 1       |
- * +-----------+------------------------+------------------------+------------------------+------------------------+------------------------+------------------------+
+ * +-----------+-------------------------+------------------------+------------------------+------------------------+------------------------+------------------------+
+ * |  elements | BEGIN                   | END                    | RBEGIN                 | REND                   | FIRST                  | LAST                   |
+ * +-----------+-------------------------+------------------------+------------------------+------------------------+------------------------+------------------------+
+ * |      INIT | data  = NULL            | data  = NULL           | data  = NULL           | data  = NULL           | data  = NULL           | data  = NULL           |
+ * |           | stage = 0               | stage = size           | stage = size - 1       | stage = -1             | stage = 0              | stage = size - 1       |
+ * +-----------+-------------------------+------------------------+------------------------+------------------------+------------------------+------------------------+
  *
  * 
  * 
@@ -71,125 +71,81 @@
  *                                                                +--> | data  = NULL             |
  *                                                                     | stage = -1               |
  *                                                                     +--------------------------+
- * 
- * 
- * 
+ *
+ *
+ *
  ***********************************************************************************************************************************************************************************/
 
 
 #ifndef ITERATOR_H_
 #define ITERATOR_H_
 
-
 #include "general.h"
+
+#include <core/core.h>
+
+
+YSL_BEGIN_DECLS
 
 
 #pragma region --- TYPEDEF ---
-
- /**
-  *  @enum  it_direction_t
-  *  @brief Defines iterator bypass type
-  */
-typedef enum {
-    IT_REVERSE   = -1,
-    IT_UNDEFINED =  0,
-    IT_FORWARD   =  1
-} it_direction_t;
 
 /**
  *  @struct iterator_t
  *  @brief  Defines iterator structure
  */
-typedef struct iterator_s {
-    struct collection_universal_header* collection;
-    void*                               data      ;
-    int                                 stage     ;
-    it_direction_t                      direction ;
+typedef struct {
+    void      *collection;
+    void      *data      ;
+    void      *value     ;
+    c_index_t  index     ;
+    uint32_t   context   ;
 } iterator_t;
 
 #pragma endregion
 
 #pragma region --- MACRO ---
 
-#define INVALID_STAGE C_INVALID_INDEX
-
-#define INVALID_ITERATOR (iterator_t) { \
-    .collection = NULL,                 \
-    .data       = NULL,                 \
-    .stage      = INVALID_STAGE,        \
-    .direction  = IT_UNDEFINED          \
+#define IT_CONTEXT_INVALID UINT32_MAX
+#define IT_INVALID (iterator_t) {     \
+    .collection = NULL              , \
+    .data       = NULL              , \
+    .value      = NULL              , \
+    .index      = C_INVALID_INDEX   , \
+    .context    = IT_CONTEXT_INVALID  \
 }
 
 #pragma endregion
 
 #pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 
-/**
- *  @brief  forward iterator constructor
- *  @param[in] collection - collection, including valid base collection header
- *  @retval               - forward iterator to begin element
- */
-iterator_t it_begin(void* collection);
-/**
- *  @brief  forward iterator constructor
- *  @param[in] collection - collection, including valid base collection header
- *  @retval               - forward iterator to memory block after last container element
- */
-iterator_t it_end(void* collection);
-
-/**
- *  @brief  reverse iterator constructor
- *  @param[in] collection - collection, including valid base collection header
- *  @retval               - reverse iterator to last element
- */
-iterator_t it_rbegin(void* collection);
-/**
- *  @brief  reverse iterator constructor
- *  @param[in] collection - collection, including valid base collection header
- *  @retval               - reverse iterator to memory block before first container element
- */
-iterator_t it_rend(void* collection);
-
-/**
- *  @brief  forward iterator constructor
- *  @param[in] collection - collection, including valid base collection header
- *  @retval               - forward iterator to first element
- */
-iterator_t it_first(void* collection);
-/**
- *  @brief  forward iterator constructor
- *  @param[in] collection - collection, including valid base collection header
- *  @retval               - forward iterator to last element
- */
-iterator_t it_last(void* collection);
+YSL_API iterator_t it_begin (void* collection);
+YSL_API iterator_t it_end   (void* collection);
+YSL_API iterator_t it_rbegin(void* collection);
+YSL_API iterator_t it_rend  (void* collection);
+YSL_API iterator_t it_first (void* collection);
+YSL_API iterator_t it_last  (void* collection);
 
 #pragma endregion
 
 #pragma region --- FUNCIONS ---
 
-bool it_valid(iterator_t iterator);
+YSL_API bool it_valid      (iterator_t iterator);
+YSL_API bool it_is_forward (iterator_t iterator);
+YSL_API bool it_is_reverse (iterator_t iterator);
+YSL_API bool it_comparable (iterator_t lhs, iterator_t rhs);
+YSL_API bool it_equal      (iterator_t lhs, iterator_t rhs);
 
-bool it_comparable(iterator_t lhs, iterator_t rhs);
+YSL_API void*  it_get (iterator_t iterator);
 
-bool it_equal(iterator_t lhs, iterator_t rhs);
+YSL_API void  (it_next)(iterator_t* iterator);
+YSL_API void  (it_prev)(iterator_t* iterator);
 
-/**
- *  @brief     pointer to data block
- *  @param[in] iterator - valid iterator pointer
- *  @retval             - returns valid data pointer, otherwise 'NULL'
- */
-void* it_get(iterator_t iterator);
-/**
- *  @brief shifts iterator to next data block of container
- *  @param[in] iterator - valid iterator pointer
- */
-void it_next(iterator_t* iterator);
-/**
- *  @brief shifts iterator to previous data block of container
- *  @param[in] iterator - valid iterator pointer
- */
-void it_prev(iterator_t* iterator);
+#define it_next(iterator) (it_next)(&iterator)
+#define it_prev(iterator) (it_prev)(&iterator)
 
 #pragma endregion
+
+YSL_END_DECLS
 
 #endif // !ITERATOR_H_

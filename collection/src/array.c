@@ -6,191 +6,231 @@
  *  @copyright young.sideways@mail.ru, Copyright (c) 2024. All right reserved.
  ******************************************************************************/
 
-#include "collection/array.h"
-#include "private.h"
 
-#pragma region --- INCLUDE ---
+//#define YSL_API
+//#define YSL_BEGIN_DECLS
+//#define YSL_END_DECLS
+//#define YSL_LIKELY(...)
+
+#include "../inc/collection/array.h"
 
 #include <assert.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdbool.h>
-
-#include "core/core.h"
-#include "algorithm/search.h"
-#include "algorithm/sort.h"
-#include "algorithm/memory.h"
 
 #include "private.h"
 
-#pragma endregion
+#include <algorithm/search.h>
+#include <algorithm/sort.h>
+#include <algorithm/memory.h>
 
-#pragma region --- STATIC ---
-
-static void* copy__(void* collection, int n, va_list list) {
-    YSL_UNUSED(n);
-    YSL_UNUSED(list);
-
-    
-}
-
-static inline void init__(void* collection, void** block, collection_index_t* index) {
-    c_size_t size         = arr_size((array_t)collection);
-    c_size_t element_size = arr_element_size((array_t)collection);
-    byte*    data         = arr_data((array_t)collection);
-
-    *block = NULL;
-
-    if (*index < -1 || *index > size || *index == COLLECTION_INVALID_INDEX) {
-        *index = COLLECTION_INVALID_INDEX;
-        return;
-    }
-    if (*index == -1 || *index == size)
-        return;
-
-    *block = ((byte*)arr_data((array_t)collection) + element_size * *index);
-}
-static inline void next__(void* collection, void** block, collection_index_t* index) {
-    *index += 1;
-    init__(collection, block, index);
-}
-static inline void prev__(void* collection, void** block, collection_index_t* index) {
-    *index -= 1;
-    init__(collection, block, index);
-}
-
-static struct collection_vtable_s array_t_vtable__ = {
-    ._copy          = NULL,
-    ._dtor          = NULL,
-    ._element_size  = NULL,
-    ._size          = NULL,
-    ._capacity      = NULL,
-    ._allocated     = NULL,
-    ._init          = init__,
-    ._next          = next__,
-    ._prev          = prev__,
-    ._comparator    = NULL, // uses 'memcmp'
-    ._search        = &linear_search,
-    ._sort          = &quick_sort
-};
-
-#pragma endregion
 
 #pragma region --- PRIVATE ---
 
-struct __array_s {
+struct array {
     c_size_t size;
     c_size_t element_size;
 };
+#define HEADER_SIZE (sizeof(struct array))
+#define HEADER_GET(ptr) ((struct array*)(((uint8_t*)ptr) - HEADER_SIZE - C_MNGR_SIZE))
 
 #pragma endregion
 
-#pragma region --- MACRO ---
 
-#define __ARR_PRIVATE_GET_HEADER(var) __C_GET_PRIVATE_HEADER(var, struct __array_s*)
+#pragma region --- PRIVATE ---
+
+static void* __mngr(void* collection, c_mngr_ctx_t context, void** data, c_index_t* index) {
+    c_size_t element_size = HEADER_GET(collection)->element_size;
+    c_size_t size         = HEADER_GET(collection)->size;
+
+    array_t array = (array_t)collection;
+
+    if (context == C_MNGR_CTX_INVALID || context == C_MNGR_CTX_NONE) {
+        *data  = NULL           ;
+        *index = C_INDEX_INVALID;
+        return NULL;
+    }
+}
+
 
 #pragma endregion
 
-#pragma region --- CONSTRUCTOR / DESTRUCTOR ---
 
-array_t arr_ctor(const c_size_t size, const c_size_t element_size) {
-    assert(size >= ARRAY_SIZE_MIN && size <= ARRAY_SIZE_MAX); // invalid arg - 'size' out of range [ARRAY_SIZE_MIN; ARRAY_SIZE_MAX]
-    assert(element_size);                                     // invalid arg - 'element_size' == 0
+array_t (arr_ctor)  (const c_size_t element_size, const c_size_t size) {
+    assert(element_size          ); // collection/array: invalid arg 'element_size' == 0u
+    assert(size <= ARRAY_SIZE_MAX); // collection/array: invalid arg 'size' > ARRAY_SIZE_MAX
 
-    struct __array_s* result = malloc(sizeof(struct __array_s) + (size * element_size));
+    array_t array = malloc(HEADER_SIZE + C_MNGR_SIZE + element_size * size);
 
-    if (result != NULL) {
-        result->size         = size;
-        result->element_size = element_size;
-        ++result; // slide header pointer to data segment
+    if ( YSL_LIKELY(array) ) {
+        struct array         *arr_ptr   = (struct array*)array;
+        struct c_mngr_hdlr_t *mngr_ptr  = (struct c_mngr_hdlr_t*)(arr_ptr + 1);
+
+        arr_ptr->element_size = element_size;
+        arr_ptr->size         = size;
+
+        mngr_ptr->mngr = &__mngr;
+
+        array = (array_t)(mngr_ptr + 1);
     }
 
-    return (array_t)result;
-}
-
-array_t arr_copy(const array_t array) {
-    assert(array != NULL); // invalid arg - 'array' == NULL
-
-    array_t src = ((array_t)array) - 1; // reverse slide pointer to header segment
-
-    array_t result = malloc(sizeof(struct array_s) + (src->size * src->element_size));
-
-    if(result != NULL) {
-        memcpy(result, src, sizeof(struct array_s) + (src->size * src->element_size));
-        ++result; // slide header pointer to data segment
-    }
-
-    return result;
-}
-
-array_t arr_slice(const array_t array, const int from, const int count) {
-    size_t size         = arr_size(array);
-    size_t element_size = arr_element_size(array);
-
-    long long from_   = (long long)from + (((long long)count < 0LL) ? (long long)count + 1LL : 0LL);
-    long long count_  = llabs(count);
-    long long last_   = from_ + count_ - 1LL;
-
-    explain_assert(from_ >= 0LL && from_ < size && last_ >= 0LL && last_ <= size, "collection/array: slice out of range");
-    explain_assert(count != 0, "collection/array: invalid arg - 'count' == 0");
-    
-    array_t result = arr_ctor(count_, element_size);
-    if (result != NULL) {
-        memcpy((byte*)arr_data(result), arr_data(array) + from_ * element_size, count_ * element_size);
-        if (count < 0)
-            reverse(arr_data(result), count_, element_size);
-    }
-
-    return result;
-}
-
-void arr_dtor(array_t* array) {
-    assert(array != NULL);  // invalid arg - 'array' == NULL
-    assert(*array != NULL); // invalid arg - '*array' == NULL
-    
-    free((*array) - 1); // reverse slide pointer to header segment
-    *array = NULL;
-}
-
-#pragma endregion
-
-#pragma region --- ACCESSOR ---
-
-size_t arr_size(const array_t array) {
-    assert(array != NULL); // invalid arg - 'array' == NULL
-    return (((array_t)array) - 1)->size;
-}
-
-size_t arr_element_size(const array_t array) {
-    assert(array != NULL); // invalid arg - 'array' == NULL
-    return (((array_t)array) - 1)->element_size;
-}
-
-void* arr_data(array_t array) {
-    assert(array != NULL); // invalid arg - 'array' == NULL
     return array;
 }
 
-void* arr_at(array_t array, int index) {
-    assert(index >= 0u && index < arr_size(array)); //invalid arg - 'index' out of range [0..arr_size)
-    return ((byte*)array) + arr_size(array) * arr_element_size(array);
+array_t arr_copy    (const array_t array) {
+    assert(array != NULL); // collection/array: invalid arg 'array' == 'NULL'
+    c_size_t element_size = HEADER_GET(array)->element_size;
+    c_size_t size         = HEADER_GET(array)->size;
+
+    array_t new_array = (arr_ctor)(element_size, size);
+
+    if (new_array)
+        memcpy(new_array, array, element_size * size);
+
+    return new_array;
+}
+array_t arr_shadow  (const array_t array) {
+    assert(array != NULL); // collection/array: invalid arg 'array' == 'NULL'
+    c_size_t element_size = HEADER_GET(array)->element_size;
+    c_size_t size         = HEADER_GET(array)->size;
+    
+    return (arr_ctor)(element_size, size);
+}
+array_t arr_slice   (const array_t array, c_index_t from, c_index_t count) {
+    assert(array != NULL);                                    // collection/array: invalid arg 'array' == 'NULL'
+    assert(from  != C_INDEX_INVALID);                         // collection/array: invalid arg 'from' == 'C_INDEX_INVALID'
+    assert(count != C_INDEX_INVALID);                         // collection/array: invalid arg 'count' == 'C_INDEX_INVALID'
+    c_size_t element_size = HEADER_GET(array)->element_size;
+    c_size_t size         = HEADER_GET(array)->size;
+
+    assert(from >= 0);                                        // collection/array: invalid arg 'from' < 0
+
+    c_index_t absolute_from  = (count < 0) ? from + count + 1 : from;
+    c_index_t absolute_count = (count < 0) ? -count           : count;
+
+    assert(absolute_from >= 0);                               // collection/array: invalid bound - slice lies on lower bound
+    assert((c_size_t)absolute_count <= size);                 // collection/array: invalid arg 'count' > array->size
+    assert((c_size_t)absolute_from + absolute_count <= size); // collection/array: invalid bound - slice lies on upper bound
+
+    array_t new_array = (arr_ctor)(element_size, absolute_count);
+
+    if (new_array) {
+        if (count < 0) {
+            for (uint8_t *arr_ptr = ((uint8_t*)array) + (from * element_size),
+                         *new_ptr = ((uint8_t*)new_array);
+                    count != 0; 
+                    arr_ptr -= element_size, new_ptr += element_size, count++)
+                memcpy(new_ptr, arr_ptr, element_size);
+        }
+        else {
+            memcpy(new_array, ((uint8_t*)array) + (absolute_from * element_size), absolute_count * element_size);
+        }
+    }
+
+    return new_array;
 }
 
-c_index_t arr_find(const array_t array, const void* value, const comparator_t comparator) {
-    size_t element_size = arr_element_size(array);
-    byte* data = (byte*)arr_data(array);
-    byte* pos = (byte*)linear_search(data, arr_size(array), element_size, value, comparator);
-    if (pos)
-        return (pos - data) / element_size;
-    return COLLECTION_INVALID_INDEX;
+array_t (arr_move)  (array_t *array) {
+    assert(array != NULL);  // collection/array: invalid arg 'array' == 'NULL'
+    assert(*array != NULL); // collection/array: invalid arg '*array' == 'NULL'
+
+    array_t ret = *array;
+    *array      = NULL  ;
+
+    return ret;
+}
+void    (arr_dtor)  (array_t *array) {
+    assert(array != NULL); // collection/array: invalid arg 'array' == 'NULL'
+    
+    if (*array != NULL)
+        free(GET_HEADER(*array));
 }
 
-bool arr_contains(const array_t array, const void* value, const comparator_t comparator) {
-    return linear_search(arr_data(array), arr_size(array), arr_element_size(array), value, comparator) != NULL;
+
+c_size_t  arr_element_size(const array_t array) {
+    assert(array != NULL); // collection/array: invalid arg 'array' == 'NULL'
+
+    return GET_HEADER(array)->element_size;
+}
+c_size_t  arr_size        (const array_t array) {
+    assert(array != NULL); // collection/array: invalid arg 'array' == 'NULL'
+
+    return GET_HEADER(array)->size;
 }
 
-void arr_sort(array_t array, const comparator_t comparator) {
-    quick_sort(arr_data(array), arr_size(array), arr_element_size(array), comparator, NULL);
+bool      (arr_contains)  (const array_t array, const void* value, comparator_s_t comparator) {
+    assert(array != NULL); // collection/array: invalid arg 'array' == 'NULL'
+    assert(value != NULL); // collection/array: invalid arg 'value' == 'NULL'
+    c_size_t element_size = GET_HEADER(array)->element_size;
+    c_size_t size         = GET_HEADER(array)->size;
+
+    return !!linear_search(array, size, element_size, value, comparator);
+}
+c_index_t (arr_find)      (const array_t array, const void* value, comparator_s_t comparator) {
+    assert(array != NULL); // collection/array: invalid arg 'array' == 'NULL'
+    assert(value != NULL); // collection/array: invalid arg 'value' == 'NULL'
+    c_size_t element_size = GET_HEADER(array)->element_size;
+    c_size_t size         = GET_HEADER(array)->size;
+
+    c_index_t ret = C_INDEX_INVALID;
+
+    void* found = linear_search(array, size, element_size, value, comparator);
+    if (found != NULL)
+        ret = ((uint8_t*)found - (uint8_t*)array) / element_size;
+
+    return ret;
+}
+void*     arr_at          (const array_t array, c_index_t index) {
+    assert(array != NULL);            // collection/array: invalid arg 'array' == 'NULL'
+    assert(index != C_INDEX_INVALID); // collection/array: invalid arg 'index' == 'C_INDEX_INVALID'
+    c_size_t element_size = GET_HEADER(array)->element_size;
+    c_size_t size         = GET_HEADER(array)->size;
+
+    assert(index > -(c_index_t)size);
+    assert(index < size);
+    if (index < 0)
+        index += size;
+
+    return (void*)((uint8_t*)array + (index * element_size));
+}
+void*     arr_front       (const array_t array) {
+    assert(array != NULL); // collection/array: invalid arg 'array' == 'NULL'
+    c_size_t size = GET_HEADER(array)->size;
+    assert(size);          // collection/array: invalid array size == 0
+
+    return (void*)array;
+}
+void*     arr_back        (const array_t array) {
+    assert(array != NULL); // collection/array: invalid arg 'array' == 'NULL'
+    c_size_t element_size = GET_HEADER(array)->element_size;
+    c_size_t size = GET_HEADER(array)->size;
+    assert(size);          // collection/array: invalid array size == 0
+
+    return (void*)(((uint8_t*)array) + (size - 1) * element_size);
 }
 
-#pragma endregion
+
+void* (arr_emplace)       (array_t array, c_index_t index, const void* value) {
+    assert(array != NULL);            // collection/array: invalid arg 'array' == 'NULL'
+    assert(value != NULL);            // collection/array: invalid arg 'value' == 'NULL'
+    assert(index != C_INDEX_INVALID); // collection/array: invalid arg 'index' == 'C_INDEX_INVALID'
+
+    c_size_t element_size = GET_HEADER(array)->element_size;
+    c_size_t size         = GET_HEADER(array)->size;
+
+    assert(index > -(c_index_t)size);
+    assert(index < size);
+    if (index < 0)
+        index += size;
+
+    return memcpy((void*)((uint8_t*)array + (index * element_size)), value, element_size);
+}
+
+void  (arr_sort)          (array_t array, const comparator_s_t comparator) {
+    assert(array != NULL); // collection/array: invalid arg 'array' == 'NULL'
+
+    c_size_t element_size = GET_HEADER(array)->element_size;
+    c_size_t size         = GET_HEADER(array)->size;
+
+    quick_sort(array, size, element_size, comparator);
+}

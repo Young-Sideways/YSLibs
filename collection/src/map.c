@@ -11,21 +11,16 @@
  *  @bug       stack arg != heap arg of double pointer
  ******************************************************************************/
 
-#include "collection/hashtable.h"
 
-#pragma region --- INCLUDE ---
+#include "../inc/collection/map.h"
 
 #include <stdlib.h>
 #include <string.h>
 
-#include "collection/private.h"
-#include "core.h"
-#include "debug.h"
-#include "macro/macro.h"
-
+#include "private.h"
 #include "algorithm/comparator.h"
 
-#pragma endregion
+
 
 #pragma region --- PRIVATE ---
 
@@ -87,78 +82,9 @@ void private_hashtable_recursive_delete_() {
 
 #pragma region --- STATIC ---
 
-static inline void init_(struct collection_universal_header* collection, void** block, int* index) {
-    // index -> iterate through
-    // block -> hash value
-
-    *block = NULL;
-    if (*index == COLLECTION_INVALID_INDEX)
-        return;
-    if (*index < 0) {
-        *index = -1;
-        return;
-    }
-    if (*index >= (int)collection->size) {
-        *index = (int)collection->size;
-        return;
-    }
-
-    CPH_REF(collection, header);
-    ht_entry_t* entries = header->data_;
-    
-    int i = 0;
-    for (int bucket = 0; bucket < collection->capacity; bucket++) {
-        ht_entry_t entry = entries[bucket];
-        while (entry) {
-            if (i == *index) {
-                *block = HT_ENTRY_EXTRACT_KEY(entry);
-                return;
-            }
-            i++;
-            entry = entry->next;
-        }
-    }
+static void* __init(void* collection, c_mngr_ctx_t context, void** data, c_index_t* index) {
 }
-
-static inline void next_(struct collection_universal_header* collection, void** block, int* index) {
-    *index = (*index) + 1;
-    init_(collection, block, index);
-}
-
-static inline void prev_(struct collection_universal_header* collection, void** block, int* index) {
-    *index = (*index) - 1;
-    init_(collection, block, index);
-}
-
-static inline void* copy_(void* collection) {
-    return NULL;
-    hashtable_t this = collection;
-    hashtable_t result = ht_init(this->size, this->key_size, this->element_size, this->hashfunc);
-    ht_entry_t* entries = CPH_EXTRACT(collection)->data_;
-
-    for (int bucket = 0; bucket < this->capacity; bucket++) {
-        ht_entry_t entry = entries[bucket];
-        while (entry) {
-            ht_insert(result, HT_ENTRY_EXTRACT_KEY(entry), HT_ENTRY_EXTRACT_VALUE(entry, this->key_size));
-            entry = entry->next;
-        }
-    }
-    return (void*)result;
-}
-
-static inline void* dtor_(void* collection) {
-    return NULL;
-    CPH_REF(collection, header);
-    ht_entry_t* entries = header->data_;
-    for (int i = 0; i < ((struct collection_universal_header*)collection)->size; i++) {
-        ht_entry_t entry = entries[i];
-        while (entry) {
-            ht_entry_t next = entry;
-            free(entry);
-            entry = next;
-        }
-    }
-    free(entries);
+static void* __mdfy(void* collection, c_mngr_ctx_t context, void** data, c_index_t* index) {
 }
 
 #pragma endregion

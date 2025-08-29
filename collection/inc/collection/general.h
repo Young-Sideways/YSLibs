@@ -36,18 +36,32 @@ typedef int32_t c_index_t;
 *  @brief Default minimum size for all containers
 */
 #define C_SIZE_MIN (c_size_t)(0u)
-
 /**
 *  @def   C_SIZE_MAX
 *  @brief Default maximum size for all containers
 */
 #define C_SIZE_MAX (c_size_t)(INT32_MAX)
+/**
+*  @def   C_SIZE_INVALID
+*  @brief Value of invalid size for all containers
+*/
+#define C_SIZE_INVALID (c_size_t)(UINT32_MAX)
 
 /**
-*  @def   C_INVALID_INDEX
+*  @def   C_INDEX_MIN
+*  @brief Default minimum index for all containers
+*/
+#define C_INDEX_MIN (c_index_t)(0)
+/**
+*  @def   C_INDEX_MAX
+*  @brief Default maximum index for all containers
+*/
+#define C_INDEX_MAX (c_index_t)(INT32_MAX)
+/**
+*  @def   C_INDEX_INVALID
 *  @brief Value of invalid index for all containers
 */
-#define C_INVALID_INDEX (INT32_MIN)
+#define C_INDEX_INVALID (c_index_t)(INT32_MIN)
 
 /**
  *  @def   C_GROWTH_FACTOR

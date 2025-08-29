@@ -17,12 +17,19 @@
 
 #pragma region --- PRIVATE ---
 
-static uint8_t* private_sort_partition__(uint8_t* first, uint8_t* last, size_t element_size, comparator_t comparator) { // NOLINT(CppParameterMayBeConst)
+static uint8_t* private_sort_partition__(uint8_t* first, uint8_t* last, size_t element_size, comparator_s_t comparator) {
     uint8_t* pivot = last;
     last -= element_size;
 LOOP:
-    while (((comparator == NULL) ? memcmp(first, pivot, element_size) : comparator(first, pivot)) < 0) first += element_size;
-    while (((comparator == NULL) ? memcmp(last , pivot, element_size) : comparator(last , pivot)) > 0) last  -= element_size;
+    if (comparator == NULL) {
+        while (memcmp(first, pivot, element_size) < 0) first += element_size;
+        while (memcmp(last , pivot, element_size) > 0) last  -= element_size;
+    }
+    else {
+        while (comparator(first, pivot,element_size) < 0) first += element_size;
+        while (comparator(last , pivot,element_size) > 0) last  -= element_size;
+    }
+
     if (first < last) {
         swap_s(first, last, element_size);
         first += element_size;
@@ -34,7 +41,7 @@ LOOP:
     return first;
 }
 
-static void private_sort_quick_sort__(uint8_t* begin, uint8_t* last, size_t element_size, comparator_t comparator) { //  NOLINT(CppParameterMayBeConst,misc-no-recursion)
+static void private_sort_quick_sort__(uint8_t* begin, uint8_t* last, size_t element_size, comparator_s_t comparator) {
     if (begin >= last)
         return;
     uint8_t* pivot = private_sort_partition__(begin, last, element_size, comparator);
@@ -46,7 +53,7 @@ static void private_sort_quick_sort__(uint8_t* begin, uint8_t* last, size_t elem
 
 #pragma region --- FUNCTION ---
 
-void selection_sort(void* array, const size_t count, const size_t element_size, comparator_t comparator) { // NOLINT(CppParameterMayBeConst)
+void selection_sort(void* array, const size_t count, const size_t element_size, comparator_s_t comparator) {
     assert(array != NULL); // algorithm/sort: invalid arg - 'array' == NULL
     assert(count        ); // algorithm/sort: invalid arg - 'count' == 0u
     assert(element_size ); // algorithm/sort: invalid arg - 'element_size' == 0u
@@ -54,25 +61,25 @@ void selection_sort(void* array, const size_t count, const size_t element_size, 
     for (uint8_t* sorted = array, *end = sorted + (count * element_size); sorted < end; sorted += element_size) {
         uint8_t* min = sorted;
         for (uint8_t* ptr = min + element_size; ptr < end; ptr += element_size)
-            if (((comparator == NULL) ? memcmp(min, ptr, element_size) : comparator(min, ptr)) > 0)
+            if (((comparator == NULL) ? memcmp(min, ptr, element_size) : comparator(min, ptr, element_size)) > 0)
                 min = ptr;
         if (min != sorted)
             swap_s(min, sorted, element_size);
     }
 }
 
-void insertion_sort(void* array, const size_t count, const size_t element_size, comparator_t comparator) { // NOLINT(CppParameterMayBeConst)
+void insertion_sort(void* array, const size_t count, const size_t element_size, comparator_s_t comparator) {
     assert(array != NULL); // algorithm/sort: invalid arg - 'array' == NULL
     assert(count        ); // algorithm/sort: invalid arg - 'count' == 0u
     assert(element_size ); // algorithm/sort: invalid arg - 'element_size' == 0u
 
     for (uint8_t *sorted = array, *last = sorted + ((count - 1) * element_size); sorted < last; sorted += element_size)
         for (uint8_t* ptr = sorted + element_size; ptr > (uint8_t*)array; ptr -= element_size)
-            if (((comparator == NULL) ? memcmp(ptr, ptr - element_size, element_size) : comparator(ptr, ptr - element_size)) < 0)
+            if (((comparator == NULL) ? memcmp(ptr, ptr - element_size, element_size) : comparator(ptr, ptr - element_size, element_size)) < 0)
                 swap_s(ptr, ptr - element_size, element_size);
 }
 
-void quick_sort(void* array, const size_t count, const size_t element_size, comparator_t comparator) { // NOLINT(CppParameterMayBeConst)
+void quick_sort(void* array, const size_t count, const size_t element_size, comparator_s_t comparator) {
     assert(array != NULL); // algorithm/sort: invalid arg - 'array' == NULL
     assert(count        ); // algorithm/sort: invalid arg - 'count' == 0u
     assert(element_size ); // algorithm/sort: invalid arg - 'element_size' == 0u

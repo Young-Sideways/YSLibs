@@ -15,9 +15,9 @@
 #include <stddef.h>
 
 
-#include <macro/arg.h>
-#include <macro/exec.h>
-#include <macro/sequence.h>
+#include "../../../macro/inc/macro/arg.h"
+#include "../../../macro/inc/macro/exec.h"
+#include "../../../macro/inc/macro/sequence.h"
 
 
 #define MEN(name, ...)                                                                                                        \
@@ -48,26 +48,26 @@
 #pragma region --- IMPL ---
 
 #define __MEN_IMPL_NAME(name, ...) name
-#define __MEN_IMPL_TYPE(name, ...) __VA_OPT__(: VA_ARG_FIRST(__VA_ARGS__))
+#define __MEN_IMPL_TYPE(name, ...) __VA_OPT__(: VA_FIRST(__VA_ARGS__))
 
 
-#define __MEN_IMPL_UNFOLD_HELPER(name, ...) name __VA_OPT__(= __VA_ARGS__)
-#define __MEN_IMPL_UNFOLD(...) VA_EXEC1(M_APPLY, __MEN_IMPL_UNFOLD_HELPER, __VA_ARGS__)
+#define __MEN_IMPL_UNFOLD1(name, ...) name __VA_OPT__(= __VA_ARGS__)
+#define __MEN_IMPL_UNFOLD(...) VA_EXEC(1, M_APPLY, __MEN_IMPL_UNFOLD1, __VA_ARGS__)
 
 
-#define __MEN_IMPL_DECL_TO_STR_HELPER_CASE(name, ...) case name: return #name
-#define __MEN_IMPL_DECL_TO_STR(...)                                                              \
-    switch (var) {                                                                               \
-        VA_SEQ( M_SEMI() , VA_EXEC1(M_APPLY, __MEN_IMPL_DECL_TO_STR_HELPER_CASE , __VA_ARGS__)); \
-        default: assert(NULL && "Unexpected arg value.");                                        \
+#define __MEN_IMPL_DECL_TO_STR_CASE(name, ...) case name: return #name
+#define __MEN_IMPL_DECL_TO_STR(...)                                                         \
+    switch (var) {                                                                          \
+        VA_SEQ( M_SEMI() , VA_EXEC(1, M_APPLY, __MEN_IMPL_DECL_TO_STR_CASE , __VA_ARGS__)); \
+        default: assert(NULL && "Unexpected arg value.");                                   \
     }
 
 
-#define __MEN_IMPL_DECL_FROM_STR_HELPER_IF(name, ...) if (strcmp(var, #name) == 0) return name; else
-#define __MEN_IMPL_DECL_FROM_STR(...)                                                  \
-        VA_SEQ( , VA_EXEC1(M_APPLY, __MEN_IMPL_DECL_FROM_STR_HELPER_IF , __VA_ARGS__)) \
-        assert(NULL && "Unexpected arg value.");                                       \
-        unreachable();
+#define __MEN_IMPL_DECL_FROM_STR_IF(name, ...) if (strcmp(var, #name) == 0) return name; else
+#define __MEN_IMPL_DECL_FROM_STR(...)                                         \
+    VA_SEQ( , VA_EXEC(1, M_APPLY, __MEN_IMPL_DECL_FROM_STR_IF , __VA_ARGS__)) \
+    assert(NULL && "Unexpected arg value.");                                  \
+    unreachable();
 
 #pragma endregion
 

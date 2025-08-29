@@ -21,7 +21,7 @@
 #include <core/core.h>
 
 #include "../sequence.h"
-#include "../variadic.h"
+#include "../arg.h"
 #include "../exec.h"
 
 
@@ -82,7 +82,7 @@
 
 
 #define __G_FORMAT_CONSTRUCT(x) { .fmt = G_FORMAT_OF(x) , .size = G_FORMAT_SIZE_OF(x) }
-#define __G_FORMATS_TOTAL_SIZE(...) VA_SEQ( + , VA_EXEC(G_FORMAT_SIZE_OF, __VA_ARGS__))
+#define __G_FORMATS_TOTAL_SIZE(...) VA_SEQ( + , VA_EXEC(0, G_FORMAT_SIZE_OF, __VA_ARGS__))
 
 struct __g_format_of_handler_t {const char* fmt; const size_t size; };
 
@@ -146,10 +146,10 @@ static int __g_print_snprintf(struct __g_format_of_handler_t const fmts[], size_
 
 
 #define G_PRINTF(...) G_FPRINTF(stdout, __VA_ARGS__)
-#define G_FPRINTF(stream, ...) __g_print_fprintf( (struct __g_format_of_handler_t[]){ VA_EXEC(__G_FORMAT_CONSTRUCT, __VA_ARGS__) }, VA_NARG(__VA_ARGS__), __G_FORMATS_TOTAL_SIZE(__VA_ARGS__) + 1, stream, __VA_ARGS__ )
+#define G_FPRINTF(stream, ...) __g_print_fprintf( (struct __g_format_of_handler_t[]){ VA_EXEC(0, __G_FORMAT_CONSTRUCT, __VA_ARGS__) }, VA_COUNT(__VA_ARGS__), __G_FORMATS_TOTAL_SIZE(__VA_ARGS__) + 1, stream, __VA_ARGS__ )
 
 #define G_SPRINTF(buf, ...) G_SNPRINTF(buf, SIZE_MAX, ...)
-#define G_SNPRINTF(buf, buf_size, ...) __g_print_snprintf( (struct __g_format_of_handler_t[]){ VA_EXEC(__G_FORMAT_CONSTRUCT, __VA_ARGS__) }, VA_NARG(__VA_ARGS__), __G_FORMATS_TOTAL_SIZE(__VA_ARGS__) + 1, buf, buf_size, __VA_ARGS__ )
+#define G_SNPRINTF(buf, buf_size, ...) __g_print_snprintf( (struct __g_format_of_handler_t[]){ VA_EXEC(0, __G_FORMAT_CONSTRUCT, __VA_ARGS__) }, VA_COUNT(__VA_ARGS__), __G_FORMATS_TOTAL_SIZE(__VA_ARGS__) + 1, buf, buf_size, __VA_ARGS__ )
 
 #pragma endregion
 

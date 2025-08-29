@@ -48,9 +48,10 @@ size_t memthex(char* buf, const void* src, const size_t size) {
 
     // to minimize 'snprintf' calls - using block printing
     for (; ((size - i) / sizeof(uint_fast64_t)) != 0u; i += sizeof(uint_fast64_t))
-        ret += snprintf(&(buf[i * 2]), sizeof(uint_fast64_t) * 2 + 1, "%" PRIXFAST64, *(uint_fast64_t*)&(((uint8_t*)src)[size - i - sizeof(uint_fast64_t)]));
+        ret += snprintf(&(buf[i * 2]), sizeof(uint_fast64_t) * 2 + 1, "%0*" PRIXFAST64, (int)sizeof(uint_fast64_t) * 2, *(uint_fast64_t*)&(((uint8_t*)src)[size - i - sizeof(uint_fast64_t)]));
+
     for (; i < size; i++)
-        ret += snprintf(&(buf[i * 2]), sizeof(uint8_t) * 2 + 1, "%" PRIX8, ((uint8_t*)src)[size - i - sizeof(uint8_t)]);
+        ret += snprintf(&(buf[i * 2]), sizeof(uint8_t) * 2 + 1, "%0*" PRIX8, (int)sizeof(uint8_t) * 2, ((uint8_t*)src)[size - i - sizeof(uint8_t)]);
     
     return ret;
 }
